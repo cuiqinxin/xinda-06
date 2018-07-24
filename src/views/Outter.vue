@@ -11,9 +11,17 @@
     <p v-else>我是v-if-else的标签</p>
     <p v-show="seen">我是v-if的标签</p>
     <p>{{fullName}}</p>
-    <!-- <button v-on:click="change">按钮</button> -->
-    <button @keydown.enter="change">按钮</button>
+    <button v-on:click="change">按钮</button>
+    <!-- <button @keydown.enter="change">按钮</button> -->
     <my-computed></my-computed>
+    <p v-for="item in arr" :key="item">{{item}}</p> 
+     <p v-for="(item,index) in arr" :key="index">{{item}}--{{index}}</p>
+    <!-- <p v-for="item in obj" :key="item">{{item}}</p> -->
+    <!-- <p v-for="(value,item,index) in obj" :key="index" :class="item=='b'?'test':''">
+        <a href="">{{item}}</a>--{{value}}--{{index}}
+   </p> -->
+    <input type="text" v-model="msgg" @input="verity" @blur="aaaa">   <!--表单只要有输入就会触发input-->
+    <p>{{msgvalue}}</p>
     <router-view/>
   </div>
 </template>
@@ -34,7 +42,12 @@ export default {
     //   seen : false,
       seen : true,
       firstName: '美玉',
-      lastName: '宋'
+      lastName: '宋',
+      arr:[10,11,12,13],
+      obj:{a:10,b:11},
+      msgg:'',
+      msgvalue:'',
+      datavalue:''
     }
   },
   components:{
@@ -49,11 +62,36 @@ export default {
         //   }else{
         //       this.style='test';
         //   }
-        this.fullName = '丽莎 陈'
+        // this.fullName = '丽莎 陈'
+        // this.ajax({
+        //     url:''
+        // })
+        this.ajax.post('http://123.58.241.146:8088/xinda/xinda-api/product/package/detail',this.qs.stringify(
+            {sId:'0cb85ec6b63b41fc8aa07133b6144ea3'})).then(function(data){
+            console.log(data);
+        })
       },
       news:function(){
               this.info = '新的登录'
+      },
+      verity:function(){
+          if(!/^1[3456789]\d{9}$/.test(this.msgg)){
+              this.msgvalue='手机号输入不正确'
+          }else{
+              this.msgvalue=this.msgg;
+          }
+      },
+      aaaa:function(){
+          console.log('lalalala');
       }
+  },
+  created(){
+      var that=this;
+      this.datavalue=this.ajax.post('http://123.58.241.146:8088/xinda/xinda-api/ajaxAuthcode',this.qs.stringify({})).then(
+          function(data){
+            console.log(data);
+            that.msgvalue=data;
+        }).catch(function(){console.log('失败');})
   },
   watch : {
       firstName:function(newQ,old){

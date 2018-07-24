@@ -3,8 +3,13 @@
 import Vue from 'vue'         //var Vue = require('./Vue')
 import App from './App'
 import router from './router'
+import axios from 'axios'
+import qs from 'qs'
 
 Vue.config.productionTip = false
+
+Vue.prototype.ajax=axios;
+Vue.prototype.qs=qs;
 
 /* eslint-disable no-new */
 new Vue({
