@@ -10,7 +10,7 @@
     <div class="top">
       <el-row class="top-con" type="flex" justify="space-between">
         <el-col :span="12" class="top-left">
-          <span>欢迎来到信达！</span><router-link to="">登录</router-link><router-link to="">快速注册</router-link>
+          <span>欢迎来到信达！</span><router-link to="outter/login">登录</router-link><router-link to="outter/zhuce">快速注册</router-link>
         </el-col>
         <el-col :span="12" class="top-right">
           <router-link to="" class="shop-cart">
@@ -77,7 +77,7 @@ export default {
             width: 21px;
             height: 18px;
             vertical-align: middle;
-            background-image: url(../static/images/shop.png);
+            background-image: url(../static/shop.png);
             background-size: 21px 18px;
           }
           a{

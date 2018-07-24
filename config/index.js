@@ -12,15 +12,9 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/xinda-api/':{
-<<<<<<< HEAD
-        target:"http://wthrcdn.etouch.cn",
-        changeOrigin: true,
-    }
-=======
         target:"http://115.182.107.203:8088/xinda",
         changeOrigin: true,
       }
->>>>>>> a8784f5b72640b65e61278a1f69a7478b8c48357
     },
 
     // Various Dev Server settings
