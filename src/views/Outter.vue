@@ -14,6 +14,15 @@
     <!-- <button v-on:click="change">按钮</button> -->
     <button @keydown.enter="change">按钮</button>
     <my-computed></my-computed>
+    <!-- <p v-for="(item,index) in arr" :key="item">{{item}}--{{index}}</p> -->
+    <p v-for="item in data" :key="item" :class="q">{{item}}</p>
+    <!-- <p v-for="(value,item,index) in obj" :key="item" :class="item == 'c'?'test':''">
+        <a href="">{{item}}</a>
+        --{{value}}--{{index}}
+    </p> -->
+    <input type="text" v-model="msg" @input="verify">
+    <!-- <p>{{msg}}</p> -->
+    <p>{{msgvalue}}</p>
     <router-view/>
   </div>
 </template>
@@ -34,9 +43,16 @@ export default {
     //   seen : false,
       seen : true,
       firstName: '美玉',
-      lastName: '宋'
+      lastName: '宋',
+    //   arr : [10,11,12,13,{s:12}],
+    //   obj : { a:10 , b:11 , c:12 , d:13 , e:14},
+      msg:'',
+      msgvalue:'',
     }
   },
+//   created(){
+//       this.obj={ a:10 , b:11 , c:12 , d:13 , e:14}
+//   },
   components:{
       'my-computed':{
           template:'<div><p class="foo bar">1221</p></div>'
@@ -50,10 +66,26 @@ export default {
         //       this.style='test';
         //   }
         this.fullName = '丽莎 陈'
+        
+        // this.ajax({
+        //     url:'',
+        //     type:'post',
+        //     data:{
+
+        //     }
+        // })
       },
       news:function(){
               this.info = '新的登录'
-      }
+      },
+      verify:function(){
+        //   console.log(this.msg);
+        if(!/^1[3456789]\d{9}$/.test(this.msg)){
+            this.msgvalue="手机号输入不正确"
+        }else{
+            this.msgvalue="";
+        };
+      },
   },
   watch : {
       firstName:function(newQ,old){
@@ -61,6 +93,18 @@ export default {
           this.info = '正在努力加载。。。'
           setTimeout(this.news,1500)
       }
+  },
+  created(){
+      var that = this;
+      this.ajax.post('http://123.58.241.146:8088/xinda/xinda-api/product/package/detail',this.qs.stringify(
+          {'sId':'0cb85ec6b63b41fc8aa07133b6144ea3'}
+      )).then(function(data){
+        console.log(data)
+      }).catch(function(data){
+          console.log(data);
+          return data;
+        //   that.datavalue = data;
+      })
   },
   computed:{
       infomassage(){
