@@ -6,21 +6,33 @@
             <el-col :span="12" class="top-left">
             <span>欢迎来到信达！</span><router-link to="">登录</router-link><router-link to="">快速注册</router-link>
             </el-col>
+            <!-- <p>{{store.state.count}}</p>
+            <p>{{count}}</p> -->
         </el-row>
     </div>
 </template>
 
 <script>
+import store from '../store';
 export default {
   name: 'Login',
   created(){
-      this.$parent.info = '登录'
+      this.$parent.info = '登录',
+      this.id=this.$route.query.id
   },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
-  }
+  },
+  methods:{
+
+  },
+//   computed:{
+//       count(){
+//           return store.state.count;
+//       }
+//   }
 }
 </script>
 

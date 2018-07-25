@@ -3,7 +3,7 @@
     <div class="user">
         <el-row>
             <el-col :span="12">
-                
+                <p>{{datavalue}}</p>
             </el-col>
         </el-row>
     </div>
@@ -29,6 +29,7 @@ export default {
     //   obj : { a:10 , b:11 , c:12 , d:13 , e:14},
       msg:'',
       msgvalue:'',
+      datavalue:''
     }
   },
 //   created(){
@@ -50,10 +51,10 @@ export default {
         // this.ajax({
         //     url:''
         // })
-        this.ajax.post('http://123.58.241.146:8088/xinda/xinda-api/product/package/detail',this.qs.stringify(
-            {sId:'0cb85ec6b63b41fc8aa07133b6144ea3'})).then(function(data){
-            console.log(data);
-        })
+        // this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify(
+        //     {sId:'0cb85ec6b63b41fc8aa07133b6144ea3'})).then(function(data){
+        //     console.log(data);
+        // })
       },
       news:function(){
               this.info = '新的登录'
@@ -67,16 +68,16 @@ export default {
       },
       aaaa:function(){
           console.log('lalalala');
-      }
+      },
   },
-  created(){
-      var that=this;
-      this.datavalue=this.ajax.post('http://123.58.241.146:8088/xinda/xinda-api/ajaxAuthcode',this.qs.stringify({})).then(
-          function(data){
-            console.log(data);
-            that.msgvalue=data;
-        }).catch(function(){console.log('失败');})
-  },
+//   created(){
+//       var that=this;
+//       this.datavalue=this.ajax.post('http://123.58.241.146:8088/xinda/xinda-api/ajaxAuthcode',this.qs.stringify({})).then(
+//           function(data){
+//             console.log(data);
+//             that.msgvalue=data;
+//         }).catch(function(){console.log('失败');})
+//   },
   watch : {
       firstName:function(newQ,old){
           console.log(newQ,old);
@@ -86,15 +87,19 @@ export default {
   },
   created(){
       var that = this;
-      this.ajax.post('http://123.58.241.146:8088/xinda/xinda-api/product/package/detail',this.qs.stringify(
-          {'sId':'0cb85ec6b63b41fc8aa07133b6144ea3'}
-      )).then(function(data){
-        console.log(data)
-      }).catch(function(data){
-          console.log(data);
-          return data;
-        //   that.datavalue = data;
-      })
+    //   this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify(
+    //       {'sId':'0cb85ec6b63b41fc8aa07133b6144ea3'}
+    //   )).then(function(data){
+    //     console.log(data)
+    //   }).catch(function(data){
+    //       console.log(data);
+    //     //   return data;
+    //     //   that.datavalue = data;
+    //   })
+      this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify({'sId':'0cb85ec6b63b41fc8aa07133b6144ea3'})).then(function(data){
+            console.log(data);
+            that.datavalue = data;
+        })
   },
   computed:{
       infomassage(){
