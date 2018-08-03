@@ -81,6 +81,7 @@
         </ul>
       </el-row>
     </footer>
+    <footer  class="footer2-2 hidden-lg-and-up" style="height: 90px"></footer>
     <footer class="footer1-2 hidden-lg-and-up">
       <ul>
         <li>

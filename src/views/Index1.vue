@@ -2,18 +2,18 @@
   <div class="index1">
     <div class="hidden-md-and-down">
         <el-carousel class="lunbo" height="400px">
-        <el-carousel-item>
-            <img src="../../static/timg.jpg">
-        </el-carousel-item>
-        <el-carousel-item>
-            <img src="../../static/timg (1).jpg">
-        </el-carousel-item>
-        <el-carousel-item>
-            <img src="../../static/timg (2).jpg">
-        </el-carousel-item>
-        <el-carousel-item>
-            <img src="../../static/timg (3).jpg">
-        </el-carousel-item>
+            <el-carousel-item>
+                <img src="../../static/timg.jpg">
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="../../static/timg (1).jpg">
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="../../static/timg (2).jpg">
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="../../static/timg (3).jpg">
+            </el-carousel-item>
         </el-carousel>
         <div class="star public">
             <ul class="title">
@@ -255,6 +255,52 @@
                     </div>
                 </el-col>
             </el-row>
+        </div>
+        <div class="zhi2">
+            <ul class="title">
+                <li>知识产权</li>
+            </ul>
+            <div class="zhi2-con">
+                <el-row type="flex" justify="space-between" :gutter="20">
+                    <el-col :span="12">
+                        <img src="../../static/property_05.5160ddd.jpg">
+                        <p>商标注册</p>
+                    </el-col>
+                    <el-col :span="12">
+                        <img src="../../static/property_07.20bed75.jpg">
+                        <p>版权专利</p>
+                    </el-col>
+                </el-row>
+                <el-row type="flex" justify="space-around">
+                    <el-col :span="24">
+                        <img src="../../static/property_11.a620967.jpg">
+                        <p>著作权</p>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
+        <div class="chu2">
+            <ul class="title">
+                <li>初创企业必备</li>
+            </ul>
+            <div class="chu2-con">
+                <div v-for="(item,key,index) in hq" :key="index">
+                    <div class="chu2-img">
+                        <img :src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)">
+                    </div>
+                    <div class="chu2-p">
+                        <h5>{{item.serviceName.split('（')[0].split('(')[0]}}</h5>
+                        <p class="chu2-p1">{{item.serviceInfo}}</p>
+                        <p class="chu2-p2"><span>￥{{item.price}}</span>{{item.unit}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="banner2">
+            <div>
+                <img src="../../static/data_image_jpeg;bas….jpg">
+                <p>一站式企业交易中心</p>
+            </div>
         </div>
     </div>
   </div>
@@ -651,11 +697,95 @@ export default {
             }
         }
         .nav2{
+            margin: 40px 0 0;
             .nav2-1{
                 text-align: center;
                 img{
                     width: 100%;
                 }
+                p{
+                    font-size: 14px;
+                    margin-bottom: 20px;
+                }
+            }
+        }
+        .zhi2{
+            .zhi2-con{
+                padding: 0 15px;
+                img{
+                    width: 100%;
+                }
+                >div{
+                    >div{position: relative;}
+                    margin-bottom: 15px;
+                    p{
+                        font-size: 14px;
+                        position: absolute;
+                        bottom: 20%;
+                        right: 15%;
+                    }
+                }
+            }
+        }
+        .chu2-con{
+            padding: 0 15px;
+            >div{
+                display: flex;
+                height: 120px;
+                border-bottom: 1px solid #cfcfcf;
+                padding: 15px 0;
+            }
+            .chu2-img{
+                flex-shrink: 0;
+                width: 120px;
+                border: 1px solid #e3e3e3;
+                display: flex;
+                align-items: center;
+                margin-right: 15px;
+                img{
+                    width: 100%;
+                }
+            }
+            .chu2-p{
+                h5{
+                    font-size: 16px;
+                    width: 140px;
+                    white-space: nowrap; 
+                    overflow: hidden; 
+                    text-overflow: ellipsis; 
+                    margin-bottom: 8px;
+                }
+            }
+            .chu2-p1{
+                height: 38px;
+                font-size: 14px;
+                overflow: hidden;			/*多行溢出变点*/
+                text-overflow: ellipsis;
+                display:-webkit-box; 
+                -webkit-box-orient:vertical;
+                -webkit-line-clamp:2;
+            }
+            .chu2-p2{
+                font-size: 12px;
+                color: #a3a3a3;
+                margin-top: 15px;
+                span{
+                    color: #ff1515;
+                    font-size: 24px;
+                }
+            }
+        }
+        .banner2{
+            height: 118px;
+            >div{
+                margin-top: 20px;
+                text-align: center;
+                margin: 30px auto 0;
+                width: 220px;
+            }
+            p{
+                font-size: 24px;
+                color: #8e8e8e;
             }
         }
     }
