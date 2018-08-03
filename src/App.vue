@@ -1,17 +1,10 @@
 <template>
   <div id="app">
-    <!-- <h3>我是页面的公共头部 -->
-      <!-- <a href="#/login">登录</a> -->
-      <!-- <router-link to="/outter/login">登录</router-link>
-      <router-link to="/outter/zhuce">注册</router-link>
-    </h3> -->
-
     <!-- 开始公共头部 -->
-    <div class="top">
+    <div class="top hidden-md-and-down">
       <el-row class="top-con" type="flex" justify="space-between">
         <el-col :span="12" class="top-left">
           <span>欢迎来到信达！</span><router-link :to="{path:'outter/login',query:{id:123}}">登录</router-link><router-link to="outter/zhuce">快速注册</router-link>
-          <!-- <span>欢迎来到信达！</span><button @click="link">登录</button><router-link to="outter/zhuce">快速注册</router-link> -->
         </el-col>
         <el-col :span="12" class="top-right">
           <router-link to="" class="shop-cart">
@@ -27,7 +20,7 @@
     <router-view/>
 
     <!-- 开始公共底部 -->
-    <footer class="footer2">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
+    <footer class="footer2 hidden-md-and-down">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
     <!-- 结束公共底部 -->
   </div>
 </template>
@@ -35,14 +28,6 @@
 <script>
 export default {
   name: 'App',
-  // methods:{
-  //   link(){
-  //     this.$router.push({
-  //       path:'outter/login',
-  //       query:{id:123}
-  //     })
-  //   }
-  // }
 }
 </script>
 
@@ -95,5 +80,16 @@ export default {
     line-height: 45px;
     text-align: center;
     font-size: 14px;
+  }
+  .header{
+    input{
+      border-radius: 4px 0 0 4px;
+      width: 485px;
+      height: 41px;
+      border: 2px solid #2693d4;
+      &:hover{
+         border: 2px solid #2693d4;
+      }
+    }
   }
 </style>
