@@ -121,6 +121,16 @@ export default new Router({       //module.expotrs={}
           path: 'league',
           name: 'League',
           component: League
+        },
+        {
+          path: 'shoppingcart',
+          name: 'shoppingcart',
+          component: shoppingcart
+        },
+        {
+          path: 'pay',
+          name: 'pay',
+          component: pay
         }
       ]
     },
@@ -172,17 +182,6 @@ export default new Router({       //module.expotrs={}
     //   name: Dianpu,
     //   component: dianpu
     // }
-
-    {
-      path: '/shoppingcart',
-      name: '/shoppingcart',
-      component: shoppingcart
-    },
-    {
-      path: '/pay',
-      name: '/pay',
-      component: pay
-    }
 
   ]
 })

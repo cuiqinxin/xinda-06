@@ -59,7 +59,7 @@
             <li><router-link to="" :class="{active:nav1}">财税服务</router-link></li>
             <li><router-link to="" :class="{active:nav2}">公司工商</router-link></li>
             <li><router-link to="/league" :class="{active:nav3}">加盟我们</router-link></li>
-            <li><router-link to="" :class="{active:nav4}">店铺</router-link></li>
+            <li><router-link to="/shop" :class="{active:nav4}">店铺</router-link></li>
           </ul>
         </div>
       </div>
