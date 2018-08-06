@@ -31,8 +31,8 @@
         </div>
         <div class="nav">
           <ul>
-            <li>
-              <router-link to="" :class="{active:nav}">全部产品</router-link>
+            <li class="hov">
+              <router-link to="/index1" :class="{active:nav}">全部产品</router-link>
               <ul class="nav-select">
                 <li v-for="(item,key,index) in menuList" :key="index">
                   <span></span>
@@ -58,7 +58,7 @@
             
             <li><router-link to="" :class="{active:nav1}">财税服务</router-link></li>
             <li><router-link to="" :class="{active:nav2}">公司工商</router-link></li>
-            <li><router-link to="" :class="{active:nav3}">加盟我们</router-link></li>
+            <li><router-link to="/league" :class="{active:nav3}">加盟我们</router-link></li>
             <li><router-link to="" :class="{active:nav4}">店铺</router-link></li>
           </ul>
         </div>
@@ -351,7 +351,8 @@ export default {
             height: 400px;
             position: absolute;
             background-color: rgba(28,46,69, 0.8);
-            display: flex;
+            // display: flex;
+            display: none;
             flex-direction: column;
             color: #fff;
             // justify-content: space-around;
@@ -462,6 +463,9 @@ export default {
 .active{
   color: #2693d4!important;
   border-bottom: 4px solid #2693d4;
+}
+.hov:hover .nav-select{
+  display: flex!important;
 }
 .footer1 {
   background-color: #f8f8f8;

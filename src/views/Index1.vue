@@ -334,7 +334,7 @@ export default {
       change_active1(){
           [this.active,this.active1] = [false,true]
       },
-  }
+  },
 }
 </script>
 

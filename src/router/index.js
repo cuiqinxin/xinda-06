@@ -9,6 +9,7 @@ import production from '@/views/production'
 import register from '@/views/register'
 import Outter from '@/views/Outter'
 import Index1 from '@/views/Index1'
+import League from '@/views/League'
 
 Vue.use(Router)
 
@@ -57,6 +58,11 @@ export default new Router({       //module.expotrs={}
           name: 'Index1',
           component: Index1,
           alias: '',           //别名
+        },
+        {
+          path: 'league',
+          name: 'League',
+          component: League
         }
       ]
     },
