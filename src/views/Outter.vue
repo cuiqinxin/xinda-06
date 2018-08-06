@@ -1,5 +1,5 @@
-<template>
-  <div class="Outter">
+<template>             
+  <div class="Outter">          <!--首页-->
     <div class="user">
         <el-row>
             <el-col :span="12">
