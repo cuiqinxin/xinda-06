@@ -21,6 +21,9 @@ export default {
   methods:{
       confirm(value){
           console.log(value);
+          if(dp.code!=value){
+
+          }
       }
   },
   components:{

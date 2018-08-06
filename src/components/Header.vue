@@ -36,10 +36,8 @@
         </ul>
       </el-row>
     </footer>
-
   </div>
 </template>
-
 <script>
 export default {
   name: 'Header',
