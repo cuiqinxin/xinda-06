@@ -31,10 +31,16 @@ import pay from '@/views/pay'
 import Index1 from '@/views/Index1'
 import League from '@/views/League'
 
+import List from '@/views/List'
 Vue.use(Router)
 
 export default new Router({       //module.expotrs={}
   routes: [
+    {
+      path: '/list',
+      name: 'List',
+      component: List
+    },
     {
       path: '/test',
       name: 'Test',
