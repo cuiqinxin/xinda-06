@@ -8,6 +8,9 @@ import Header from '@/components/Header'
 import production from '@/views/production'
 import register from '@/views/register'
 import Outter from '@/views/Outter'
+import shoppingcart from '@/views/shoppingcart'
+import pay from '@/views/pay'
+
 
 Vue.use(Router)
 
@@ -35,6 +38,7 @@ export default new Router({       //module.expotrs={}
         },
       ]
     },
+
     {
       path: '/header',
       name: 'Header',
@@ -59,5 +63,17 @@ export default new Router({       //module.expotrs={}
     //   name: 'register',
     //   component: register
     // }
+
+    {
+      path: '/shoppingcart',
+      name: '/shoppingcart',
+      component: shoppingcart
+    },
+    {
+      path: '/pay',
+      name: '/pay',
+      component: pay
+    }
+
   ]
 })
