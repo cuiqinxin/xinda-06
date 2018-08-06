@@ -8,14 +8,11 @@ import Header from '@/components/Header'
 import production from '@/views/production'
 import register from '@/views/register'
 import Outter from '@/views/Outter'
-<<<<<<< HEAD
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
 
-=======
 import Index1 from '@/views/Index1'
 import League from '@/views/League'
->>>>>>> add42605ab35b8895633db6261284044ddade4e5
 
 Vue.use(Router)
 
