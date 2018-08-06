@@ -36,11 +36,7 @@ Vue.use(Router)
 
 export default new Router({       //module.expotrs={}
   routes: [
-    {
-      path: '/list',
-      name: 'List',
-      component: List
-    },
+    
     {
       path: '/test',
       name: 'Test',
@@ -137,7 +133,12 @@ export default new Router({       //module.expotrs={}
           path: 'pay',
           name: 'pay',
           component: pay
-        }
+        },
+        {
+          path: '/list',
+          name: 'List',
+          component: List
+        },
       ]
     },
     {

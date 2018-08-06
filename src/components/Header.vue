@@ -4,7 +4,7 @@
       <div class="grabble-con">
         <div class="grabble-top">
           <div class="grabble-left" >
-            <div class="logo"></div>
+            <a class="logo" href="/"></a>
             <div class="address">
               <p>{{datavalue}}</p>
               <p class="changeaddress">[切换城市]</p>
@@ -56,7 +56,7 @@
               </ul>
             </li>
             
-            <li><router-link to="" :class="{active:nav1}">财税服务</router-link></li>
+            <li><router-link :to="{path:'list',query:{name:财税服务,code:1}}" :class="{active:nav1}">财税服务</router-link></li>
             <li><router-link to="" :class="{active:nav2}">公司工商</router-link></li>
             <li><router-link to="/league" :class="{active:nav3}">加盟我们</router-link></li>
             <li><router-link to="/shop" :class="{active:nav4}">店铺</router-link></li>
@@ -118,6 +118,7 @@ export default {
   name: "Header",
   data() {
     return {
+      id:'',
       msg: "Welcome to Your Vue.js App",
       datavalue: "北京市",
       style: true,
