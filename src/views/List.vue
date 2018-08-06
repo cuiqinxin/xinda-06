@@ -1,5 +1,5 @@
-<template>
 
+<template>
     <div>
 
         <el-row :gutter='10' class="row">
@@ -71,18 +71,19 @@
                                         <div>
                                             <button :id="item['id']" @click="buy($event)">立即购买</button>
                                             <button :id="item['id']" @click="cart($event)">加入购物车</button>
-                                            <transition
-                                            name="custom-classes-transition"
-                                            enter-active-class="animated tada"
-                                            leave-active-class="animated bounceOutRight">
-                                                <div v-if="show" class="cart-count">hello</div>
-                                            </transition>
                                         </div>
                                     </div>
                                 </el-col>
                                 <p class="error">当前选项无内容</p>
                             </el-row>
                         </div>
+                        <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+                        <transition
+                            name="custom-classes-transition"
+                            enter-active-class="animated bounceOutRight"
+                            leave-active-class="animated bounceOutRight">
+                            <div v-if="show" class="cart-count">hello</div>
+                        </transition>
                     </div>
                     <div class="pagebox">
                         <div class="pageUp" @click="up">上一页</div>
@@ -195,6 +196,7 @@ export default {
     components: {},
     methods: { 
         sort1(index1, event) {
+            this.show = '';
             this.page = 1;
             this.classify = [];
             this.current1 = index1;
@@ -246,6 +248,7 @@ export default {
            
         },
         sort2(index2, event) {
+            this.show = '';
             this.page = 1;
             var that = this; 
             that.current2 = index2;
@@ -288,6 +291,7 @@ export default {
             console.log(event.currentTarget.id)
             var that = this
             that.add.id = event.currentTarget.id
+
             that.ajax.post(
                 "/xinda-api/cart/add",
                 that.qs.stringify(that.add)
@@ -296,8 +300,17 @@ export default {
             })
         },
         cart(event){
-            console.log(event.currentTarget.id)
-            this.show = true;
+            
+            this.show = true
+            var Div=document.createElement('div');
+            Div.innerHTML = '1111'
+            // console.log(event.clientY)
+            Div.style.position = 'absolute'
+            Div.style.left=(event.offsetX + 100)+'px';    
+            Div.style.top=(event.offsetY + 100)+'px';    
+            document.querySelector('.list-right').appendChild(Div); 
+            // var Div = document.querySelector('.cart-count')
+            
         },
         up(){
             document.querySelector('.pageDown').style = 'cursor:pointer'

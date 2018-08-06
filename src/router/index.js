@@ -37,11 +37,6 @@ Vue.use(Router)
 export default new Router({       //module.expotrs={}
   routes: [
     {
-      path: '/list',
-      name: 'List',
-      component: List
-    },
-    {
       path: '/test',
       name: 'Test',
       component: Test
@@ -107,6 +102,11 @@ export default new Router({       //module.expotrs={}
       alias: '/',         //起一个别名
       component: Header,
       children: [
+        {
+          path: '/list',
+          name: 'List',
+          component: List
+        },
         {
           path: 'production',
           name: 'production',
