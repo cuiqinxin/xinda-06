@@ -1,17 +1,15 @@
 <template>
   <div id="app">
-    <!-- <h3>我是页面的公共头部 -->
-      <!-- <a href="#/login">登录</a> -->
-      <!-- <router-link to="/outter/login">登录</router-link>
-      <router-link to="/outter/zhuce">注册</router-link>
-    </h3> -->
-
     <!-- 开始公共头部 -->
-    <div class="top">
+    <div class="top hidden-md-and-down">
       <el-row class="top-con" type="flex" justify="space-between">
         <el-col :span="12" class="top-left">
+<<<<<<< HEAD
           <button @click="link">等</button>
           <span>欢迎来到信达！</span><router-link :to="{path:'/outter/login',query:{id:123}}">登录</router-link><router-link to="/outter/zhuce">快速注册</router-link>
+=======
+          <span>欢迎来到信达！</span><router-link :to="{path:'outter/login',query:{id:123}}">登录</router-link><router-link to="outter/zhuce">快速注册</router-link>
+>>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
         </el-col>
         <el-col :span="12" class="top-right">
           <router-link to="" class="shop-cart">
@@ -27,23 +25,14 @@
     <router-view/>
 
     <!-- 开始公共底部 -->
-    <footer class="footer1">
-      <el-row class="footer1-con">
-        <h4>关于我们</h4>
-        <ul>
-          <li>联系我们：contact@xinkeher.com</li>
-          <li>公司地址：北京市朝阳区大望路soho现代城</li>
-          <li>官方客服电话:010-83421842</li>
-        </ul>
-      </el-row>
-    </footer>
-    <footer class="footer2">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
+    <footer class="footer2 hidden-md-and-down">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
     <!-- 结束公共底部 -->
   </div>
 </template>
 
 <script>
 export default {
+<<<<<<< HEAD
     name: 'App',
     methods:{
         link(){
@@ -52,6 +41,9 @@ export default {
             })
         },
     }
+=======
+  name: 'App',
+>>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
 }
 </script>
 
@@ -99,33 +91,22 @@ export default {
       }
     }
   }
-  .footer1{
-    background-color: #f8f8f8;
-    height: 201px;
-    .footer1-con{
-      max-width: 1200px;
-      padding-left: 24px;
-      margin: 0 auto;
-      h4{
-        font-size: 16px;
-        font-weight: normal;
-        margin: 36px 0 30px;
-      }
-      ul{
-        margin-left: 3px;
-        li{
-          font-size: 12px;
-          letter-spacing: 1px;
-          margin-bottom: 8px;
-        }
-      }
-    }
-  }
   .footer2{
     background-color: #cbcccc;
     height: 45px;
     line-height: 45px;
     text-align: center;
     font-size: 14px;
+  }
+  .header{
+    input{
+      border-radius: 4px 0 0 4px;
+      width: 485px;
+      height: 41px;
+      border: 2px solid #2693d4;
+      &:hover{
+         border: 2px solid #2693d4;
+      }
+    }
   }
 </style>

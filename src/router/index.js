@@ -16,6 +16,14 @@ import Header from '@/components/Header'
 import production from '@/views/production'
 import register from '@/views/register'
 import Outter from '@/views/Outter'
+<<<<<<< HEAD
+import shoppingcart from '@/views/shoppingcart'
+import pay from '@/views/pay'
+
+=======
+import Index1 from '@/views/Index1'
+import League from '@/views/League'
+>>>>>>> add42605ab35b8895633db6261284044ddade4e5
 
 Vue.use(Router)
 
@@ -48,6 +56,7 @@ export default new Router({       //module.expotrs={}
         }
       ]
     },
+
     {
       path: '/header',
       name: 'Header',
@@ -57,16 +66,27 @@ export default new Router({       //module.expotrs={}
         {
           path: 'production',
           name: 'production',
-          alias: '',           //别名
           component: production
         },
         {
           path: 'register',
           name: 'register',
           component: register
+        },
+        {
+          path: 'index1',
+          name: 'Index1',
+          component: Index1,
+          alias: '',           //别名
+        },
+        {
+          path: 'league',
+          name: 'League',
+          component: League
         }
       ]
     },
+<<<<<<< HEAD
     {
       path: '/member',
       name: 'Member',
@@ -104,5 +124,24 @@ export default new Router({       //module.expotrs={}
       name: 'Tests',
       component: Tests
     }
+=======
+    // {
+    //   path: '/register',
+    //   name: 'register',
+    //   component: register
+    // }
+
+    {
+      path: '/shoppingcart',
+      name: '/shoppingcart',
+      component: shoppingcart
+    },
+    {
+      path: '/pay',
+      name: '/pay',
+      component: pay
+    }
+
+>>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
   ]
 })

@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="Zhuce">
         <div class="zhu">
             <el-row>
@@ -44,11 +45,18 @@
         </el-row>
         <!--  -->
         <!-- <p>{{count}}</p> -->
+=======
+    <div>
+        <h3>欢迎注册</h3>
+        <div>我是具体的注册界面</div>
+        <city @confirm="confirm" display="12345"></city>
+>>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
     </div>
 </template>
 
 <script>
 import city from '../components/City'
+<<<<<<< HEAD
 import password from '../components/Password'
 import photoyan from '../components/Photoyan'
 // import store from '../store'
@@ -251,6 +259,26 @@ export default {
             return store.state.count;
         }
     }
+=======
+export default {
+  name: 'Zhuce',
+  created(){
+      this.$parent.info = '注册'
+  },
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App',
+    }
+  },
+  methods:{
+      confirm(value){
+          console.log(value);
+      }
+  },
+  components:{
+      city
+  }
+>>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
 }
 </script>
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <template>
   <div class="Outter">
     <div class="useruser">
@@ -5,6 +6,14 @@
             <el-col :span="24">
                 <span class="xinda hidden-xs-only"></span><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
                 <p class="hidden-sm-and-up phone"><a href="" class="jian">&lt;</a>{{infoWeb}}</p>
+=======
+<template>             
+  <div class="Outter">          <!--首页-->
+    <div class="user">
+        <el-row>
+            <el-col :span="12">
+                <p>{{datavalue}}</p>
+>>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
             </el-col>
         </el-row>
     </div>
@@ -31,6 +40,7 @@ export default {
     //   obj : { a:10 , b:11 , c:12 , d:13 , e:14},
       msg:'',
       msgvalue:'',
+      datavalue:''
     }
   },
 //   created(){
@@ -52,10 +62,17 @@ export default {
         // this.ajax({
         //     url:''
         // })
+<<<<<<< HEAD
         this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify(
             {sId:'0cb85ec6b63b41fc8aa07133b6144ea3'})).then(function(data){
             console.log(data);
         })
+=======
+        // this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify(
+        //     {sId:'0cb85ec6b63b41fc8aa07133b6144ea3'})).then(function(data){
+        //     console.log(data);
+        // })
+>>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
       },
       news:function(){
               this.info = '新的登录'
@@ -69,6 +86,7 @@ export default {
       },
       aaaa:function(){
           console.log('lalalala');
+<<<<<<< HEAD
       }
   },
   created(){
@@ -78,7 +96,18 @@ export default {
             // console.log(data);
             that.msgvalue=data;
         }).catch(function(){console.log('失败');})
+=======
+      },
+>>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
   },
+//   created(){
+//       var that=this;
+//       this.datavalue=this.ajax.post('http://123.58.241.146:8088/xinda/xinda-api/ajaxAuthcode',this.qs.stringify({})).then(
+//           function(data){
+//             console.log(data);
+//             that.msgvalue=data;
+//         }).catch(function(){console.log('失败');})
+//   },
   watch : {
       firstName:function(newQ,old){
           console.log(newQ,old);
@@ -88,6 +117,7 @@ export default {
   },
   created(){
       var that = this;
+<<<<<<< HEAD
       this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify(
           {'sId':'0cb85ec6b63b41fc8aa07133b6144ea3'}
       )).then(function(data){
@@ -97,6 +127,21 @@ export default {
           return data;
         //   that.datavalue = data;
       })
+=======
+    //   this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify(
+    //       {'sId':'0cb85ec6b63b41fc8aa07133b6144ea3'}
+    //   )).then(function(data){
+    //     console.log(data)
+    //   }).catch(function(data){
+    //       console.log(data);
+    //     //   return data;
+    //     //   that.datavalue = data;
+    //   })
+      this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify({'sId':'0cb85ec6b63b41fc8aa07133b6144ea3'})).then(function(data){
+            console.log(data);
+            that.datavalue = data;
+        })
+>>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
   },
   computed:{
       infomassage(){

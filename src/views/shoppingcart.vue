@@ -1,0 +1,555 @@
+<template>
+<div class="shoppingcart ">
+   <div  v-if="seen" class="success">
+          <p class="shop">首页/购物车</p>
+          <!-- 商品数量 -->
+          <p class="goods">全部商品（{{shoppingdata.length}}）</p>
+        <el-row class='shoptitle'>
+          <el-col :span="3"><div class="company">公司</div></el-col>
+          <el-col :span="4"><div class="servicegoods">服务商品</div></el-col>
+          <el-col :span="4"><div class="price">单价</div></el-col>
+          <el-col :span="4"><div class="number">数量</div></el-col>
+          <el-col :span="5"><div class="money">金额</div></el-col>
+          <el-col :span="4"><div class="operation">操作</div></el-col>
+        </el-row>
+
+ <!-- 订单详细内容 -->
+          <!-- demo  -->
+<div class="details" v-for="(item,index) in shoppingdata" :key="index">
+  <!-- 服务商名称 -->
+          <p class="store">店铺：{{item.providerName}}</p>
+
+        <el-row class='shopdetails'>
+          <!-- 服务商logo -->
+          <el-col :span="3"><div class="logo"><img v-bind:src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)" alt="#"></div></el-col>
+          <!-- 服务名称 -->
+          <el-col :span="4"><div class="servicegoods">{{item.serviceName}}</div></el-col>
+
+           <!-- 单价 -->
+          <el-col :span="4"><div class="price">￥<span>{{item.unitPrice}}{{item.Unit}}</span></div></el-col>
+             <!-- 购买数量 -->
+          <el-col :span="4">
+            <div class="number">
+            <a href="javascript:void(0)" @click="reducenum" class="reduce" :id="index">-</a>
+            <input type="text" class="input" v-bind:value="item.buyNum" readOnly="true">
+            <a href="javascript:void(0)" @click="addnum"  class="add" :id="index">+</a>
+            </div>
+            </el-col>
+          <!-- 产品总价 -->
+          <el-col :span="5"><div class="money">￥<span>{{item.totalPrice}}</span></div></el-col>
+         <!-- 是否删除 -->
+          <el-col :span="4"><div class="operation" >
+            <!-- <a href="javascript:void(0)" class="remove" :id="index">删除</a> -->
+            <el-button type="text" class="remove" :id="item.productId" @click="open2">删除</el-button>
+            </div></el-col>
+        </el-row>
+ </div>
+ <!-- stytle  -->
+             <div class="details">
+          <p class="store">店铺：云智慧服务有限公司</p>
+
+        <el-row class='shopdetails'>
+          <el-col :span="3"><div class="logo"><img src="http://123.58.241.146:8088/xinda/pic/2016/09/28/8c419db3f572418a80ff5a08397fb857" alt="#"></div></el-col>
+          <el-col :span="4"><div class="servicegoods">注册股份有限公司</div></el-col>
+          <el-col :span="4"><div class="price">￥<span>800</span></div></el-col>
+
+          <el-col :span="4">
+            <div class="number">
+            <a href="javascript:void(0)" class="reduce" @click="reducenum" id="11111">-</a>
+            <input type="text" class="input" value="1" readOnly="true">
+            <a href="javascript:void(0)" class="add" @click="addnum">+</a>
+            </div>
+            </el-col>
+
+          <el-col :span="5"><div class="money">￥<span>800</span></div></el-col>
+        
+          <el-col :span="4"><div class="operation">
+            <!-- <a href="javascript:void(0)" class="remove">删除</a> -->
+              <el-button type="text" class="remove"  @click="open2">删除</el-button>
+            </div></el-col>
+        </el-row>
+      </div>
+          <!-- <el-row :gutter="5">
+        <el-col :span="18"><div class="grid-content bg-purple"></div></el-col>
+      
+      </el-row> -->
+      <div class="allmoney"><p style="width:220px;text-align:center">
+        金额总计:<span>￥{{totalprice}}</span>
+        
+        </p></div>
+
+      <div class="total">
+        <!-- <a href="javascript:void(0)" class="shopnext">继续购物</a>
+        <a  href="javascript:void(0)"  class="account">去结算</a> -->
+        <router-link to="/" class="shopnext">继续购物</router-link>
+        <router-link to="/" class="shopnext">去结算</router-link>
+          </div>
+
+      <p class="hotservice">热门服务</p>
+
+      <el-row :gutter="20" class="hotservicecontant">
+        <!-- 第一个 -->
+        <el-col :span="6"><div class="serviceitem">
+          <p class="title">代理记账＋取票＋取银行回单（半年）</p>
+          <div class="img"><img src="../../static/line.jpg" alt="#"></div>
+          <p class="detail">适用于有经营业务，发票处理，银行账单处理的初创公司</p>
+          <p class="xiaoliang">销量:</p>
+          <div class="money">￥1400.00</div>
+          <div class="price">
+            <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
+          </div>
+        
+        </div></el-col>
+        <!-- 第二个 -->
+        <el-col :span="6"><div class="serviceitem">
+          <p class="title">代理记账＋取票＋取银行回单（半年）</p>
+          <div class="img"><img src="../../static/line.jpg" alt="#"></div>
+          <p class="detail">适用于有经营业务，发票处理，银行账单处理的初创公司</p>
+          <p class="xiaoliang">销量:</p>
+          <div class="money">￥1400.00</div>
+          <div class="price">
+            <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
+          </div>
+        
+        </div></el-col>
+
+        <!-- 第三个 -->
+        <el-col :span="6"><div class="serviceitem">
+          <p class="title">代理记账＋取票＋取银行回单（半年）</p>
+          <div class="img"><img src="../../static/line.jpg" alt="#"></div>
+          <p class="detail">适用于有经营业务，发票处理，银行账单处理的初创公司</p>
+          <p class="xiaoliang">销量:</p>
+          <div class="money">￥1400.00</div>
+          <div class="price">
+            <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
+          </div>
+        
+        </div></el-col>
+
+        <!-- 第四个 -->
+        <el-col :span="6"><div class="serviceitem">
+          <p class="title">代理记账＋取票＋取银行回单（半年）</p>
+          <div class="img"><img src="../../static/line.jpg" alt="#"></div>
+          <p class="detail">适用于有经营业务，发票处理，银行账单处理的初创公司</p>
+          <p class="xiaoliang">销量:</p>
+          <div class="money">￥1400.00</div>
+          <div class="price">
+            <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
+          </div>
+        
+        </div></el-col>
+
+ 
+ 
+        </el-row> 
+
+   </div>
+  <div v-else class="fail">
+   
+    <div class="img"></div>
+    <div class="right">
+      <h2>您的购物车是空的！</h2>
+       <router-link to="/" class="shopnext">继续购物</router-link>
+
+    </div>
+
+  </div>
+
+</div>
+
+    
+</template>
+
+<script>
+
+export default {
+  name: "shoppingcart",
+
+  data() {
+    return {
+      shoppingdata: "",
+      seen:true,
+      totalprice:"0.00",
+      // removeid:''
+    };
+  },
+  
+
+  created() {
+    //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
+    var that = this;
+    this.ajax
+      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/list", {})
+      .then(function(data) {
+        // console.log(data.data.data.length);
+        // console.log(data.data);
+        //如果购物车为空，则显示购物车为空页面
+        if (data.data.data.length == 0) {
+          // that.seen=false;
+
+        //如果购物车部不为空，则渲染页面；
+        } else {
+          that.shoppingdata = data.data.data;
+          for(i=0 ;i<shoppingdata.length;i++){
+        this.totalprice+=shoppingdata[i].totalPrice;
+      }
+        }
+      })
+      .catch(function(data) {
+        console.log("请求失败");
+      });
+  },
+
+  methods: {
+    //添加商品数量
+    addnum:function(e){
+      var goodsindex=e.target.id;
+      var that = this;
+      that.ajax
+      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/add", {
+		    id:that.shoppingdata[goodsindex].productId,
+		    num:that.shoppingdata[goodsindex].buyNum
+        })
+      .then(function(data) {//添加商品成功则进行ajax请求购物车列表数据，刷新页面数据
+        console.log(data);
+          that.ajax
+      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/list", {})
+      .then(function(data) {
+        if (data.data.data.length == 0) {
+          // that.seen=false;
+        } else {
+          that.shoppingdata = data.data.data;
+          for(i=0 ;i<shoppingdata.length;i++){
+        that.totalprice+=shoppingdata[i].totalPrice;
+      }
+        }
+      })
+      .catch(function(data) {
+        console.log("请求失败");
+      });
+      })
+      .catch(function(data) {
+        console.log("请求失败/您的购物车中没有该产品，请刷新页面"); 
+      });
+      
+  },
+  //减少商品数量
+ reducenum:function(e){
+      var goodsindex=e.target.id;
+      var that = this;
+      that.ajax
+      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/set", {
+		    id:that.shoppingdata[goodsindex].productId,
+		    num:that.shoppingdata[goodsindex].buyNum
+        })
+      .then(function(data) {//减少商品成功则进行ajax请求购物车列表数据，刷新页面数据
+        console.log(data);
+          that.ajax
+      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/list", {})
+      .then(function(data) {
+        if (data.data.data.length == 0) {
+          that.seen=false;
+        } else {
+          that.shoppingdata = data.data.data;
+          //总价，总计价格
+          for(i=0 ;i<shoppingdata.length;i++){
+        that.totalprice+=shoppingdata[i].totalPrice;
+      }
+        }
+      })
+      .catch(function(data) {
+        console.log("请求失败");
+      });
+      })
+      .catch(function(data) {
+        console.log("请求失败/您的购物车中没有该产品，请刷新页面"); 
+      });
+      
+  },
+
+  //删除产品服务函数
+  //elementui 自带弹出框函数,点击确定后发送ajax请求，并刷新页面
+   open2(e) {
+     var removeindex=e.target.id;
+     var that=this;
+        this.$confirm('此操作将从购物车删除该商品, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          console.log(this);
+//开始
+
+ that.ajax
+      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/del", {
+		    id:removeindex,
+        })
+      .then(function(data) {//减少商品成功则进行ajax请求购物车列表数据，刷新页面数据
+        console.log(data);
+          that.ajax
+      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/list", {})
+      .then(function(data) {
+        if (data.data.data.length == 0) {
+          // that.seen=false;
+        } else {
+          that.shoppingdata = data.data.data;
+          //总价，总计价格
+          for(i=0 ;i<shoppingdata.length;i++){
+        that.totalprice+=shoppingdata[i].totalPrice;
+      }
+        }
+      })
+      .catch(function(data) {
+        console.log("请求失败");
+      });
+      })
+      .catch(function(data) {
+        console.log("请求失败/您的购物车中没有该产品，请刷新页面"); 
+      });
+
+
+
+//结束
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      }
+    
+
+
+   },
+
+   
+
+
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="less">
+.shoppingcart {
+  font-size: 14px;
+
+  // height: 500px;
+  // border: 1px solid;
+
+  .success{
+      max-width: 1200px;
+        margin: 0 auto;
+  }
+  .shop {
+    font-size: 14px;
+    line-height: 50px;
+    margin-top: 10px;
+  }
+  .goods {
+    font-size: 14px;
+    color: #2693d4;
+    padding-left: 5.4116%;
+    border-bottom: 1px solid #bdbdbd;
+    padding-bottom: 7px;
+  }
+  .shoptitle {
+    text-align: center;
+    padding-left: 5.4116%;
+    margin-top: 20px;
+    .company {
+      text-align: left;
+    }
+  }
+
+  //订单详细内容样式
+  .details {
+    height: 120px;
+    // border: 1px solid;
+    margin-top: 30px;
+
+    .store {
+      padding-left: 5.4116%;
+    }
+    .shopdetails {
+      line-height: 80px;
+      // border:1px solid;
+      height: 80px;
+      text-align: center;
+      padding-left: 5.4116%;
+      margin-top: 20px;
+      background-color: #f7f7f7;
+      .company {
+        text-align: left;
+      }
+      .logo {
+        height: 80px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        img {
+          width: 80%;
+        }
+      }
+      .number {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80px;
+        .reduce,
+        .add {
+          display: block;
+          width: 18px;
+          height: 20px;
+          font-size: 18px;
+          font-weight: bold;
+          color: #202020;
+          border: 0;
+          background: #bcbdbd;
+          text-align: center;
+          line-height: 20px;
+        }
+        .input {
+          height: 20px;
+          width: 35px;
+          border: 0;
+          // position:relative;
+          // top:-2px;
+          outline: none;
+          text-align: center;
+        }
+      }
+      .money {
+        color: #2693d4;
+      }
+
+      .remove {
+        color: #2693d4;
+      }
+    }
+  }
+  .allmoney {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 50px;
+    padding-right: 7%;
+    font-size: 18px;
+    line-height: 40px;
+    span {
+      font-size: 30px;
+      color: #2693d4;
+      font-weight: bold;
+      position: relative;
+      top: 5px;
+    }
+  }
+  .total {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 7%;
+    margin-top: 10px;
+    .shopnext {
+      display: block;
+      border: 1px solid #2693d4;
+      line-height: 28px;
+      color: #2693d4;
+      text-align: center;
+      border-radius: 5px;
+      width: 105px;
+      margin-left: 6px;
+      font-size: 16px;
+    }
+  }
+  .hotservice {
+    font-size: 14px;
+    color: #2693d4;
+    padding-left: 5.4116%;
+    border-bottom: 1px solid #bdbdbd;
+    padding-bottom: 7px;
+    margin-top: 70px;
+  }
+
+  .hotservicecontant {
+    margin: 35px 0 100px;
+    padding: 0 15px;
+    .serviceitem {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding: 20px 15px;
+      border: 1px solid #eee;
+      .title {
+        font-size: 18px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .detail {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .money {
+        color: #2694d3;
+        font-size: 45px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-family: \\9ed1\4f53;
+      }
+      .price {
+        width: 100%;
+        .left {
+          float: left;
+          // color: #2694d3;
+          text-decoration: line-through;
+        }
+        .right {
+          float: right;
+          color: #2694d3;
+        }
+      }
+    }
+  }
+
+
+  .fail{
+    // display:none;
+    // max-width:1200px;
+    width:100%;
+    height:500px;
+    background:#f5f5f5;
+    display:flex;
+    // justify-content: center;
+    .img{
+      width:460px;
+      height:320px;
+      background:url(../../static/cartnull.png) no-repeat;
+      background-size:100%;
+     margin:85px 30px 0  250px;
+    }
+     .shopnext{
+         display: block;
+         border: 1px solid #2693d4;
+        line-height: 30px;
+        color: #2693d4;
+        text-align: center;
+        border-radius: 5px;
+        width: 105px;
+        margin-left: 85px;
+        margin-top:36px;
+        font-size: 20px;
+      }
+     h2{
+      margin: 196px 0 15px;
+      font-size: 36px;
+      color:#b0b0b0;
+      }
+    
+  }
+}
+</style>
