@@ -1,9 +1,10 @@
 <template>
   <div class="Outter">
-    <div class="user">
+    <div class="useruser">
         <el-row>
-            <el-col :span="12">
-                
+            <el-col :span="24">
+                <span class="xinda hidden-xs-only"></span><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
+                <p class="hidden-sm-and-up phone"><a href="" class="jian">&lt;</a>{{infoWeb}}</p>
             </el-col>
         </el-row>
     </div>
@@ -16,7 +17,8 @@ export default {
   name: 'Outter',
   data () {
     return {
-      info:'登录1',
+      info:'欢迎登录',
+      infoWeb:'登录',
       style : true,
       style1 : 'test',
     //   style : false,
@@ -50,7 +52,7 @@ export default {
         // this.ajax({
         //     url:''
         // })
-        this.ajax.post('http://123.58.241.146:8088/xinda/xinda-api/product/package/detail',this.qs.stringify(
+        this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify(
             {sId:'0cb85ec6b63b41fc8aa07133b6144ea3'})).then(function(data){
             console.log(data);
         })
@@ -71,9 +73,9 @@ export default {
   },
   created(){
       var that=this;
-      this.datavalue=this.ajax.post('http://123.58.241.146:8088/xinda/xinda-api/ajaxAuthcode',this.qs.stringify({})).then(
+      this.datavalue=this.ajax.post('/xinda-api/ajaxAuthcode',this.qs.stringify({})).then(
           function(data){
-            console.log(data);
+            // console.log(data);
             that.msgvalue=data;
         }).catch(function(){console.log('失败');})
   },
@@ -86,10 +88,10 @@ export default {
   },
   created(){
       var that = this;
-      this.ajax.post('http://123.58.241.146:8088/xinda/xinda-api/product/package/detail',this.qs.stringify(
+      this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify(
           {'sId':'0cb85ec6b63b41fc8aa07133b6144ea3'}
       )).then(function(data){
-        console.log(data)
+        // console.log(data)
       }).catch(function(data){
           console.log(data);
           return data;
@@ -115,11 +117,50 @@ export default {
 </script>
 
 <style scoped lang="less">
-    .test{
-        color: red;
+    span{display: inline-block;}
+    .useruser{
+        max-width:1200px;
+        margin:0 auto;
+        height:97px;
     }
-    .test1{
-        color: yellow
+    .xinda{     
+        width: 124px;
+        height: 56px;
+        background: url(../../static/data_image_jpeg;bas….jpg) no-repeat;
+        margin-top:21px;
+    }
+    .line{
+        width:1px;
+        height:47px;
+        background-color:#b4b4b4;
+        margin:4px 25px 0 28px;
+    }
+    .wel{
+        font-size:18px;
+        display:inline-block;
+        vertical-align: top;
+        margin-top:36px;
+    }
+    .phone{
+        text-align: center;
+        font-size: 18px;
+        line-height: 77px; 
+        position: relative;
+        .jian{
+            float: left;
+            left: 20px;
+            font-size: 32px;
+            position: absolute;
+        }    
+    }
+    @media screen and (max-width: 768px){
+        .useruser{
+            height: 77px;
+            background-color: #e5e5e5;
+            position: absolute;
+            top:0;
+            width: 100%;
+        }
     }
 </style>
 

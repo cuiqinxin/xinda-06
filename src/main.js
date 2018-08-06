@@ -3,10 +3,12 @@
 import Vue from 'vue'         //var Vue = require('./Vue')
 import App from './App'
 import router from './router'
+import store from './store'
 import axios from 'axios'
 import qs from 'qs'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/display.css';
 
 
 Vue.use(ElementUI);
@@ -20,6 +22,7 @@ Vue.prototype.qs = qs;
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>',
   data : {

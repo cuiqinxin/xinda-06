@@ -4,6 +4,14 @@ import Public from '@/components/Public'    //@ => ..
 import Test from '@/components/Test'    //@ => ..
 import Login from '@/views/Login'    //@ => ..
 import Zhuce from '@/views/Zhuce'    //@ => ..
+import Forget from '@/views/Forget'
+import Quit from '@/views/Quit'
+import Tests from '@/views/Tests'
+import Member from '@/views/Member'
+import Memberindex from '@/views/Memberindex'
+import Memberorder from '@/views/Memberorder'
+import Memberassess from '@/views/Memberassess'
+import Memberinstall from '@/views/Memberinstall'
 import Header from '@/components/Header'
 import production from '@/views/production'
 import register from '@/views/register'
@@ -33,6 +41,11 @@ export default new Router({       //module.expotrs={}
           name: 'Zhuce',
           component: Zhuce
         },
+        {
+          path: 'forget',
+          name: 'Forget',
+          component: Forget
+        }
       ]
     },
     {
@@ -54,10 +67,42 @@ export default new Router({       //module.expotrs={}
         }
       ]
     },
-    // {
-    //   path: '/register',
-    //   name: 'register',
-    //   component: register
-    // }
+    {
+      path: '/member',
+      name: 'Member',
+      component: Member,
+      children:[
+        {
+          path: 'memberorder',
+          name: 'Memberorder',
+          component: Memberorder
+        },
+        {
+          path: 'memberassess',
+          name: 'Memberassess',
+          component: Memberassess
+        },
+        {
+          path: 'memberinstall',
+          name: 'Memberinstall',
+          component: Memberinstall
+        },
+      ]
+    },
+    {
+      path: '/memberindex',
+      name: 'Memberindex',
+      component: Memberindex,
+    },
+    {
+      path: '/quit',
+      name: 'Quit',
+      component: Quit
+    },
+    {
+      path: '/tests',
+      name: 'Tests',
+      component: Tests
+    }
   ]
 })
