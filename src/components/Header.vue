@@ -41,7 +41,7 @@
                     <p>
                       <!-- <span v-for="(item1,key1,index1) in item.itemList" :key="index1">{{item1.name}}</span> -->
                       <router-link 
-                        :to="{path:'/list',query:{name:item.name,code:item1.code}}" 
+                        :to="{path:'/list',query:{name:item.name,code:item1.code,index1:index1}}" 
                         v-for="(item1,key1,index1) in item.itemList" :key="index1" 
                         class="nav-span">{{item1.name}}
                       </router-link>

@@ -15,7 +15,7 @@
                             </el-col>
                             <el-col :span="21">
                                 <div class="header-box">
-                                    <div v-for="(item,index1) in items" v-bind:class="{blue:index1==current1}" class="serviceClassify" :value="item" :key="index1" @click="sort1(index1,$event)">{{item}}</div>
+                                    <div v-for="(item,index1) in items" v-bind:class="{blue:index1==current1}"  class="serviceClassify" :value="item" :key="index1" @click="sort1(index1,$event)">{{item}}</div>
                                 </div>
                             </el-col>
                         </el-row>
@@ -130,26 +130,34 @@ export default {
             product: '',
             thisProduct:[],
             temporaryList:'',
-            firstLevel: "知识产权",
+            firstLevel: "",
             productTypeCode: "",
             classifyName: "1eff122d06604fc1aadf9e7acefba21a",
             menuList: "",
             nowTestlist: '',
             obj: {
-                productTypeCode: "0",
-                productId: "24d919ba0eb545dd9a3132dfb87cf599"
+                productTypeCode: "3",
+                productId: ""
             },
             add:{
                 id:'0cb85ec6b63b41fc8aa07133b6144ea3',
                 num:'1'
             },
             show: '',
-            name: '',
+            id: '',
+            code: '',
+            index1:''
         };
     },
     created() {
-        this.name=this.$route.query.name;
-        console.log(this.name)
+        this.firstLevel=this.$route.query.name;
+        this.id = this.$route.query.id;
+        this.code = this.$route.query.code;
+        this.index1 = this.$route.query.index1
+        this.current1 = this.index1
+        if(this.id == undefined && this.code == undefined){
+            
+        }
         var that = this;
         this.ajax.post("/xinda-api/product/style/list").then(function(data) {
             var classify1 = [];
@@ -158,14 +166,17 @@ export default {
                 var myData = newData[key];
                 if (myData["name"] == that.firstLevel) {
                     that.typeList = myData.itemList;
+                    console.log(that.typeList)
                     var secondlevel = myData.itemList;
                     for (let key in secondlevel) {
                         that.items.push(secondlevel[key]["name"]); 
                     }
                 }
             }
+            var secondName = []
             for(let key in secondlevel){
-                if(secondlevel[key]['name'] == '专利申请'){
+                 secondName.push(secondlevel[key]['name'])
+                if(secondlevel[key]['name'] == secondName[0]){
                     var thirdName = secondlevel[key].itemList
                     for(let key in thirdName){
                         that.classify.push(thirdName[key]['name'])
@@ -181,6 +192,7 @@ export default {
             .then(function(data) {
                 
                 that.temporaryList = data.data.data;
+                console.log(that.temporaryList)
                 that.length = Math.ceil(that.temporaryList.length/3)
                 that.thisProduct = that.temporaryList.slice(0,3)
                 if( that.thisProduct.length == 0){
@@ -199,6 +211,7 @@ export default {
     components: {},
     methods: { 
         sort1(index1, event) {
+            console.log(index1)
             this.show = '';
             this.page = 1;
             this.classify = [];
@@ -374,7 +387,10 @@ export default {
         }
     },
     watch: {
+        
+        obj:function(){
 
+        }
     },
     computed: {}
 
