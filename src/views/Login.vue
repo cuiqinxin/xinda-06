@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
     <div class="Login">       
         <div class="deng">
             <!-- <p @click="chufa">{{count}}</p> -->
@@ -35,23 +34,11 @@
         </div>
         <el-row class="now hidden-sm-and-up">
             <el-col :span="20" :offset="2" id="spe"><p>还没有信达账号？</p><router-link to="/outter/zhuce" class="liji">立即注册</router-link></el-col>
-=======
-    <div>
-        <h3>欢迎登录</h3>
-        <div>我是具体的登录界面</div>
-        <el-row class="top-con" type="flex" justify="space-between">
-            <el-col :span="12" class="top-left">
-            <span>欢迎来到信达！</span><router-link to="">登录</router-link><router-link to="">快速注册</router-link>
-            </el-col>
-            <!-- <p>{{store.state.count}}</p>
-            <p>{{count}}</p> -->
->>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
         </el-row>
     </div>
 </template>
 
 <script>
-<<<<<<< HEAD
 import store from '../store'
 import password from '../components/Password'
 import photoyan from '../components/Photoyan'
@@ -161,28 +148,6 @@ export default {
     //         return store.getters.gett;
     //     }
     // }
-=======
-import store from '../store';
-export default {
-  name: 'Login',
-  created(){
-      this.$parent.info = '登录',
-      this.id=this.$route.query.id
-  },
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  },
-  methods:{
-
-  },
-//   computed:{
-//       count(){
-//           return store.state.count;
-//       }
-//   }
->>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
 }
 </script>
 

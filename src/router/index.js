@@ -124,7 +124,6 @@ export default new Router({       //module.expotrs={}
         }
       ]
     },
-<<<<<<< HEAD
     {
       path: '/member',
       name: 'Member',
@@ -161,8 +160,7 @@ export default new Router({       //module.expotrs={}
       path: '/tests',
       name: 'Tests',
       component: Tests
-    }
-=======
+    },
     // {
     //   path:'/dianpu/:id',
     //   name:Dianpu,
@@ -186,6 +184,5 @@ export default new Router({       //module.expotrs={}
       component: pay
     }
 
->>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
   ]
 })
