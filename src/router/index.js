@@ -19,11 +19,7 @@ import Outter from '@/views/Outter'
 import Datang from '@/views/datang'
 import Chanpinx from '@/views/chanpinx'
 import Shop from '@/views/shop'
-import Join from '@/views/Join'
-import Dianpu from '@/components/dianpu'
-import Page from '@/components/Page'
-
-// import Shopin from '@/views/shopin'
+import Join fr
 
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
