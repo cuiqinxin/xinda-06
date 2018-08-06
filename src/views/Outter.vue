@@ -3,7 +3,7 @@
     <div class="user">
         <el-row>
             <el-col :span="12">
-                <p>{{datavalue}}</p>
+                <!-- <p>{{datavalue}}</p> -->
             </el-col>
         </el-row>
     </div>
