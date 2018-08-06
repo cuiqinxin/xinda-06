@@ -4,7 +4,8 @@
     <div class="top hidden-md-and-down">
       <el-row class="top-con" type="flex" justify="space-between">
         <el-col :span="12" class="top-left">
-          <span>欢迎来到信达！</span><router-link :to="{path:'outter/login',query:{id:123}}">登录</router-link><router-link to="outter/zhuce">快速注册</router-link>
+          <button @click="link">等</button>
+          <span>欢迎来到信达！</span><router-link :to="{path:'/outter/login',query:{id:123}}">登录</router-link><router-link to="/outter/zhuce">快速注册</router-link>
         </el-col>
         <el-col :span="12" class="top-right">
           <router-link to="" class="shop-cart">
@@ -27,11 +28,19 @@
 
 <script>
 export default {
-  name: 'App',
+    name: 'App',
+    methods:{
+        link(){
+            this.$router.push({
+                path:'/outter/login',query:{id:123456}
+            })
+        },
+    }
 }
 </script>
 
 <style lang="less">
+  #app{position: relative;}
   *{margin: 0;padding:0};
   li{list-style: none};
   a{text-decoration: none};

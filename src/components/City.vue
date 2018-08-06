@@ -1,7 +1,7 @@
 <template>
     <div class="city">
         <select name="" id="" v-model="provinceCode" @change="provinceChange">
-            <option value="">--省份--</option>
+            <option value="">--请选择省份--</option>
             <option :value="item" v-for="(value,item) in province" :key="item">{{value}}</option>
         </select>
         <select name="" id="" v-model="cityCode" @change="cityChange">
@@ -9,7 +9,7 @@
             <option :value="item" v-for="(value,item) in city" :key="item">{{value}}</option>
         </select>
         <select name="" id="" v-model="areaCode" @change="areaChange">
-            <option value="" >--区县--</option>
+            <option value="">--请选择区县--</option>
             <option :value="item" v-for="(value,item) in area" :key="item">{{value}}</option>
         </select>
     </div>
@@ -19,15 +19,14 @@
 import citydata from '../citydata'
 export default {
   name: 'City',
-
   data () {
     return {
       province:citydata[100000],
       provinceCode:'',
-      cityCode:'',
       city:'',
-      area:'',
-      areaCode:'',
+        cityCode:'',
+        area:'',
+        areaCode:''
     }
   },
   props:{

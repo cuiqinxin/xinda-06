@@ -81,8 +81,6 @@
         </ul>
       </el-row>
     </footer>
-<<<<<<< HEAD
-=======
     <footer  class="footer2-2 hidden-lg-and-up" style="height: 90px"></footer>
     <footer class="footer1-2 hidden-lg-and-up">
       <ul>
@@ -113,7 +111,6 @@
       </ul>
     </footer>
 
->>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
   </div>
 </template>
 <script>
