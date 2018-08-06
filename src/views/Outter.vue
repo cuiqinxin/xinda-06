@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <template>
   <div class="Outter">
     <div class="useruser">
@@ -6,18 +5,7 @@
             <el-col :span="24">
                 <span class="xinda hidden-xs-only"></span><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
                 <p class="hidden-sm-and-up phone"><a href="" class="jian">&lt;</a>{{infoWeb}}</p>
-=======
-<template>             
-  <div class="Outter">          <!--首页-->
-    <div class="user">
-        <el-row>
-            <el-col :span="12">
-<<<<<<< HEAD
-                <p>{{datavalue}}</p>
->>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
-=======
                 <!-- <p>{{datavalue}}</p> -->
->>>>>>> ff46ef44a502682c11c0d6d7c30783afe260861e
             </el-col>
         </el-row>
     </div>
@@ -66,17 +54,10 @@ export default {
         // this.ajax({
         //     url:''
         // })
-<<<<<<< HEAD
         this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify(
             {sId:'0cb85ec6b63b41fc8aa07133b6144ea3'})).then(function(data){
             console.log(data);
         })
-=======
-        // this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify(
-        //     {sId:'0cb85ec6b63b41fc8aa07133b6144ea3'})).then(function(data){
-        //     console.log(data);
-        // })
->>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
       },
       news:function(){
               this.info = '新的登录'
@@ -90,7 +71,6 @@ export default {
       },
       aaaa:function(){
           console.log('lalalala');
-<<<<<<< HEAD
       }
   },
   created(){
@@ -100,9 +80,6 @@ export default {
             // console.log(data);
             that.msgvalue=data;
         }).catch(function(){console.log('失败');})
-=======
-      },
->>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
   },
 //   created(){
 //       var that=this;
@@ -121,17 +98,6 @@ export default {
   },
   created(){
       var that = this;
-<<<<<<< HEAD
-      this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify(
-          {'sId':'0cb85ec6b63b41fc8aa07133b6144ea3'}
-      )).then(function(data){
-        // console.log(data)
-      }).catch(function(data){
-          console.log(data);
-          return data;
-        //   that.datavalue = data;
-      })
-=======
     //   this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify(
     //       {'sId':'0cb85ec6b63b41fc8aa07133b6144ea3'}
     //   )).then(function(data){
@@ -145,7 +111,6 @@ export default {
             console.log(data);
             that.datavalue = data;
         })
->>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
   },
   computed:{
       infomassage(){

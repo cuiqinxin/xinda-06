@@ -4,12 +4,8 @@
     <div class="top hidden-md-and-down">
       <el-row class="top-con" type="flex" justify="space-between">
         <el-col :span="12" class="top-left">
-<<<<<<< HEAD
           <button @click="link">等</button>
           <span>欢迎来到信达！</span><router-link :to="{path:'/outter/login',query:{id:123}}">登录</router-link><router-link to="/outter/zhuce">快速注册</router-link>
-=======
-          <span>欢迎来到信达！</span><router-link :to="{path:'outter/login',query:{id:123}}">登录</router-link><router-link to="outter/zhuce">快速注册</router-link>
->>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
         </el-col>
         <el-col :span="12" class="top-right">
           <router-link to="" class="shop-cart">
@@ -32,7 +28,6 @@
 
 <script>
 export default {
-<<<<<<< HEAD
     name: 'App',
     methods:{
         link(){
@@ -41,9 +36,6 @@ export default {
             })
         },
     }
-=======
-  name: 'App',
->>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
 }
 </script>
 
