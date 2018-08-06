@@ -37,11 +37,13 @@
                 <li v-for="(item,key,index) in menuList" :key="index">
                   <span></span>
                   <div>
-                    <router-link :to="{path:'/list',query:{name:item.name}}" class="nav-h2">{{item.name}}</router-link>
+                    <router-link 
+                      :to="{path:'/list',query:{name:item.name,index: 0}}" 
+                      class="nav-h2">{{item.name}}
+                    </router-link>
                     <p>
-                      <!-- <span v-for="(item1,key1,index1) in item.itemList" :key="index1">{{item1.name}}</span> -->
                       <router-link 
-                        :to="{path:'/list',query:{name:item.name,code:item1.code}}" 
+                        :to="{path:'/list',query:{name:item.name,code:item1.code,index:index1}}" 
                         v-for="(item1,key1,index1) in item.itemList" :key="index1" 
                         class="nav-span">{{item1.name}}
                       </router-link>
@@ -52,7 +54,13 @@
                     <li v-for="(item2,key2,index2) in item.itemList" :key="index2">
                       <div>
                         <p class="nav-select11">{{item2.name}}></p>
-                        <p class="nav-select12"><a v-for="(item3,key3,index3) in item2.itemList" :key="index3">{{item3.name}}</a></p>
+                        <p class="nav-select12">
+                          <router-link 
+                            :to="{path:'/list',query:{name:item.name,code:item2.code,id:item3.id,index2:index2,index3:index3}}" 
+                            v-for="(item3,key3,index3) in item2.itemList" 
+                            :key="index3">{{item3.name}}
+                          </router-link>
+                        </p>
                       </div>
                     </li>
                   </ul>
