@@ -4,11 +4,18 @@ import Public from '@/components/Public'    //@ => ..
 import Test from '@/components/Test'    //@ => ..
 import Login from '@/views/Login'    //@ => ..
 import Zhuce from '@/views/Zhuce'    //@ => ..
+import Forget from '@/views/Forget'
+import Quit from '@/views/Quit'
+import Tests from '@/views/Tests'
+import Member from '@/views/Member'
+import Memberindex from '@/views/Memberindex'
+import Memberorder from '@/views/Memberorder'
+import Memberassess from '@/views/Memberassess'
+import Memberinstall from '@/views/Memberinstall'
 import Header from '@/components/Header'
 import production from '@/views/production'
 import register from '@/views/register'
 import Outter from '@/views/Outter'
-<<<<<<< HEAD
 import Datang from '@/views/datang'
 import Chanpinx from '@/views/chanpinx'
 import Shop from '@/views/shop'
@@ -18,21 +25,22 @@ import Page from '@/components/Page'
 
 // import Shopin from '@/views/shopin'
 
-=======
-<<<<<<< HEAD
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
 
-=======
 import Index1 from '@/views/Index1'
 import League from '@/views/League'
->>>>>>> add42605ab35b8895633db6261284044ddade4e5
->>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
 
+import List from '@/views/List'
 Vue.use(Router)
 
 export default new Router({       //module.expotrs={}
   routes: [
+    {
+      path: '/list',
+      name: 'List',
+      component: List
+    },
     {
       path: '/test',
       name: 'Test',
@@ -85,6 +93,11 @@ export default new Router({       //module.expotrs={}
           name: 'Zhuce',
           component: Zhuce
         },
+        {
+          path: 'forget',
+          name: 'Forget',
+          component: Forget
+        }
       ]
     },
 
@@ -116,6 +129,43 @@ export default new Router({       //module.expotrs={}
           component: League
         }
       ]
+    },
+    {
+      path: '/member',
+      name: 'Member',
+      component: Member,
+      children:[
+        {
+          path: 'memberorder',
+          name: 'Memberorder',
+          component: Memberorder
+        },
+        {
+          path: 'memberassess',
+          name: 'Memberassess',
+          component: Memberassess
+        },
+        {
+          path: 'memberinstall',
+          name: 'Memberinstall',
+          component: Memberinstall
+        },
+      ]
+    },
+    {
+      path: '/memberindex',
+      name: 'Memberindex',
+      component: Memberindex,
+    },
+    {
+      path: '/quit',
+      name: 'Quit',
+      component: Quit
+    },
+    {
+      path: '/tests',
+      name: 'Tests',
+      component: Tests
     },
     // {
     //   path:'/dianpu/:id',
