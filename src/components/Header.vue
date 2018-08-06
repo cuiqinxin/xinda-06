@@ -37,9 +37,14 @@
                 <li v-for="(item,key,index) in menuList" :key="index">
                   <span></span>
                   <div>
-                    <h2>{{item.name}}</h2>
+                    <router-link :to="{path:'/list',query:{name:item.name}}" class="nav-h2">{{item.name}}</router-link>
                     <p>
-                      <span v-for="(item1,key1,index1) in item.itemList" :key="index1">{{item1.name}}</span>
+                      <!-- <span v-for="(item1,key1,index1) in item.itemList" :key="index1">{{item1.name}}</span> -->
+                      <router-link 
+                        :to="{path:'/list',query:{name:item.name,code:item1.code}}" 
+                        v-for="(item1,key1,index1) in item.itemList" :key="index1" 
+                        class="nav-span">{{item1.name}}
+                      </router-link>
                     </p>
                   </div>
 
@@ -56,8 +61,8 @@
               </ul>
             </li>
             
-            <li><router-link :to="{path:'list',query:{name:'财税服务',code:1}}" :class="{active:nav1}">财税服务</router-link></li>
-            <li><router-link to="" :class="{active:nav2}">公司工商</router-link></li>
+            <li><router-link :to="{path:'/list',query:{name:'财税服务',code:1}}" :class="{active:nav1}">财税服务</router-link></li>
+            <li><router-link :to="{path:'/list',query:{name:'公司工商',code:4}}" :class="{active:nav2}">公司工商</router-link></li>
             <li><router-link to="/league" :class="{active:nav3}">加盟我们</router-link></li>
             <li><router-link to="/shop" :class="{active:nav4}">店铺</router-link></li>
           </ul>
@@ -333,9 +338,9 @@ export default {
       bottom: 0;
       ul{
         display: flex;
-        li{
+        >li{
           width: 199px;
-          a{
+          >a{
             display: block;
             width: 80px;
             margin: 0 auto;
@@ -367,15 +372,18 @@ export default {
                 display : flex;
               }
               >div{
-                span{
+                .nav-span{
+                  color: #fff;
                   font-size: 13px;
                   margin: 0 20px 5px 0;
                   display: inline-block;
                   cursor: pointer;
                 }
               }
-              h2{
+              .nav-h2{
+                display: block;
                 cursor: pointer;
+                color: #fff;
                 font-size: 16px;
                 font-weight: 300;
                 margin-bottom: 12px;
