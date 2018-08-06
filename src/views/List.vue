@@ -78,12 +78,12 @@
                             </el-row>
                         </div>
                         <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
-                        <transition
+                        <!-- <transition
                             name="custom-classes-transition"
                             enter-active-class="animated bounceOutRight"
                             leave-active-class="animated bounceOutRight">
                             <div v-if="show" class="cart-count">hello</div>
-                        </transition>
+                        </transition> -->
                     </div>
                     <div class="pagebox">
                         <div class="pageUp" @click="up">上一页</div>
@@ -143,10 +143,13 @@ export default {
                 id:'0cb85ec6b63b41fc8aa07133b6144ea3',
                 num:'1'
             },
-            show: ''
+            show: '',
+            name: '',
         };
     },
     created() {
+        this.name=this.$route.query.name;
+        console.log(this.name)
         var that = this;
         this.ajax.post("/xinda-api/product/style/list").then(function(data) {
             var classify1 = [];
@@ -300,16 +303,23 @@ export default {
             })
         },
         cart(event){
-            
+            console.log(event.currentTarget.parentNode)
             this.show = true
             var Div=document.createElement('div');
             Div.innerHTML = '1111'
             // console.log(event.clientY)
             Div.style.position = 'absolute'
             Div.style.left=(event.offsetX + 100)+'px';    
-            Div.style.top=(event.offsetY + 100)+'px';    
-            document.querySelector('.list-right').appendChild(Div); 
-            // var Div = document.querySelector('.cart-count')
+            Div.style.top=(event.offsetY + 50)+'px';    
+            event.currentTarget.parentNode.appendChild(Div); 
+            // var n = 0;
+            // var id = setInterval(  ()=>  {
+            //     n = n + 5
+            //     Div.style.left = n + 'px'
+            //     if(n>100){
+            //     window.clearInterval(id)
+            //     }
+            // },1000/24)
             
         },
         up(){

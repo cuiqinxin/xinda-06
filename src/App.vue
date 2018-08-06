@@ -35,7 +35,7 @@ export default {
                 path:'/outter/login',query:{id:123456}
             })
         },
-    }
+    },
 }
 </script>
 
