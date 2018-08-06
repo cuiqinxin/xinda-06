@@ -12,8 +12,12 @@
     <div class="user">
         <el-row>
             <el-col :span="12">
+<<<<<<< HEAD
                 <p>{{datavalue}}</p>
 >>>>>>> b3b0f9062b17b1de40fcc3a4bd1cef2cccff8276
+=======
+                <!-- <p>{{datavalue}}</p> -->
+>>>>>>> ff46ef44a502682c11c0d6d7c30783afe260861e
             </el-col>
         </el-row>
     </div>
