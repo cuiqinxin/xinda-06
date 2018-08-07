@@ -82,7 +82,7 @@
         <!-- <a href="javascript:void(0)" class="shopnext">继续购物</a>
         <a  href="javascript:void(0)"  class="account">去结算</a> -->
         <router-link to="/" class="shopnext">继续购物</router-link>
-        <router-link to="/" class="shopnext">去结算</router-link>
+        <router-link to="/header/pay" class="shopnext">去结算</router-link>
           </div>
 
       <p class="hotservice">热门服务</p>

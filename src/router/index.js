@@ -30,6 +30,7 @@ import pay from '@/views/pay'
 
 import Index1 from '@/views/Index1'
 import League from '@/views/League'
+import goodsdetail from '@/views/goodsdetail'
 
 Vue.use(Router)
 
@@ -121,7 +122,22 @@ export default new Router({       //module.expotrs={}
           path: 'league',
           name: 'League',
           component: League
-        }
+        },
+        {
+          path: 'shoppingcart',
+          name: 'shoppingcart',
+          component: shoppingcart
+        },
+        {
+          path: 'pay',
+          name: 'pay',
+          component: pay
+        },
+        {
+          path: 'goodsdetail',
+          name: 'goodsdetail',
+          component: goodsdetail
+        },
       ]
     },
     {
@@ -173,16 +189,7 @@ export default new Router({       //module.expotrs={}
     //   component: dianpu
     // }
 
-    {
-      path: '/shoppingcart',
-      name: '/shoppingcart',
-      component: shoppingcart
-    },
-    {
-      path: '/pay',
-      name: '/pay',
-      component: pay
-    }
+    
 
   ]
 })
