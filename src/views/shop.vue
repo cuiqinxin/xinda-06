@@ -20,7 +20,7 @@
 
             <p>所有</p>
             <template v-for="dp in dianpu" >
-                 <p  v-for="item in dp.productTypes.split(',')" :key="item">{{item}}</p> 
+                 <p v-for="item in dp.productTypes.split(',')" :key="item" :code="dp.productTypeCodes" @click="kkk()">{{item}}</p> 
             </template>
             </li> 
         </ul>
@@ -56,15 +56,15 @@
                     <li class="region">{{dp.regionName}}</li>
                     <li class="num">
                         <p class="num_1">累计客户服务次数:{{dp.orderNum}}</p>
-                        <p class="num_2">好评率:%</p>
+                        <p class="num_2">好评率:{{dp.goodJudge == 0?0 :dp.goodJudge/dp.totalJudge*100}}%</p>
                         </li>
                     <li class="type">
-                        <p v-for="(value,item) in dp.productTypes.split(',')" :key="item">{{value}}</p>
+                            <p v-for="(value,item) in dp.productTypes.split(',')" :key="item">{{value}}</p> 
                     </li>
-                    <button class="enter" @click="link" >
-                        <!-- <router-link to="{path:'/shop/dianpu',query:{id:'{{dp.id}}'}">  -->
+                    <button class="enter"  >
+                        <router-link :to="{path:'/dianpu',query:{id:dp.id}}" > 
                     进入店铺
-                    <!-- </router-link> -->
+                    </router-link>
                     </button>
                 </ul>
             </div>
@@ -87,16 +87,16 @@ export default {
   name: 'Shop',
   data () {
     return {
-      radio3:'综合排序',
-      info:'登录1',
-      style : true,
-      style1 : 'test',
+    radio3:'综合排序',
+    info:'登录1',
+    style : true,
+    style1 : 'test',
     //   style : false,
-      n:1,
+    n:1,
     //   seen : false,
-      seen : true,
-      firstName: '美玉',
-      lastName: '宋',
+    seen : true,
+    firstName: '美玉',
+    lastName: '宋',
     title:'',
     credit:'',
     region:'',
@@ -106,8 +106,9 @@ export default {
     msgvalue:'',
     info:'店铺',
     img:'',
-   dianpu:'',
-   providerId:''
+    dianpu:'',
+    providerId:'',
+    perPages:3,
     }
   },
   created(){
@@ -139,7 +140,10 @@ export default {
         this.providerId = dp.providerId;
         console.log(this.providerId);
       },
-   
+    kkk(e){
+        console.log(event.target.code)
+        console.log(event.target)
+    },
           
     choose:function(e){
         alert(this.dp.productTypeCode)

@@ -22,17 +22,12 @@ import Shop from '@/views/shop'
 import Join from '@/views/Join'
 import Dianpu from '@/components/dianpu'
 import Page from '@/components/Page'
-
 // import Shopin from '@/views/shopin'
-
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
-
 import Index1 from '@/views/Index1'
 import League from '@/views/League'
-
 Vue.use(Router)
-
 export default new Router({       //module.expotrs={}
   routes: [
     {
@@ -45,6 +40,7 @@ export default new Router({       //module.expotrs={}
       name: 'Datang',
       component: Datang
     },
+  
     {
       path: '/page',
       name: 'Page',
@@ -101,6 +97,11 @@ export default new Router({       //module.expotrs={}
       alias: '/',         //起一个别名
       component: Header,
       children: [
+        {
+          path: 'dianpu',
+          name: 'Dianpu',
+          component: Dianpu
+        },
         {
           path: 'production',
           name: 'production',
