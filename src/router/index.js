@@ -22,20 +22,14 @@ import Shop from '@/views/shop'
 import Join from '@/views/Join'
 import Dianpu from '@/components/dianpu'
 import Page from '@/components/Page'
-<<<<<<< HEAD
 // import Shopin from '@/views/shopin'
-=======
 
->>>>>>> 49f4a4ad0537705b640a37bbdfb228169bbc58a4
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
 import Index1 from '@/views/Index1'
 import League from '@/views/League'
-<<<<<<< HEAD
-=======
 
 import List from '@/views/List'
->>>>>>> 49f4a4ad0537705b640a37bbdfb228169bbc58a4
 Vue.use(Router)
 export default new Router({       //module.expotrs={}
   routes: [
@@ -108,15 +102,13 @@ export default new Router({       //module.expotrs={}
       component: Header,
       children: [
         {
-<<<<<<< HEAD
           path: 'dianpu',
           name: 'Dianpu',
-          component: Dianpu
-=======
+          component: Dianpu},
+          {
           path: '/list',
           name: 'List',
           component: List
->>>>>>> 49f4a4ad0537705b640a37bbdfb228169bbc58a4
         },
         {
           path: 'production',

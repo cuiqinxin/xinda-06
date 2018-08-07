@@ -131,43 +131,14 @@ export default {
     }, 
   methods:{
       link(){
-        //   var that = this;
-        //   this.$emit('dianpuid',that.dp.id)
-        //   this.$router.push({
-            //   path:'/dianpu',
-            //   query:{id:123}
-        //   })
         this.providerId = dp.providerId;
         console.log(this.providerId);
       },
     kkk(e){
         console.log(event.target.code)
         console.log(event.target)
-    },
-          
-    choose:function(e){
-        alert(this.dp.productTypeCode)
-        var that = this;
-      this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({start:0,limit:6,sort:1})).then(function(data){
-            // console.log(data.data.data);
-            var b=data.data.data;
-            for(let i=0;i<b.length;i++){
-                that.providerName[i]=b[i].providerName,
-                   that.regionName[i]=b[i].regionName,
-                   that.orderNum[i]=b[i].orderNum,
-                   that.productTypes[i]=b[i].productTypes.split(',')
-                   that.img[i]="http://123.58.241.146:8088/xinda/pic"+b[i].providerImg
-               }
-        console.log(that.providerName[0])
-        console.log(that.productTypes[0])
-        console.log(b).
-        return(that.c)
-        
-        });
-        console.log(this.providerName)
-      
-        // alert(value)
-    },
+    },   
+  
       choose1:function(val){
         alert(this.$children.productTypes)
     },
@@ -178,14 +149,7 @@ export default {
           console.log(value)
       },
   },
-// mounted(){
-//         this.a=this.image();
-        
-// },
-  watch : {
-     
-       
-  },
+
   computed:{
       post:function(){
 
