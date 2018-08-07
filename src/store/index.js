@@ -20,20 +20,26 @@ export default new vuex.Store({
         loginStatus(state,n){
             state.userPhoneNumber=n;
         }
+        // sum(){
+        //     this.state.count++;
+        // },
+        // sum1(){
+        //     this.state.count+=2;
+        // }
     },
-    //有关全局变量的全局函数
-    getters:{
-        gett(state){
-            //.....
-           return state.count+100
-        }
-    },
-    //异步操作 写ajax
-    actions:{
-        act(context){
-            setTimeout(function(){
-               context.commit('sum');
-            },2000)
-        }
-    }
+    // //有关全局变量的全局函数
+    // getters:{
+    //     gett(state){
+    //         //.....
+    //        return state.count+100
+    //     }
+    // },
+    // //异步操作 写ajax
+    // actions:{
+    //     act(context){
+    //         setTimeout(function(){
+    //            context.commit('sum');
+    //         },2000)
+    //     }
+    // }
 });

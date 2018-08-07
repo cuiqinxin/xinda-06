@@ -1,14 +1,14 @@
 <template>
-    <ul class="apge">
+    <ul class="page">
+         <!-- first -->
+        <li
+        :class="['paging-item', 'paging-item--first', {'paging-item--disabled' : index === 1}]"
+        @click="first">首页</li>
+        
         <!-- prev -->
         <li
         :class="['paging-item', 'paging-item--prev', {'paging-item--disabled' : index === 1}]"
         @click="prev">上一页</li>
-        
-        <!-- first -->
-        <li
-        :class="['paging-item', 'paging-item--first', {'paging-item--disabled' : index === 1}]"
-        @click="first">首页</li>
         
         <li
         :class="['paging-item', 'paging-item--more']"
@@ -23,15 +23,15 @@
         :class="['paging-item', 'paging-item--more']"
         v-if="showNextMore">...</li>
         
-        <!-- last -->
-        <li
-        :class="['paging-item', 'paging-item--last', {'paging-item--disabled' : index === pages}]"
-        @click="last">最后一页</li>
-
+    
         <!-- next -->
         <li
         :class="['paging-item', 'paging-item--next', {'paging-item--disabled' : index === pages}]"
         @click="next">下一页</li>
+         <!-- last -->
+        <li
+        :class="['paging-item', 'paging-item--last', {'paging-item--disabled' : index === pages}]"
+        @click="last">最后一页</li>
     </ul>
 </template>
 
@@ -40,13 +40,13 @@
     name : 'Page',
     //通过props来接受从父组件传递过来的值
     props : {
-
+        all:{
+            type : Number,
+        },
         //页面中的可见页码，其他的以...替代, 必须是奇数
         perPages : { 
             type : Number,
-            default : 5 
         },
-
         //当前页码
         pageIndex : {
             type : Number,
@@ -88,8 +88,11 @@
             }
         },
         go (page) {
+            this.active={color:'#ccc',
+            backgroundColor:'#0275d8'}
             if (this.index !== page) {
                 this.index = page
+                // this.$parent.page=(page-1)*6
                 //父组件通过change方法来接受当前的页码
                 this.$emit('change', this.index)
             }
@@ -99,15 +102,15 @@
 
         //计算总页码
         pages(){
-            return Math.ceil(this.size / this.limit)
+            return Math.ceil(this.$parent.all/this.$parent.pageSize)
         },
         //计算页码，当count等变化时自动计算
 
-        pagers () {
+        pagers () {           //在数组里循环当前页面显示的页码  (为了得到当前页面显示的页码)
             const array = []
-            const perPages = this.perPages
-            const pageCount = this.pages
-            let current = this.index
+            const perPages = this.$parent.perPages    //页面中显示的页码数
+            const pageCount = this.pages    //总页码
+            let current = this.index        //当前页码
             const _offset = (perPages - 1) / 2            
             const offset = {
                 start : current - _offset,
@@ -119,17 +122,16 @@
                 offset.end = offset.end + (1 - offset.start)
                 offset.start = 1
             }
-            if (offset.end > pageCount) {
+            if (offset.end >pageCount) {
                 offset.start = offset.start - (offset.end - pageCount)
                 offset.end = pageCount
             }
-            if (offset.start < 1) offset.start = 1
-
             this.showPrevMore = (offset.start > 1)
             this.showNextMore = (offset.end < pageCount)
-            
+            // }
             for (let i = offset.start; i <= offset.end; i++) {
                 array.push(i)
+
             }
             return array
         }
@@ -137,11 +139,11 @@
     data () {
         return {
             index : this.pageIndex, //当前页码
-            limit : this.pageSize, //每页显示条数
-            size : this.total || 1, //总记录数
+            limit : this.$parent.limit, //每页显示条数
+            size : this.all, //总记录数
             showPrevMore : false,
             showNextMore : false,
-            // pagers:' '
+            active:''
         }
     },
     watch : {
@@ -160,7 +162,7 @@
 
 
 <style scoped lang="less">
-.mo-paging {
+.page {
     display: inline-block;
     padding: 0;
     margin: 1rem 0;
@@ -184,7 +186,7 @@
         }
         &:hover {
             background-color: #f0f0f0;
-            color: #0275d8;
+            color: #505050;
         }
         &.paging-item--disabled,
         &.paging-item--more{
