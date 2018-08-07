@@ -20,7 +20,14 @@
 
             <p>所有</p>
             <template v-for="dp in dianpu" >
-                 <p v-for="item in dp.productTypes.split(',')" :key="item" :code="dp.productTypeCodes" @click="kkk()">{{item}}</p> 
+                 <!-- <p v-for="(item,index) in dp.productTypes.split(',')" :key="index" :code="dp.productTypeCodes" @click="kkk()">{{item}}
+      
+                     </p>  -->
+                      <div v-for="(code,index) in dp.productTypesCode.split(',')" :key="index" :code="dp.productTypeCodes" @click="kkk()">{{item}}
+     <p v-for="(item,index) in dp.productTypes.split(',')" :key="index" :code="dp.productTypeCodes" @click="kkk()">{{code}}
+      
+                     </p> 
+                     </div> 
             </template>
             </li> 
         </ul>
@@ -87,16 +94,6 @@ export default {
   name: 'Shop',
   data () {
     return {
-    radio3:'综合排序',
-    info:'登录1',
-    style : true,
-    style1 : 'test',
-    //   style : false,
-    n:1,
-    //   seen : false,
-    seen : true,
-    firstName: '美玉',
-    lastName: '宋',
     title:'',
     credit:'',
     region:'',
@@ -318,6 +315,7 @@ export default {
                     display:block;
                     color:white;
                     margin:5px 0 15px;
+                    outline:none;
                     a{
                         color:white;
                     }
