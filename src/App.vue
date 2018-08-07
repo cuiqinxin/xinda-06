@@ -5,10 +5,14 @@
       <el-row class="top-con" type="flex" justify="space-between">
         <el-col :span="12" class="top-left">
           <!-- <button @click="link">等</button> -->
-          <router-link to="" v-if="!sta">{{status}}</router-link>
+          <router-link to="" 
+            
+            v-if="!sta">
+            {{userPhoneNumber}}{{userPhoneNumber1}}
+          </router-link>
           <span>欢迎来到信达！</span>
-          <router-link :to="{path:'/outter/login',query:{id:123}}" :v-if="sta">登录</router-link>
-          <router-link to="/outter/zhuce" :v-if="sta">快速注册</router-link>
+          <router-link :to="{path:'/outter/login',query:{id:123}}" v-if="sta">登录</router-link>
+          <router-link to="/outter/zhuce" v-if="sta">快速注册</router-link>
         </el-col>
         <el-col :span="12" class="top-right">
           <router-link to="" class="shop-cart">
@@ -38,6 +42,7 @@ export default {
         status: 0,
         cartNum: 0,
         sta: true,
+        userPhoneNumber1:'',
       };
     },
     // methods:{
@@ -47,20 +52,36 @@ export default {
     //         })
     //     },
     // },
-    // computed:{
-    //   cartNum(){
-    //     return store.state.cartNum;
-    //   }
-    // },
+    computed:{
+      userPhoneNumber(){
+        return store.state.userPhoneNumber;
+      }
+    },
     created(){
+      var that = this;
       this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
           this.cartNum = data.data.data.cartNum;
       });
-      this.ajax.post("/xinda-api/sso/login-info").then(data=>{
-          console.log(data.data)
-      })
+      fun:{
+        if(store.state.userPhoneNumber == ''){
+          this.ajax.post("/xinda-api/sso/login-info").then(data=>{
+              if(data.data.status === 0){
+                that.sta = true;
+              }else if(data.data.status === 1){
+                that.sta = false;
+                this.userPhoneNumber1 = data.data.data.loginId;
+              }
+          });
+          that.sta = true;
+        }else {
+          that.sta = false;
+        }
+      }
     },
     // watch:{
+    //   userPhoneNumber(){
+    //     return store.state.userPhoneNumber;
+    //   }
     //   $route : function(){
     //     this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
     //       this.cartNum = data.data.data.cartNum;

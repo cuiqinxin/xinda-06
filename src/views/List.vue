@@ -1,5 +1,5 @@
-<template>
 
+<template>
     <div>
 
         <el-row :gutter='10' class="row">
@@ -15,7 +15,7 @@
                             </el-col>
                             <el-col :span="21">
                                 <div class="header-box">
-                                    <div v-for="(item,index1) in items" v-bind:class="{blue:index1==current1}" class="serviceClassify" :value="item" :key="index1" @click="sort1(index1,$event)">{{item}}</div>
+                                    <div v-for="(item,index1) in items" v-bind:class="{blue:index1==current1}"  class="serviceClassify" :value="item" :key="index1" @click="sort1(index1,$event)">{{item}}</div>
                                 </div>
                             </el-col>
                         </el-row>
@@ -71,18 +71,19 @@
                                         <div>
                                             <button :id="item['id']" @click="buy($event)">立即购买</button>
                                             <button :id="item['id']" @click="cart($event)">加入购物车</button>
-                                            <transition
-                                            name="custom-classes-transition"
-                                            enter-active-class="animated tada"
-                                            leave-active-class="animated bounceOutRight">
-                                                <div v-if="show" class="cart-count">hello</div>
-                                            </transition>
                                         </div>
                                     </div>
                                 </el-col>
                                 <p class="error">当前选项无内容</p>
                             </el-row>
                         </div>
+                        <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+                        <!-- <transition
+                            name="custom-classes-transition"
+                            enter-active-class="animated bounceOutRight"
+                            leave-active-class="animated bounceOutRight">
+                            <div v-if="show" class="cart-count">hello</div>
+                        </transition> -->
                     </div>
                     <div class="pagebox">
                         <div class="pageUp" @click="up">上一页</div>
@@ -111,7 +112,7 @@ export default {
             page:1,
             length:0,
             current1: 0,
-            current2: 0,
+            current2: -1,
             current3: 0,
             todos: [{ text: "综合排序" }, { text: "价格" }],
             url: "../static/u684.23c4d55.png",
@@ -129,27 +130,50 @@ export default {
             product: '',
             thisProduct:[],
             temporaryList:'',
-            firstLevel: "知识产权",
+            firstLevel: "",
             productTypeCode: "",
             classifyName: "1eff122d06604fc1aadf9e7acefba21a",
             menuList: "",
             nowTestlist: '',
             obj: {
-                productTypeCode: "0",
-                productId: "24d919ba0eb545dd9a3132dfb87cf599"
+                productTypeCode: "",
+                productId: ""
             },
-            add:{
+            newCode: '',
+            buyAdd:{
                 id:'0cb85ec6b63b41fc8aa07133b6144ea3',
                 num:'1'
             },
-            show: ''
+            cartAdd:{
+                id: '',
+                num:0
+            },
+            show: '',
+            id: 0,
+            code: '',
+            index1:'',
+            Data: '',
+            name: '',
+            storageCode: [],
         };
     },
     created() {
+        this.firstLevel=this.$route.query.name;
+        this.id = this.$route.query.id;
+        this.code = this.$route.query.code;
+        if(this.$route.query.index>=0){
+            this.current1 = this.$route.query.index
+            // this.current2 = '';
+        }else{
+            this.current1 = this.$route.query.index2
+            this.current2 = this.$route.query.index3
+        }
         var that = this;
         this.ajax.post("/xinda-api/product/style/list").then(function(data) {
             var classify1 = [];
-            var newData = data.data.data;
+            that.Data = data.data.data
+            var newData = that.Data;
+            //服务分类渲染      
             for (let key in newData) {
                 var myData = newData[key];
                 if (myData["name"] == that.firstLevel) {
@@ -157,25 +181,55 @@ export default {
                     var secondlevel = myData.itemList;
                     for (let key in secondlevel) {
                         that.items.push(secondlevel[key]["name"]); 
+
+                        // if(that.id == undefined && that.code == undefined){
+                        //     that.storageCode.push(secondlevel[key]["code"])
+                        //     that.newCode = that.storageCode[0];
+                             
+                        // }
+                        
+                        // that.storageCode = that.storageCode[0]
                     }
                 }
             }
-            for(let key in secondlevel){
-                if(secondlevel[key]['name'] == '专利申请'){
-                    var thirdName = secondlevel[key].itemList
-                    for(let key in thirdName){
-                        that.classify.push(thirdName[key]['name'])
-                    }
-                }       
+            //点击一级 类型渲染
+            if(that.code == undefined){
+                var secondName = []
+                for(let key in secondlevel){
+                    secondName.push(secondlevel[key]['name'])
+                    that.storageCode.push(secondlevel[key]["code"])
+                    that.newCode = that.storageCode[0];
+                    that.obj.productTypeCode = that.newCode
+                    that.obj.productId = ''
+                    if(secondlevel[key]['name'] == secondName[0]){
+                        var thirdName = secondlevel[key].itemList
+                        for(let key in thirdName){
+                            that.classify.push(thirdName[key]['name'])
+                        }
+                    }       
+                }
             }
-            
-        });
+            //点击二级 类型渲染
+            else if(that.code>=0){
+                // that.code = that.newCode; 
+                that.obj.productTypeCode = that.code
+                that.obj.productId = '' 
+                for(let key in secondlevel){
+                    if(that.code == secondlevel[key]['code']){
+                        var storage = secondlevel[key].itemList
+                        for(let key in storage){
+                            that.classify.push(storage[key].name)
+                        }
+                    }
+                }
+            }
+        // });
+        
         that.ajax.post(
                 "/xinda-api/product/package/grid",
                 that.qs.stringify(that.obj)
             )
             .then(function(data) {
-                
                 that.temporaryList = data.data.data;
                 that.length = Math.ceil(that.temporaryList.length/3)
                 that.thisProduct = that.temporaryList.slice(0,3)
@@ -191,10 +245,13 @@ export default {
                 }
                 
             })
+        });
     },
     components: {},
     methods: { 
         sort1(index1, event) {
+            console.log(index1)
+            this.show = '';
             this.page = 1;
             this.classify = [];
             this.current1 = index1;
@@ -246,6 +303,7 @@ export default {
            
         },
         sort2(index2, event) {
+            this.show = '';
             this.page = 1;
             var that = this; 
             that.current2 = index2;
@@ -287,17 +345,53 @@ export default {
         buy(event){
             console.log(event.currentTarget.id)
             var that = this
-            that.add.id = event.currentTarget.id
+            that.buyAdd.id = event.currentTarget.id
+
             that.ajax.post(
                 "/xinda-api/cart/add",
-                that.qs.stringify(that.add)
+                that.qs.stringify(that.buyAdd)
             ).then(function(data){
                 console.log(data)
             })
         },
         cart(event){
             console.log(event.currentTarget.id)
-            this.show = true;
+            var that = this
+            this.show = true
+            if(event.currentTarget.id != this.cartAdd.id){
+                this.cartAdd.num = 0;
+                this.cartAdd.id = event.currentTarget.id
+                this.cartAdd.num += 1;
+                that.ajax.post(
+                    "/xinda-api/cart/add",
+                    that.qs.stringify(that.cartAdd)
+                ).then(function(data){
+                    console.log(data)
+                })
+            }else{
+                this.cartAdd.num += 1;
+                that.ajax.post(
+                    "/xinda-api/cart/add",
+                    that.qs.stringify(that.cartAdd)
+                ).then(function(data){
+                    console.log(data)
+                })
+            }
+            
+            var Div=document.createElement('div');
+            Div.innerHTML = '1111'
+            // console.log(event.clientY)
+            Div.style.position = 'absolute'
+            Div.style.left=(event.offsetX + 100)+'px';    
+            Div.style.top=(event.offsetY + 50)+'px';    
+            event.currentTarget.parentNode.appendChild(Div); 
+            // that.ajax.post(
+            //     "/xinda-api/cart/add",
+            //     that.qs.stringify(that.cartAdd)
+            // ).then(function(data){
+            //     console.log(data)
+            // })
+            
         },
         up(){
             document.querySelector('.pageDown').style = 'cursor:pointer'
@@ -351,7 +445,101 @@ export default {
         }
     },
     watch: {
-
+        
+        $route(val,oldval){
+            this.current1 = 0;
+            this.firstLevel=val.query.name;
+            this.code = val.query.code;
+            this.id = val.query.id;
+            var that = this
+            if(oldval.query.name != val.query.name){
+                this.items = []
+                this.classify = []
+                
+            }
+            if(this.id == undefined && this.code == undefined){
+                this.firstLevel=val.query.name;
+                
+            }else if(this.id == undefined && this.code != undefined && oldval.query.name != val.query.name){
+                this.firstLevel=val.query.name;
+                this.code = val.query.code;
+                
+            }else{
+                this.firstLevel=val.query.name;
+                this.code = val.query.code;
+                this.id = val.query.id
+            }
+            var newData = this.Data;
+            for (let key in newData) {
+                var myData = newData[key];
+                if (myData["name"] == this.firstLevel && oldval.query.name != val.query.name) {
+                    this.typeList = myData.itemList;
+                    var secondlevel = myData.itemList;
+                    for (let key in secondlevel) {
+                        console.log(secondlevel[key].code)
+                        this.items.push(secondlevel[key]["name"]); 
+                        console.log(secondlevel[key].code)
+                        this.obj.productTypeCode = secondlevel[key].code
+                        this.obj.productId = ''
+                        console.log(this.obj)
+                    }
+                        that.ajax.post(
+                        "/xinda-api/product/package/grid",
+                        that.qs.stringify(that.obj)
+                        )
+                            .then(function(data) {
+                                console.log(data)
+                                that.temporaryList = data.data.data;
+                                that.length = Math.ceil(that.temporaryList.length/3)
+                                that.thisProduct = that.temporaryList.slice(0,3)
+                                if( that.thisProduct.length == 0){
+                                    that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+                                }else{
+                                    var production = that.thisProduct;
+                                    for(let key in production){
+                                        var pro = production[key]['productImg']
+                                        pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                                        production[key]['productImg'] = pro
+                                    }
+                                }
+                                
+                            })
+                            
+                }
+            }
+            var secondName = []
+            for(let key in secondlevel){
+                 secondName.push(secondlevel[key]['name'])
+                if(secondlevel[key]['name'] == secondName[0]){
+                    var thirdName = secondlevel[key].itemList
+                    for(let key in thirdName){
+                        this.classify.push(thirdName[key]['name'])
+                    }
+                }       
+            }
+            
+            // this.ajax.post(
+            //     "/xinda-api/product/package/grid",
+            //     that.qs.stringify(that.obj)
+            // )
+            // .then(function(data) {
+            //     that.temporaryList = data.data.data;
+            //     that.length = Math.ceil(that.temporaryList.length/3)
+            //     that.thisProduct = that.temporaryList.slice(0,3)
+            //     if( that.thisProduct.length == 0){
+            //         that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+            //     }else{
+            //         var production = that.thisProduct;
+            //         for(let key in production){
+            //             var pro = production[key]['productImg']
+            //             pro = "http://123.58.241.146:8088/xinda/pic" + pro
+            //             production[key]['productImg'] = pro
+            //         }
+            //     }
+                
+            // })
+        },
+        
     },
     computed: {}
 

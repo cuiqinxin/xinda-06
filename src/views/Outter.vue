@@ -4,7 +4,7 @@
         <el-row>
             <el-col :span="24">
                 <span class="xinda hidden-xs-only"></span><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
-                <p class="hidden-sm-and-up phone"><a href="" class="jian">&lt;</a>{{infoWeb}}</p>
+                <p class="hidden-sm-and-up phone"><router-link to="/quit" class="jian">&lt;</router-link>{{infoWeb}}</p>
                 <!-- <p>{{datavalue}}</p> -->
             </el-col>
         </el-row>

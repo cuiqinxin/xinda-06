@@ -23,8 +23,6 @@ import Join from '@/views/Join'
 import Dianpu from '@/components/dianpu'
 import Page from '@/components/Page'
 
-// import Shopin from '@/views/shopin'
-
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
 
@@ -104,6 +102,11 @@ export default new Router({       //module.expotrs={}
       component: Header,
       children: [
         {
+          path: '/list',
+          name: 'List',
+          component: List
+        },
+        {
           path: 'production',
           name: 'production',
           component: production
@@ -135,43 +138,38 @@ export default new Router({       //module.expotrs={}
           component: pay
         },
         {
-          path: '/list',
-          name: 'List',
-          component: List
+          path: '/member',
+          name: 'Member',
+          component: Member,
+          children:[
+            {
+              path: 'memberorder',
+              name: 'Memberorder',
+              component: Memberorder
+            },
+            {
+              path: 'memberassess',
+              name: 'Memberassess',
+              component: Memberassess
+            },
+            {
+              path: 'memberinstall',
+              name: 'Memberinstall',
+              component: Memberinstall
+            },
+          ]
+        },
+        {
+          path: '/memberindex',
+          name: 'Memberindex',
+          component: Memberindex,
+        },
+        {
+          path: '/quit',
+          name: 'Quit',
+          component: Quit
         },
       ]
-    },
-    {
-      path: '/member',
-      name: 'Member',
-      component: Member,
-      children:[
-        {
-          path: 'memberorder',
-          name: 'Memberorder',
-          component: Memberorder
-        },
-        {
-          path: 'memberassess',
-          name: 'Memberassess',
-          component: Memberassess
-        },
-        {
-          path: 'memberinstall',
-          name: 'Memberinstall',
-          component: Memberinstall
-        },
-      ]
-    },
-    {
-      path: '/memberindex',
-      name: 'Memberindex',
-      component: Memberindex,
-    },
-    {
-      path: '/quit',
-      name: 'Quit',
-      component: Quit
     },
     {
       path: '/tests',

@@ -6,14 +6,19 @@ vue.use(vuex)
 export default new vuex.Store({
     //设置全局变量  所有组件都能用
     state:{
-        cartNum:0
+        count:0,
+        userPhoneNumber:''
     },
     //改变全局变量
-    mutations:{ 
-        cartNum(){
-            this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
-                this.state.cartNum = data.data.data.cartNum;
-            });
+    mutations:{
+        sum(){
+            this.state.count++;
+        },
+        sum1(){
+            this.state.count+=2;
+        },
+        loginStatus(state,n){
+            state.userPhoneNumber=n;
         }
         // sum(){
         //     this.state.count++;
