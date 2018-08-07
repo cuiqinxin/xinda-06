@@ -32,10 +32,12 @@ import Index1 from '@/views/Index1'
 import League from '@/views/League'
 import goodsdetail from '@/views/goodsdetail'
 
+import List from '@/views/List'
 Vue.use(Router)
 
 export default new Router({       //module.expotrs={}
   routes: [
+    
     {
       path: '/test',
       name: 'Test',
@@ -103,6 +105,11 @@ export default new Router({       //module.expotrs={}
       component: Header,
       children: [
         {
+          path: '/list',
+          name: 'List',
+          component: List
+        },
+        {
           path: 'production',
           name: 'production',
           component: production
@@ -137,6 +144,11 @@ export default new Router({       //module.expotrs={}
           path: 'goodsdetail',
           name: 'goodsdetail',
           component: goodsdetail
+        },
+        {
+          path: '/list',
+          name: 'List',
+          component: List
         },
       ]
     },

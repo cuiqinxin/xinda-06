@@ -5,7 +5,7 @@
         <div class="singlegoods">
             <!-- 图片 -->
             <div class="img">
-                <img src="http://123.58.241.146:8088/xinda/pic/2016/09/27/6d264e9954874a3aa9a467f7662ad918" alt="#">
+                <img :src="'http://123.58.241.146:8088/xinda/pic/'+detailproduct.img" alt="#">
             </div>
             <!-- 商品参数 -->
             <div class="parameterouter">
@@ -52,8 +52,8 @@
                     </div>
                     <!-- 最底部button -->
                     <div class="bottom">
-                            <router-link to="/" class="shopnext">立即购买</router-link>
-                            <router-link to="/header/pay" class="addcart">加入购物车</router-link>
+                            <a href="javascript:void(0)" class="shopnext" @click="addcart">立即购买</a>
+                            <a href="javascript:void(0)"  class="addcart"  @click="addcart">加入购物车</a>
                     </div>
                 </div>
             </div> 
@@ -63,11 +63,18 @@
                     顶级服务商
                 </p>
                 <p class="providername">
-                    北京信达服务中心
+                    {{detailprovider.name}}
                 </p>
-                <a href="javascript:void(0)" class="question">马上咨询</a>
+                <a href="javascript:void(0)" class="question" @click="open5">马上咨询</a>
                 <div class="aboutprovider">
-                    <a href="javascript:void(0)" class="providerlink">查看服务商</a>
+                    <router-link
+                     :to="{
+                        path: '/dianpu', 
+                        query: { 
+                            
+                            id:detailprovider.id
+                        },
+                    }" class="providerlink">查看服务商</router-link>
                 </div>
             </div> 
         </div>
@@ -83,8 +90,11 @@
             </div>
             <div class="contain"></div>
         </div>
-
+   
     </div> 
+
+     
+   
 </template> 
 <script>  
  export default {
@@ -104,6 +114,8 @@
             }).catch(function(data) {
                 console.log("请求失败");
             });
+
+           
     },
     data () { 
         return {
@@ -116,13 +128,9 @@
              
             } 
     }, 
-  
     methods:{
-        
         reduce:function(){
-            
                 this.inputvalue--;
-            
         },
         add:function(){
             this.inputvalue++; 
@@ -130,12 +138,59 @@
         open4() {
             this.$message.error('购买数量不能为 0');
         },
-     
-
-    }
-           
+        // 加入购物车,在此之前需要进行登录判断
+        addcart:function(){
+            var that=this;
+            // 登录判断
+            that.ajax.post(
+                    "/xinda-api/sso/login-info",
+                    that.qs.stringify({})
+                ).then(function(data){
+                    console.log(data.data);
+                    // 未登陆
+                    if(data.data.status==0){
+                        that.open2();
+                    }else{
+                         // 成功则进行添加购物车请求
+                        that.ajax.post(
+                        "/xinda-api/cart/add",
+                        that.qs.stringify({                 id:that.detailproviderProduct.id,num:that.inputvalue})
+                            ).then(function(data){
+                                console.log(data);
+                            });  
+                        // 添加购物车请求结束
+                    }
+                });             
+        },
+        // 提示框函数
+        open2() {
+            var that=this;
+            this.$confirm('您需要登陆才能进行此操作', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).then(() => {
+                that.$router.push('/Outter/Zhuce');
+            // this.$message({
+            //     type: 'success',
+            //     message: '删除成功!'
+            // });
+            }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消登陆'
+            });          
+            });
+        },
+        // 提示框函数open5
+        open5() {
+            
+        }
+        // 提示框函数open5结束
+    }     
     } 
 </script>
+
 <style lang="less"> 
     .goodsdetail{
         max-width:1200px;
@@ -206,6 +261,7 @@
                     display:flex;
                     align-items: center;
                     margin-top:14px;
+                    height:20px;
                     .left{
                         width: 52px;
                         margin-right: 5px;
@@ -222,6 +278,7 @@
                 .realprice{
                     display:flex;
                     align-items: center;
+                    height:20px;
                     // height:36px;
                     .left{
                         width: 52px;
@@ -287,13 +344,16 @@
             .bottom{
                 margin-top:20px;
                 margin-bottom:20px;
+                display:flex;
                 .shopnext{
+                    display:block;
                     color: #fff;
                     background-color: #2693d4;
                     margin-right: 20px;
                     padding:6px 16px 6px 16px;
                 }
                 .addcart{
+                    display:block;
                     background-color: #fff;
                     border: 1px solid #2693d4;
                     color: #2693d4;
@@ -380,6 +440,8 @@
             }
             
         }
+
+     
         
     }
          

@@ -4,7 +4,7 @@
       <div class="grabble-con">
         <div class="grabble-top">
           <div class="grabble-left" >
-            <div class="logo"></div>
+            <a class="logo" href="/"></a>
             <div class="address">
               <p>{{datavalue}}</p>
               <p class="changeaddress">[切换城市]</p>
@@ -37,9 +37,16 @@
                 <li v-for="(item,key,index) in menuList" :key="index">
                   <span></span>
                   <div>
-                    <h2>{{item.name}}</h2>
+                    <router-link 
+                      :to="{path:'/list',query:{name:item.name,index: 0}}" 
+                      class="nav-h2">{{item.name}}
+                    </router-link>
                     <p>
-                      <span v-for="(item1,key1,index1) in item.itemList" :key="index1">{{item1.name}}</span>
+                      <router-link 
+                        :to="{path:'/list',query:{name:item.name,code:item1.code,index:index1}}" 
+                        v-for="(item1,key1,index1) in item.itemList" :key="index1" 
+                        class="nav-span">{{item1.name}}
+                      </router-link>
                     </p>
                   </div>
 
@@ -47,7 +54,13 @@
                     <li v-for="(item2,key2,index2) in item.itemList" :key="index2">
                       <div>
                         <p class="nav-select11">{{item2.name}}></p>
-                        <p class="nav-select12"><a v-for="(item3,key3,index3) in item2.itemList" :key="index3">{{item3.name}}</a></p>
+                        <p class="nav-select12">
+                          <router-link 
+                            :to="{path:'/list',query:{name:item.name,code:item2.code,id:item3.id,index2:index2,index3:index3}}" 
+                            v-for="(item3,key3,index3) in item2.itemList" 
+                            :key="index3">{{item3.name}}
+                          </router-link>
+                        </p>
                       </div>
                     </li>
                   </ul>
@@ -56,10 +69,10 @@
               </ul>
             </li>
             
-            <li><router-link to="" :class="{active:nav1}">财税服务</router-link></li>
-            <li><router-link to="" :class="{active:nav2}">公司工商</router-link></li>
+            <li><router-link :to="{path:'/list',query:{name:'财税服务',code:1}}" :class="{active:nav1}">财税服务</router-link></li>
+            <li><router-link :to="{path:'/list',query:{name:'公司工商',code:4}}" :class="{active:nav2}">公司工商</router-link></li>
             <li><router-link to="/league" :class="{active:nav3}">加盟我们</router-link></li>
-            <li><router-link to="" :class="{active:nav4}">店铺</router-link></li>
+            <li><router-link to="/shop" :class="{active:nav4}">店铺</router-link></li>
           </ul>
         </div>
       </div>
@@ -118,6 +131,7 @@ export default {
   name: "Header",
   data() {
     return {
+      id:'',
       msg: "Welcome to Your Vue.js App",
       datavalue: "北京市",
       style: true,
@@ -332,9 +346,9 @@ export default {
       bottom: 0;
       ul{
         display: flex;
-        li{
+        >li{
           width: 199px;
-          a{
+          >a{
             display: block;
             width: 80px;
             margin: 0 auto;
@@ -366,15 +380,18 @@ export default {
                 display : flex;
               }
               >div{
-                span{
+                .nav-span{
+                  color: #fff;
                   font-size: 13px;
                   margin: 0 20px 5px 0;
                   display: inline-block;
                   cursor: pointer;
                 }
               }
-              h2{
+              .nav-h2{
+                display: block;
                 cursor: pointer;
+                color: #fff;
                 font-size: 16px;
                 font-weight: 300;
                 margin-bottom: 12px;
