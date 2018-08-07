@@ -29,10 +29,12 @@ import pay from '@/views/pay'
 import Index1 from '@/views/Index1'
 import League from '@/views/League'
 
+import List from '@/views/List'
 Vue.use(Router)
 
 export default new Router({       //module.expotrs={}
   routes: [
+    
     {
       path: '/test',
       name: 'Test',
@@ -100,6 +102,11 @@ export default new Router({       //module.expotrs={}
       component: Header,
       children: [
         {
+          path: '/list',
+          name: 'List',
+          component: List
+        },
+        {
           path: 'production',
           name: 'production',
           component: production
@@ -119,6 +126,41 @@ export default new Router({       //module.expotrs={}
           path: 'league',
           name: 'League',
           component: League
+<<<<<<< HEAD
+=======
+        },
+        {
+          path: 'shoppingcart',
+          name: 'shoppingcart',
+          component: shoppingcart
+        },
+        {
+          path: 'pay',
+          name: 'pay',
+          component: pay
+        },
+        {
+          path: '/list',
+          name: 'List',
+          component: List
+        },
+      ]
+    },
+    {
+      path: '/member',
+      name: 'Member',
+      component: Member,
+      children:[
+        {
+          path: 'memberorder',
+          name: 'Memberorder',
+          component: Memberorder
+        },
+        {
+          path: 'memberassess',
+          name: 'Memberassess',
+          component: Memberassess
+>>>>>>> 5ba7c7d34a2ae08ad8edf923bdd7deb8ea769f2b
         },
         {
           path: '/member',
@@ -170,17 +212,6 @@ export default new Router({       //module.expotrs={}
     //   name: Dianpu,
     //   component: dianpu
     // }
-
-    {
-      path: '/shoppingcart',
-      name: '/shoppingcart',
-      component: shoppingcart
-    },
-    {
-      path: '/pay',
-      name: '/pay',
-      component: pay
-    }
 
   ]
 })
