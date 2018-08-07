@@ -22,20 +22,13 @@ import Shop from '@/views/shop'
 import Join from '@/views/Join'
 import Dianpu from '@/components/dianpu'
 import Page from '@/components/Page'
-<<<<<<< HEAD
 // import Shopin from '@/views/shopin'
-=======
 
->>>>>>> 49f4a4ad0537705b640a37bbdfb228169bbc58a4
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
 import Index1 from '@/views/Index1'
-import League from '@/views/League'
-<<<<<<< HEAD
-=======
 
 import List from '@/views/List'
->>>>>>> 49f4a4ad0537705b640a37bbdfb228169bbc58a4
 Vue.use(Router)
 export default new Router({       //module.expotrs={}
   routes: [
@@ -60,23 +53,6 @@ export default new Router({       //module.expotrs={}
       path: '/chanpinx',
       name: 'Chanpinx',
       component: Chanpinx
-    },
-    {
-      path: '/join',
-      name: 'Join',
-      component: Join
-    },
-    {
-      path: '/shop',
-      name: 'Shop',
-      component: Shop,
-      // children:[
-      //   {
-      //     path: 'shopin',
-      //     name: 'shopin',
-      //     component: Shopin
-      //   },
-      // ]
     },
     {
       path: '/outter',
@@ -108,15 +84,24 @@ export default new Router({       //module.expotrs={}
       component: Header,
       children: [
         {
-<<<<<<< HEAD
+          path: 'join',
+          name: 'Join',
+          component: Join
+        },
+        {
+          path: '/shop',
+          name: 'Shop',
+          component: Shop,
+        },
+        {
           path: 'dianpu',
           name: 'Dianpu',
           component: Dianpu
-=======
-          path: '/list',
+        },
+        {
+          path: 'list',
           name: 'List',
           component: List
->>>>>>> 49f4a4ad0537705b640a37bbdfb228169bbc58a4
         },
         {
           path: 'production',
@@ -133,11 +118,6 @@ export default new Router({       //module.expotrs={}
           name: 'Index1',
           component: Index1,
           alias: '',           //别名
-        },
-        {
-          path: 'league',
-          name: 'League',
-          component: League
         },
         {
           path: 'shoppingcart',
