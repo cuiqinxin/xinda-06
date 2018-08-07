@@ -4,13 +4,16 @@
     <div class="top hidden-md-and-down">
       <el-row class="top-con" type="flex" justify="space-between">
         <el-col :span="12" class="top-left">
-          <button @click="link">等</button>
-          <span>欢迎来到信达！</span><router-link :to="{path:'/outter/login',query:{id:123}}">登录</router-link><router-link to="/outter/zhuce">快速注册</router-link>
+          <!-- <button @click="link">等</button> -->
+          <router-link to="" v-if="!sta">{{status}}</router-link>
+          <span>欢迎来到信达！</span>
+          <router-link :to="{path:'/outter/login',query:{id:123}}" :v-if="sta">登录</router-link>
+          <router-link to="/outter/zhuce" :v-if="sta">快速注册</router-link>
         </el-col>
         <el-col :span="12" class="top-right">
           <router-link to="" class="shop-cart">
             <span class="shop-img"></span>
-            <span>购物车<a>0</a>件</span>
+            <router-link to="/shoppingcart">购物车<a>{{cartNum}}</a>件</router-link>
           </router-link>
           <router-link to="" class="service-enter">服务商入口</router-link>
         </el-col>
@@ -27,18 +30,55 @@
 </template>
 
 <script>
+import store from './store';
 export default {
     name: 'App',
-    methods:{
-        link(){
-            this.$router.push({
-                path:'/outter/login',query:{id:123456}
-            })
-        },
+    data() {
+      return {
+        status: 0,
+        cartNum: 0,
+        sta: true,
+      };
     },
+    // methods:{
+    //     link(){
+    //         this.$router.push({
+    //             path:'/outter/login',query:{id:123456}
+    //         })
+    //     },
+    // },
+    // computed:{
+    //   cartNum(){
+    //     return store.state.cartNum;
+    //   }
+    // },
     created(){
-      
-    }
+      this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
+          this.cartNum = data.data.data.cartNum;
+      });
+      this.ajax.post("/xinda-api/sso/login-info").then(data=>{
+          console.log(data.data)
+      })
+    },
+    // watch:{
+    //   $route : function(){
+    //     this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
+    //       this.cartNum = data.data.data.cartNum;
+    //     });
+    //   },
+    //   $route : function(){
+    //     this.ajax.post("/xinda-api/sso/login-info").then(data=>{
+    //       this.status = data.data.status;
+    //     });
+    //   },
+    //   $route: function(){
+    //     if(this.status === 1){
+    //       sta = false;
+    //     }else{
+    //       sta = true;
+    //     }
+    //   }
+    // },
 }
 </script>
 
@@ -77,7 +117,10 @@ export default {
             background-size: 21px 18px;
           }
           a{
-            color: #2693d4;
+            color: #000;
+            a{
+              color: #2693d4;
+            }
           }
         }
         .service-enter{
@@ -93,15 +136,15 @@ export default {
     text-align: center;
     font-size: 14px;
   }
-  .header{
+  .header .grabble-input{
     input{
       border-radius: 4px 0 0 4px;
       width: 485px;
       height: 41px;
       border: 2px solid #2693d4;
-      &:hover{
-         border: 2px solid #2693d4;
-      }
+      // &:hover{
+      //    border: 2px solid #2693d4;
+      // }
     }
   }
 </style>

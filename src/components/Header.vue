@@ -4,7 +4,8 @@
       <div class="grabble-con">
         <div class="grabble-top">
           <div class="grabble-left" >
-            <a class="logo" href="/"></a>
+            <!-- <a class="logo" href="/index1"></a> -->
+            <router-link to="index1" class="logo"></router-link>
             <div class="address">
               <p>{{datavalue}}</p>
               <p class="changeaddress">[切换城市]</p>
@@ -363,7 +364,7 @@ export default {
           .nav-select{
             height: 400px;
             position: absolute;
-            background-color: rgba(28,46,69, 0.8);
+            background-color: rgba(28,46,69,0.9);
             // display: flex;
             display: none;
             flex-direction: column;
@@ -374,7 +375,7 @@ export default {
               position: relative;
               padding: 17px 0;
               &:hover{
-                background-color: rgba(38,147,211,0.8);
+                background-color: rgba(38,147,211,1);
               }
               &:hover ul{
                 display : flex;
@@ -409,7 +410,7 @@ export default {
                 left: 199px;
                 top: 0;
                 flex-direction: column;
-                background-color: rgba(150,170,194,0.8);
+                background-color: rgb(150,170,194);
                 padding: 13px 0 4px;
                 >li{
                   width: 1000px;
