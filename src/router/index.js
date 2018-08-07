@@ -19,7 +19,9 @@ import Outter from '@/views/Outter'
 import Datang from '@/views/datang'
 import Chanpinx from '@/views/chanpinx'
 import Shop from '@/views/shop'
-import Join fr
+import Join from '@/views/Join'
+import Dianpu from '@/components/dianpu'
+import Page from '@/components/Page'
 
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
@@ -117,28 +119,28 @@ export default new Router({       //module.expotrs={}
           path: 'league',
           name: 'League',
           component: League
-        }
-      ]
-    },
-    {
-      path: '/member',
-      name: 'Member',
-      component: Member,
-      children:[
-        {
-          path: 'memberorder',
-          name: 'Memberorder',
-          component: Memberorder
         },
         {
-          path: 'memberassess',
-          name: 'Memberassess',
-          component: Memberassess
-        },
-        {
-          path: 'memberinstall',
-          name: 'Memberinstall',
-          component: Memberinstall
+          path: '/member',
+          name: 'Member',
+          component: Member,
+          children:[
+            {
+              path: 'memberorder',
+              name: 'Memberorder',
+              component: Memberorder
+            },
+            {
+              path: 'memberassess',
+              name: 'Memberassess',
+              component: Memberassess
+            },
+            {
+              path: 'memberinstall',
+              name: 'Memberinstall',
+              component: Memberinstall
+            },
+          ]
         },
       ]
     },

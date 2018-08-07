@@ -6,7 +6,8 @@ vue.use(vuex)
 export default new vuex.Store({
     //设置全局变量  所有组件都能用
     state:{
-        count:0
+        count:0,
+        userPhoneNumber:''
     },
     //改变全局变量
     mutations:{
@@ -15,6 +16,9 @@ export default new vuex.Store({
         },
         sum1(){
             this.state.count+=2;
+        },
+        loginStatus(state,n){
+            state.userPhoneNumber=n;
         }
     },
     //有关全局变量的全局函数

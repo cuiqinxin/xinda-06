@@ -2,6 +2,7 @@
     <div class="Login">       
         <div class="deng">
             <!-- <p @click="chufa">{{count}}</p> -->
+            <!-- <p class="nadaoshuju">{{userPhoneNumber}}</p> -->
             <!-- <p>{{gett}}</p> -->
             <el-row>
                 <el-col :span="12" :xs="24" class="left">
@@ -102,6 +103,7 @@ export default {
                             that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
                         }
                         if(data.data.status==1){
+                            store.commit('loginStatus',that.phoneValue)
                             that.$router.push({path:'/member/memberorder'});
                         }
                 }).catch(function(){console.log('失败');})
@@ -141,12 +143,15 @@ export default {
         photoyan
     },
     // computed:{
-    //     count(){
-    //         return store.state.count;
+    //     userPhoneNumber(){
+    //         return store.state.userPhoneNumber;
     //     },
-    //     gett(){
-    //         return store.getters.gett;
-    //     }
+    //     // count(){
+    //     //     return store.state.count;
+    //     // },
+    //     // gett(){
+    //     //     return store.getters.gett;
+    //     // }
     // }
 }
 </script>
@@ -259,7 +264,7 @@ export default {
     }
     @media screen and (max-width: 768px){
         .pass{margin:32px 0 30px;}
-        .deng{margin-top: 0;}
+        .deng{margin-top: 77px;padding-top: 0;}
         .left{margin-top:71px;}
         .log{
             margin-top:213px;

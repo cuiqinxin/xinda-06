@@ -146,7 +146,7 @@ export default {
         for(let key in navSelect){
           navArr[navSelect[key].showOrder] = navSelect[key];
         }
-      console.log(navArr);
+      // console.log(navArr);
       that.menuList = navArr;
     });
   },
