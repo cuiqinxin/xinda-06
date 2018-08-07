@@ -63,6 +63,12 @@ export default {
         this.$parent.info = '欢迎登录';
         this.$parent.infoWeb = '登录';
         this.id=this.$route.query.id;
+        document.onkeyup=(e)=>{
+            var key=window.event.keyCode;
+            if(key==13){
+                this.logyan();
+            }
+        }
     },
     methods:{
         logyan(){
@@ -93,9 +99,13 @@ export default {
                     function(data){
                         if(data.data.msg=="账号或密码不正确！"){
                             that.passTip='密码不正确，请重新输入';
+                            var data=(new Date()).getTime();
+                            that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
                         }
                         if(data.data.msg=="账号不存在"){
                             that.phoneTip=data.data.msg;
+                            var data=(new Date()).getTime();
+                            that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
                         }
                         if(data.data.msg=="图片验证码错误！"){
                             that.passTip=data.data.msg;
@@ -104,7 +114,7 @@ export default {
                         }
                         if(data.data.status==1){
                             store.commit('loginStatus',that.phoneValue)
-                            that.$router.push({path:'/member/memberorder'});
+                            that.$router.push({path:'/header/index1'});
                         }
                 }).catch(function(){console.log('失败');})
             }
@@ -118,12 +128,6 @@ export default {
         photoKey(){
             this.photoTip='';
         },
-        // chufa(){
-        //     store.commit('sum')      //调用全局里的方法
-        //     //   this.$store.commit('sum')   //需要在main.js里引入
-        //     // store.getters.gett
-        //     this.$store.dispatch('act',store);
-        // },
         imgchange(){
             var data=(new Date()).getTime();
             this.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`
@@ -142,17 +146,6 @@ export default {
         password,
         photoyan
     },
-    // computed:{
-    //     userPhoneNumber(){
-    //         return store.state.userPhoneNumber;
-    //     },
-    //     // count(){
-    //     //     return store.state.count;
-    //     // },
-    //     // gett(){
-    //     //     return store.getters.gett;
-    //     // }
-    // }
 }
 </script>
 
@@ -228,6 +221,7 @@ export default {
     }
     .yan{
         font-size: 0;
+        margin-top: 24px;
         img{
             width:30%;
             vertical-align: bottom;
@@ -240,7 +234,7 @@ export default {
         width:48.484%;
     }
     .pass{
-        margin:24px 0;
+        margin:24px 0 0;
         border: 1px solid #cbcbcb;
         border-radius: 5px;
         input{
@@ -263,7 +257,8 @@ export default {
         background: url(../../static/zheng.png) no-repeat;      
     }
     @media screen and (max-width: 768px){
-        .pass{margin:32px 0 30px;}
+        .pass{margin:32px 0 0;}
+        .yan{margin-top: 30px;}
         .deng{margin-top: 77px;padding-top: 0;}
         .left{margin-top:71px;}
         .log{

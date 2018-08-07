@@ -126,8 +126,6 @@ export default new Router({       //module.expotrs={}
           path: 'league',
           name: 'League',
           component: League
-<<<<<<< HEAD
-=======
         },
         {
           path: 'shoppingcart',
@@ -138,29 +136,6 @@ export default new Router({       //module.expotrs={}
           path: 'pay',
           name: 'pay',
           component: pay
-        },
-        {
-          path: '/list',
-          name: 'List',
-          component: List
-        },
-      ]
-    },
-    {
-      path: '/member',
-      name: 'Member',
-      component: Member,
-      children:[
-        {
-          path: 'memberorder',
-          name: 'Memberorder',
-          component: Memberorder
-        },
-        {
-          path: 'memberassess',
-          name: 'Memberassess',
-          component: Memberassess
->>>>>>> 5ba7c7d34a2ae08ad8edf923bdd7deb8ea769f2b
         },
         {
           path: '/member',
@@ -184,17 +159,17 @@ export default new Router({       //module.expotrs={}
             },
           ]
         },
+        {
+          path: '/memberindex',
+          name: 'Memberindex',
+          component: Memberindex,
+        },
+        {
+          path: '/quit',
+          name: 'Quit',
+          component: Quit
+        },
       ]
-    },
-    {
-      path: '/memberindex',
-      name: 'Memberindex',
-      component: Memberindex,
-    },
-    {
-      path: '/quit',
-      name: 'Quit',
-      component: Quit
     },
     {
       path: '/tests',
