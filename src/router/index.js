@@ -22,14 +22,24 @@ import Shop from '@/views/shop'
 import Join from '@/views/Join'
 import Dianpu from '@/components/dianpu'
 import Page from '@/components/Page'
+<<<<<<< HEAD
 // import Shopin from '@/views/shopin'
+=======
+
+>>>>>>> 49f4a4ad0537705b640a37bbdfb228169bbc58a4
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
 import Index1 from '@/views/Index1'
 import League from '@/views/League'
+<<<<<<< HEAD
+=======
+
+import List from '@/views/List'
+>>>>>>> 49f4a4ad0537705b640a37bbdfb228169bbc58a4
 Vue.use(Router)
 export default new Router({       //module.expotrs={}
   routes: [
+    
     {
       path: '/test',
       name: 'Test',
@@ -98,9 +108,15 @@ export default new Router({       //module.expotrs={}
       component: Header,
       children: [
         {
+<<<<<<< HEAD
           path: 'dianpu',
           name: 'Dianpu',
           component: Dianpu
+=======
+          path: '/list',
+          name: 'List',
+          component: List
+>>>>>>> 49f4a4ad0537705b640a37bbdfb228169bbc58a4
         },
         {
           path: 'production',
@@ -122,40 +138,50 @@ export default new Router({       //module.expotrs={}
           path: 'league',
           name: 'League',
           component: League
-        }
+        },
+        {
+          path: 'shoppingcart',
+          name: 'shoppingcart',
+          component: shoppingcart
+        },
+        {
+          path: 'pay',
+          name: 'pay',
+          component: pay
+        },
+        {
+          path: '/member',
+          name: 'Member',
+          component: Member,
+          children:[
+            {
+              path: 'memberorder',
+              name: 'Memberorder',
+              component: Memberorder
+            },
+            {
+              path: 'memberassess',
+              name: 'Memberassess',
+              component: Memberassess
+            },
+            {
+              path: 'memberinstall',
+              name: 'Memberinstall',
+              component: Memberinstall
+            },
+          ]
+        },
+        {
+          path: '/memberindex',
+          name: 'Memberindex',
+          component: Memberindex,
+        },
+        {
+          path: '/quit',
+          name: 'Quit',
+          component: Quit
+        },
       ]
-    },
-    {
-      path: '/member',
-      name: 'Member',
-      component: Member,
-      children:[
-        {
-          path: 'memberorder',
-          name: 'Memberorder',
-          component: Memberorder
-        },
-        {
-          path: 'memberassess',
-          name: 'Memberassess',
-          component: Memberassess
-        },
-        {
-          path: 'memberinstall',
-          name: 'Memberinstall',
-          component: Memberinstall
-        },
-      ]
-    },
-    {
-      path: '/memberindex',
-      name: 'Memberindex',
-      component: Memberindex,
-    },
-    {
-      path: '/quit',
-      name: 'Quit',
-      component: Quit
     },
     {
       path: '/tests',
@@ -173,17 +199,6 @@ export default new Router({       //module.expotrs={}
     //   name: Dianpu,
     //   component: dianpu
     // }
-
-    {
-      path: '/shoppingcart',
-      name: '/shoppingcart',
-      component: shoppingcart
-    },
-    {
-      path: '/pay',
-      name: '/pay',
-      component: pay
-    }
 
   ]
 })
