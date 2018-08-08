@@ -7,16 +7,16 @@ export default new vuex.Store({
     //设置全局变量  所有组件都能用
     state:{
         count:0,
-        userPhoneNumber:''
+        userPhoneNumber:'',
     },
     //改变全局变量
     mutations:{
-        sum(){
-            this.state.count++;
-        },
-        sum1(){
-            this.state.count+=2;
-        },
+        // sum(){
+        //     this.state.count++;
+        // },
+        // sum1(){
+        //     this.state.count+=2;
+        // },
         loginStatus(state,n){
             state.userPhoneNumber=n;
         }

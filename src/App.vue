@@ -63,12 +63,8 @@ export default {
         //         path:'/outter/login',query:{id:123456}
         //     })
         // },
-      // logout(){
-      //   this.ajax.post("/xinda-api/sso/ logout").then(data=>{
-      //     this.cartNum = data.data.data.cartNum;
-      //   });
-      // }
       logout() {
+        var that=this;
         this.$confirm('是否退出登录?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -76,7 +72,7 @@ export default {
         }).then(() => {
           store.commit('loginStatus','')
           this.ajax.post("/xinda-api/sso/logout").then(data=>{
-
+            that.$router.push({path:'/header'});
           });
           this.$message({
             type: 'success',
