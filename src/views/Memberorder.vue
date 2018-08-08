@@ -4,20 +4,21 @@
             <p class="tit hidden-xs-only">我的订单<span></span></p>
             <div class="orderNumber hidden-xs-only">
                 <p>订单号：</p>
-                <input type="text" placeholder="请输入订单号搜索">
-                <button>搜索</button>
+                <input type="text" placeholder="请输入订单号搜索" v-model="searchOrderNumber">
+                <button @click="searchOrder">搜索</button>
+                <p class="orderHint">{{orderHint}}</p>
             </div>
             <div id="createTime" class="hidden-xs-only">
                 <p>创建时间：</p>
                 <el-date-picker
+                    @blur="datachoose"
                     v-model="value1"
-                    type="date"
-                    placeholder="" class="data">
-                </el-date-picker>
-                <el-date-picker
-                    v-model="value2"
-                    type="date"
-                    placeholder="" class="data">
+                    type="daterange"
+                    align="right"
+                    unlink-panels
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期">
                 </el-date-picker>
             </div>
             <p class="phone hidden-sm-and-up"><router-link to="/memberindex" class="jian">&lt;</router-link>我的订单</p>            
@@ -41,6 +42,7 @@
                     <h4>订单操作</h4>                  
                 </el-col>
             </el-row>
+            <div :class="noneorder">还没有订单！</div>
             <div class="allorder">
                 <el-row class="orderBody" v-for="(item,index) in chuliArr[pagei-1]" :key="index">
                     <el-col :span="24" class="orderhao">
@@ -57,7 +59,7 @@
                                         <p>
                                             <span class="hidden-xs-only">{{item['providerName']}}</span>
                                             <span class="phocom">{{item['serviceName']}}</span>
-                                            <span class="hidden-xs-and-up">{{item['id']}}</span>
+                                            <!-- <span class="hidden-xs-and-up">{{item['id']}}</span> -->
                                             <span class="hidden-sm-and-up">下单时间：{{item['createTime']}}</span>
                                             <span class="hidden-sm-and-up yuanchen"><span class="moneyred">￥{{item['unitPrice']}}</span>元&nbsp;&nbsp;&nbsp;&nbsp;×{{item['buyNum']}}</span>
                                         </p>
@@ -102,19 +104,16 @@ export default {
     name: 'Memberorder',
     data () {
         return {
-            pickerOptions1: {
-                disabledDate(time) {
-                    return time.getTime() > Date.now();
-                }
-            },
             value1: '',
-            value2: '', 
             nextClick:'unclick',
             prevClick:'unclick',
             orderArr:[], 
             chuliArr:[],
             pagei:1,
             fenye:0,
+            searchOrderNumber:'',
+            orderHint:'',
+            noneorder:'yincangorder'
         }
     },
     created(){
@@ -122,10 +121,22 @@ export default {
         this.$parent.assessRight='choose assess hidden-xs-only';
         this.$parent.installRight='choose install';
         var that=this;
-        this.datavalue=this.ajax.post('/xinda-api/service-order/grid',this.qs.stringify(
-            {'businessNo':1,'startTime':'2018-07-15','endTime':'2018-08-06','start':0}
+        this.ajax.post('/xinda-api/service-order/grid',this.qs.stringify(
+            {'businessNo':1,'startTime':'2018-08-06','endTime':'2018-08-06','start':0}
         )).then(
             function(data){
+                if(data.data.status=='-999'){
+                    that.noneorder='showorder noneorder';
+                    that.$alert('请先登录', '提示', {
+                        confirmButtonText: '确定',
+                        type: 'warning',
+                        callback: action => {
+                            that.$router.push({path:'/outter/login'});
+                        }
+                    });
+                    return;
+                }
+                that.noneorder='yincangorder';
                 for(var i in data.data.data){
                     that.orderArr.push(data.data.data[i]);
                 }
@@ -160,7 +171,7 @@ export default {
                     var b=[that.orderArr[i],that.orderArr[i+1]];
                     if(b[1]==undefined){b.pop()};
                     that.chuliArr.push(b);
-                }               
+                }             
                 if(that.fenye>1){that.nextClick='click';}
         }).catch(function(){console.log('失败');})
         // setTimeout(function(){
@@ -201,6 +212,89 @@ export default {
             this.prevClick='click';
             this.nextClick='click';
             this.pagei--;
+        },
+        datachoose(){
+            if(this.value1==''){return;}
+            var newDate = new Date();
+            var newDate1 = new Date();
+            newDate.setTime(this.value1[0].getTime());
+            newDate1.setTime(this.value1[1].getTime());
+            var startdate=newDate.toLocaleDateString().replace(/\//g,'-');
+            var enddate=newDate1.toLocaleDateString().replace(/\//g,'-');
+            var that=this;
+            that.orderArr=[];that.chuliArr=[];
+            this.ajax.post('/xinda-api/service-order/grid',this.qs.stringify(
+                {'businessNo':1,'startTime':startdate,'endTime':enddate,'start':0}
+            )).then(
+                function(data){
+                    for(var i in data.data.data){
+                        that.orderArr.push(data.data.data[i]);
+                    }
+                    for(var i in that.orderArr){   
+                        var newDate = new Date();
+                        newDate.setTime(that.orderArr[i].createTime);
+                        var nianfen=newDate.toLocaleDateString().replace(/\//g,'-');
+                        var shijian=newDate.toTimeString().substr(0,8);
+                        var sss=nianfen+' '+shijian;
+                        that.orderArr[i].createTime=sss;
+                    }
+                    for(let i=0;i<that.orderArr.length;i++){
+                        let b=[that.orderArr[i]];
+                        for(let j=i+1;j<that.orderArr.length;j++){  
+                            if((that.orderArr[j].businessNo==that.orderArr[i].businessNo)&&(that.orderArr[j].createTime==that.orderArr[i].createTime)){  
+                                b.push(that.orderArr[j]);
+                                that.orderArr.splice(j,1);
+                                j--;
+                            }
+                        }
+                        that.orderArr[i]=b;
+                    }
+                    for(var i in that.orderArr){
+                        var totalOrder=0;
+                        for(var j in that.orderArr[i]){
+                            totalOrder+=that.orderArr[i][j].totalPrice;
+                        }
+                        that.orderArr[i][0].totalOrder=totalOrder;
+                    }
+                    console.log(that.orderArr);
+                    that.fenye=Math.ceil(that.orderArr.length/2);
+                    for(var i=0;i<that.orderArr.length;i=i+2){
+                        var b=[that.orderArr[i],that.orderArr[i+1]];
+                        if(b[1]==undefined){b.pop()};
+                        that.chuliArr.push(b);
+                    }    
+                    console.log(that.chuliArr); 
+                    console.log(that.pagei);      
+                    if(that.fenye>1){that.nextClick='click';}
+            }).catch(function(){console.log('失败');})
+        },
+        searchOrder(){
+            if(!/^S\d{19}$/.test(this.searchOrderNumber)){
+                this.orderHint='订单号格式错误'
+            }else{
+                this.orderHint='';
+                this.fenye=1;
+                this.pagei=1;
+                this.nextClick='unclick';
+                this.prevClick='unclick';
+                for(var i=0; i<this.chuliArr.length;i++){
+                    for(var j=0;j<this.chuliArr[i].length;j++){
+                        if(this.chuliArr[i][j][0].businessNo!=this.searchOrderNumber){
+                            this.chuliArr[i].splice(j,1);
+                            j--;
+                        }
+                    }
+                    if(this.chuliArr[i].length==0){
+                        this.chuliArr.splice(i,1);
+                        i--;
+                    }
+                }
+                if(this.chuliArr.length==0){
+                    this.noneorder='showorder noneorder';
+                }else{
+                    this.noneorder='yincangorder';
+                }
+            }
         }
     }
 }
@@ -209,6 +303,19 @@ export default {
 <style lang="less">
 .orderNei .nadaoshuju{font-size: 14px;}
     button{outline: none;}
+    .noneorder{
+        background-color: #f7f7f7;
+        color: #999;
+        font-size: 38px;
+        text-align: center;
+        line-height: 320px;
+    }
+    .yincangorder{
+        display: none;
+    }
+    .showorder{
+        display: block;
+    }
     .Memberorder{
         display: inline-block;
         vertical-align: top;
@@ -302,6 +409,7 @@ export default {
                 line-height: 26px;
                 margin-left: 1px;
             }
+            .orderHint{color:red;margin-left: 15px;}
             input{
                 height: 21px;
                 margin:1px 12px 0 18px;
@@ -326,17 +434,8 @@ export default {
                 margin-left: 1px;
                 line-height: 25px;
             }
-            .data{width: 113px;margin:0 12px 0 4px;}
-            .el-input--prefix .el-input__inner{  
-                height:25px;
-                padding: 0 5px;
-            }
-            .el-input__prefix{
-                margin-left: 82px;
-            }
-            .el-input__icon{
-                margin-top:-8px;
-            }
+            .el-input__inner{height: 25px;width: 40%;margin-left: 4px;}
+            .el-date-editor .el-range__close-icon,.el-date-editor .el-range-separator,.el-date-editor .el-range__icon{margin-top: -15px;}
         }
 @media screen and (max-width: 768px){
     .Memberorder{display: block;width: 100%;}
