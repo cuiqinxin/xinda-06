@@ -57,7 +57,7 @@
                                         <p>
                                             <span class="hidden-xs-only">{{item['providerName']}}</span>
                                             <span class="phocom">{{item['serviceName']}}</span>
-                                            <!-- <span class="hidden-xs-and-up">{{item['id']}}</span> -->
+                                            <span class="hidden-xs-and-up">{{item['id']}}</span>
                                             <span class="hidden-sm-and-up">下单时间：{{item['createTime']}}</span>
                                             <span class="hidden-sm-and-up yuanchen"><span class="moneyred">￥{{item['unitPrice']}}</span>元&nbsp;&nbsp;&nbsp;&nbsp;×{{item['buyNum']}}</span>
                                         </p>
@@ -77,8 +77,8 @@
                         </el-col>
                         <el-col :span="3" :xs="24" class="orderoper">   
                             <p class="heji hidden-sm-and-up">合计：<span class="moneyred">￥{{item[0].totalOrder}}</span></p>
-                            <div class="fushan">
-                                <router-link to="/member/memberassess" class="paymoney">付款</router-link>  
+                            <div class="fushan">          {{item[0].businessNo}}
+                                <router-link :to="{path:'/pay',query:{businessNo:item[0].businessNo,total:item[0].totalOrder}}" class="paymoney">付款</router-link>  
                                 <a href="javascript:void(0)" @click="deleOrder(item['businessNo'])">删除订单</a> 
                             </div>                 
                         </el-col>
@@ -123,7 +123,7 @@ export default {
         this.$parent.installRight='choose install';
         var that=this;
         this.datavalue=this.ajax.post('/xinda-api/service-order/grid',this.qs.stringify(
-            {'businessNo':1,'startTime':'2018-07-26','endTime':'2018-08-02','start':0}
+            {'businessNo':1,'startTime':'2018-07-15','endTime':'2018-08-06','start':0}
         )).then(
             function(data){
                 for(var i in data.data.data){
@@ -144,8 +144,6 @@ export default {
                             b.push(that.orderArr[j]);
                             that.orderArr.splice(j,1);
                             j--;
-                        }else{
-                            break;
                         }
                     }
                     that.orderArr[i]=b;
@@ -162,7 +160,7 @@ export default {
                     var b=[that.orderArr[i],that.orderArr[i+1]];
                     if(b[1]==undefined){b.pop()};
                     that.chuliArr.push(b);
-                }
+                }               
                 if(that.fenye>1){that.nextClick='click';}
         }).catch(function(){console.log('失败');})
         // setTimeout(function(){
