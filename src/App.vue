@@ -6,8 +6,8 @@
         <el-col :span="12" class="top-left">
           <div class="topHover">
             <router-link to="/member/memberorder" 
-              v-if="!sta">
-              {{userPhoneNumber}}{{userPhoneNumber1}}
+              v-if="userPhoneNumber">
+              {{userPhoneNumber}}
             </router-link>
             <div class="member">
               <div class="member-img"><img src="../static/pep.png"></div>
@@ -17,17 +17,17 @@
                   <span></span>
                   <a @click="logout">退出</a>
                 </p>
-                <p>{{userPhoneNumber}}{{userPhoneNumber1}}</p>
+                <p>{{userPhoneNumber}}</p>
                 <p class="join"><router-link to="/join">加盟我们</router-link></p>
               </div>
             </div>
           </div>
           <span>欢迎来到信达！</span>
-          <router-link :to="{path:'/outter/login',query:{id:123}}" v-if="sta">登录</router-link>
-          <router-link to="/outter/zhuce" v-if="sta">快速注册</router-link>
+          <router-link :to="{path:'/outter/login',query:{id:123}}" v-if="!userPhoneNumber">登录</router-link>
+          <router-link to="/outter/zhuce" v-if="!userPhoneNumber">快速注册</router-link>
         </el-col>
         <el-col :span="12" class="top-right">
-          <router-link to="" class="shop-cart" v-if="!sta">
+          <router-link to="" class="shop-cart" v-if="userPhoneNumber">
             <span class="shop-img"></span>
             <router-link to="/shoppingcart">购物车<a>{{cartNum}}</a>件</router-link>
           </router-link>
@@ -53,7 +53,7 @@ export default {
       return {
         status: 0,
         cartNum: 0,
-        sta: true,
+        // sta: true,
         userPhoneNumber1:'',
       };
     },
@@ -74,10 +74,9 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          // store.commit('loginStatus',that.phoneValue)
+          store.commit('loginStatus','')
           this.ajax.post("/xinda-api/sso/logout").then(data=>{
-            // console.log(data.data)
-            // this.cartNum = data.data.data.cartNum;
+
           });
           this.$message({
             type: 'success',
@@ -102,43 +101,15 @@ export default {
           this.cartNum = data.data.data.cartNum;
       });
       fun:{
-        if(store.state.userPhoneNumber == ''){
           this.ajax.post("/xinda-api/sso/login-info").then(data=>{
-              if(data.data.status === 0){
-                that.sta = true;
-              }else if(data.data.status === 1){
-                that.sta = false;
-                this.userPhoneNumber1 = data.data.data.loginId;
-              }
-          });
-          that.sta = true;
-        }else {
-          that.sta = false;
-        }
+            if(data.data.status === 0){
+              store.commit('loginStatus','')
+            }else if(data.data.status === 1){
+              store.commit('loginStatus',data.data.data.loginId);
+            }
+        })
       }
     },
-    // watch:{
-    //   userPhoneNumber(){
-    //     return store.state.userPhoneNumber;
-    //   }
-    //   $route : function(){
-    //     this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
-    //       this.cartNum = data.data.data.cartNum;
-    //     });
-    //   },
-    //   $route : function(){
-    //     this.ajax.post("/xinda-api/sso/login-info").then(data=>{
-    //       this.status = data.data.status;
-    //     });
-    //   },
-    //   $route: function(){
-    //     if(this.status === 1){
-    //       sta = false;
-    //     }else{
-    //       sta = true;
-    //     }
-    //   }
-    // },
 }
 </script>
 

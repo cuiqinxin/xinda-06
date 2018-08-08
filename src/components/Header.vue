@@ -4,7 +4,7 @@
       <div class="grabble-con">
         <div class="grabble-top">
           <div class="grabble-left" >
-            <router-link to="index1" class="logo"></router-link>
+            <router-link to="/header/index1" class="logo"></router-link>
             <div class="address">
               <p>{{datavalue}}</p>
               <p class="changeaddress">[切换城市]</p>
