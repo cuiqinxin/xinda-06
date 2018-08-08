@@ -4,7 +4,7 @@
         <el-row>
             <el-col :span="24">
                 <span class="xinda hidden-xs-only"></span><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
-                <p class="hidden-sm-and-up phone"><a href="" class="jian">&lt;</a>{{infoWeb}}</p>
+                <p class="hidden-sm-and-up phone"><router-link to="/quit" class="jian">&lt;</router-link>{{infoWeb}}</p>
                 <!-- <p>{{datavalue}}</p> -->
             </el-col>
         </el-row>
@@ -108,7 +108,7 @@ export default {
     //     //   that.datavalue = data;
     //   })
       this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify({'sId':'0cb85ec6b63b41fc8aa07133b6144ea3'})).then(function(data){
-            console.log(data);
+            // console.log(data);
             that.datavalue = data;
         })
   },

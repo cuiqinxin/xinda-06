@@ -4,27 +4,25 @@
             <div class="dings hidden-xs-only">   
                 <div class="user">
                     <span class="touxiang"></span>
-                    <p>18363992780</p>
+                    <p>{{userPhoneNumber}}</p>
                 </div>
-                <div class="choose order liespe">
+                <div :class="orderRight">
                     <div>
                         <span></span>
                         <router-link to="/member/memberorder" class="cholink">我的订单</router-link>
                     </div>
-                    <p class="hidden-sm-and-up">></p>
                 </div>
-                <div class="choose assess hidden-xs-only">
+                <div :class="assessRight">
                     <div>
                         <span></span>
                         <router-link to="/member/memberassess" class="cholink">用户评价</router-link>
                     </div>
                 </div>
-                <div class="choose install">
+                <div :class="installRight">
                     <div>
                         <span></span>
                         <router-link to="/member/memberinstall" class="cholink">账户设置</router-link>
                     </div>
-                    <p class="hidden-sm-and-up">></p>
                 </div>
                 <router-link to="/quit" class="photui hidden-sm-and-up">退出登录</router-link>
             </div>
@@ -33,12 +31,21 @@
 </template>
 
 <script>
+import store from '../store'
 export default {
-  name: 'Member',
-  data () {
-    return {
+    name: 'Member',
+    data () {
+        return {
+            orderRight:'choose order liespe',
+            assessRight:'choose assess hidden-xs-only',
+            installRight:'choose install'
+        }
+    },
+    computed:{
+        userPhoneNumber(){
+            return store.state.userPhoneNumber;
+        }
     }
-  }
 }
 </script>
 
@@ -57,9 +64,17 @@ export default {
             button{
                 height: 36px;
                 width: 68px;
+                background-color: #fff;
+            }
+            .unclick{
                 color: #ccc;
                 border:1px solid #ccc;
-                background-color: #fff;
+                cursor: initial;
+            }
+            .click{
+                color: #2693d4;
+                border:1px solid #2693d4;
+                cursor: pointer;
             }
             p{
                 width: 37px;
@@ -105,9 +120,8 @@ export default {
         }
         .choose{
             background-color: #f7f7f7;
-            div{display: flex;}
-            cursor: pointer;
-            &:hover{background-color: #e9e9e9;}
+            display: flex;
+            div{display: flex;margin:0 auto;}
             .cholink{
                 font-size: 18px;
                 line-height: 50px;
@@ -115,25 +129,23 @@ export default {
             }
         }
         .liespe{background-color: #e9e9e9;}
-        .order{
-            span{
-                width: 22px;
-                height:22px;
-                background: url(../../static/u5092.png) no-repeat;
-                margin:14px 12px 14px 56px;
-            }
+        .order span{
+            width: 22px;
+            height:22px;
+            background: url(../../static/u5092.png) no-repeat;
+            margin:14px 12px 14px 0;
         }
         .assess span{
             width: 23px;
             height:19px;
             background: url(../../static/u5098.png) no-repeat;
-            margin:17px 11px 14px 56px;
+            margin:17px 11px 14px 0;
         }
         .install span{
             width: 26px;
             height:24px;
             background: url(../../static/u5102.png) no-repeat;
-            margin:12px 9px 14px 55px;
+            margin:12px 9px 14px 0;
         }
     @media screen and (max-width: 768px){
             .user{background-color: #fff;margin:140px 0 80px;}

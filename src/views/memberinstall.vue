@@ -15,8 +15,6 @@
                         <p class="z_spe">性别：</p>
                         <el-radio v-model="radio" label="1">男</el-radio>
                         <el-radio v-model="radio" label="2">女</el-radio>
-                        <!-- <div><input type="radio" name="gender" checked>男</div>
-                        <div><input type="radio" name="gender">女</div> -->
                     </div>
                     <div class="zhang emails">
                         <p class="z_spe">邮箱：</p>
@@ -55,7 +53,7 @@
                 </el-tab-pane>
             </el-tabs>
             <div id="tits" class="hidden-sm-and-up"> 
-                <p class="phone"><a href="" class="jian">&lt;</a>账户设置</p>
+                <p class="phone"><router-link to="/memberindex" class="jian">&lt;</router-link>账户设置</p>
                 <p class="shezhiuser">账户设置</p>                                               
                 <div class="zhang dangqian">
                     <p class="z_spe">当前头像：</p>
@@ -63,40 +61,46 @@
                 </div>
                 <div class="zhang mingzi">
                     <p class="z_spe">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</p>
-                    <input type="text">
+                    <input type="text" v-model="userName">
                 </div>
                 <div class="zhang genders">
                     <p class="z_spe">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</p>
-                    <div><input type="radio" name="gender" checked>男</div>
-                    <div><input type="radio" name="gender">女</div>
+                    <el-radio v-model="radio" label="1">男</el-radio>
+                    <el-radio v-model="radio" label="2">女</el-radio>
                 </div>
                 <div class="zhang emails">
                     <p class="z_spe">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱：</p>
-                    <input type="text" placeholder="请输入邮箱">
+                    <input type="text" placeholder="请输入邮箱" v-model="emailValue">
                 </div>
                 <div class="zhang areas">
                     <p class="z_spe">所在地区：</p>
                     <div>
-                        <city></city>
-                        <button class="baocun zhang_bao">保存</button>
+                        <city @confirm="confirm"></city>
+                        <button class="baocun zhang_bao" @click="updateUser">保存</button>
                     </div>
                 </div>
                 <div class="bghui"></div>
                 <p class="gaipass">修改密码</p>
                 <div class="zhang xiu oldpassword">
                     <p class="z_spe">旧密码：</p>
-                    <input type="text">
+                    <input type="text" v-model="oldpassValue" @keyup="oldpassKey">
                 </div>
+                <p class="wrongTip">{{oldpassTip}}</p>
                 <div class="zhang newpassword xiu">
                     <p class="z_spe">新密码：</p>
-                    <input type="text">
+                    <el-popover placement="bottom" width="300" trigger="click">
+                            <div><i class="el-icon-circle-close-outline colori"></i>6-20个字符<br/><i class="el-icon-circle-close-outline colori"></i>只能包含字母、数字以及下划线<br/><i class="el-icon-circle-close-outline colori"></i>字母、数字和下划线至少包含2种</div>                 
+                            <input type="text" v-model="passValue" slot="reference" @keyup="passKey" @keydown="passSign" @blur="passBlur">
+                    </el-popover> 
                 </div>
+                <p class="wrongTip">{{newpassTip}}</p>
                 <div class="zhang xiu againxiu">
-                    <p class="z_spe">再次输入新密码：</p>
+                    <p class="z_spe">再次输入新密码：</p> 
                     <div>
-                        <input type="text">
-                        <button class="baocun xiu_bao">保存</button>
-                    </div>                                
+                        <input type="text" v-model="agapassValue" @keyup="agapassKey">
+                        <p class="wrongTip wrongspe">{{agapassTip}}</p>
+                        <button class="baocun xiu_bao" @click="updatePass">保存</button>
+                    </div>                                      
                 </div>
                 <div class="bghui"></div>
             </div>
@@ -124,6 +128,9 @@ export default {
         }
     },
     created(){
+        this.$parent.orderRight='choose order';
+        this.$parent.assessRight='choose assess hidden-xs-only';
+        this.$parent.installRight='choose install liespe';
         var that=this;
         this.datavalue=this.ajax.post('/xinda-api/member/info',this.qs.stringify(
             {}
@@ -272,9 +279,10 @@ export default {
         #tit,#tits{
             .zhang{display: flex;}
             .xiu .z_spe{width: 135px;margin-left: 8px;}
-            .newpassword{margin-top:29px;margin-bottom:29px;}
+            .newpassword{margin-top:29px;}
             .oldpassword{margin-top:39px;}
             .againxiu{
+                margin-top:29px;
                 div{
                     display: flex;
                     flex-direction: column;
@@ -303,7 +311,7 @@ export default {
                 select{
                     height:23px;
                     width: 75px;
-                    margin-right: 11px;
+                    margin:0 11px 0 0;
                 }
             }
             .el-tabs__item{
@@ -321,11 +329,15 @@ export default {
         }
     }
     @media screen and (max-width: 768px){
-        .Memberinstall{width: 100%;display: block;}
+        .Memberinstall{
+            width: 100%;
+            display: block;
+            .wrongTip{margin-left: 151px;}  
+            .wrongspe{margin-left: 0;}           
+        }
         .installNei{margin-left: 0;}
         .installNei #tits .xiu .z_spe{margin-left:0px;}
         #tits{
-            margin-top: 42px;
             overflow: hidden;
             .baocun{margin:43px 0 26px;}
             .xiu input,.mingzi input,.emails input{width:44%;}
@@ -342,7 +354,7 @@ export default {
         .phone{
             text-align: center;
             font-size: 18px;
-            line-height: 77px; 
+            line-height: 72px; 
             background-color: #e5e5e5;
             position: absolute;top:0;width:100%;
             .jian{

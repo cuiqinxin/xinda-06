@@ -115,7 +115,7 @@ export default {
             },
            getlist() {
                 var obj={
-       id: '9080f0c120a64eb3831d50ba93c33e78'
+        id: this.$route.query.id
         }
       var that = this;
       this.ajax.post(
@@ -134,7 +134,7 @@ export default {
   },
   created(){
       var obj={
-       id: '9080f0c120a64eb3831d50ba93c33e78'
+       id: this.$route.query.id
         }
       var that = this;
       this.ajax.post(
@@ -152,7 +152,7 @@ export default {
 start:that.page,
 limit:that.limit,
 // productTypeCode: "1",
-providerId: "a7304eecbd7246b4b424874e0359eab0",
+providerId: this.$route.query.id,
 sort:2})).then(function(data){
             that.provide=data.data.data
             that.count=data.data.data.length
