@@ -94,15 +94,13 @@ export default {
       },
        pageChange (page) {
             this.currentPage = page
-                console.log(page)
-                var that = this;
-    this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
-    start:(page-1)*6,
-    limit:6,
-    // productTypeCode: "1",
-    providerId: this.$route.query.id,
-    sort:2})).then(function(data){
-            that.provide=data.data.data
+            var that = this;
+            this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
+            start:(page-1)*6,
+            limit:6,
+            providerId: this.$route.query.id,
+            sort:2})).then(function(data){
+                    that.provide=data.data.data
         });
         },   
         },
@@ -122,6 +120,8 @@ export default {
             that.name=data.data.data
             that.count=data.data.data.length
         });
+  
+
 
         var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
@@ -131,10 +131,9 @@ export default {
     // productTypeCode: "1",
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
-            that.provide=data.data.data
-            // that.pageSize=data.data.data.length
+            that.provide=data.data.data  
             console.log(data.data.data);
-            console.log(that.provide.length);         
+
         });
         },
   computed:{

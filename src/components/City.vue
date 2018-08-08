@@ -9,7 +9,7 @@
             <option :value="item" v-for="(value,item) in city" :key="item">{{value}}</option>
         </select>
         <select name="" id="" v-model="areaCode" @change="areaChange">
-            <option value="">-----区-----</option>
+            <option value="" >-----区-----</option>
             <option :value="item" v-for="(value,item) in area" :key="item">{{value}}</option>
         </select>
     </div>
@@ -26,7 +26,7 @@ export default {
       city:'',
         cityCode:'',
         area:'',
-        areaCode:''
+        areaCode:'',
     }
   },
   props:{
@@ -35,7 +35,6 @@ export default {
   methods:{
       provinceChange(){
           this.city = citydata[this.provinceCode];
-          console.log(this.province)
       },
       cityChange(){
           this.area = citydata[this.cityCode];

@@ -147,70 +147,7 @@ export default {
     green4:function(){
         [this.registred,this.service,this.property,this.hr] = [false,false,false,true]
     },
-          
-    choose:function(e){
-        alert(this.dp.productTypeCode)
-        var that = this;
-      this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({start:0,limit:6,sort:1})).then(function(data){
-            // console.log(data.data.data);
-            var b=data.data.data;
-            for(let i=0;i<b.length;i++){
-                that.providerName[i]=b[i].providerName,
-                   that.regionName[i]=b[i].regionName,
-                   that.orderNum[i]=b[i].orderNum,
-                   that.productTypes[i]=b[i].productTypes.split(',')
-                   that.img[i]="http://123.58.241.146:8088/xinda/pic"+b[i].providerImg
-               }
-        console.log(that.providerName[0])
-        console.log(that.productTypes[0])
-        console.log(b).
-        return(that.c)
-        
-        });
-        console.log(this.providerName)
-      
-        // alert(value)
-    },
-      choose1:function(val){
-        alert(this.$children.productTypes)
-    },
-      
-    confirm(value){
-         
-          value:'区县-',
-          console.log(value)
-      },
-  },
-// mounted(){
-//         this.a=this.image();
-        
-// },
-  watch : {
-     
-       
-  },
-  computed:{
-      post:function(){
-
-      },
-   
-      infomassage(){
-          return this.info.split('').reverse().join('')
-      },
-      fullName :{
-          get:function(){
-              return this.firstName + ' ' + this.lastName
-          },
-          set:function(newValue){
-              var names = newValue.split(' ');
-              this.firstName = names[0];
-              this.lastName = names[names.length - 1];
-          }
-      }
-  }
-//   filters:{
-
-//   }
+    },     
 }
 </script>
 
@@ -218,7 +155,7 @@ export default {
 
  
     .top{
-        width:1200px;
+        width:100%;
         height: 250px;
         margin:0 auto;
         background-image: url(../../static/joinus1.02aa3f5.jpg);
@@ -233,7 +170,7 @@ export default {
         }
     }
  .to_join{
-     width:1200px;
+     width:100%;
      margin: 50px auto;
      text-align: center;
      h3{
@@ -242,7 +179,7 @@ export default {
  }
 .receive{
     background-color: #edf1f4;
-    width:1200px;
+    width:100%;
     margin:0 auto;
     text-align: center;
      .receive_1{
@@ -265,7 +202,7 @@ export default {
   }
 }
 .service{
-    width:1200px;
+    width:100%;
     margin: 50px auto;
    .ser_img{
         width:100%;
