@@ -4,23 +4,29 @@
       <div class="grabble-con">
         <div class="grabble-top">
           <div class="grabble-left" >
-            <a class="logo" href="/"></a>
+            <router-link to="index1" class="logo"></router-link>
             <div class="address">
               <p>{{datavalue}}</p>
               <p class="changeaddress">[切换城市]</p>
             </div>
           </div>
-          <div class="grabble-input">
+          <div class="grabble-input" :class="{color_red:color_red}">
             <p class="p1">
-              <a :class="{color:style}" v-on:click="changecolor">产品</a><span></span><a :class="{color:style1}" v-on:click="changecolor1">服务商</a>
+              <a :class="{color:style}" @click="changecolor">产品</a><span></span><a :class="{color:style1}" @click="changecolor1">服务商</a>
             </p>
             <div>
               <el-autocomplete
                 v-model="state4"
                 :fetch-suggestions="querySearchAsync"
-                placeholder="搜索您需要的服务或服务商"
+                :placeholder='placeholder'
                 @select="handleSelect"
-              ></el-autocomplete><button><span></span></button>
+                
+              ></el-autocomplete><button 
+                @click="link1"
+                v-if="style"><span></span>
+              </button><button 
+                @click="link"
+                v-if="!style"><span></span></button>
             </div>
             <p class="p2 "><a>热门服务：</a><router-link to="" class="color1">社保开户</router-link><router-link to="" class="color1">公司注册</router-link></p>
           </div>
@@ -71,7 +77,7 @@
             
             <li><router-link :to="{path:'/list',query:{name:'财税服务',code:1}}" :class="{active:nav1}">财税服务</router-link></li>
             <li><router-link :to="{path:'/list',query:{name:'公司工商',code:4}}" :class="{active:nav2}">公司工商</router-link></li>
-            <li><router-link to="/league" :class="{active:nav3}">加盟我们</router-link></li>
+            <li><router-link to="/join" :class="{active:nav3}">加盟我们</router-link></li>
             <li><router-link to="/shop" :class="{active:nav4}">店铺</router-link></li>
           </ul>
         </div>
@@ -147,6 +153,8 @@ export default {
       nav2:false,
       nav3: false,
       nav4: false,
+      color_red: false, 
+      placeholder:'搜索您需要的服务或服务商',
     };
   },
   created() {
@@ -160,11 +168,32 @@ export default {
         for(let key in navSelect){
           navArr[navSelect[key].showOrder] = navSelect[key];
         }
-      console.log(navArr);
       that.menuList = navArr;
     });
   },
   methods: {
+    link(){
+      if(this.state4 === ''){
+        this.color_red = true;
+        this.placeholder = '请输入内容';
+      }else{
+        this.color_red = false;
+        this.$router.push({
+            path:'/shop',query:{searchName:this.state4}
+        })
+      }  
+    },
+    link1(){
+      if(this.state4 === ''){
+        this.color_red = true;
+        this.placeholder = '请输入内容';
+      }else{
+        this.color_red = false;
+        this.$router.push({
+            path:'/list',query:{searchName:this.state4}
+        })
+      }
+    },
     changecolor() {
       [this.style, this.style1] = [true, false];
       this.restaurants = this.grabble();
@@ -255,6 +284,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+
 .grabble {
   font-size: 14px;
   border-bottom: 1px solid #2693d4;
@@ -363,7 +393,7 @@ export default {
           .nav-select{
             height: 400px;
             position: absolute;
-            background-color: rgba(28,46,69, 0.8);
+            background-color: rgba(28,46,69,0.9);
             // display: flex;
             display: none;
             flex-direction: column;
@@ -374,7 +404,7 @@ export default {
               position: relative;
               padding: 17px 0;
               &:hover{
-                background-color: rgba(38,147,211,0.8);
+                background-color: rgba(38,147,211,1);
               }
               &:hover ul{
                 display : flex;
@@ -409,7 +439,7 @@ export default {
                 left: 199px;
                 top: 0;
                 flex-direction: column;
-                background-color: rgba(150,170,194,0.8);
+                background-color: rgb(150,170,194);
                 padding: 13px 0 4px;
                 >li{
                   width: 1000px;

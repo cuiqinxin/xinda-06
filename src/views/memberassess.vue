@@ -30,9 +30,9 @@
             </el-tabs>
             <div class="page myassess">
                 <div>
-                    <button class="prevp" disabled>上一页</button>
+                    <button class="unclick" disabled>上一页</button>
                     <p class="shows">1</p>
-                    <button class="nextp" disabled>下一页</button>
+                    <button class="unclick" disabled>下一页</button>
                 </div>
             </div>
         </div>
@@ -86,6 +86,9 @@ export default {
         }
     },
     created(){
+        this.$parent.orderRight='choose order';
+        this.$parent.assessRight='choose assess hidden-xs-only liespe';
+        this.$parent.installRight='choose install';
         var that=this;
         this.datavalue=this.ajax.post('/xinda-api/service/judge/grid',this.qs.stringify(
             {start:0,limit:6,status:2}

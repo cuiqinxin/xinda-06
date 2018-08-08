@@ -22,19 +22,15 @@ import Shop from '@/views/shop'
 import Join from '@/views/Join'
 import Dianpu from '@/components/dianpu'
 import Page from '@/components/Page'
-
 // import Shopin from '@/views/shopin'
 
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
-
-import Index1 from '@/views/Index1'
-import League from '@/views/League'
 import goodsdetail from '@/views/goodsdetail'
+import Index1 from '@/views/Index1'
 
 import List from '@/views/List'
 Vue.use(Router)
-
 export default new Router({       //module.expotrs={}
   routes: [
     
@@ -48,6 +44,7 @@ export default new Router({       //module.expotrs={}
       name: 'Datang',
       component: Datang
     },
+  
     {
       path: '/page',
       name: 'Page',
@@ -57,23 +54,6 @@ export default new Router({       //module.expotrs={}
       path: '/chanpinx',
       name: 'Chanpinx',
       component: Chanpinx
-    },
-    {
-      path: '/join',
-      name: 'Join',
-      component: Join
-    },
-    {
-      path: '/shop',
-      name: 'Shop',
-      component: Shop,
-      // children:[
-      //   {
-      //     path: 'shopin',
-      //     name: 'shopin',
-      //     component: Shopin
-      //   },
-      // ]
     },
     {
       path: '/outter',
@@ -105,7 +85,22 @@ export default new Router({       //module.expotrs={}
       component: Header,
       children: [
         {
-          path: '/list',
+          path: 'join',
+          name: 'Join',
+          component: Join
+        },
+        {
+          path: '/shop',
+          name: 'Shop',
+          component: Shop,
+        },
+        {
+          path: 'dianpu',
+          name: 'Dianpu',
+          component: Dianpu
+        },
+        {
+          path: 'list',
           name: 'List',
           component: List
         },
@@ -126,11 +121,6 @@ export default new Router({       //module.expotrs={}
           alias: '',           //别名
         },
         {
-          path: 'league',
-          name: 'League',
-          component: League
-        },
-        {
           path: 'shoppingcart',
           name: 'shoppingcart',
           component: shoppingcart
@@ -143,46 +133,41 @@ export default new Router({       //module.expotrs={}
         {
           path: 'goodsdetail',
           name: 'goodsdetail',
-          component: goodsdetail
+          component: goodsdetail 
         },
         {
-          path: '/list',
-          name: 'List',
-          component: List
+          path: '/member',
+          name: 'Member',
+          component: Member,
+          children:[
+            {
+              path: 'memberorder',
+              name: 'Memberorder',
+              component: Memberorder
+            },
+            {
+              path: 'memberassess',
+              name: 'Memberassess',
+              component: Memberassess
+            },
+            {
+              path: 'memberinstall',
+              name: 'Memberinstall',
+              component: Memberinstall
+            },
+          ]
+        },
+        {
+          path: '/memberindex',
+          name: 'Memberindex',
+          component: Memberindex,
+        },
+        {
+          path: '/quit',
+          name: 'Quit',
+          component: Quit
         },
       ]
-    },
-    {
-      path: '/member',
-      name: 'Member',
-      component: Member,
-      children:[
-        {
-          path: 'memberorder',
-          name: 'Memberorder',
-          component: Memberorder
-        },
-        {
-          path: 'memberassess',
-          name: 'Memberassess',
-          component: Memberassess
-        },
-        {
-          path: 'memberinstall',
-          name: 'Memberinstall',
-          component: Memberinstall
-        },
-      ]
-    },
-    {
-      path: '/memberindex',
-      name: 'Memberindex',
-      component: Memberindex,
-    },
-    {
-      path: '/quit',
-      name: 'Quit',
-      component: Quit
     },
     {
       path: '/tests',
@@ -200,8 +185,6 @@ export default new Router({       //module.expotrs={}
     //   name: Dianpu,
     //   component: dianpu
     // }
-
-    
 
   ]
 })

@@ -65,7 +65,7 @@
                 <p class="providername">
                     {{detailprovider.name}}
                 </p>
-                <a href="javascript:void(0)" class="question" @click="open5">马上咨询</a>
+                <a href="javascript:void(0)" class="question" @click="centerDialogVisible = true">马上咨询</a>
                 <div class="aboutprovider">
                     <router-link
                      :to="{
@@ -85,11 +85,70 @@
         <!-- 分页底部 -->
         <div class="goodsbottom">
             <div class="title">
-                 <a href="javascript:void(0)" class="service">服务内容</a>
-                <a href="javascript:void(0)" class="evaluate">商品评价</a>
+                 <a href="javascript:void(0)" :class="servicestyle" @click="bottomstyle" >服务内容</a>
+                <a href="javascript:void(0)" :class="servicestyle1" @click="bottomstyle1"  >商品评价</a>
             </div>
-            <div class="contain"></div>
+            <div class="servicecontain" v-if="ok" v-html="detailproviderProduct.serviceContent"></div>
+            <div class="evaluatecontain" v-else>
+                <!-- 评价详情 -->
+                <div class="valuenum">
+                    <!-- 评价统计-->
+                    <div class="total">
+                        <div class="biggoodnum">
+                           <span>0%</span> <p>好评</p>    
+                        </div>
+                        <div class="percent">
+                            <div class="up demo">
+                                <div class="goodnum">好评（0%）</div>
+                                <div class="goodnumtip demo1 "></div>
+                            </div>
+                            <div class="middle demo">
+                                <div class="midnum">中评（0%）</div>
+                                <div class="midnumtip demo1"></div>
+                            </div>
+                            <div class="down demo">
+                                <div class="badnum">差评（0%）</div>
+                                <div class="badgoodnumtip demo1"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 客户印象-->
+                    <div class="right">
+                        客户印象
+                    </div>
+                </div>
+                <!-- 评价详情结束 -->
+                <div class="button">
+                    <div class="all littlebutton">全部评价（0）</div>
+                    <div class="good littlebutton">好评（0）</div>
+                    <div class="mid littlebutton">中评（0）</div>
+                    <div class="bad littlebutton">差评（0）</div>
+                </div>
+                <div class="inin">
+                    <div class="incontain">
+                        <div class="title">
+                            <div>评价</div>
+                            <div>满意度</div>
+                            <div>用户</div>
+                        </div>
+                        <div class="content"></div>
+                        <div class="page">
+                            <el-button class="pre">上一页</el-button>
+                            <input type="text" value="1" readOnly="true"  outline="none">
+                            <el-button class="nex">下一页</el-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <el-dialog  title="提示" :visible.sync="centerDialogVisible"  width="30%"  center>
+            <span>需要注意的是内容是默认不居中的</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="centerDialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+            </span>
+        </el-dialog>
    
     </div> 
 
@@ -100,9 +159,10 @@
  export default {
       name: "goodsdetail",
     created(){
+        // 商品详情渲染
         var that = this;
         this.ajax.post("/xinda-api/product/package/detail", this.qs.stringify({
-           sId:"0cb85ec6b63b41fc8aa07133b6144ea3"
+           sId:that.msg
             })).then(function(data) {
             that.detaildata=data.data.data;
             // console.log(that.detaildata);
@@ -114,21 +174,38 @@
             }).catch(function(data) {
                 console.log("请求失败");
             });
+       
+        
 
            
     },
     data () { 
         return {
+             msg:'',//产品服务id
              detaildata:'',
              detailproduct:"",
              detailprovider:'',
              detailproviderProduct:'',
              detailregion:'',
              inputvalue:1,
-             
+             servicestyle:'goodsbottomservice',
+             servicestyle1:'',
+             ok:true,
+             active: 0,
+             centerDialogVisible: false,
             } 
     }, 
+    watch:{
+        '$route': 'getParams',
+    },
     methods:{
+        getParams () {
+            // 取到路由带过来的参数 
+            let routerParams = this.$route.query.id;
+            // 将数据放在当前组件的数据内
+            this.msg = routerParams
+        },
+
         reduce:function(){
                 this.inputvalue--;
         },
@@ -183,18 +260,51 @@
             });
         },
         // 提示框函数open5
-        open5() {
-            
-        }
-        // 提示框函数open5结束
+        // open5() {
+        //     this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
+        //     dangerouslyUseHTMLString: true,
+        //     showConfirmButton:false,
+        //     });
+        // },
+        // 马上咨询步骤函数结束
+        next() {
+            if (this.active++ > 2) this.active = 0;
+        },
+        evaluate:function(){
+             // 评价数据获取
+             var that=this;
+             this.ajax.post("/xinda-api/product/judge/grid", this.qs.stringify({
+                start:0,
+                limit:10,
+                serviceId:that.detailproviderProduct.id,
+                type:1
+                })).then(function(data) {
+                    console.log(data);
+            }).catch(function(data) {
+                console.log("请求失败");
+            });
+        },
+        //样式操控方法
+        bottomstyle:function(){
+            this.servicestyle="goodsbottomservice";
+            this.servicestyle1="";
+            this.ok=true;
+        },
+         bottomstyle1:function(){
+            this.servicestyle1="goodsbottomservice";
+            this.servicestyle="";
+            this.ok=false;
+        },
+        //样式操控方法jieshu 
+        
     }     
     } 
 </script>
 
-<style lang="less"> 
+<style lang="less" > 
     .goodsdetail{
         max-width:1200px;
-        height:1200px;
+        // height:1200px;
         // border:1px solid ;
         margin:0 auto;
         // 首页/公司注册
@@ -264,7 +374,7 @@
                     height:20px;
                     .left{
                         width: 52px;
-                        margin-right: 5px;
+                        margin: 0 5px 0 0;
                         height: 18px;
                         display:flex;
                         justify-content: space-between;
@@ -282,7 +392,7 @@
                     // height:36px;
                     .left{
                         width: 52px;
-                        margin-right: 5px;
+                        margin: 0 5px 0 0;
                         height: 18px;
                         justify-content: space-between;
                         .distance{
@@ -431,18 +541,124 @@
                     text-align:center;
                     width:135px;
                     color:#000;
+                } 
+            }  
+            .servicecontain,.evaluatecontain{
+                min-height:100px;
+                border:1px solid #cccccc;
+                padding:20px;
+                margin-bottom:50px;
+                line-height:30px;
+                font-size:14px;
+                color:#676767;
+            }
+            .evaluatecontain{
+                padding:0;
+                color:#000;
 
+            }
+        }
+    }
+    .goodsbottomservice{
+        
+        background:#2693d4;
+        color:#fff !important;
+    }
+    .valuenum{
+        height:120px;
+        display:flex;
+        justify-content:space-between;
+        align-items: center;
+        border-bottom:1px solid #cccccc;
+        .total{
+            width:410px;
+            display:flex;
+            .biggoodnum{
+                width:140px;
+                display:flex;
+                justify-content:center;
+                align-items: center;
+                color: #2693d4;
+                span{
+                    font-size: 45px;
+                    font-weight: 700;
                 }
-                .service{
-                    background:#2693d4;
-                    color:#fff;
+                p{
+                    position:relative;
+                    top:9px;
+                    left:7px;
                 }
             }
-            
+            .percent{
+                margin-left:10px;
+                .demo{
+                    height:30px;
+                    line-height:30px;
+                    text-align:center;
+                    display:flex;
+                }
+                // 底部评价部分
+                .demo1{
+                    width: 167px;//需动态设置
+                    height: 20px;
+                    background-color: #e4e4e4;
+                    margin: 5px;
+                }
+            }
         }
-
-     
-        
+        .right{
+            height:80px;
+            width:200px;
+            padding-left:30px;
+            border-left:1px solid #e4e4e4;
+        }
+    }
+    .evaluatecontain{
+        .button{
+            line-height:48px;
+            display:flex;
+            .littlebutton{
+                width:117px;
+                border-right:1px solid #e4e4e4;
+                text-align:center;
+            }
+        }
+        .inin{
+            padding: 20px;
+            .incontain{
+                padding:20px;
+                border-left:1px solid #e4e4e4;
+                .title{
+                    display:flex;
+                    border:0;
+                    border-bottom:1px solid #e4e4e4;
+                    div{
+                        width:373px;
+                        line-height:40px;
+                        text-align:center;
+                        background:#fff !important;
+                    }
+                }
+                .page{
+                    display:flex;
+                    justify-content: center;
+                    margin-top:40px;
+                    input{
+                        width:30px;
+                        text-align:center;
+                        height:30px;
+                    }
+                    .pre,.nex{
+                        // width:px;
+                        height:34px;
+                        margin:0 5px 0 5px;
+                    }
+                }
+            }
+        }
+    }
+    .zixunxuxun{
+        width:650px;
     }
          
 </style>

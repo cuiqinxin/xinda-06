@@ -26,7 +26,10 @@
                             </div>
                         </el-popover> 
                         <p class="wrongTip">{{passTip}}</p>
-                        <password class="again" v-model="againValue" @keyup="againKey"></password>
+                        <div class="pass again">
+                            <input :type="types" placeholder="请输入密码" v-model="againValue" @keyup="againKey">
+                            <span :class="style" @click="show"></span>
+                        </div>
                         <p class="wrongTip">{{againTip}}</p>
                         <a href="javascript:void(0)" class="log" @click="forgetyan">确认修改</a>
                     </el-col>
@@ -34,7 +37,7 @@
                 <el-col :span="12" class="hidden-xs-only">
                     <el-col :span="9" :offset="6" class="shu">
                         <p class="size">想起密码来了？</p>
-                        <router-link to="/outter/zhuce" class="size">立即登录&gt;&gt;</router-link>
+                        <router-link to="/outter/login" class="size">立即登录&gt;&gt;</router-link>
                         <img src="../../static/getRight.d3bbcd8.png" alt="">
                     </el-col>
                 </el-col>
@@ -182,13 +185,13 @@ export default {
             }else{
                 this.passTip='';lastzhu++;
             }
-            // if(this.againValue==''){
-            //     this.againTip='请确认密码';
-            // }else if(this.againValue!=this.passValue){
-            //     this.againTip='两次密码不一致';
-            // }else{
+            if(this.againValue==''){
+                this.againTip='请确认密码';
+            }else if(this.againValue!=this.passValue){
+                this.againTip='两次密码不一致';
+            }else{
                 this.againTip='';lastzhu++;
-            // }
+            }
             if(lastzhu==5){
                 console.log('111')
                 var that=this;
@@ -247,14 +250,126 @@ export default {
 }
 </script>
 
-<style lang="less">  
-   .Forget{
-        background-color: #f5f5f5;
-        overflow: hidden;
-        .again .pass{margin:0 0}
-        .log{margin: 26px 0 34px;}
-        .zhu{margin-bottom: 115px;}
-    } 
+<style lang="less"> 
+    span{display: inline-block;}
+    a{color:#3f9cd9;}
+    input{
+        height: 34px;
+        border:1px solid #cbcbcb;
+        padding: 0 20px;
+        border-radius: 5px;
+    }
+    .wrongTip{color:red;line-height: 28px;font-size: 14px;}
+    .deng{
+        max-width: 1200px;
+        margin:52px auto 180px;
+        background-color: #fff;
+        padding-top: 32px;
+    }
+    .left{
+        border-right: 1px solid #dadada;
+        margin: 13px 0 124px;
+    }
+    .shu{
+        display: flex;
+        flex-direction: column;
+    }
+    .log{
+        line-height: 36px;
+        font-size: 18px;
+        text-align: center;
+        border:1px solid #3f9cd9;
+        border-radius: 5px;
+    }
+    .size{
+        font-size: 18px;
+        margin-left: 32px;
+        line-height: 40px;
+    }
+    .now{
+        background-color: #4d4d4d;
+        font-size: 18px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        #spe{
+            display: flex;
+            justify-content: space-between;
+        }
+        p{
+            color: #fff;
+            line-height: 78px;
+        }
+        .liji{
+            color: #fff; 
+            line-height: 49px;
+            height: 49px;
+            width: 27.4%;
+            text-align: center;
+            border-radius: 5px;
+            background-color: #2693d4;
+            margin:14px 0 15px;
+        }
+    }
+    .yan{
+        font-size: 0;
+        img{
+            width:30%;
+            vertical-align: bottom;
+            float: right;
+            cursor: pointer;
+            height: 36px;
+        }
+    }
+    .yanma{
+        width:48.484%;
+    }
+    .pass{
+        margin:24px 0;
+        border: 1px solid #cbcbcb;
+        border-radius: 5px;
+        input{
+            border:0;
+        }
+        span{
+            height: 30px;
+            width: 30px;  
+            background-size: 30px 30px;
+            vertical-align: top;
+            float: right;
+            margin:2px 6px;
+            cursor: pointer;
+        }
+    }
+    .bi{
+        background: url(../../static/bi.png) no-repeat;      
+    }
+    .zheng{
+        background: url(../../static/zheng.png) no-repeat;      
+    }
+    @media screen and (max-width: 768px){
+        .Forget .log{ margin-top:145px;}
+        .pass{margin:32px 0 30px;}
+        .deng{margin-top: 77px;padding-top: 0;}
+        .left{margin-top:71px;}
+        .log{
+            margin-top:213px;
+            color: #fff;
+            background-color: #2693d4;
+        }
+    }
+    .colori{&::before{color: red;margin-right: 5px}} 
+    .phoyan{
+        button{
+            height: 36px;
+            background-color: #fff;
+            width: 32.5%;
+            float: right;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
     .valid{
         color: #3f9cd9;
         border:1px solid #3f9cd9;
@@ -263,7 +378,28 @@ export default {
         color: #ccc;
         border:1px solid #ccc;
     }
-    @media screen and (max-width: 768px){
-        .Forget .log{ margin-top:145px;}
+    .Forget{
+        background-color: #f5f5f5;
+        overflow: hidden;
+        .again{margin:0 0}
+        .log{margin: 26px 0 34px;}
+        .zhu{
+            max-width: 1200px;
+            margin:42px auto 115px;
+            background-color: #fff;
+            padding-top: 42px;
+            .yan{
+                margin:19px 0;
+            }
+            .left{margin-bottom: 22px;}
+        }
+    } 
+    .valid{
+        color: #3f9cd9;
+        border:1px solid #3f9cd9;
+    }
+    .invalid{
+        color: #ccc;
+        border:1px solid #ccc;
     }
 </style>

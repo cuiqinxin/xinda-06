@@ -20,69 +20,77 @@
                     placeholder="" class="data">
                 </el-date-picker>
             </div>
+            <p class="phone hidden-sm-and-up"><router-link to="/memberindex" class="jian">&lt;</router-link>我的订单</p>            
             <el-row class="orderHead hidden-xs-only">
-                <el-col :span="13" class="orderspe">
-                    <h4 class="ofirst">商品名称</h4>
-                    <div class="nopho">
-                        <h4 class="orderdan">单价</h4>
-                        <h4 class="ordernums">数量</h4>
-                    </div> 
-                </el-col>
-                <el-col :span="4">
-                    <h4>总金额</h4>
-                </el-col>
-                <el-col :span="4">
-                    <h4>订单状态</h4>
+                <el-col :span="21">
+                    <el-col :span="16" class="orderspe">
+                        <h4 class="ofirst">商品名称</h4>
+                        <div class="nopho">
+                            <h4 class="orderdan">单价</h4>
+                            <h4 class="ordernums">数量</h4>
+                        </div> 
+                    </el-col>
+                    <el-col :span="4">
+                        <h4>总金额</h4>
+                    </el-col>
+                    <el-col :span="4">
+                        <h4>订单状态</h4>
+                    </el-col>
                 </el-col>
                 <el-col :span="3">
                     <h4>订单操作</h4>                  
                 </el-col>
             </el-row>
-            <p class="phone hidden-sm-and-up"><a href="" class="jian">&lt;</a>我的订单</p>
             <div class="allorder">
-                <el-row class="orderBody" v-for="(item,index) in orderArr" :key="index">
+                <el-row class="orderBody" v-for="(item,index) in chuliArr[pagei-1]" :key="index">
                     <el-col :span="24" class="orderhao">
-                        <p class="ohaoma">订单号：{{item['businessNo']}}</p>
-                        <p class="hidden-xs-only">下单时间：{{item['createTime']}}</p>
+                        <p class="ohaoma">订单号：{{item[0].businessNo}}</p>
+                        <p class="hidden-xs-only">下单时间：{{item[0].createTime}}</p>
                         <p class="hidden-sm-and-up">等待买家付款</p>
                     </el-col>
-                    <el-col :span="13" :xs="24" class="orderspe">
-                        <div class="havepho">
-                            <span class="imgss"></span>
-                            <p>
-                                <span class="hidden-xs-only">{{item['providerName']}}</span>
-                                <span class="phocom">{{item['serviceName']}}</span>
-                                <!-- <span class="hidden-xs-and-up">{{item['id']}}</span> -->
-                                <span class="hidden-sm-and-up">下单时间：{{item['createTime']}}</span>
-                                <span class="hidden-sm-and-up yuanchen"><span class="moneyred">￥{{item['unitPrice']}}</span>元&nbsp;&nbsp;&nbsp;&nbsp;×{{item['buyNum']}}</span>
-                            </p>
-                        </div>
-                        <div class="nopho hidden-xs-only">
-                            <p class="orderdan">￥{{item['unitPrice']}}.00</p>
-                            <p class="ordernums">{{item['buyNum']}}</p>
-                        </div>
-                    </el-col>
-                    <el-col :span="4" class="orderblue hidden-xs-only">
-                        <p>￥{{item['totalPrice']}}.00</p>
-                    </el-col>
-                    <el-col :span="4" class="orderblue hidden-xs-only">
-                        <p>等待买家付款</p>
-                    </el-col>
-                    <el-col :span="3" :xs="24" class="orderoper">
-                        <p class="heji hidden-sm-and-up">合计：<span class="moneyred">￥{{item['totalPrice']}}</span></p>
-                        <div class="fushan">
-                            <router-link to="/member/memberassess" class="paymoney">付款</router-link>  
-                            <a href="javascript:void(0)" @click="deleOrder(item['businessNo'])">删除订单</a> 
-                        </div>                 
+                    <el-col :span="24" class="wholeOrder">
+                        <el-col :span="21" :xs="24">
+                            <el-col :span="24" v-for="(item,index) in item" :key="index" class="onceOrder">
+                                <el-col :span="16" :xs="24" class="orderspe">
+                                    <div class="havepho">
+                                        <span class="imgss"></span>
+                                        <p>
+                                            <span class="hidden-xs-only">{{item['providerName']}}</span>
+                                            <span class="phocom">{{item['serviceName']}}</span>
+                                            <!-- <span class="hidden-xs-and-up">{{item['id']}}</span> -->
+                                            <span class="hidden-sm-and-up">下单时间：{{item['createTime']}}</span>
+                                            <span class="hidden-sm-and-up yuanchen"><span class="moneyred">￥{{item['unitPrice']}}</span>元&nbsp;&nbsp;&nbsp;&nbsp;×{{item['buyNum']}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="nopho hidden-xs-only">
+                                        <p class="orderdan">￥{{item['unitPrice']}}.00</p>
+                                        <p class="ordernums">{{item['buyNum']}}</p>
+                                    </div>
+                                </el-col>
+                                <el-col :span="4" class="orderblue hidden-xs-only">
+                                    <p>￥{{item['totalPrice']}}.00</p>
+                                </el-col>
+                                <el-col :span="4" class="orderblue hidden-xs-only">
+                                    <p>等待买家付款</p>
+                                </el-col>
+                            </el-col>
+                        </el-col>
+                        <el-col :span="3" :xs="24" class="orderoper">   
+                            <p class="heji hidden-sm-and-up">合计：<span class="moneyred">￥{{item[0].totalOrder}}</span></p>
+                            <div class="fushan">
+                                <router-link to="/member/memberassess" class="paymoney">付款</router-link>  
+                                <a href="javascript:void(0)" @click="deleOrder(item['businessNo'])">删除订单</a> 
+                            </div>                 
+                        </el-col>
                     </el-col>
                     <el-col :span="24" class="hidden-sm-and-up gekai"></el-col>
                 </el-row>
             </div>
             <div class="page myorder">
                 <div>
-                    <button class="prevp" disabled>上一页</button>
-                    <p class="shows">1</p>
-                    <button class="nextp" disabled>下一页</button>
+                    <button :class="prevClick" @click="prevp">上一页</button>
+                    <p class="shows">{{pagei}}</p>
+                    <button :class="nextClick" @click="nextp">下一页</button>
                 </div>
             </div>
         </div>
@@ -100,17 +108,27 @@ export default {
                 }
             },
             value1: '',
-            value2: '',  
-            orderArr:''  
+            value2: '', 
+            nextClick:'unclick',
+            prevClick:'unclick',
+            orderArr:[], 
+            chuliArr:[],
+            pagei:1,
+            fenye:0,
         }
     },
     created(){
+        this.$parent.orderRight='choose order liespe';
+        this.$parent.assessRight='choose assess hidden-xs-only';
+        this.$parent.installRight='choose install';
         var that=this;
         this.datavalue=this.ajax.post('/xinda-api/service-order/grid',this.qs.stringify(
             {'businessNo':1,'startTime':'2018-07-26','endTime':'2018-08-02','start':0}
         )).then(
             function(data){
-                that.orderArr=data.data.data;
+                for(var i in data.data.data){
+                    that.orderArr.push(data.data.data[i]);
+                }
                 for(var i in that.orderArr){   
                     var newDate = new Date();
                     newDate.setTime(that.orderArr[i].createTime);
@@ -130,29 +148,69 @@ export default {
                             break;
                         }
                     }
-                    if(b.length>1){
-                        that.orderArr[i]=b;
-                    }
+                    that.orderArr[i]=b;
                 }
-                console.log(that.orderArr);
+                for(var i in that.orderArr){
+                    var totalOrder=0;
+                    for(var j in that.orderArr[i]){
+                        totalOrder+=that.orderArr[i][j].totalPrice;
+                    }
+                    that.orderArr[i][0].totalOrder=totalOrder;
+                }
+                that.fenye=Math.ceil(that.orderArr.length/2);
+                for(var i=0;i<that.orderArr.length;i=i+2){
+                    var b=[that.orderArr[i],that.orderArr[i+1]];
+                    if(b[1]==undefined){b.pop()};
+                    that.chuliArr.push(b);
+                }
+                if(that.fenye>1){that.nextClick='click';}
         }).catch(function(){console.log('失败');})
+        // setTimeout(function(){
+            
+        // },0);
     },
     methods:{
         deleOrder(value){
             var that=this;
-            console.log(value);
+            // console.log(value);
             this.datavalue=this.ajax.post('/xinda-api/business-order/del',this.qs.stringify(
                 {'id':value}
             )).then(
                 function(data){
-                    console.log(data);
+                    // console.log(data);
             }).catch(function(){console.log('失败');})
+        },
+        nextp(){
+            if(this.pagei>=this.fenye){ return;}
+            if(this.pagei==this.fenye-1){
+                this.nextClick='unclick';
+                this.prevClick='click';
+                this.pagei++;
+                return;
+            }
+            this.nextClick='click';
+            this.prevClick='click';
+            this.pagei++;
+        },
+        prevp(){
+            if(this.pagei<=1){return;}
+            if(this.pagei==2){
+                this.nextClick='click';
+                this.prevClick='unclick';
+                this.pagei--;
+                return;
+            }
+            this.prevClick='click';
+            this.nextClick='click';
+            this.pagei--;
         }
     }
 }
 </script>
 
 <style lang="less">
+.orderNei .nadaoshuju{font-size: 14px;}
+    button{outline: none;}
     .Memberorder{
         display: inline-block;
         vertical-align: top;
@@ -163,22 +221,23 @@ export default {
         margin-bottom: 10px;
         p{font-size: 12px;}
         border:1px solid #e8e8e8;
+        border-bottom: 0;
         .orderoper{
             border-left:1px solid #e8e8e8;
+            border-bottom:1px solid #e8e8e8;
+            display: flex;
+            .fushan{display: flex;flex-direction: column;margin:auto auto;}
             .paymoney{
                 width: 56px;
                 color:#69abdb;
                 border:1px solid #2693d4;
                 font-size: 14px;
                 line-height: 23px;
-                display: block;
-                margin:14px auto 6px;
+                margin:0 auto 6px;
             }
             a{
                 color: #ff4747;
                 font-size: 14px;
-                margin-bottom:12px ;
-                display: block;
             }
         }
         .orderblue p{
@@ -226,6 +285,12 @@ export default {
             line-height: 34px;
         }
     }
+    .intro{
+        font-size: 14px;
+        margin:23px 0 10px;
+    }
+    .onceOrder{border-bottom:1px solid #e8e8e8;}
+    .wholeOrder{display: flex;}
     .ceshi{font-size: 12px;}
     .myorder{margin-top:37px;}
         .myassess{margin-top:34px;}
@@ -278,6 +343,8 @@ export default {
 @media screen and (max-width: 768px){
     .Memberorder{display: block;width: 100%;}
     .orderNei{margin-left: 0;}
+    .wholeOrder{flex-direction: column;}
+    .onceOrder{border-bottom:5px solid #fff;}
     .orderBody{
         border:0;
         .orderhao{
@@ -290,13 +357,12 @@ export default {
         .moneyred{color:#ff4747;}
         .orderoper{
             border:0;
-            display: flex;
             justify-content: space-between;
             padding: 0 24px;
             height: 40px;
             .fushan{
-                display: flex;
                 flex-direction: row-reverse;
+                margin:0 0;
             }
             .heji{
                 line-height: 40px;
@@ -324,11 +390,10 @@ export default {
             p{margin-top: 18px;}
         }
     }
-    .allorder{ margin-top: 42px;}
     .phone{
             text-align: center;
             font-size: 18px;
-            line-height: 77px; 
+            line-height: 72px; 
             background-color: #e5e5e5;
             position: absolute;top:0;width:100%;
             .jian{

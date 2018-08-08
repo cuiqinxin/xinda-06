@@ -1,100 +1,162 @@
 <template>
-  <div class="dianpu">
-    <div class="dianpu_title">
+  <div class="datang">
+    <div class="datang_title">
             <img :src="'http://123.58.241.146:8088/xinda/pic/'+(name.providerImg)">
             <ul>
                 <h2>{{name.name}}</h2>
                 <p class="region">{{name.regionName}}</p>
             </ul>
+            
     </div>
     <div class="main">
         <el-container>
-  <el-aside  >
-      <div class="introduce">
-        <h3>公司介绍</h3>
-<p>{{name.providerInfo}}</p>
-      </div>
-      <div class="proctice">
-          <img src="../../static/u4654.9fa2585.png" alt="">
-      </div>
-  </el-aside>
-  <el-main>
-      <ul class="provide_list">
-          <li>服务产品</li>
-          <li>客服</li>
-          <li>资质证书</li>
-      </ul>
-      <ul class="">
-      <h3>服务内容</h3>
-      <el-row class="service_product">
-          <el-col :span=7 v-for="(pro,index) in provide" :key="index">
-              <h4>{{pro.serviceName}}</h4>
-              <img src="../../static/diang.png" alt="">
-              <p class="info">{{pro.serviceInfo}}</p>
-              <p class="buynum">销量：{{pro.buyNum}}</p>
-              <p class="price">￥：{{pro.price}}</p>
-              <p class="bottom">
-               <span class="mprice">原价￥：{{pro.marketPrice}}</span>
-              <a>查看详情》</a>
-              </p>
-          </el-col>
-      </el-row>
-       </ul>
-  </el-main>
-</el-container>
+            <el-aside  >
+                <div class="introduce">
+                    <h3>公司介绍</h3>
+                    <p>{{name.providerInfo}}</p>
+                </div>
+                <div class="proctice">
+                    <img src="../../static/u4654.9fa2585.png" alt="">
+                </div>
+            </el-aside>
+            <el-main>
+                <ul class="provide_list">
+                    <el-tabs v-model="activeName" @tab-click="handleClick">
+                     <el-tab-pane label="服务产品内容" name="first">  
+                         <ul class="">
+                            <h3>服务内容</h3>
+                           <el-row class="service_product">
+                                <el-col :span=7 v-for="(pro,index) in provide" :key="index">
+                                    <h4>{{pro.serviceName}}*{{index+1}}{{provide.length}}</h4>
+                                    <img src="../../static/diang.png" alt="">
+                                    <p class="info">{{pro.serviceInfo}}</p>
+                                    <p class="buynum">销量：{{pro.buyNum}}</p>
+                                    <p class="price">￥：{{pro.price}}</p>
+                                    <p class="bottom">
+                                        <span class="mprice">原价￥：{{pro.marketPrice}}</span>
+                                        <a>查看详情》</a>
+                                    </p>
+                                </el-col>
+                            </el-row>
+                        </ul>
+                    </el-tab-pane>
+                     <el-tab-pane label="客服" name="second" class="second">
+                         <ul class="kefu">
+                         <span>工作时间：{{name.workTime}}</span> 
+                         <span>QQ客服：{{name.qq}}</span> 
+                         </ul>
+                         </el-tab-pane>
+                     <el-tab-pane label="资格证书" name="third" class="third">
+                         <ul class="zhengshu">
+                         <img src="../../static/u4652.36247c6.png" alt="">
+                         </ul>
+                     </el-tab-pane>
+                    </el-tabs>
+                </ul>
+                </el-main>
+        </el-container>
     </div>
+<div class="paging">
+    <page @change="pageChange"></page>
+</div>   
+
     <router-view/>
   </div>
 </template> 
+
 <script>
+ import page from '../components/Page'
+
 export default {
-  name: 'dianpu',
+  name: 'datang',
+ components : {
+            page
+        },
   data () {
     return {
+      activeName: 'second',
       items : [],
       name:'',
       dianpu:'',
       provide:'',
+      pageSize : 6 , //每页显示6条数据
+      currentPage : 1, //当前页码
+      count : 0, //总记录数
+      limit:6,
+      pageIndex:1,
+      all:20,
+      perPages:3  //页面中显示的页码数只能为单数
     }
   },
   methods:{
+      handleClick(tab, event) {
+        // console.log(tab);
+      },
+       pageChange (page) {
+            this.currentPage = page
+                console.log(page)
+                var that = this;
+    this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
+    start:(page-1)*6,
+    limit:6,
+    // productTypeCode: "1",
+    providerId: this.$route.query.id,
+    sort:2})).then(function(data){
+            that.provide=data.data.data
+        });
+        },   
         },
+
   watch : {
   },
   created(){
       var obj={
-       id: '9080f0c120a64eb3831d50ba93c33e78'
+       id: this.$route.query.id
         }
       var that = this;
       this.ajax.post(
           '/xinda-api/provider/detail',
       this.qs.stringify(obj))
-  .then(function(data){
+      .then(function(data){
             console.log(data.data.data);
             that.name=data.data.data
+            that.count=data.data.data.length
         });
+
         var that = this;
-      this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({start:0,
-// limit:8,
-// productTypeCode: "1",
-providerId: "a7304eecbd7246b4b424874e0359eab0",
-sort:2})).then(function(data){
+    this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
+    start:0,
+    // start:that.page,
+    limit:6,
+    // productTypeCode: "1",
+    providerId: this.$route.query.id,
+    sort:2})).then(function(data){
             that.provide=data.data.data
+            // that.pageSize=data.data.data.length
             console.log(data.data.data);
-           
+            console.log(that.provide.length);         
         });
-  },
+        },
   computed:{
-        
-  }
+    
+  },
 }
 </script>
 
 <style scoped lang="less">
-.dianpu{
+.paging{
+    width:100%;
+    text-align: center;
+}
+.page{
+   margin: 0 auto;
+   display: inline-block;
+}
+.datang{
       width:1200px;
       margin:0 auto;
-  .dianpu_title{
+      overflow: hidden;
+  .datang_title{
       height:200px;
       width:100%;
       border:1px solid #ccc;
@@ -153,11 +215,10 @@ sort:2})).then(function(data){
             .provide_list{
                 display: flex;
                 height:50px;
-                border-bottom: 1px solid #ccc;
             }
             h3{
-                height:80px;
-                line-height: 80px;
+                height:66px;
+                line-height: 56px;
                 width:100%;
                 text-align: center;
                 display: inline-block;
@@ -168,7 +229,7 @@ sort:2})).then(function(data){
                 overflow: hidden;
                 .el-col{
                 border:1px solid #ccc;
-                margin:18px;
+                margin:17px;
                 height:200px;
                 padding:10px;
                 h4{
@@ -206,5 +267,30 @@ sort:2})).then(function(data){
             }
       }
   }
+  .kefu{
+      display: flex;
+      font-size: 26px;
+      padding: 20px 50px;
+      justify-content: space-between;
+      span{
+          display: inline-block;
+      }
+  }
+  .zhengshu{
+     img{
+        height:510px;
+     }
+  }
+  .el-tabs{
+      width:100%;
+      text-align: center;
+  }
+ .el-tabs__item{
+     padding: 0 30px !important;
+ }
+#tab-first{
+    padding: 0 40px;
+}
+  
   }
 </style>
