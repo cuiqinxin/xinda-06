@@ -120,14 +120,6 @@ export default new Router({       //module.expotrs={}
           alias: '',           //别名
         },
         {
-<<<<<<< HEAD
-          path: 'league',
-          name: 'League',
-          component: League
-        },
-        {
-=======
->>>>>>> f8641c8e4057534c8772e28068cd9c0a2c7106a7
           path: 'shoppingcart',
           name: 'shoppingcart',
           component: shoppingcart
