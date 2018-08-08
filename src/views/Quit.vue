@@ -1,5 +1,6 @@
 <template>
     <div class="Quit">
+        <p class="phone hidden-sm-and-up"></p>         
         <el-row>
             <el-col :sm="5" :xs={span:20,offset:2}>
                 <div class="user">
@@ -51,6 +52,13 @@ export default {
 <style lang="less" scoped>
     span{display: inline-block;}
     // .el-popup-parent--hidden .el-message-box{width: 300px !important;}
+    .phone{
+            height: 72px; 
+            width: 100%;
+            position: absolute;
+            top:0; 
+            background-color: #fff; 
+        }
     @media screen and (max-width: 768px){
         .touxiang{
             width: 125px;
@@ -77,7 +85,7 @@ export default {
         .user{
             text-align: center;
             background-color: #fff;
-            margin:100px 0 80px;
+            margin:80px 0 80px;
             p{
                 font-size: 20px;
                 line-height: 34px;

@@ -52,11 +52,15 @@
                     <div class="dan fen">
                         <p class="danspe">评分：</p>
                         <div slot="reference">
-                            <i :class="starone" @click="starsone"></i>
-                            <i :class="startwo" @click="starstwo"></i>
-                            <i :class="starthree" @click="starsthree"></i>
-                            <i :class="starfour" @click="starsfour"></i>
-                            <i :class="starfive" @click="starsfive"></i>
+                            <i :class="starone" @click="starsone" @mouseenter="huiScore('1分','失望')" @mouseleave="leaveStar"></i>
+                            <i :class="startwo" @click="starstwo" @mouseenter="huiScore('2分','不满')" @mouseleave="leaveStar"></i>
+                            <i :class="starthree" @click="starsthree" @mouseenter="yellowScore('3分','一般')" @mouseleave="leaveStar"></i>
+                            <i :class="starfour" @click="starsfour" @mouseenter="yellowScore('4分','满意')" @mouseleave="leaveStar"></i>
+                            <i :class="starfive" @click="starsfive" @mouseenter="redScore('5分','惊喜')" @mouseleave="leaveStar"></i>
+                        </div>
+                        <div :class="hints">
+                            <span :class="hintstri"></span>
+                            <p id="zi">&nbsp;{{scores}}&nbsp;&nbsp;{{attitude}}&nbsp;</p>
                         </div>
                     </div>
                     <div class="dan">
@@ -83,6 +87,10 @@ export default {
             starthree:'el-icon-star-on iconred',
             starfour:'el-icon-star-on iconred',
             starfive:'el-icon-star-on iconred',
+            attitude:'',
+            scores:'',
+            hints:'noneassess',
+            hintstri:''
         }
     },
     created(){
@@ -172,12 +180,64 @@ export default {
             this.starthree='el-icon-star-on iconred';
             this.starfour='el-icon-star-on iconred';
             this.starfive='el-icon-star-on iconred';
+        },
+        redScore(a,b){
+            this.attitude=b;
+            this.scores=a;
+            this.hints='hintScore yideng showassess';
+            this.hintstri='yideng';
+        },
+        yellowScore(a,b){
+            this.attitude=b;
+            this.scores=a;
+            this.hints='hintScore erdeng showassess';
+            this.hintstri='erdeng';
+        },
+        huiScore(a,b){
+            this.attitude=b;
+            this.scores=a;
+            this.hints='hintScore sandeng showassess';
+            this.hintstri='sandeng';
+        },
+        leaveStar(){
+            this.hints='hintScore sandeng noneassess';            
         }
     }
 }
 </script>
 
 <style lang="less">
+    .hintScore{
+        position: relative;
+        margin-left: 15px;
+        #zi{font-size: 14px;line-height: 22px;}
+        span{
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            position: absolute;
+            top: 6px;
+            left: -4px;
+            transform:rotate(45deg);
+            border-right: 0;
+            border-top: 0;
+        }
+    }
+    .yideng{
+        border:1px solid #e91313;
+        color: #e91313;
+        background-color: #f6dcdc;
+    }
+    .erdeng{
+        border:1px solid #ffd700;
+        color: #ffd700;
+        background-color: #fffed4;
+    }
+    .sandeng{
+        border:1px solid #999;
+        color: #999;
+        background-color: #f9f9f9;
+    }
     .Memberassess{
         display: inline-block;
         vertical-align: top;
@@ -277,6 +337,7 @@ export default {
                 input{
                     margin-top: 4px;
                     vertical-align: top;
+                    height: 13px;
                 }
             }
             .fen{

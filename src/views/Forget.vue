@@ -19,7 +19,7 @@
                         <p class="wrongTip">{{telTip}}</p>
                         <!-- <password></password> -->
                         <el-popover placement="right" width="300" trigger="click">
-                            <div><i class="el-icon-circle-close-outline colori"></i>6-20个字符<br/><i class="el-icon-circle-close-outline colori"></i>只能包含字母、数字以及下划线<br/><i class="el-icon-circle-close-outline colori"></i>字母、数字和下划线至少包含2种</div>                 
+                            <div><i :class="lengthLimit"></i>6-20个字符<br/><i :class="typeLimit"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType"></i>字母、数字和下划线至少包含2种</div>                 
                             <div class="pass" slot="reference">
                                 <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                                 <span :class="style" @click="show"></span>
@@ -46,20 +46,23 @@
         <el-row class="now hidden-sm-and-up">
             <el-col :span="20" :offset="2" id="spe"><p>想起密码来了？</p><router-link to="/outter/login" class="liji">立即登录</router-link></el-col>
         </el-row>
-        <!--  -->
-        <!-- <p>{{count}}</p> -->
     </div>
 </template>
 
 <script>
 import password from '../components/Password'
 import photoyan from '../components/Photoyan'
-// import store from '../store'
 export default {
-    name: 'Forget',
+    name: 'Forget',     
     created(){
         this.$parent.info = '忘记密码';
-        this.$parent.infoWeb = '忘记密码'
+        this.$parent.infoWeb = '忘记密码';
+        document.onkeyup=(e)=>{
+            var key=window.event.keyCode;
+            if(key==13){
+                this.forgetyan();
+            }
+        }
     },
     data () {
         return {
@@ -79,6 +82,9 @@ export default {
             passSigns:'',
             phoneClick:'点击获取',
             showyan:'valid',
+            lengthLimit:'el-icon-circle-close-outline colori',
+            typeLimit:'el-icon-circle-close-outline colori',
+            twiceType:'el-icon-circle-close-outline colori',
         }
     },
     methods:{
@@ -105,15 +111,26 @@ export default {
             }else if(this.passSigns=='2'&&this.passValue!=''){
                 this.passTip='';
             }
+            if(this.passValue.length>5&&this.passValue.length<21){
+                this.lengthLimit='el-icon-circle-check-outline righti';
+            }else{
+                this.lengthLimit='el-icon-circle-close-outline colori';
+            }
+            if(!/\W/.test(this.passValue)){
+                this.typeLimit='el-icon-circle-check-outline righti';
+            }else{
+                this.typeLimit='el-icon-circle-close-outline colori';
+            }
+            if((/[A-Za-z]/.test(this.passValue)&&/\d/.test(this.passValue)&&(!/\W/.test(this.passValue)))||(/[A-Za-z]/.test(this.passValue)&&/\_/.test(this.passValue)&&(!/\W/.test(this.passValue)))||(/\_/.test(this.passValue)&&/\d/.test(this.passValue)&&(!/\W/.test(this.passValue)))){
+                this.twiceType='el-icon-circle-check-outline righti';
+            }else{
+                this.twiceType='el-icon-circle-close-outline colori';
+            }
         },
         passBlur(){
             if(this.passValue==''){
                 this.passTip='';
-            }else if(this.passValue.length<6||this.passValue.length>20){
-                this.passTip='密码设置不符合要求';
-            }else if(/\W/.test(this.passValue)){
-                this.passTip='密码设置不符合要求';
-            }else if(/^[A-Za-z]{6,20}$/.test(this.passValue)||/^\d{6,20}$/.test(this.passValue)||/^\_{6,20}$/.test(this.passValue)){
+            }else if(this.passValue.length<6||this.passValue.length>20||/\W/.test(this.passValue)||/^[A-Za-z]{6,20}$/.test(this.passValue)||/^\d{6,20}$/.test(this.passValue)||/^\_{6,20}$/.test(this.passValue)){
                 this.passTip='密码设置不符合要求';
             }
         },
@@ -200,12 +217,15 @@ export default {
                     {'cellphone':this.phoneValue,'smsType':2,'validCode':this.phoneYan,'password':md5(that.passValue)}
                 )).then(
                     function(data){
-                        console.log(data);
                         if(data.data.status==-3){
                             that.telTip=data.data.msg;
+                            var data=(new Date()).getTime();
+                            that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
                         }
                         if(data.data.status==-2){
                             that.phoneTip=data.data.msg;
+                            var data=(new Date()).getTime();
+                            that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
                         }
                         if(data.data.status==1){
                             that.$confirm('修改密码成功！是否跳转到登录页?', '提示', {
@@ -241,11 +261,6 @@ export default {
     components:{
         password,
         photoyan
-    },
-    computed:{
-        count(){
-            return store.state.count;
-        }
     }
 }
 </script>
@@ -325,7 +340,7 @@ export default {
         width:48.484%;
     }
     .pass{
-        margin:24px 0;
+        margin:24px 0 0;
         border: 1px solid #cbcbcb;
         border-radius: 5px;
         input{
@@ -349,7 +364,7 @@ export default {
     }
     @media screen and (max-width: 768px){
         .Forget .log{ margin-top:145px;}
-        .pass{margin:32px 0 30px;}
+        .pass{margin:32px 0 0;}
         .deng{margin-top: 77px;padding-top: 0;}
         .left{margin-top:71px;}
         .log{
@@ -359,7 +374,9 @@ export default {
         }
     }
     .colori{&::before{color: red;margin-right: 5px}} 
+    .righti{&::before{color: rgb(36, 228, 78);margin-right: 5px}}     
     .phoyan{
+        margin-top: 19px;
         button{
             height: 36px;
             background-color: #fff;
@@ -381,7 +398,7 @@ export default {
     .Forget{
         background-color: #f5f5f5;
         overflow: hidden;
-        .again{margin:0 0}
+        .again{margin:24px 0 0}
         .log{margin: 26px 0 34px;}
         .zhu{
             max-width: 1200px;
@@ -389,7 +406,7 @@ export default {
             background-color: #fff;
             padding-top: 42px;
             .yan{
-                margin:19px 0;
+                margin:19px 0 0;
             }
             .left{margin-bottom: 22px;}
         }
