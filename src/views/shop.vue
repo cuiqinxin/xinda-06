@@ -19,15 +19,11 @@
             <li class="pro_list">
 
             <p>所有</p>
-            <template v-for="dp in dianpu" >
-                 <!-- <p v-for="(item,index) in dp.productTypes.split(',')" :key="index" :code="dp.productTypeCodes" @click="kkk()">{{item}}
+            <template v-for="dp in dianpu1"  :codes="dp.productTypeCodes">
+                 <p v-for="item in dp.productTypes.split(',')" :key="item" @click="kkk()">{{item}}
       
-                     </p>  -->
-                      <div v-for="(code,index) in dp.productTypesCode.split(',')" :key="index" :code="dp.productTypeCodes" @click="kkk()">{{item}}
-     <p v-for="(item,index) in dp.productTypes.split(',')" :key="index" :code="dp.productTypeCodes" @click="kkk()">{{code}}
-      
-                     </p> 
-                     </div> 
+                 </p> 
+                     
             </template>
             </li> 
         </ul>
@@ -44,7 +40,12 @@
         </div>
         <div class="shop_shop">
             
-            <div  v-for="(dp,index) in dianpu" :key="index" class="shop_1" >
+            <div 
+            v-for="(dp,index) in dianpu" :key="index" 
+            class="shop_1"
+            v-if="areaCode==dp.regionId||areaCode=='0'"
+            :codes="dp.productTypeCodes"
+            >
                 <ul class="shop_1_left">
                     <li class="logo">
                        <img :src="'http://123.58.241.146:8088/xinda/pic/'+(dp.providerImg)">
@@ -104,21 +105,36 @@ export default {
     info:'店铺',
     img:'',
     dianpu:'',
+    dianpu1:'',
     providerId:'',
     perPages:3,
+    radio3:'',
+    areaCode:'0'
     }
   },
   created(){
+      [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = 
+      [false,false,false,false,true]
            var that = this;
-      this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({start:0,limit:6,sort:1})).then(function(data){
-            // console.log(data.data.data);
+           this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({start:0,limit:6,sort:1})).then(function(data){
+           that.dianpu1=data.data.data;
+        if((!/\?/.test(location.href))){
            that.dianpu=data.data.data;
-        console.log(that.dianpu)
-           console.log(that.dianpu[0].id)
-           console.log(typeof(that.dianpu[0].productTypes.split(',')))
-           console.log(that.dianpu[0].productTypes.split(','))
+        }
         });
-        console.log(that.dianpu)
+        var that = this
+      this.ajax.post(
+          '/xinda-api/provider/search-grid',this.qs.stringify({
+        //   start:0,
+        searchName:this.$route.query.searchName,
+        // sort:2,
+      }))
+      .then(function(data){
+            console.log(data.data.data);
+            // console.log(searchName);
+            that.dianpu=data.data.data  
+        });
+          
   },
   components:{
       city,
@@ -132,8 +148,7 @@ export default {
         console.log(this.providerId);
       },
     kkk(e){
-        console.log(event.target.code)
-        console.log(event.target)
+        console.log('4')
     },   
   
       choose1:function(val){
@@ -141,30 +156,27 @@ export default {
     },
       
     confirm(value){
-         
-          value:'区县-',
-          console.log(value)
+        this.areaCode=value
+          console.log(this.areaCode)
       },
   },
-
+watch:{
+$route(newval,oldval){
+    var that = this;
+console.log(newval.query.searchName)
+      this.ajax.post(
+          '/xinda-api/provider/search-grid',this.qs.stringify({
+        searchName:this.$route.query.searchName,
+      }))
+      .then(function(data){
+            console.log(data.data.data);
+            that.dianpu=data.data.data  
+        });}
+},
   computed:{
       post:function(){
 
       },
-   
-      infomassage(){
-          return this.info.split('').reverse().join('')
-      },
-      fullName :{
-          get:function(){
-              return this.firstName + ' ' + this.lastName
-          },
-          set:function(newValue){
-              var names = newValue.split(' ');
-              this.firstName = names[0];
-              this.lastName = names[names.length - 1];
-          }
-      }
   }
 //   filters:{
 
@@ -255,10 +267,11 @@ export default {
     }
    
     .shop_shop{
-        display:flex;
+        overflow: hidden;
         justify-content: space-around;
         .shop_1{
-            margin:15px 0    ;
+            margin:15px 1.4%;
+            float:left;
             border:1px solid #ccc;
             display:flex;
             width:47%;

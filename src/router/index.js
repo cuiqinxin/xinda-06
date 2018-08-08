@@ -27,7 +27,6 @@ import Page from '@/components/Page'
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
 import Index1 from '@/views/Index1'
-import League from '@/views/League'
 
 import List from '@/views/List'
 Vue.use(Router)
@@ -54,23 +53,6 @@ export default new Router({       //module.expotrs={}
       path: '/chanpinx',
       name: 'Chanpinx',
       component: Chanpinx
-    },
-    {
-      path: '/join',
-      name: 'Join',
-      component: Join
-    },
-    {
-      path: '/shop',
-      name: 'Shop',
-      component: Shop,
-      // children:[
-      //   {
-      //     path: 'shopin',
-      //     name: 'shopin',
-      //     component: Shopin
-      //   },
-      // ]
     },
     {
       path: '/outter',
@@ -102,11 +84,22 @@ export default new Router({       //module.expotrs={}
       component: Header,
       children: [
         {
+          path: 'join',
+          name: 'Join',
+          component: Join
+        },
+        {
+          path: '/shop',
+          name: 'Shop',
+          component: Shop,
+        },
+        {
           path: 'dianpu',
           name: 'Dianpu',
-          component: Dianpu},
-          {
-          path: '/list',
+          component: Dianpu
+        },
+        {
+          path: 'list',
           name: 'List',
           component: List
         },
@@ -125,11 +118,6 @@ export default new Router({       //module.expotrs={}
           name: 'Index1',
           component: Index1,
           alias: '',           //别名
-        },
-        {
-          path: 'league',
-          name: 'League',
-          component: League
         },
         {
           path: 'shoppingcart',

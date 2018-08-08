@@ -120,17 +120,7 @@ export default {
             that.name=data.data.data
             that.count=data.data.data.length
         });
-      var that = this;
-      this.ajax.post(
-          '/xinda-api/product/package/search-grid',
-      this.qs.stringify({
-        searchName:this.$route.query.searchName,
-        sort:2,
-      }))
-      .then(function(data){
-            console.log(data.data.data);
-            that.provide=data.data.data  
-        });
+  
 
 
         var that = this;

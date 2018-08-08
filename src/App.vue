@@ -157,15 +157,19 @@ export default {
     text-align: center;
     font-size: 14px;
   }
-  .header .grabble-input{
-    input{
-      border-radius: 4px 0 0 4px;
-      width: 485px;
-      height: 41px;
-      border: 2px solid #2693d4;
-      // &:hover{
-      //    border: 2px solid #2693d4;
-      // }
+  .header {
+    .grabble-input{
+      input{
+        border-radius: 4px 0 0 4px;
+        width: 485px;
+        height: 41px;
+        border: 2px solid #2693d4;
+      }
+    }
+    .color_red input{
+      border: 2px solid red!important;
     }
   }
+
+  
 </style>
