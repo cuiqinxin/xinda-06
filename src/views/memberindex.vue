@@ -1,10 +1,11 @@
 <template>
     <div class="memberindex">
-        <el-row>
+        <p class="phone hidden-sm-and-up"></p> 
+        <el-row class="hidden-sm-and-up">
             <el-col :sm="5" :xs={span:20,offset:2}>
                 <div class="user">
                     <span class="touxiang"></span>
-                    <p>{{userPhoneName}}</p>
+                    <p>{{userPhoneNumber}}</p>
                 </div>
                 <div class="choose order">
                     <div>
@@ -27,16 +28,18 @@
 </template>
 
 <script>
+import store from '../store'
 export default {
-  name: 'memberindex',
-  data () {
-    return {
-        userPhoneName:'18363992780',
+    name: 'memberindex',
+    data () {
+        return {
+        }
+    },
+    computed:{
+        userPhoneNumber(){
+            return store.state.userPhoneNumber;
+        }
     }
-  },
-  methods:{
-    
-  }
 }
 </script>
 
@@ -68,7 +71,7 @@ export default {
         .user{
             text-align: center;
             background-color: #fff;
-            margin:100px 0 80px;
+            margin:80px 0 80px;
             p{
                 font-size: 20px;
                 line-height: 34px;
@@ -112,6 +115,13 @@ export default {
             background-color: #2693d4;
             color:#fff;
             font-size: 18px;
+        }
+        .phone{
+            height: 72px; 
+            width: 100%;
+            position: absolute;
+            top:0; 
+            background-color: #fff; 
         }
     }
 </style>

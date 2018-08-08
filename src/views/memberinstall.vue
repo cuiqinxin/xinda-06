@@ -98,10 +98,10 @@
                     <p class="z_spe">再次输入新密码：</p> 
                     <div>
                         <input type="text" v-model="agapassValue" @keyup="agapassKey">
+                        <p class="wrongTip wrongspe">{{agapassTip}}</p>
                         <button class="baocun xiu_bao" @click="updatePass">保存</button>
                     </div>                                      
                 </div>
-                <p class="wrongTip">{{agapassTip}}</p>
                 <div class="bghui"></div>
             </div>
         </div>
@@ -279,9 +279,10 @@ export default {
         #tit,#tits{
             .zhang{display: flex;}
             .xiu .z_spe{width: 135px;margin-left: 8px;}
-            .newpassword{margin-top:29px;margin-bottom:29px;}
+            .newpassword{margin-top:29px;}
             .oldpassword{margin-top:39px;}
             .againxiu{
+                margin-top:29px;
                 div{
                     display: flex;
                     flex-direction: column;
@@ -328,7 +329,12 @@ export default {
         }
     }
     @media screen and (max-width: 768px){
-        .Memberinstall{width: 100%;display: block;}
+        .Memberinstall{
+            width: 100%;
+            display: block;
+            .wrongTip{margin-left: 151px;}  
+            .wrongspe{margin-left: 0;}           
+        }
         .installNei{margin-left: 0;}
         .installNei #tits .xiu .z_spe{margin-left:0px;}
         #tits{
