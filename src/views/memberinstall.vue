@@ -88,9 +88,9 @@
                 <p class="wrongTip">{{oldpassTip}}</p>
                 <div class="zhang newpassword xiu">
                     <p class="z_spe">新密码：</p>
-                    <el-popover placement="bottom" width="300" trigger="click">
-                            <div><i class="el-icon-circle-close-outline colori"></i>6-20个字符<br/><i class="el-icon-circle-close-outline colori"></i>只能包含字母、数字以及下划线<br/><i class="el-icon-circle-close-outline colori"></i>字母、数字和下划线至少包含2种</div>                 
-                            <input type="text" v-model="passValue" slot="reference" @keyup="passKey" @keydown="passSign" @blur="passBlur">
+                    <el-popover placement="bottom" width="300" trigger="focus" class="lalala">
+                        <div><i class="el-icon-circle-close-outline colori"></i>6-20个字符<br/><i class="el-icon-circle-close-outline colori"></i>只能包含字母、数字以及下划线<br/><i class="el-icon-circle-close-outline colori"></i>字母、数字和下划线至少包含2种</div>                 
+                        <input type="text" v-model="passValue" slot="reference" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                     </el-popover> 
                 </div>
                 <p class="wrongTip">{{newpassTip}}</p>
@@ -132,7 +132,7 @@ export default {
         this.$parent.assessRight='choose assess hidden-xs-only';
         this.$parent.installRight='choose install liespe';
         var that=this;
-        this.datavalue=this.ajax.post('/xinda-api/member/info',this.qs.stringify(
+        this.ajax.post('/xinda-api/member/info',this.qs.stringify(
             {}
         )).then(
             function(data){
@@ -166,7 +166,7 @@ export default {
                     {headImg:'/2016/10/28/152843b6d9a04abe83a396d2ba03675f',name:that.userName,gender:that.radio,email:that.emailValue,regionId:that.cityCode}
                 )).then(
                     function(data){
-                        console.log(data);
+                        // console.log(data);
                 }).catch(function(){console.log('失败');})
                 this.$message({
                     type: 'success',
@@ -192,7 +192,7 @@ export default {
                     {oldPwd:md5(that.oldpassValue),newPwd:md5(that.newpassValue)}
                     )).then(
                         function(data){
-                            console.log(data);
+                            // console.log(data);
                             if(data.data.status==-1){
                                 that.oldpassTip=data.data.msg;
                             }
@@ -288,7 +288,13 @@ export default {
         #tit,#tits{
             .zhang{display: flex;}
             .xiu .z_spe{width: 135px;margin-left: 8px;}
-            .newpassword{margin-top:29px;}
+            .newpassword{
+                margin-top:29px;
+                .lalala{
+                    width: 44%;
+                    input{width: 100%;}
+                }
+            }
             .oldpassword{margin-top:39px;}
             .againxiu{
                 margin-top:29px;
@@ -344,7 +350,13 @@ export default {
             .wrongTip{margin-left: 151px;}  
             .wrongspe{margin-left: 0;}           
         }
-        .installNei{margin-left: 0;}
+        .installNei{
+            margin-left: 0;
+            #tits .againxiu div{
+                width: 44%;
+                input{width: 100%;}
+            }
+        }
         .installNei #tits .xiu .z_spe{margin-left:0px;}
         #tits{
             overflow: hidden;

@@ -4,14 +4,6 @@
     <div class="top hidden-md-and-down">
       <el-row class="top-con" type="flex" justify="space-between">
         <el-col :span="12" class="top-left">
-<<<<<<< HEAD
-          <!-- <button @click="link">等</button> -->
-          <router-link to="/member/memberorder" 
-            
-            v-if="!sta">
-            {{userPhoneNumber}}{{userPhoneNumber1}}
-          </router-link>
-=======
           <div class="topHover">
             <router-link to="/member/memberorder" 
               v-if="userPhoneNumber">
@@ -30,7 +22,6 @@
               </div>
             </div>
           </div>
->>>>>>> 90e8075e596d64459caff6fdf73c06384e51c57f
           <span>欢迎来到信达！</span>
           <router-link :to="{path:'/outter/login',query:{id:123}}" v-if="!userPhoneNumber">登录</router-link>
           <router-link to="/outter/zhuce" v-if="!userPhoneNumber">快速注册</router-link>
@@ -78,6 +69,7 @@ export default {
       //   });
       // }
       logout() {
+        var that=this;
         this.$confirm('是否退出登录?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -85,7 +77,7 @@ export default {
         }).then(() => {
           store.commit('loginStatus','')
           this.ajax.post("/xinda-api/sso/logout").then(data=>{
-
+            that.$router.push({path:'/header'});
           });
           this.$message({
             type: 'success',
