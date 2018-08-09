@@ -28,7 +28,11 @@
                 @click="link"
                 v-if="!style"><span></span></button>
             </div>
-            <p class="p2 "><a>热门服务：</a><router-link to="" class="color1">社保开户</router-link><router-link to="" class="color1">公司注册</router-link></p>
+            <p class="p2 ">
+              <a>热门服务：</a>
+              <router-link :to="{path:'/list',query:{name:'社保代理',code:6,id:'5e0220d58f30436e92a8d0052b4b8203',index2:0,index3:1}}" class="color1">社保开户</router-link>
+              <router-link :to="{path:'/list',query:{name:'公司工商',code:4,index:0}}" class="color1">公司注册</router-link>
+            </p>
           </div>
           <div class="grabble-right">
             <span></span>
@@ -39,16 +43,18 @@
           <ul>
             <li class="hov">
               <router-link to="/index1" :class="{active:nav}">全部产品</router-link>
-              <ul class="nav-select">
+              <ul class="nav-select" v-if="none" :class="{hover:hover}">
                 <li v-for="(item,key,index) in menuList" :key="index">
                   <span></span>
                   <div>
                     <router-link 
+                      @click.native="none1"
                       :to="{path:'/list',query:{name:item.name,index: 0}}" 
                       class="nav-h2">{{item.name}}
                     </router-link>
                     <p>
                       <router-link 
+                        @click.native="none1"
                         :to="{path:'/list',query:{name:item.name,code:item1.code,index:index1}}" 
                         v-for="(item1,key1,index1) in item.itemList" :key="index1" 
                         class="nav-span">{{item1.name}}
@@ -62,6 +68,7 @@
                         <p class="nav-select11">{{item2.name}}></p>
                         <p class="nav-select12">
                           <router-link 
+                            @click.native="none1"
                             :to="{path:'/list',query:{name:item.name,code:item2.code,id:item3.id,index2:index2,index3:index3}}" 
                             v-for="(item3,key3,index3) in item2.itemList" 
                             :key="index3">{{item3.name}}
@@ -77,7 +84,11 @@
             
             <li><router-link :to="{path:'/list',query:{name:'财税服务'}}" :class="{active:nav1}">财税服务</router-link></li>
             <li><router-link :to="{path:'/list',query:{name:'公司工商'}}" :class="{active:nav2}">公司工商</router-link></li>
+<<<<<<< HEAD
             <li><router-link to="/join" :class="{active:nav3}">加盟我们</router-link></li>
+=======
+            <li><router-link to="/league" :class="{active:nav3}">加盟我们</router-link></li>
+>>>>>>> 8e02717ea5c2947575ec7cf9649221e851357403
             <li><router-link to="/shop" :class="{active:nav4}">店铺</router-link></li>
           </ul>
         </div>
@@ -155,6 +166,8 @@ export default {
       nav4: false,
       color_red: false, 
       placeholder:'搜索您需要的服务或服务商',
+      none: true,
+      hover: false,
     };
   },
   created() {
@@ -172,17 +185,23 @@ export default {
     });
   },
   methods: {
+    none1(){
+      this.none = false;
+      setTimeout(() => {
+        this.none = true;
+      }, 400);
+    },
     link(){
       if(this.state4 === ''){
         this.color_red = true;
         this.placeholder = '请输入内容';
       }else{
         this.color_red = false;
-        this.state4 = '';
         this.placeholder='搜索您需要的服务或服务商',
         this.$router.push({
             path:'/shop',query:{searchName:this.state4}
         })
+        this.state4 = '';
       }  
     },
     link1(){
@@ -191,11 +210,11 @@ export default {
         this.placeholder = '请输入内容';
       }else{
         this.color_red = false;
-        this.state4 = '';
         this.placeholder='搜索您需要的服务或服务商',
         this.$router.push({
             path:'/list',query:{searchName:this.state4}
         })
+        this.state4 = '';
       }
     },
     changecolor() {
@@ -393,6 +412,9 @@ export default {
             &:hover{
               color: #2693d4;
             }
+          }
+          .hover{
+            display: flex!important;
           }
           .nav-select{
             height: 400px;
