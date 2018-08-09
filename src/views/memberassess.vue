@@ -91,7 +91,7 @@ export default {
             scores:'',
             hints:'noneassess',
             hintstri:'',
-            hit:0,
+            hit:6,
         }
     },
     created(){
@@ -138,9 +138,9 @@ export default {
         },
         stars(value){
             switch(value){
-                case 1:this.controlStar(5,false);break;
-                case 2:this.controlStar(3,false);break;
-                default:this.controlStar(1,false);
+                case 1:{this.controlStar(5,false);this.hit=6;}break;
+                case 2:{this.controlStar(3,false);this.hit=7;}break;
+                default:{this.controlStar(1,false);this.hit=8;}
             }  
         },
         starsone(){
@@ -173,7 +173,9 @@ export default {
                 case 3:this.controlStar(3,true,'3分','一般');break;
                 case 4:this.controlStar(4,true,'4分','满意');break;
                 case 5:this.controlStar(5,true,'5分','惊喜');break;
-                default:this.controlStar(5,0);
+                case 6:this.controlStar(5,0);break;
+                case 7:this.controlStar(3,0);break;
+                default:this.controlStar(1,0);
             }           
         },
         controlStar(n,bool,aa,bb){
