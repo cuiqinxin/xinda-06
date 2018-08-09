@@ -69,7 +69,7 @@
                                         <p>￥ {{item['price']}}.00</p>
                                         <div>
                                             <button :id="item['id']" @click="buy($event)">立即购买</button>
-                                            <button :id="item['id']" @click="cart($event)">加入购物车</button>
+                                            <button :id="item.id" @click="cart($event)">加入购物车</button>
                                         </div>
                                     </div>
                                 </el-col>

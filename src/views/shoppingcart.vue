@@ -26,7 +26,7 @@
           <el-col :span="4"><div class="servicegoods">{{item.serviceName}}</div></el-col>
 
            <!-- 单价 -->
-          <el-col :span="4"><div class="price">￥<span>{{item.unitPrice}}{{item.Unit}}</span></div></el-col>
+          <el-col :span="4"><div class="price">￥<span>{{item.unitPrice}}</span></div></el-col>
              <!-- 购买数量 -->
           <el-col :span="4">
             <div class="number">
@@ -210,6 +210,8 @@ export default {
     addnum:function(e){
       var goodsindex=e.target.id;
       var that = this;
+      that.shoppingdata[goodsindex].buyNum++;
+      that.shoppingdata[goodsindex].totalPrice=that.shoppingdata[goodsindex].buyNum*that.shoppingdata[goodsindex].unitPrice;
       // console.log(that.shoppingdata[goodsindex].buyNum)
       that.ajax
       .post("/xinda-api/cart/add", that.qs.stringify({
@@ -224,7 +226,7 @@ export default {
         if (data.data.data.length == 0) {
           that.seen=false;
         } else {
-          that.shoppingdata = data.data.data;
+          // that.shoppingdata = data.data.data;
         }
       })
       .catch(function(data) {
@@ -240,6 +242,8 @@ export default {
  reducenum:function(e){
       var goodsindex=e.target.id;
       var that = this;
+      that.shoppingdata[goodsindex].buyNum--;
+      that.shoppingdata[goodsindex].totalPrice=that.shoppingdata[goodsindex].buyNum*that.shoppingdata[goodsindex].unitPrice;
       that.ajax
       .post("/xinda-api/cart/add", that.qs.stringify({
 		    id:that.shoppingdata[goodsindex].serviceId,
@@ -253,7 +257,7 @@ export default {
             if (data.data.data.length == 0) {
               that.seen=false;
             } else {
-              that.shoppingdata = data.data.data;
+              // that.shoppingdata = data.data.data;
             }
           })
           .catch(function(data) {
