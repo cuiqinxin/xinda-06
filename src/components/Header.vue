@@ -233,7 +233,7 @@ export default {
         this.$router.push({
             path:'/shop',query:{searchName:this.state4}
         })
-        this.state4 = '';
+        // this.state4 = '';
       }  
     },
     link1(){
@@ -247,7 +247,7 @@ export default {
         this.$router.push({
             path:'/list',query:{searchName:this.state4}
         })
-        this.state4 = '';
+        // this.state4 = '';
       }
     },
     changecolor() {
