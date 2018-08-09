@@ -14,7 +14,7 @@
                         <p class="wrongTip">{{photoTip}}</p>
                         <div class="phoyan">
                             <input type="text" placeholder="请输入手机验证码" class="yanma" v-model="phoneYan" @keyup="telKey">
-                            <button @click="telget" :class="showyan">{{phoneClick}}</button>
+                            <button @click="telget" :id="showyan">{{phoneClick}}</button>
                         </div>
                         <p class="wrongTip">{{telTip}}</p>
                         <!-- <password></password> -->
@@ -210,7 +210,6 @@ export default {
                 this.againTip='';lastzhu++;
             }
             if(lastzhu==5){
-                console.log('111')
                 var that=this;
                 var md5=require('md5');
                 this.ajax.post('/xinda-api/register/findpas',this.qs.stringify(
@@ -345,26 +344,28 @@ export default {
         border-radius: 5px;
         input{
             border:0;
+            width: 62%;
         }
         span{
-            height: 30px;
-            width: 30px;  
-            background-size: 30px 30px;
+            width: 23px;  
             vertical-align: top;
             float: right;
-            margin:2px 6px;
             cursor: pointer;
         }
     }
     .bi{
+        margin:12px 8px 11px;        
+        height: 11px;
         background: url(../../static/bi.png) no-repeat;      
     }
     .zheng{
+        margin:9px 8px 8px;        
+        height: 17px;
         background: url(../../static/zheng.png) no-repeat;      
     }
     @media screen and (max-width: 768px){
         .Forget .log{ margin-top:145px;}
-        .pass{margin:32px 0 0;}
+        .pass{margin:32px 0 0;input{width: 58%;}}
         .deng{margin-top: 77px;padding-top: 0;}
         .left{margin-top:71px;}
         .log{
@@ -379,21 +380,23 @@ export default {
         margin-top: 19px;
         button{
             height: 36px;
+            color: #3f9cd9;
             background-color: #fff;
             width: 32.5%;
             float: right;
             font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
+            outline: none;
         }
     }
-    .valid{
-        color: #3f9cd9;
+    #valid{
         border:1px solid #3f9cd9;
     }
-    .invalid{
+    #invalid{
         color: #ccc;
         border:1px solid #ccc;
+        background-color: #fff;        
     }
     .Forget{
         background-color: #f5f5f5;
@@ -410,13 +413,18 @@ export default {
             }
             .left{margin-bottom: 22px;}
         }
-    } 
-    .valid{
-        color: #3f9cd9;
-        border:1px solid #3f9cd9;
     }
-    .invalid{
-        color: #ccc;
-        border:1px solid #ccc;
+    @media screen and (min-width: 768px) and (max-width: 992px){
+        .pass input{width: 52%;}
+        .yanma{width:44%;} 
+        .phoyan button{font-size: 14px;width: 29%;}      
+    } 
+    @media screen and (max-width: 768px){
+        .phoyan button{
+            font-size: 14px;
+            width: 30%;
+            color: #fff;
+            background-color: #2693d4;
+        }
     }
 </style>

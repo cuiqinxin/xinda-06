@@ -13,7 +13,7 @@
                         <p class="wrongTip">{{photoTip}}</p>
                         <div class="phoyan">
                             <input type="text" placeholder="请输入手机验证码" class="yanma" v-model="phoneYan" @keyup="telKey">
-                            <button @click="telget" :class="showyan">{{phoneClick}}</button>
+                            <button @click="telget" :id="showyan">{{phoneClick}}</button>
                         </div>
                         <p class="wrongTip">{{telTip}}</p>
                         <city @confirm="confirm" display="12345"></city>
@@ -350,30 +350,30 @@ export default {
             height: 36px;
         }
     }
-    .yanma{
-        width:48.484%;
-    }
+    .yanma{width:48.484%;}
     .pass{
         margin:24px 0 0;
         border: 1px solid #cbcbcb;
         border-radius: 5px;
         input{
             border:0;
+            width: 62%;
         }
         span{
-            height: 30px;
-            width: 30px;  
-            background-size: 30px 30px;
+            width: 23px;  
             vertical-align: top;
             float: right;
-            margin:2px 6px;
             cursor: pointer;
         }
     }
     .bi{
+        margin:12px 8px 11px;        
+        height: 11px;
         background: url(../../static/bi.png) no-repeat;      
     }
     .zheng{
+        margin:9px 8px 8px;        
+        height: 17px;
         background: url(../../static/zheng.png) no-repeat;      
     }
     @media screen and (max-width: 768px){
@@ -393,20 +393,22 @@ export default {
         button{
             height: 36px;
             background-color: #fff;
+            color: #3f9cd9;
             width: 32.5%;
             float: right;
             font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
+            outline: none;
         }
     }
-    .valid{
-        color: #3f9cd9;
+    #valid{
         border:1px solid #3f9cd9;
     }
-    .invalid{
+    #invalid{
         color: #ccc;
         border:1px solid #ccc;
+        background-color: #fff;
     }
     .zunshou{
         text-align: center;
@@ -431,6 +433,14 @@ export default {
             .left{margin-bottom: 22px;}
             .log{margin-top:24px;}
         }
+    }
+    @media screen and (max-width: 1200px){ 
+        .Zhuce .zhu .left .shu select{width: 31%;}     
+    } 
+    @media screen and (min-width: 768px) and (max-width: 992px){
+        .pass input{width: 52%;}
+        .yanma{width:44%;} 
+        .phoyan button{font-size: 14px;width: 29%;}      
     } 
     @media screen and (max-width: 768px){
         .Zhuce{
@@ -440,12 +450,14 @@ export default {
                 .yan{margin:32px 0 0;}
                 .left .shu select{margin:32px 0 0 0;}
                 .log{margin-top:115px;}
-                // .pass{margin-bottom: 145px;}
+                .pass input{width: 58%;}
             }
         }
         .phoyan button{
             color: #fff;
             background-color: #2693d4;
+            font-size: 14px;
+            width: 30%;
         }
     }
 </style>

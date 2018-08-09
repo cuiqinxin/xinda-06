@@ -99,11 +99,21 @@ export default {
         this.$parent.assessRight='choose assess hidden-xs-only liespe';
         this.$parent.installRight='choose install';
         var that=this;
-        this.datavalue=this.ajax.post('/xinda-api/service/judge/grid',this.qs.stringify(
+        this.ajax.post('/xinda-api/service/judge/grid',this.qs.stringify(
             {start:0,limit:6,status:2}
         )).then(
             function(data){
-                console.log(data);
+                // console.log(data);
+                if(data.data.status=='-999'){
+                    that.$alert('请先登录', '提示', {
+                        confirmButtonText: '确定',
+                        type: 'warning',
+                        callback: action => {
+                            that.$router.push({path:'/outter/login'});
+                        }
+                    });
+                    return;
+                }
         }).catch(function(){console.log('失败');})
     },
     methods:{
@@ -115,7 +125,7 @@ export default {
                 {id:'e456a5952fd6486091b9a229a85c45fd',type:1,score:2,content:1121}
             )).then(
                 function(data){
-                    console.log(data);
+                    // console.log(data);
             }).catch(function(){console.log('失败');});
 
             this.assessWan='assessNei hidden-xs-only showassess';
@@ -291,9 +301,10 @@ export default {
                 span{color: #fc6c6b}
             }
             .buytime{
-                margin:40px 0 0 46px;
+                margin:4.5% 0 0 5%;
                 display: inline-block;
                 vertical-align: top;
+                width: 27%;
             }
             .goping{
                 width: 112px;
@@ -301,7 +312,7 @@ export default {
                 height: 35px;
                 text-align: center;
                 float: right;
-                margin:27px 29px 0 0;
+                margin:27px 3% 0 0;
                 border-radius: 5px;
             }
             .will{
@@ -316,7 +327,8 @@ export default {
                 background-color: #ccc;
             }
             .img{
-                width: 98px;
+                width: 11%;
+                min-width: 52;
                 height: 98px;;
                 margin:0 12px 0 8px;
                 border: 1px solid #ccc;
@@ -340,7 +352,7 @@ export default {
             .tit span{width: 86px;}
             .ser{
                 margin:32px 0 42px;
-                .buynei{margin:0 20% 0 5.5%;}
+                .buynei{margin:0 14% 0 5.5%;}
             }
             .ass{
                 font-size: 14px;

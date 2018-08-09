@@ -49,7 +49,16 @@ export default {
                 {}
             )).then(
                 function(data){
-                    if(data.data.data==null){return;}
+                    if(data.data.data==null){
+                        that.$alert('请先登录', '提示', {
+                            confirmButtonText: '确定',
+                            type: 'warning',
+                            callback: action => {
+                                that.$router.push({path:'/outter/login'});
+                            }
+                        });
+                        return;
+                    }
                     store.commit('loginStatus',data.data.data.loginId)              
             }).catch(function(){console.log('失败');})
         }
@@ -66,7 +75,8 @@ export default {
     span{display: inline-block;}
     .cheng{
         background-color: #f7f7f7;
-        height: 200px;
+        height: 171px;
+        margin-bottom: 30px;
     }
     .Member{
         max-width: 1200px;
@@ -147,22 +157,22 @@ export default {
         }
         .liespe{background-color: #e9e9e9;}
         .order span{
-            width: 22px;
-            height:22px;
+            width: 20px;
+            height:21px;
             background: url(../../static/u5092.png) no-repeat;
-            margin:14px 12px 14px 0;
+            margin:15px 12px 14px 0;
         }
         .assess span{
-            width: 23px;
-            height:19px;
+            width: 21px;
+            height:22px;
             background: url(../../static/u5098.png) no-repeat;
-            margin:17px 11px 14px 0;
+            margin:14px 11px 14px 0;
         }
         .install span{
-            width: 26px;
-            height:24px;
+            width: 20px;
+            height:21px;
             background: url(../../static/u5102.png) no-repeat;
-            margin:12px 9px 14px 0;
+            margin:15px 12px 14px 0;
         }
     @media screen and (max-width: 768px){
             .user{background-color: #fff;margin:140px 0 80px;}
@@ -180,7 +190,7 @@ export default {
                 display: flex;
                 justify-content: space-between;
                 div{width:50%}
-                span{margin:14px 14.8% 14px 17px;}
+                span{margin:15px 14.8% 14px 17px;}
                 p{
                     line-height: 50px;
                     font-size: 26px;
