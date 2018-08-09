@@ -179,7 +179,7 @@ export default {
     //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
     var that = this;
     this.ajax
-      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/list", {})
+      .post("xinda-api/cart/list", {})
       .then(function(data) {
         // console.log(data.data.data.length);
         // console.log(data.data);
@@ -189,6 +189,7 @@ export default {
 
         //如果购物车部不为空，则渲染页面；
         } else {
+          
           that.shoppingdata = data.data.data;
           for(i=0 ;i<shoppingdata.length;i++){
         this.totalprice+=shoppingdata[i].totalPrice;
