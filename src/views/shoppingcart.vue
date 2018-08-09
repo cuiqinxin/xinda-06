@@ -26,7 +26,7 @@
           <el-col :span="4"><div class="servicegoods">{{item.serviceName}}</div></el-col>
 
            <!-- 单价 -->
-          <el-col :span="4"><div class="price">￥<span>{{item.unitPrice}}{{item.Unit}}</span></div></el-col>
+          <el-col :span="4"><div class="price">￥<span>{{item.unitPrice}}</span></div></el-col>
              <!-- 购买数量 -->
           <el-col :span="4">
             <div class="number">
@@ -40,12 +40,12 @@
          <!-- 是否删除 -->
           <el-col :span="4"><div class="operation" >
             <!-- <a href="javascript:void(0)" class="remove" :id="index">删除</a> -->
-            <el-button type="text" class="remove" :id="item.productId" @click="open2">删除</el-button>
+            <button type="text" class="remove" :id="item.serviceId" @click.capture.self="open2">删除</button>
             </div></el-col>
         </el-row>
  </div>
  <!-- stytle  -->
-             <div class="details">
+          <!-- <div class="details">
           <p class="store">店铺：云智慧服务有限公司</p>
 
         <el-row class='shopdetails'>
@@ -64,17 +64,17 @@
           <el-col :span="5"><div class="money">￥<span>800</span></div></el-col>
         
           <el-col :span="4"><div class="operation">
-            <!-- <a href="javascript:void(0)" class="remove">删除</a> -->
               <el-button type="text" class="remove"  @click="open2">删除</el-button>
             </div></el-col>
         </el-row>
-      </div>
+      </div> -->
+ <!-- stytle 结束 -->
           <!-- <el-row :gutter="5">
         <el-col :span="18"><div class="grid-content bg-purple"></div></el-col>
       
       </el-row> -->
       <div class="allmoney"><p style="width:220px;text-align:center">
-        金额总计:<span>￥{{totalprice}}</span>
+        金额总计:<span>￥{{newtotalprice}}</span>
         
         </p></div>
 
@@ -82,7 +82,7 @@
         <!-- <a href="javascript:void(0)" class="shopnext">继续购物</a>
         <a  href="javascript:void(0)"  class="account">去结算</a> -->
         <router-link to="/" class="shopnext">继续购物</router-link>
-        <router-link to="/" class="shopnext">去结算</router-link>
+        <router-link to="/header/pay" class="shopnext">去结算</router-link>
           </div>
 
       <p class="hotservice">热门服务</p>
@@ -167,9 +167,9 @@ export default {
 
   data() {
     return {
-      shoppingdata: "",
+      shoppingdata: [],
       seen:true,
-      totalprice:"0.00",
+      totalprice:0,
       // removeid:''
     };
   },
@@ -179,49 +179,59 @@ export default {
     //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
     var that = this;
     this.ajax
-      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/list", {})
+<<<<<<< HEAD
+      .post("xinda-api/cart/list", {})
+=======
+      .post("/xinda-api/cart/list", that.qs.stringify({}))
+>>>>>>> c2798d5e0be3caa45d675893c9ef6dc49c32aac6
       .then(function(data) {
-        // console.log(data.data.data.length);
-        // console.log(data.data);
         //如果购物车为空，则显示购物车为空页面
         if (data.data.data.length == 0) {
           // that.seen=false;
-
         //如果购物车部不为空，则渲染页面；
         } else {
+          
           that.shoppingdata = data.data.data;
-          for(i=0 ;i<shoppingdata.length;i++){
-        this.totalprice+=shoppingdata[i].totalPrice;
-      }
         }
       })
-      .catch(function(data) {
-        console.log("请求失败");
-      });
   },
-
+  computed:{
+    //动态监测页面总价
+     newtotalprice:function(){
+       var that = this;
+       if(that.shoppingdata.length!=0){
+         that.totalprice=0;
+          for(var i=0 ;i<that.shoppingdata.length;i++){
+            that.totalprice+=that.shoppingdata[i].totalPrice;
+          }
+       }else{
+         that.totalprice=that.totalprice;
+       }
+        return that.totalprice
+     },
+  },
   methods: {
-    //添加商品数量
+    //添加/减少商品数量
     addnum:function(e){
       var goodsindex=e.target.id;
       var that = this;
+      that.shoppingdata[goodsindex].buyNum++;
+      that.shoppingdata[goodsindex].totalPrice=that.shoppingdata[goodsindex].buyNum*that.shoppingdata[goodsindex].unitPrice;
+      // console.log(that.shoppingdata[goodsindex].buyNum)
       that.ajax
-      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/add", {
-		    id:that.shoppingdata[goodsindex].productId,
-		    num:that.shoppingdata[goodsindex].buyNum
-        })
+      .post("/xinda-api/cart/add", that.qs.stringify({
+		    id:that.shoppingdata[goodsindex].serviceId,
+		    num:1
+        }))
       .then(function(data) {//添加商品成功则进行ajax请求购物车列表数据，刷新页面数据
-        console.log(data);
+        // console.log(data);
           that.ajax
-      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/list", {})
+      .post("/xinda-api/cart/list", that.qs.stringify({}))
       .then(function(data) {
         if (data.data.data.length == 0) {
-          // that.seen=false;
+          that.seen=false;
         } else {
-          that.shoppingdata = data.data.data;
-          for(i=0 ;i<shoppingdata.length;i++){
-        that.totalprice+=shoppingdata[i].totalPrice;
-      }
+          // that.shoppingdata = data.data.data;
         }
       })
       .catch(function(data) {
@@ -237,29 +247,27 @@ export default {
  reducenum:function(e){
       var goodsindex=e.target.id;
       var that = this;
+      that.shoppingdata[goodsindex].buyNum--;
+      that.shoppingdata[goodsindex].totalPrice=that.shoppingdata[goodsindex].buyNum*that.shoppingdata[goodsindex].unitPrice;
       that.ajax
-      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/set", {
-		    id:that.shoppingdata[goodsindex].productId,
-		    num:that.shoppingdata[goodsindex].buyNum
-        })
+      .post("/xinda-api/cart/add", that.qs.stringify({
+		    id:that.shoppingdata[goodsindex].serviceId,
+		    num:-1
+        }))
       .then(function(data) {//减少商品成功则进行ajax请求购物车列表数据，刷新页面数据
         console.log(data);
-          that.ajax
-      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/list", {})
-      .then(function(data) {
-        if (data.data.data.length == 0) {
-          that.seen=false;
-        } else {
-          that.shoppingdata = data.data.data;
-          //总价，总计价格
-          for(i=0 ;i<shoppingdata.length;i++){
-        that.totalprice+=shoppingdata[i].totalPrice;
-      }
-        }
-      })
-      .catch(function(data) {
-        console.log("请求失败");
-      });
+              that.ajax
+          .post("/xinda-api/cart/list", that.qs.stringify({}))
+          .then(function(data) {
+            if (data.data.data.length == 0) {
+              that.seen=false;
+            } else {
+              // that.shoppingdata = data.data.data;
+            }
+          })
+          .catch(function(data) {
+            console.log("请求失败");
+          });
       })
       .catch(function(data) {
         console.log("请求失败/您的购物车中没有该产品，请刷新页面"); 
@@ -271,32 +279,34 @@ export default {
   //elementui 自带弹出框函数,点击确定后发送ajax请求，并刷新页面
    open2(e) {
      var removeindex=e.target.id;
+     console.log(e.target.id);
      var that=this;
+     console.log(e.target),
         this.$confirm('此操作将从购物车删除该商品, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          console.log(this);
+          // console.log(this);
 //开始
 
  that.ajax
-      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/del", {
+      .post("/xinda-api/cart/del", that.qs.stringify({
 		    id:removeindex,
-        })
+        }))
       .then(function(data) {//减少商品成功则进行ajax请求购物车列表数据，刷新页面数据
         console.log(data);
           that.ajax
-      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/list", {})
+      .post("/xinda-api/cart/list", that.qs.stringify({}))
       .then(function(data) {
         if (data.data.data.length == 0) {
-          // that.seen=false;
+          that.seen=false;
         } else {
           that.shoppingdata = data.data.data;
           //总价，总计价格
-          for(i=0 ;i<shoppingdata.length;i++){
-        that.totalprice+=shoppingdata[i].totalPrice;
-      }
+      //     for(i=0 ;i<shoppingdata.length;i++){
+      //   that.totalprice+=shoppingdata[i].totalPrice;
+      // }
         }
       })
       .catch(function(data) {
@@ -417,6 +427,7 @@ export default {
           height: 20px;
           width: 35px;
           border: 0;
+          padding:0;
           // position:relative;
           // top:-2px;
           outline: none;
@@ -429,6 +440,9 @@ export default {
 
       .remove {
         color: #2693d4;
+        border:0;
+        outline:none;
+        background:#f7f7f7;
       }
     }
   }
