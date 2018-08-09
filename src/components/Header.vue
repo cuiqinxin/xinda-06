@@ -77,11 +77,7 @@
             
             <li><router-link :to="{path:'/list',query:{name:'财税服务'}}" :class="{active:nav1}">财税服务</router-link></li>
             <li><router-link :to="{path:'/list',query:{name:'公司工商'}}" :class="{active:nav2}">公司工商</router-link></li>
-<<<<<<< HEAD
-            <li><router-link to="/league" :class="{active:nav3}">加盟我们</router-link></li>
-=======
             <li><router-link to="/join" :class="{active:nav3}">加盟我们</router-link></li>
->>>>>>> 6c8f6d506637d43b23cf6f88f87ed765622a5a58
             <li><router-link to="/shop" :class="{active:nav4}">店铺</router-link></li>
           </ul>
         </div>
@@ -182,11 +178,11 @@ export default {
         this.placeholder = '请输入内容';
       }else{
         this.color_red = false;
-        this.state4 = '';
         this.placeholder='搜索您需要的服务或服务商',
         this.$router.push({
             path:'/shop',query:{searchName:this.state4}
         })
+        this.state4 = '';
       }  
     },
     link1(){
@@ -195,11 +191,11 @@ export default {
         this.placeholder = '请输入内容';
       }else{
         this.color_red = false;
-        this.state4 = '';
         this.placeholder='搜索您需要的服务或服务商',
         this.$router.push({
             path:'/list',query:{searchName:this.state4}
         })
+        this.state4 = '';
       }
     },
     changecolor() {
