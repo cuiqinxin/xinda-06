@@ -477,6 +477,7 @@
                     border-radius:0;
                     outline: none;
                     text-align: center;
+                    padding:0;
                 }
             } 
             // 最底部button

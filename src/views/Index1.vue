@@ -67,7 +67,7 @@
                     <h5>{{item.serviceName.split('（')[0].split('(')[0]}}</h5>
                     <p class="hq-p1">{{item.serviceInfo}}</p>
                     <p><span>￥{{item.price}}</span>{{item.unit}}</p>
-                    <router-link :to="{path:'/header/goodsdetail',query:{id:item.providerId}}">查看详情</router-link>
+                    <router-link :to="{path:'/header/goodsdetail',query:{id:item.id}}">查看详情</router-link>
                 </div>
             </div>
         </div>
