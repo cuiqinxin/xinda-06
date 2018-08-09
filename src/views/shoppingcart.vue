@@ -179,11 +179,7 @@ export default {
     //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
     var that = this;
     this.ajax
-<<<<<<< HEAD
-      .post("xinda-api/cart/list", {})
-=======
       .post("/xinda-api/cart/list", that.qs.stringify({}))
->>>>>>> c2798d5e0be3caa45d675893c9ef6dc49c32aac6
       .then(function(data) {
         //如果购物车为空，则显示购物车为空页面
         if (data.data.data.length == 0) {
