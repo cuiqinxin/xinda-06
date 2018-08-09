@@ -20,7 +20,9 @@
                 :fetch-suggestions="querySearchAsync"
                 :placeholder='placeholder'
                 @select="handleSelect"
-                
+                @keyup.enter.native="search"
+                v-focus="focuss"
+                :value="state4"
               ></el-autocomplete><button 
                 @click="link1"
                 v-if="style"><span></span>
@@ -84,7 +86,7 @@
             
             <li><router-link :to="{path:'/list',query:{name:'财税服务'}}" :class="{active:nav1}">财税服务</router-link></li>
             <li><router-link :to="{path:'/list',query:{name:'公司工商'}}" :class="{active:nav2}">公司工商</router-link></li>
-            <li><router-link to="/league" :class="{active:nav3}">加盟我们</router-link></li>
+            <li><router-link to="/join" :class="{active:nav3}">加盟我们</router-link></li>
             <li><router-link to="/shop" :class="{active:nav4}">店铺</router-link></li>
           </ul>
         </div>
@@ -164,8 +166,28 @@ export default {
       placeholder:'搜索您需要的服务或服务商',
       none: true,
       hover: false,
+      focuss: false
     };
   },
+  directives: {
+
+    focus: {
+
+        inserted: function (el, {value}) {
+
+        console.log(el,{value})
+
+            if (value) {
+
+                el.querySelector('input').focus();
+                console.log(el);
+
+            }
+
+        }
+
+    }
+ },
   created() {
     var navArr={};
     var that = this;
@@ -181,6 +203,19 @@ export default {
     });
   },
   methods: {
+    search(){
+      console.log('enter')
+      if(this.style===true){
+        this.link1();
+        this.focuss = true
+        console.log('12')
+        // console.log(this.focus)
+      }else{
+        this.link();
+        this.focuss = true
+        console.log('123')
+      }
+    },
     none1(){
       this.none = false;
       setTimeout(() => {
@@ -193,7 +228,7 @@ export default {
         this.placeholder = '请输入内容';
       }else{
         this.color_red = false;
-        this.state4 = '';
+        // this.state4 = '';
         this.placeholder='搜索您需要的服务或服务商',
         this.$router.push({
             path:'/shop',query:{searchName:this.state4}
@@ -206,7 +241,7 @@ export default {
         this.placeholder = '请输入内容';
       }else{
         this.color_red = false;
-        this.state4 = '';
+        // this.state4 = '';
         this.placeholder='搜索您需要的服务或服务商',
         this.$router.push({
             path:'/list',query:{searchName:this.state4}
