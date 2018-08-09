@@ -86,7 +86,15 @@
             
             <li><router-link :to="{path:'/list',query:{name:'财税服务'}}" :class="{active:nav1}">财税服务</router-link></li>
             <li><router-link :to="{path:'/list',query:{name:'公司工商'}}" :class="{active:nav2}">公司工商</router-link></li>
+<<<<<<< HEAD
             <li><router-link to="/join" :class="{active:nav3}">加盟我们</router-link></li>
+=======
+<<<<<<< HEAD
+            <li><router-link to="/join" :class="{active:nav3}">加盟我们</router-link></li>
+=======
+            <li><router-link to="/league" :class="{active:nav3}">加盟我们</router-link></li>
+>>>>>>> 8e02717ea5c2947575ec7cf9649221e851357403
+>>>>>>> ecc4fab6f2d25ddb546badc84199f3e42f6b0b67
             <li><router-link to="/shop" :class="{active:nav4}">店铺</router-link></li>
           </ul>
         </div>

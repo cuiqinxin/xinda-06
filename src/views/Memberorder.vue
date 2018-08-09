@@ -111,6 +111,7 @@ export default {
             chuliArr:[],
             pagei:1,
             fenye:0,
+            callbackSign:0,
             searchOrderNumber:'',
             orderHint:'',
             noneorder:'yincangorder'
@@ -182,7 +183,7 @@ export default {
         deleOrder(value){
             var that=this;
             // console.log(value);
-            this.datavalue=this.ajax.post('/xinda-api/business-order/del',this.qs.stringify(
+            this.ajax.post('/xinda-api/business-order/del',this.qs.stringify(
                 {'id':value}
             )).then(
                 function(data){
@@ -214,7 +215,7 @@ export default {
             this.pagei--;
         },
         datachoose(){
-            if(this.value1==''){return;}
+            if(this.value1[0]==undefined||this.value1[1]==undefined||this.value1[0]==null||this.value1[1]==null){return;}
             var newDate = new Date();
             var newDate1 = new Date();
             newDate.setTime(this.value1[0].getTime());
@@ -256,25 +257,36 @@ export default {
                         }
                         that.orderArr[i][0].totalOrder=totalOrder;
                     }
-                    console.log(that.orderArr);
                     that.fenye=Math.ceil(that.orderArr.length/2);
                     for(var i=0;i<that.orderArr.length;i=i+2){
                         var b=[that.orderArr[i],that.orderArr[i+1]];
                         if(b[1]==undefined){b.pop()};
                         that.chuliArr.push(b);
-                    }    
-                    console.log(that.chuliArr); 
-                    console.log(that.pagei);      
+                    }           
                     if(that.fenye>1){that.nextClick='click';}
             }).catch(function(){console.log('失败');})
         },
         searchOrder(){
-            if(!/^S\d{19}$/.test(this.searchOrderNumber)){
+            if(this.searchOrderNumber==''){
+                if(this.callbackSign==1){
+                    this.chuliArr=[];
+                    this.orderHint='';
+                    this.pagei=1;
+                    this.fenye=Math.ceil(this.orderArr.length/2);
+                    if(this.fenye>1){this.nextClick='click';}
+                    for(var i=0;i<this.orderArr.length;i=i+2){
+                        var b=[this.orderArr[i],this.orderArr[i+1]];
+                        if(b[1]==undefined){b.pop()};
+                        this.chuliArr.push(b);
+                    } 
+                }
+            }else if(!/^S\d{19}$/.test(this.searchOrderNumber)){
                 this.orderHint='订单号格式错误'
             }else{
                 this.orderHint='';
                 this.fenye=1;
                 this.pagei=1;
+                this.callbackSign=1;
                 this.nextClick='unclick';
                 this.prevClick='unclick';
                 for(var i=0; i<this.chuliArr.length;i++){
@@ -378,7 +390,7 @@ export default {
                 background: url(../../static/assesss.jpg) no-repeat;
                 margin:10px 12px;
             }
-            p{margin-top: 22px;text-align: left;display: flex;flex-direction: column;}
+            p{margin-top: 22px;text-align: left;display: flex;flex-direction: column;width: 57%;}
         }
     }
     .orderHead{
@@ -484,7 +496,7 @@ export default {
             .imgss{margin:22px 17px;}
             .phocom,.yuanchen{font-size: 14px;}
             .yuanchen{margin-top: 8px;}
-            p{margin-top: 18px;}
+            p{margin-top: 18px;width: 65%;}
         }
     }
     .phone{
