@@ -37,40 +37,40 @@
             </div>
         </div>
         <div :class="assessGo">
-                    <p class="tit">评价<span></span></p>
-                    <div class="dan ser">
-                        <p>服务单号：B1213231222</p>
-                        <p class="buynei">购买内容：test</p>
-                        <p>购买时间：2016-11-11</p>
-                    </div>
-                    <div class="dan ass">
-                        <p class="danspe">评价：</p>
-                        <div><input type="radio" name="assesses" checked @click="stars(1)">好评</div>
-                        <div><input type="radio" name="assesses" @click="stars(2)">中评</div>
-                        <div><input type="radio" name="assesses" @click="stars(3)">差评</div>                                               
-                    </div>
-                    <div class="dan fen">
-                        <p class="danspe">评分：</p>
-                        <div slot="reference">
-                            <i :class="starone" @click="starsone" @mouseenter="huiScore('1分','失望')" @mouseleave="leaveStar"></i>
-                            <i :class="startwo" @click="starstwo" @mouseenter="huiScore('2分','不满')" @mouseleave="leaveStar"></i>
-                            <i :class="starthree" @click="starsthree" @mouseenter="yellowScore('3分','一般')" @mouseleave="leaveStar"></i>
-                            <i :class="starfour" @click="starsfour" @mouseenter="yellowScore('4分','满意')" @mouseleave="leaveStar"></i>
-                            <i :class="starfive" @click="starsfive" @mouseenter="redScore('5分','惊喜')" @mouseleave="leaveStar"></i>
-                        </div>
-                        <div :class="hints">
-                            <span :class="hintstri"></span>
-                            <p id="zi">&nbsp;{{scores}}&nbsp;&nbsp;{{attitude}}&nbsp;</p>
-                        </div>
-                    </div>
-                    <div class="dan">
-                        <p class="danspe">感受：</p>
-                        <div class="feel">
-                            <textarea name="" id="" cols="0" rows="9"></textarea>
-                            <button @click="tijiaoasse">提交</button>
-                        </div>
-                    </div>
+            <p class="tit">评价<span></span></p>
+            <div class="dan ser">
+                <p>服务单号：B1213231222</p>
+                <p class="buynei">购买内容：test</p>
+                <p>购买时间：2016-11-11</p>
+            </div>
+            <div class="dan ass">
+                <p class="danspe">评价：</p>
+                <div><input type="radio" name="assesses" checked @click="stars(1)">好评</div>
+                <div><input type="radio" name="assesses" @click="stars(2)">中评</div>
+                <div><input type="radio" name="assesses" @click="stars(3)">差评</div>                                               
+            </div>
+            <div class="dan fen">
+                <p class="danspe">评分：</p>
+                <div slot="reference">
+                    <i :class="starone" @click="starsone" @mouseenter="enterStar(1,'1分','失望')" @mouseleave="leaveStar"></i>
+                    <i :class="startwo" @click="starstwo" @mouseenter="enterStar(2,'2分','不满')" @mouseleave="leaveStar"></i>
+                    <i :class="starthree" @click="starsthree" @mouseenter="enterStar(3,'3分','一般')" @mouseleave="leaveStar"></i>
+                    <i :class="starfour" @click="starsfour" @mouseenter="enterStar(4,'4分','满意')" @mouseleave="leaveStar"></i>
+                    <i :class="starfive" @click="starsfive" @mouseenter="enterStar(5,'5分','惊喜')" @mouseleave="leaveStar"></i>
                 </div>
+                <div :class="hints">
+                    <span :class="hintstri"></span>
+                    <p id="zi">&nbsp;{{scores}}&nbsp;&nbsp;{{attitude}}&nbsp;</p>
+                </div>
+            </div>
+            <div class="dan">
+                <p class="danspe">感受：</p>
+                <div class="feel">
+                    <textarea name="" id="" cols="0" rows="9"></textarea>
+                    <button @click="tijiaoasse">提交</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -90,7 +90,8 @@ export default {
             attitude:'',
             scores:'',
             hints:'noneassess',
-            hintstri:''
+            hintstri:'',
+            hit:0,
         }
     },
     created(){
@@ -126,81 +127,91 @@ export default {
             this.assessGo='gopingjia hidden-xs-only showassess';
         },
         stars(value){
-            if(value==3){
+            switch(value){
+                case 1:this.controlStar(5,false);break;
+                case 2:this.controlStar(3,false);break;
+                default:this.controlStar(1,false);
+            }  
+        },
+        starsone(){
+            this.hit=1;
+            this.controlStar(1,true,'1分','失望');
+        },
+        starstwo(){
+            this.hit=2;
+            this.controlStar(1,true,'2分','不满');
+        },
+        starsthree(){
+            this.hit=3;
+            this.controlStar(1,true,'3分','一般');
+        },
+        starsfour(){
+            this.hit=4;
+            this.controlStar(1,true,'4分','满意');
+        },
+        starsfive(){
+            this.hit=5;
+            this.controlStar(1,true,'5分','惊喜');
+        },
+        enterStar(nn,a,b){
+            this.controlStar(nn,true,a,b);
+        },
+        leaveStar(){
+            switch(this.hit){
+                case 1:this.controlStar(1,true,'1分','失望');break;
+                case 2:this.controlStar(2,true,'2分','不满');break;
+                case 3:this.controlStar(3,true,'3分','一般');break;
+                case 4:this.controlStar(4,true,'4分','满意');break;
+                case 5:this.controlStar(5,true,'5分','惊喜');break;
+                default:this.controlStar(5,0);
+            }           
+        },
+        controlStar(n,bool,aa,bb){
+            if(n==1||n==2){
                 this.starone='el-icon-star-on iconhui';
-                this.startwo='el-icon-star-off iconhui';
                 this.starthree='el-icon-star-off iconhui';
                 this.starfour='el-icon-star-off iconhui';
                 this.starfive='el-icon-star-off iconhui';
-            }else if(value==2){
+                if(n==1){
+                    this.startwo='el-icon-star-off iconhui';
+                }else{
+                    this.startwo='el-icon-star-on iconhui';
+                }
+                if(bool==true){
+                    this.hints='hintScore sandeng showassess';
+                    this.hintstri='sandeng';
+                }
+            }else if(n==3||n==4){
                 this.starone='el-icon-star-on iconyellow';
                 this.startwo='el-icon-star-on iconyellow';
                 this.starthree='el-icon-star-on iconyellow';
-                this.starfour='el-icon-star-off iconhui';
                 this.starfive='el-icon-star-off iconhui';
-            }else{
+                if(n==3){
+                    this.starfour='el-icon-star-off iconhui';
+                }else{
+                    this.starfour='el-icon-star-on iconyellow';
+                }
+                if(bool==true){
+                    this.hints='hintScore erdeng showassess';
+                    this.hintstri='erdeng';
+                }
+            }else if(n==5){
                 this.starone='el-icon-star-on iconred';
                 this.startwo='el-icon-star-on iconred';
                 this.starthree='el-icon-star-on iconred';
                 this.starfour='el-icon-star-on iconred';
                 this.starfive='el-icon-star-on iconred';
+                if(bool==true){
+                    this.hints='hintScore yideng showassess';
+                    this.hintstri='yideng';
+                }
             }
-        },
-        starsone(){
-            this.starone='el-icon-star-on iconhui';
-            this.startwo='el-icon-star-off iconhui';
-            this.starthree='el-icon-star-off iconhui';
-            this.starfour='el-icon-star-off iconhui';
-            this.starfive='el-icon-star-off iconhui';
-        },
-        starstwo(){
-            this.starone='el-icon-star-on iconhui';
-            this.startwo='el-icon-star-on iconhui';
-            this.starthree='el-icon-star-off iconhui';
-            this.starfour='el-icon-star-off iconhui';
-            this.starfive='el-icon-star-off iconhui';
-        },
-        starsthree(){
-            this.starone='el-icon-star-on iconyellow';
-            this.startwo='el-icon-star-on iconyellow';
-            this.starthree='el-icon-star-on iconyellow';
-            this.starfour='el-icon-star-off iconhui';
-            this.starfive='el-icon-star-off iconhui';
-        },
-        starsfour(){
-            this.starone='el-icon-star-on iconyellow';
-            this.startwo='el-icon-star-on iconyellow';
-            this.starthree='el-icon-star-on iconyellow';
-            this.starfour='el-icon-star-on iconyellow';
-            this.starfive='el-icon-star-off iconhui';
-        },
-        starsfive(){
-            this.starone='el-icon-star-on iconred';
-            this.startwo='el-icon-star-on iconred';
-            this.starthree='el-icon-star-on iconred';
-            this.starfour='el-icon-star-on iconred';
-            this.starfive='el-icon-star-on iconred';
-        },
-        redScore(a,b){
-            this.attitude=b;
-            this.scores=a;
-            this.hints='hintScore yideng showassess';
-            this.hintstri='yideng';
-        },
-        yellowScore(a,b){
-            this.attitude=b;
-            this.scores=a;
-            this.hints='hintScore erdeng showassess';
-            this.hintstri='erdeng';
-        },
-        huiScore(a,b){
-            this.attitude=b;
-            this.scores=a;
-            this.hints='hintScore sandeng showassess';
-            this.hintstri='sandeng';
-        },
-        leaveStar(){
-            this.hints='hintScore sandeng noneassess';            
+            if(bool==true){
+                this.attitude=bb;
+                this.scores=aa;
+            }else{
+                this.hints='noneassess';
+            }
         }
     }
 }

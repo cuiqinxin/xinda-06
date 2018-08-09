@@ -21,7 +21,7 @@
             </ul>
             <div class="star-con public-con">
                 <div>
-                    <div>
+                    <div @click="rou1">
                         <div class="star-img1"></div>
                         <h4>标准五险一金</h4>
                         <p>定制化社保代理，定制化代缴服务</p>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div>
-                    <div>
+                    <div @click="rou2">
                         <div class="star-img2"></div>
                         <h4>内资有限公司注册</h4>
                         <p>一键完成注册，快速开办公司</p>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div>
-                    <div>
+                    <div @click="rou3">
                         <div class="star-img3"></div>
                         <h4>小规模代理记账/年</h4>
                         <p>专业会计报税，高效，便捷，贴心</p>
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div>
-                    <div>
+                    <div @click="rou4">
                         <div class="star-img3"></div>
                         <h4>国内普通商标注册</h4>
                         <p>次日提交商标申请，最快保护品牌价值</p>
@@ -67,7 +67,7 @@
                     <h5>{{item.serviceName.split('（')[0].split('(')[0]}}</h5>
                     <p class="hq-p1">{{item.serviceInfo}}</p>
                     <p><span>￥{{item.price}}</span>{{item.unit}}</p>
-                    <router-link to="">查看详情</router-link>
+                    <router-link :to="{path:'/header/goodsdetail',query:{id:item.providerId}}">查看详情</router-link>
                 </div>
             </div>
         </div>
@@ -158,7 +158,7 @@
             </ul>
             <div class="tui-con public">
                 <div class="provider-con public-con" :class="{tui_display: active,tui_display1:active1}">
-                    <div v-for="(item,key,index) in provider" :key="index">
+                    <div v-for="(item,key,index) in provider" :key="index" @click="providerr(item)">
                         <div class="provider-img">
                             <img :src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)">
                         </div>
@@ -182,7 +182,7 @@
                         <h5>{{item.serviceName.split('（')[0].split('(')[0]}}</h5>
                         <p class="hq-p1">{{item.serviceInfo}}</p>
                         <p><span>￥{{item.price}}</span>{{item.unit}}</p>
-                        <router-link to="">查看详情</router-link>
+                        <router-link :to="{path:'/header/goodsdetail',query:{id:item.providerId}}">查看详情</router-link>
                     </div>
                 </div>
             </div>
@@ -220,27 +220,27 @@
             <el-row class="nav2-1" type="flex" justify="space-around">
                 <el-col :span="4">
                     <div>
-                        <router-link to=""><img src="../../static/1.png"></router-link>
+                        <router-link :to="{path:'/list',query:{name:'财税服务',index:0}}"><img src="../../static/1.png"></router-link>
                         <p>财税服务</p>
                     </div>
                     <div>
-                        <router-link to=""><img src="../../static/5.png"></router-link>
+                        <router-link :to="{path:'/list',query:{name:'社保代理',code:6,index:0}}"><img src="../../static/5.png"></router-link>
                         <p>公司社保</p>
                     </div>
                 </el-col>
                 <el-col :span="4">
                     <div>
-                        <router-link to=""><img src="../../static/2.png"></router-link>
+                        <router-link :to="{path:'/list',query:{name:'公司工商',code:4,index:0}}"><img src="../../static/2.png"></router-link>
                         <p>开公司</p>
                     </div>
                     <div>
-                        <router-link to=""><img src="../../static/6.png"></router-link>
+                        <router-link :to="{path:'/list',query:{name:'知识产权',index:0}}"><img src="../../static/6.png"></router-link>
                         <p>知识产权</p>
                     </div>
                 </el-col>
                 <el-col :span="4">
                     <div>
-                        <router-link to=""><img src="../../static/3.png"></router-link>
+                        <router-link :to="{path:'/list',query:{name:'公司工商',code:5,index:1}}"><img src="../../static/3.png"></router-link>
                         <p>公司变更</p>
                     </div>
                     <div>
@@ -250,7 +250,7 @@
                 </el-col>
                 <el-col :span="4">
                     <div>
-                        <router-link to=""><img src="../../static/4.png"></router-link>
+                        <router-link :to="{path:'/list',query:{name:'社保代理',code:7,index:1}}"><img src="../../static/4.png"></router-link>
                         <p>个人社保</p>
                     </div>
                 </el-col>
@@ -311,7 +311,6 @@ export default {
   name: 'index1',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       hq:'',
       product:'',
       provider:'',
@@ -320,14 +319,39 @@ export default {
     }
   },
   created(){
+    //   this.$parent.hover = true;
     this.ajax.post("/xinda-api/recommend/list").then(data=>{
         this.hq=data.data.data.hq;
         this.product=data.data.data.product;
         this.provider=data.data.data.provider;
-        console.log(data.data.data)
     });
   },
   methods:{
+      rou1(){
+          this.$router.push({
+              path:'/header/goodsdetail',query:{id:'0bf3dffb6beb49078a7ede5f51125c44'}
+          })
+      },
+      rou2(){
+          this.$router.push({
+              path:'/header/goodsdetail',query:{id:'721292878b0747a99cde87b5453ed661'}
+          })
+      },
+      rou3(){
+          this.$router.push({
+              path:'/header/goodsdetail',query:{id:'3d007512185842fbad3525a9d13c7ebc'}
+          })
+      },
+      rou4(){
+          this.$router.push({
+              path:'/header/goodsdetail',query:{id:'659a52363c324a7a94d980695251e7d9'}
+          })
+      },
+      providerr(item){
+          this.$router.push({
+            path:'/header/dianpu',query:{id:item.id}
+          })
+      },
       change_active(){
           [this.active,this.active1] = [true,false]
       },

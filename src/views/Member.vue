@@ -24,6 +24,7 @@
                         <router-link to="/member/memberinstall" class="cholink">账户设置</router-link>
                     </div>
                 </div>
+                <div class="cheng"></div>
                 <router-link to="/quit" class="photui hidden-sm-and-up">退出登录</router-link>
             </div>
         <router-view/>
@@ -41,6 +42,18 @@ export default {
             installRight:'choose install'
         }
     },
+    created(){
+        if(store.state.userPhoneNumber==''){
+            var that=this;
+            this.ajax.post('/xinda-api/member/info',this.qs.stringify(
+                {}
+            )).then(
+                function(data){
+                    if(data.data.data==null){return;}
+                    store.commit('loginStatus',data.data.data.loginId)              
+            }).catch(function(){console.log('失败');})
+        }
+    },
     computed:{
         userPhoneNumber(){
             return store.state.userPhoneNumber;
@@ -51,6 +64,10 @@ export default {
 
 <style lang="less">
     span{display: inline-block;}
+    .cheng{
+        background-color: #f7f7f7;
+        height: 200px;
+    }
     .Member{
         max-width: 1200px;
         margin:0 auto;
