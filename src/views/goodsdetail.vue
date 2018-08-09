@@ -5,7 +5,7 @@
         <div class="singlegoods">
             <!-- 图片 -->
             <div class="img">
-                <img :src="'http://123.58.241.146:8088/xinda/pic/'+detailproduct.img" alt="#">
+                <img :src="newsrc" alt="#"  :onerror="logo">
             </div>
             <!-- 商品参数 -->
             <div class="parameterouter">
@@ -65,7 +65,7 @@
                 <p class="providername">
                     {{detailprovider.name}}
                 </p>
-                <a href="javascript:void(0)" class="question" @click="centerDialogVisible = true">马上咨询</a>
+                <a href="javascript:void(0)" class="question" @click="dialogVisible = true">马上咨询</a>
                 <div class="aboutprovider">
                     <router-link
                      :to="{
@@ -78,6 +78,40 @@
                 </div>
             </div> 
         </div>
+        <!-- 马上咨询 -->
+        <el-dialog  class="zixunzixun"  title="免费电话咨询" :visible.sync="dialogVisible"  width="43%"  >
+            <!-- 步骤条 -->
+            <el-steps  :active="active" align-center>
+                <el-step title="输入手机号码" ></el-step>
+                <el-step title="您接听来电" ></el-step>
+                <el-step title="被叫方接听"></el-step>
+                <el-step title="咨询结束"></el-step>
+            </el-steps>
+            <!-- 步骤条结束 -->
+            <div class="inputarea">
+                <!-- 顶部 -->
+                 <el-input class="up" v-model="input" placeholder="请输入手机号"></el-input>
+                 <!-- 中部 -->
+                <div class="mid">
+                     <el-input v-model="input" placeholder="请输入图形验证码"></el-input> 
+                    <div class="tuxing">
+                        <img src="" alt="#" :onerror="provideralt">
+                    </div>
+                </div>
+                <!-- 底部 -->
+                <div class="down">
+                    <el-input v-model="input" placeholder="请输入验证码"></el-input>
+                    <el-button>获取验证码</el-button>
+                </div>
+
+                    <el-button class="tijiao">开始免费咨询</el-button>
+            </div>
+            
+            <p style="text-align:center">本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
+            <span slot="footer" class="dialog-footer">
+             </span>
+        </el-dialog>
+        <!-- 马上咨询 结束-->
         <!-- 具体商品描述盒子over -->
         <div class="banner">
             <img src="../../static/goodsdetailbanner.png" alt="#">
@@ -142,13 +176,6 @@
             </div>
         </div>
 
-        <el-dialog  title="提示" :visible.sync="centerDialogVisible"  width="30%"  center>
-            <span>需要注意的是内容是默认不居中的</span>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="centerDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-            </span>
-        </el-dialog>
    
     </div> 
 
@@ -162,10 +189,10 @@
         // 商品详情渲染
         var that = this;
         this.ajax.post("/xinda-api/product/package/detail", this.qs.stringify({
-           sId:that.msg
+           sId:that.$route.query.id
             })).then(function(data) {
             that.detaildata=data.data.data;
-            // console.log(that.detaildata);
+            console.log(that.detaildata);
             that.detailproduct=that.detaildata.product;
             // console.log(that.detaildata.product);
             that.detailprovider=that.detaildata.provider;
@@ -173,15 +200,11 @@
             that.detailregion=that.detaildata.regionText;
             }).catch(function(data) {
                 console.log("请求失败");
-            });
-       
-        
-
-           
+            });  
     },
     data () { 
         return {
-             msg:'',//产品服务id
+             
              detaildata:'',
              detailproduct:"",
              detailprovider:'',
@@ -192,19 +215,25 @@
              servicestyle1:'',
              ok:true,
              active: 0,
-             centerDialogVisible: false,
+             dialogVisible: false,
+             logo:'this.src="' + require('../../static/errorImg.png') + '"',
+             provideralt:'this.src="' + require('../../static/ajaxAuthcode.jpg') + '"',
+             input: ''
+            
             } 
     }, 
-    watch:{
-        '$route': 'getParams',
+    computed:{
+
+        newsrc:function(){
+            return 'http://123.58.241.146:8088/xinda/pic'+this.detailproduct.img
+        }
+
     },
+  
     methods:{
-        getParams () {
-            // 取到路由带过来的参数 
-            let routerParams = this.$route.query.id;
-            // 将数据放在当前组件的数据内
-            this.msg = routerParams
-        },
+        //  isHasImg(item) {
+        //     item= "";
+        // },
 
         reduce:function(){
                 this.inputvalue--;
@@ -544,7 +573,7 @@
                 } 
             }  
             .servicecontain,.evaluatecontain{
-                min-height:100px;
+                min-height:200px;
                 border:1px solid #cccccc;
                 padding:20px;
                 margin-bottom:50px;
@@ -657,8 +686,58 @@
             }
         }
     }
-    .zixunxuxun{
-        width:650px;
+    .zixunzixun{
+        .el-dialog__body{
+            padding-top:15px;
+            padding-bottom:0;
+        }
+       .el-steps{
+           width:80%;
+           margin:0 auto;
+       }
+       .inputarea{
+          width:55%; 
+          margin:0 auto;
+       }
+       .up,.mid,.down{
+           display:flex;
+           margin-top:20px;
+       }
+       .el-input__inner{
+           height:30px;
+       }
+       .tuxing{
+           width:150px;
+           text-align:right;
+           img{
+               width:70%;
+               height:30px;
+           }
+       }
+       .el-button{
+           padding:0 5px 0 5px;
+           line-height:30px;
+           margin-left:21px;
+           background:#f5f4f4;
+       }
+       .tijiao{
+           width:100%;
+           height:30px;
+           margin:20px 0 20px 0;
+           background:#4eb5ba;
+           color:white;
+       }
+       .el-dialog__header{
+           padding:0;
+           line-height: 40px;
+           background-color: #a1eaec;
+           padding-left:20px;
+       }
+       .el-dialog__close{
+           position:relative;
+           top:-7px;
+       }
+
     }
          
 </style>
