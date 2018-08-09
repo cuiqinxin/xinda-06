@@ -136,7 +136,16 @@ export default {
             {}
         )).then(
             function(data){
-                // console.log(data);
+                if(data.data.data==null){
+                    that.$alert('请先登录', '提示', {
+                        confirmButtonText: '确定',
+                        type: 'warning',
+                        callback: action => {
+                            that.$router.push({path:'/outter/login'});
+                        }
+                    });
+                    return;
+                }
                 that.emailValue=data.data.data.email;
                 that.userName=data.data.data.name;
                 that.radio=data.data.data.gender+'';
