@@ -30,7 +30,7 @@ export default {
     }
   },
   props:{
-      display:String
+      display:String,
   },
   methods:{
       provinceChange(){
@@ -43,6 +43,7 @@ export default {
         //   this.area = citydata[this.data]
         this.$emit('confirm',this.areaCode);
         // console.log(this.areaCode);
+        console.log(this.$parent.all)
       },
   }
 }

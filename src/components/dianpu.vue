@@ -57,7 +57,7 @@
         </el-container>
     </div>
 <div class="paging">
-    <page @change="pageChange"></page>
+    <page @change="pageChange" :kk="j"></page>
 </div>   
 
     <router-view/>
@@ -79,13 +79,22 @@ export default {
       name:'',
       dianpu:'',
       provide:'',
-      pageSize : 6 , //每页显示6条数据
-      currentPage : 1, //当前页码
-      count : 0, //总记录数
-      limit:6,
-      pageIndex:1,
-      all:20,
-      perPages:3  //页面中显示的页码数只能为单数
+    //   pageSize : 6 , //每页显示6条数据
+    //   currentPage : 1, //当前页码
+    //   count : 0, //总记录数
+    //   limit:6,
+    //   pageIndex:1,
+    //   all:20,
+    //   perPages:3  //页面中显示的页码数只能为单数
+     j:{
+            pageSize : 5 , //每页显示6条数据
+            currentPage : 1, //当前页码
+            count : 0, //总记录数
+            limit:5,
+            pageIndex:1,
+            all:20,
+            perPages:3  //页面中显示的页码数只能为单数
+         } 
     }
   },
   methods:{
@@ -95,7 +104,7 @@ export default {
        pageChange (page) {
             this.currentPage = page
             var that = this;
-            this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
+            this.ajax.post('/xinda-api/product/package/grid',that.qs.stringify({
             start:(page-1)*6,
             limit:6,
             providerId: this.$route.query.id,

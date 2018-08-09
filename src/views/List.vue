@@ -3,12 +3,12 @@
     <div>
 
         <el-row :gutter='10' class="row">
-            <el-col :span="24">
-                <p>首页</p>
+            <el-col :span="24" v-if="show">
+                <p>首页/{{homePage}}</p>
             </el-col>
             <el-col :span="19">
                 <div>
-                    <div class="top-box">
+                    <div class="top-box" v-if="show">
                         <el-row class="line">
                             <el-col :span="3">
                                 <div class="classify">服务分类</div>
@@ -85,10 +85,12 @@
                         </transition> -->
                     </div>
                     <div class="pagebox">
-                        <div class="pageUp" @click="up">上一页</div>
+                        <!-- <div class="pageUp" @click="up">上一页</div>
                         <div>{{page}}</div>
-                        <div class="pageDown"  @click="down">下一页</div>
+                        <div class="pageDown"  @click="down">下一页</div> -->
+                         <page @change="pageChange" :parentCount="parentCount"></page>
                     </div>
+                    
                 </div>
             </el-col>
             <el-col :span="5">
@@ -105,11 +107,13 @@
 
 <script>
 import city from '../components/City'
+import page from '../components/Page'
 export default {
     
     name: "Outter",
     data() {
         return {
+            homePage:this.$route.query.name,
             page:1,
             length:0,
             current1: 0,
@@ -139,7 +143,9 @@ export default {
             nowTestlist: '',
             obj: {
                 productTypeCode: "",
-                productId: ""
+                productId: "",
+                limit: 5,
+                start: 0
             },
             newCode: '',
             buyAdd:{
@@ -150,7 +156,6 @@ export default {
                 id: '',
                 num:0
             },
-            show: '',
             id: 0,
             code: '',
             index1:'',
@@ -161,6 +166,22 @@ export default {
             thirdName:'',
             region:'',
             eventSort: '',
+            searchName:'',
+            searchAdd:{
+                start:0,
+                limit:3,
+                searchName:''
+            },
+            show: true,
+         parentCount:{
+            pageSize : 5 , //每页显示6条数据
+            currentPage : 1, //当前页码
+            count : 0, //总记录数
+            limit:5,
+            pageIndex:1,
+            all:20,
+            perPages:3  //页面中显示的页码数只能为单数
+         }  
         };
     },
     created() {
@@ -220,15 +241,30 @@ export default {
                     }
                 }
             }
-        
-        that.ajax.post(
+
+            that.ajax.post(
+                "/xinda-api/product/package/grid",
+                that.qs.stringify({
+                    productTypeCode : that.code,
+                    productId : '' 
+                })
+            )
+            .then(function(data) {
+                 that.count=data.data.data.length
+                 console.log(that.count)
+            })
+
+
+            that.ajax.post(
                 "/xinda-api/product/package/grid",
                 that.qs.stringify(that.obj)
             )
             .then(function(data) {
                 that.temporaryList = data.data.data;
-                that.length = Math.ceil(that.temporaryList.length/3)
-                that.thisProduct = that.temporaryList.slice(0,3)
+                // that.count=data.data.data.length
+                // that.length = Math.ceil(that.temporaryList.length/3)
+                // that.thisProduct = that.temporaryList.slice(0,3)
+                that.thisProduct = that.temporaryList
                 if( that.thisProduct.length == 0){
                     that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
                 }else{
@@ -241,18 +277,44 @@ export default {
                 }
                 
             })
+            
         });
+        
     },
     components: {
-        city
+        city,
+        page
     },
     methods: {
+        pageChange (page) {
+            console.log(111)
+            console.log(page)
+            this.currentPage = page
+            // this.obj.start = (page-1)*5;
+            // this.obj.limit = 5;
+            // this.obj.providerId = this.id;
+            // this.obj.productTypeCode = this.code;
+            var that = this;
+            that.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
+                // that.obj
+            {
+            start:(page-1)*5,
+            limit:5,
+            providerId: that.obj.productId,
+            productTypeCode: that.obj.productTypeCode,
+            // sort:2
+            }
+            )).then(function(data){
+                    that.thisProduct=data.data.data
+                    console.log(that.thisProduct)
+        });
+        }, 
+
         sort1(index1, event) {
             this.current3 = 0;
             this.$refs.notice_add.provinceCode = ''
             this.$refs.notice_add.cityCode = ''
             this.$refs.notice_add.areaCode = ''
-            this.show = '';
             this.page = 1;
             this.classify = [];
             this.current1 = index1;
@@ -309,7 +371,6 @@ export default {
             this.$refs.notice_add.provinceCode = ''
             this.$refs.notice_add.cityCode = ''
             this.$refs.notice_add.areaCode = ''
-            this.show = '';
             this.page = 1;
             var that = this; 
             that.current2 = index2;
@@ -342,10 +403,9 @@ export default {
                         production[key]['productImg'] = pro
                     }
                 }
-                console.log(that.thisProduct)
             })
-            document.querySelector('.pageUp').style = 'cursor:no-drop'
-            document.querySelector('.pageDown').style = 'cursor:no-drop'
+            // document.querySelector('.pageUp').style = 'cursor:no-drop'
+            // document.querySelector('.pageDown').style = 'cursor:no-drop'
         },
          isHasImg(item) {
             item.productImg = "../static/errorImg.png";
@@ -375,119 +435,182 @@ export default {
         buy(event){
             var that = this
             that.buyAdd.id = event.currentTarget.id
-
+            // 登录判断
             that.ajax.post(
-                "/xinda-api/cart/add",
-                that.qs.stringify(that.buyAdd)
-            ).then(function(data){
-                console.log(data)
-            })
+                    "/xinda-api/sso/login-info",
+                    that.qs.stringify({})
+                ).then(function(data){
+                    console.log(data.data);
+                    // 未登陆
+                    if(data.data.status==0){
+                        that.open2();
+                    }else{
+                         // 已登录则向购物车列表发送数据
+                        that.$router.push('/shoppingcart')
+                        that.ajax.post(
+                            "/xinda-api/cart/add",
+                            that.qs.stringify(that.buyAdd)
+                        ).then(function(data){
+                            console.log(data)
+                        })
+                    }
+                });             
+            
         },
         cart(event){
             var that = this
-            this.show = true
-            if(event.currentTarget.id != this.cartAdd.id){
-                this.cartAdd.num = 0;
-                this.cartAdd.id = event.currentTarget.id
-                this.cartAdd.num += 1;
-                that.ajax.post(
-                    "http://123.58.241.146:8088/xinda/xinda-api/cart/add",
-                    that.qs.stringify(that.cartAdd)
-                ).then(function(data){
-                    console.log(data)
-                })
-            }else{
-                this.cartAdd.num += 1;
-                that.ajax.post(
-                    "http://123.58.241.146:8088/xinda/xinda-api/cart/add",
-                    that.qs.stringify(that.cartAdd)
-                ).then(function(data){
-                    console.log(data)
-                })
-            }
-            
-            var Div=document.createElement('div');
-            Div.innerHTML = '1111'
-            Div.style.position = 'absolute'
-            Div.style.left=(event.offsetX + 100)+'px';    
-            Div.style.top=(event.offsetY + 50)+'px';    
-            event.currentTarget.parentNode.appendChild(Div); 
-            
-        },
-        up(){
-            // document.querySelector('.pageDown').style = 'cursor:pointer'
-            this.page -=1;
-            if(this.page == 1){
-                // this.thisProduct = this.temporaryList.slice(0,3)
-                if(this.eventSort == '综合排序'){
-                        this.thisProduct = this.temporaryList.slice(0,3)
-                    }else{
-                        this.thisProduct = this.save.slice(0,3)
-                    }
-                document.querySelector('.pageUp').style = 'cursor:no-drop'
-            }else if(this.page == 2){
-                // this.thisProduct = this.temporaryList.slice(3,6)
-                if(this.eventSort == '综合排序'){
-                    this.thisProduct = this.temporaryList.slice(3,6)
+            var id = event.currentTarget.id
+            that.ajax.post(
+                "/xinda-api/sso/login-info",
+                that.qs.stringify({})
+            ).then(function(data){
+                console.log(data.data);
+                // 未登陆
+                if(data.data.status==0){
+                    that.open2();
                 }else{
-                    this.thisProduct = this.save.slice(3,6)
+                    that.$confirm('是否加入购物车', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        //确定加入购物车
+                        if(id != that.cartAdd.id){
+                            that.cartAdd.num = 0;
+                            that.cartAdd.id = id
+                            that.cartAdd.num += 1;
+                            that.ajax.post(
+                                "http://123.58.241.146:8088/xinda/xinda-api/cart/add",
+                                that.qs.stringify(that.cartAdd)
+                            ).then(function(data){
+                                console.log(data)
+                            })
+                        }else{
+                            that.cartAdd.num += 1;
+                            that.ajax.post(
+                                "http://123.58.241.146:8088/xinda/xinda-api/cart/add",
+                                that.qs.stringify(that.cartAdd)
+                            ).then(function(data){
+                                console.log(data)
+                            })
+                        }                            
+                    }).catch(() => {
+                        that.$message({
+                            type: 'info',
+                            message: '未加入购物车'
+                        });          
+                    });
                 }
-            }else{
-                this.page = 1;
-            }
+            });       
         },
-        down(){
-            this.page +=1;
-            document.querySelector('.pageUp').style = 'cursor:pointer'
-            if(this.page<this.length){
+        // up(){
+        //     // document.querySelector('.pageDown').style = 'cursor:pointer'
+        //     this.page -=1;
+        //     if(this.page == 1){
+        //         // this.thisProduct = this.temporaryList.slice(0,3)
+        //         if(this.eventSort == '综合排序'){
+        //                 this.thisProduct = this.temporaryList.slice(0,3)
+        //             }else{
+        //                 this.thisProduct = this.save.slice(0,3)
+        //             }
+        //         document.querySelector('.pageUp').style = 'cursor:no-drop'
+        //     }else if(this.page == 2){
+        //         // this.thisProduct = this.temporaryList.slice(3,6)
+        //         if(this.eventSort == '综合排序'){
+        //             this.thisProduct = this.temporaryList.slice(3,6)
+        //         }else{
+        //             this.thisProduct = this.save.slice(3,6)
+        //         }
+        //     }else{
+        //         this.page = 1;
+        //     }
+        // },
+        // down(){
+        //     if(this.$route.query.searchName == undefined){
+        //         this.page +=1;
+        //         document.querySelector('.pageUp').style = 'cursor:pointer'
+        //         if(this.page<this.length){
+                    
+        //             if(this.page == 2){
+        //                 if(this.eventSort == '综合排序'){
+        //                     this.thisProduct = this.temporaryList.slice(3,6)
+        //                 }else{
+        //                     this.thisProduct = this.save.slice(3,6)
+        //                 }
+        //                 var production = this.thisProduct;
+        //                     for(let key in production){
+        //                     var pro = production[key]['productImg']
+        //                     pro = "http://123.58.241.146:8088/xinda/pic" + pro
+        //                     production[key]['productImg'] = pro
+        //                 }
+        //             }
+        //         }else if(this.page==this.length){
+        //             if(this.page == 2){
+        //                 // this.thisProduct = this.temporaryList.slice(3,6)
+        //                 if(this.eventSort == '综合排序'){
+        //                     this.thisProduct = this.temporaryList.slice(3,6)
+        //                 }else{
+        //                     this.thisProduct = this.save.slice(3,6)
+        //                 }
+        //                 var production = this.thisProduct;
+        //                     for(let key in production){
+        //                     var pro = production[key]['productImg']
+        //                     pro = "http://123.58.241.146:8088/xinda/pic" + pro
+        //                     production[key]['productImg'] = pro
+        //                 }
+        //             }
+        //             if(this.page == 3){
+        //                 //  this.thisProduct = this.temporaryList.slice(7,10)
+        //                 if(this.eventSort == '综合排序'){
+        //                     this.thisProduct = this.temporaryList.slice(7,10)
+        //                 }else{
+        //                     this.thisProduct = this.save.slice(7,10)
+        //                 }
+        //                 var production = this.thisProduct;
+        //                     for(let key in production){
+        //                     var pro = production[key]['productImg']
+        //                     pro = "http://123.58.241.146:8088/xinda/pic" + pro
+        //                     production[key]['productImg'] = pro
+        //                 }
+        //             }
+        //             document.querySelector('.pageDown').style = 'cursor:no-drop'
+        //         }else{
+        //             this.page = this.length
+        //         }
+        //     }else{
+        //        document.querySelector('.pageDown').style = 'cursor:pointer'
+        //        this.page += 1;
+        //         var that = this
                 
-                if(this.page == 2){
-                    if(this.eventSort == '综合排序'){
-                        this.thisProduct = this.temporaryList.slice(3,6)
-                    }else{
-                        this.thisProduct = this.save.slice(3,6)
-                    }
-                    var production = this.thisProduct;
-                        for(let key in production){
-                        var pro = production[key]['productImg']
-                        pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                        production[key]['productImg'] = pro
-                    }
-                }
-            }else if(this.page==this.length){
-                if(this.page == 2){
-                    // this.thisProduct = this.temporaryList.slice(3,6)
-                    if(this.eventSort == '综合排序'){
-                        this.thisProduct = this.temporaryList.slice(3,6)
-                    }else{
-                        this.thisProduct = this.save.slice(3,6)
-                    }
-                    var production = this.thisProduct;
-                        for(let key in production){
-                        var pro = production[key]['productImg']
-                        pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                        production[key]['productImg'] = pro
-                    }
-                }
-                if(this.page == 3){
-                    //  this.thisProduct = this.temporaryList.slice(7,10)
-                    if(this.eventSort == '综合排序'){
-                        this.thisProduct = this.temporaryList.slice(7,10)
-                    }else{
-                        this.thisProduct = this.save.slice(7,10)
-                    }
-                     var production = this.thisProduct;
-                        for(let key in production){
-                        var pro = production[key]['productImg']
-                        pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                        production[key]['productImg'] = pro
-                    }
-                }
-                document.querySelector('.pageDown').style = 'cursor:no-drop'
-            }else{
-                this.page = this.length
-            }
-        },
+        //             this.searchAdd.start +=3
+        //             this.ajax.post(
+        //             "/xinda-api/product/package/search-grid",
+        //             that.qs.stringify(that.searchAdd)
+        //             ).then(function(data) {
+        //                 console.log(data.data.data)
+        //                 that.thisProduct = data.data.data
+        //                 if(that.thisProduct.length == 0){
+        //                     console.log(111)
+        //                     // that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+        //                     document.querySelector('.pageDown').style = 'cursor:no-drop'
+        //                 }else{
+        //                     if(that.thisProduct.length < 3){
+        //                         document.querySelector('.pageDown').style = 'cursor:no-drop'
+        //                     }
+        //                     var production = that.thisProduct;
+        //                     for(let key in production){
+        //                         var pro = production[key]['productImg']
+        //                         pro = "http://123.58.241.146:8088/xinda/pic" + pro
+        //                         production[key]['productImg'] = pro
+        //                     }
+        //                 }
+                    
+        //             })
+                
+                
+               
+        //     }
+        // },
         confirm(value){
             console.log(value);
             console.log(this.obj)
@@ -520,20 +643,38 @@ export default {
                 that.length = Math.ceil(that.temporaryList.length/3)
             })
         }, 
+        open2() {
+            var that=this;
+            this.$confirm('您需要登陆才能进行此操作', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    that.$router.push('/Outter/Zhuce');
+                }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消登陆'
+                });          
+            });
+        },
+
+
     },
     watch: {
         
         $route(val,oldval){
+            this.homePage = this.$route.query.name
             this.current3 = 0;
-            this.$refs.notice_add.provinceCode = ''
-            this.$refs.notice_add.cityCode = ''
-            this.$refs.notice_add.areaCode = ''
-            document.querySelector('.pageUp').style = 'cursor:no-drop'
-            if(this.page=this.length){
-                document.querySelector('.pageDown').style = 'cursor:no-drop'
-            }else{
-                 document.querySelector('.pageDown').style = 'cursor:pointer'
-            }
+            this.firstLevel=val.query.name;
+            this.code = val.query.code;
+            this.id = val.query.id;
+            this.searchAdd.searchName = val.query.searchName
+            this.searchAdd.start = 0
+            console.log(this.searchAdd)
+            var that = this
+            this.storageCode = []
+            this.classify = []
             this.page = 1;
             if(val.query.index2 == undefined && val.query.code == undefined){
                 this.current1 = val.query.index
@@ -546,12 +687,7 @@ export default {
                 this.current2 = val.query.index3
             }
             
-            this.firstLevel=val.query.name;
-            this.code = val.query.code;
-            this.id = val.query.id;
-            var that = this
-            this.storageCode = []
-            this.classify = []
+            
             if(oldval.query.name != val.query.name){
                 this.items = []
                 this.classify = []
@@ -617,28 +753,64 @@ export default {
                 this.obj.productId = this.id
                 this.obj.productTypeCode = 0;
             }
-            this.ajax.post(
-                "/xinda-api/product/package/grid",
-                that.qs.stringify(that.obj)
-            )
-            .then(function(data) {
-                console.log(data)
-                that.temporaryList = data.data.data;
-                that.save = JSON.parse(JSON.stringify(that.temporaryList))
-                that.length = Math.ceil(that.temporaryList.length/3)
-                that.thisProduct = that.temporaryList.slice(0,3)
-                if( that.thisProduct.length == 0){
-                    that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+            if(this.searchAdd.searchName == undefined){
+                // document.querySelector('.pageUp').style = 'cursor:no-drop'
+                if(this.page=this.length){
+                    // document.querySelector('.pageDown').style = 'cursor:no-drop'
                 }else{
-                    var production = that.thisProduct;
-                    for(let key in production){
-                        var pro = production[key]['productImg']
-                        pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                        production[key]['productImg'] = pro
-                    }
+                    // document.querySelector('.pageDown').style = 'cursor:pointer'
                 }
+                console.log(this.show)
+                this.$refs.notice_add.provinceCode = ''
+                this.$refs.notice_add.cityCode = ''
+                this.$refs.notice_add.areaCode = ''
+                this.ajax.post(
+                    "/xinda-api/product/package/grid",
+                    that.qs.stringify(that.obj)
+                )
+                .then(function(data) {
+                    that.temporaryList = data.data.data;
+                    that.save = JSON.parse(JSON.stringify(that.temporaryList))
+                    that.length = Math.ceil(that.temporaryList.length/3)
+                    that.thisProduct = that.temporaryList.slice(0,3)
+                    if( that.thisProduct.length == 0){
+                        that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+                    }else{
+                        var production = that.thisProduct;
+                        for(let key in production){
+                            var pro = production[key]['productImg']
+                            pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                            production[key]['productImg'] = pro
+                        }
+                    }
+                    
+                })
+            }
+            else{
+                this.show = false;
+                console.log(this.searchAdd)
+                this.ajax.post(
+                    "/xinda-api/product/package/search-grid",
+                    that.qs.stringify(that.searchAdd)
+                )
+                .then(function(data) {
+                    console.log(data.data.data)
+                    that.thisProduct = data.data.data
+                    console.log(that.thisProduct.length) 
+                    if(that.thisProduct.length == 0){
+                        console.log(111)
+                        that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+                    }else{
+                        var production = that.thisProduct;
+                        for(let key in production){
+                            var pro = production[key]['productImg']
+                            pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                            production[key]['productImg'] = pro
+                        }
+                    }
                 
-            })
+                })
+            }
         },
         
     },
@@ -655,7 +827,8 @@ export default {
 }
 .row {
     max-width: 1200px;
-    margin: 0 auto !important;
+    margin: 20px auto !important;
+
 }
 .top-box {
     border: 1px solid #dcdfe6;
