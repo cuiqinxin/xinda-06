@@ -4,7 +4,6 @@
     <div class="top hidden-md-and-down">
       <el-row class="top-con" type="flex" justify="space-between">
         <el-col :span="12" class="top-left">
-          <!-- <button @click="link">等</button> -->
           <div class="topHover">
             <router-link to="/member/memberorder" 
               v-if="userPhoneNumber">

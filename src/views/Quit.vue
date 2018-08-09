@@ -51,6 +51,7 @@ export default {
 
 <style lang="less" scoped>
     span{display: inline-block;}
+    .Quit{font-size: 0;}
     // .el-popup-parent--hidden .el-message-box{width: 300px !important;}
     .phone{
             height: 72px; 
@@ -60,6 +61,7 @@ export default {
             background-color: #fff; 
         }
     @media screen and (max-width: 768px){
+        .Quit{font-size: 16px;}
         .touxiang{
             width: 125px;
             height:125px;
@@ -67,16 +69,16 @@ export default {
             margin-top: 9px;
         }
         .order span{
-            width: 22px;
-            height:22px;
+            width: 20px;
+            height:21px;
             background: url(../../static/u5092.png) no-repeat;
-            margin:14px 12px 14px 0;
+            margin:15px 12px 14px 0;
         }
         .install span{
-            width: 26px;
-            height:24px;
+            width: 20px;
+            height:21px;
             background: url(../../static/u5102.png) no-repeat;
-            margin:12px 9px 14px 0;
+            margin:15px 12px 14px 0;
         }
         .Quit{
             max-width: 1200px;
@@ -109,7 +111,7 @@ export default {
             background-color: #f7f7f7;
             cursor: pointer;
             div{width:50%;display: flex;margin:0 0;}
-            span{margin:14px 14.8% 14px 17px;}
+            span{margin:15px 14.8% 14px 17px;}
             p{
                 line-height: 50px;
                 font-size: 26px;

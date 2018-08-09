@@ -230,34 +230,38 @@ export default {
             height: 36px;
         }
     }
-    .yanma{
-        width:48.484%;
-    }
+    .yanma{width:48.484%;}
     .pass{
         margin:24px 0 0;
         border: 1px solid #cbcbcb;
         border-radius: 5px;
         input{
             border:0;
+            width: 62%;
         }
         span{
-            height: 30px;
-            width: 30px;  
-            background-size: 30px 30px;
+            width: 23px;  
             vertical-align: top;
             float: right;
-            margin:2px 6px;
             cursor: pointer;
         }
     }
     .bi{
+        margin:12px 8px 11px;        
+        height: 11px;
         background: url(../../static/bi.png) no-repeat;      
     }
     .zheng{
+        margin:9px 8px 8px;        
+        height: 17px;
         background: url(../../static/zheng.png) no-repeat;      
     }
+    @media screen and (min-width: 768px) and (max-width: 992px){
+        .pass input{width: 52%;}
+        .yanma{width:44%;}       
+    }
     @media screen and (max-width: 768px){
-        .pass{margin:32px 0 0;}
+        .pass{margin:32px 0 0;input{width: 58%;}}
         .yan{margin-top: 30px;}
         .deng{margin-top: 77px;padding-top: 0;}
         .left{margin-top:71px;}
