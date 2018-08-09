@@ -85,10 +85,12 @@
                         </transition> -->
                     </div>
                     <div class="pagebox">
-                        <div class="pageUp" @click="up">上一页</div>
+                        <!-- <div class="pageUp" @click="up">上一页</div>
                         <div>{{page}}</div>
-                        <div class="pageDown"  @click="down">下一页</div>
+                        <div class="pageDown"  @click="down">下一页</div> -->
+                         <page @change="pageChange" :parentCount="parentCount"></page>
                     </div>
+                    
                 </div>
             </el-col>
             <el-col :span="5">
@@ -105,6 +107,7 @@
 
 <script>
 import city from '../components/City'
+import page from '../components/Page'
 export default {
     
     name: "Outter",
@@ -140,7 +143,9 @@ export default {
             nowTestlist: '',
             obj: {
                 productTypeCode: "",
-                productId: ""
+                productId: "",
+                limit: 5,
+                start: 0
             },
             newCode: '',
             buyAdd:{
@@ -168,6 +173,15 @@ export default {
                 searchName:''
             },
             show: true,
+         parentCount:{
+            pageSize : 5 , //每页显示6条数据
+            currentPage : 1, //当前页码
+            count : 0, //总记录数
+            limit:5,
+            pageIndex:1,
+            all:20,
+            perPages:3  //页面中显示的页码数只能为单数
+         }  
         };
     },
     created() {
@@ -227,15 +241,30 @@ export default {
                     }
                 }
             }
-        
-        that.ajax.post(
+
+            that.ajax.post(
+                "/xinda-api/product/package/grid",
+                that.qs.stringify({
+                    productTypeCode : that.code,
+                    productId : '' 
+                })
+            )
+            .then(function(data) {
+                 that.count=data.data.data.length
+                 console.log(that.count)
+            })
+
+
+            that.ajax.post(
                 "/xinda-api/product/package/grid",
                 that.qs.stringify(that.obj)
             )
             .then(function(data) {
                 that.temporaryList = data.data.data;
-                that.length = Math.ceil(that.temporaryList.length/3)
-                that.thisProduct = that.temporaryList.slice(0,3)
+                // that.count=data.data.data.length
+                // that.length = Math.ceil(that.temporaryList.length/3)
+                // that.thisProduct = that.temporaryList.slice(0,3)
+                that.thisProduct = that.temporaryList
                 if( that.thisProduct.length == 0){
                     that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
                 }else{
@@ -248,12 +277,39 @@ export default {
                 }
                 
             })
+            
         });
+        
     },
     components: {
-        city
+        city,
+        page
     },
     methods: {
+        pageChange (page) {
+            console.log(111)
+            console.log(page)
+            this.currentPage = page
+            // this.obj.start = (page-1)*5;
+            // this.obj.limit = 5;
+            // this.obj.providerId = this.id;
+            // this.obj.productTypeCode = this.code;
+            var that = this;
+            that.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
+                // that.obj
+            {
+            start:(page-1)*5,
+            limit:5,
+            providerId: that.obj.productId,
+            productTypeCode: that.obj.productTypeCode,
+            // sort:2
+            }
+            )).then(function(data){
+                    that.thisProduct=data.data.data
+                    console.log(that.thisProduct)
+        });
+        }, 
+
         sort1(index1, event) {
             this.current3 = 0;
             this.$refs.notice_add.provinceCode = ''
@@ -347,10 +403,9 @@ export default {
                         production[key]['productImg'] = pro
                     }
                 }
-                console.log(that.thisProduct)
             })
-            document.querySelector('.pageUp').style = 'cursor:no-drop'
-            document.querySelector('.pageDown').style = 'cursor:no-drop'
+            // document.querySelector('.pageUp').style = 'cursor:no-drop'
+            // document.querySelector('.pageDown').style = 'cursor:no-drop'
         },
          isHasImg(item) {
             item.productImg = "../static/errorImg.png";
@@ -448,114 +503,114 @@ export default {
                 }
             });       
         },
-        up(){
-            // document.querySelector('.pageDown').style = 'cursor:pointer'
-            this.page -=1;
-            if(this.page == 1){
-                // this.thisProduct = this.temporaryList.slice(0,3)
-                if(this.eventSort == '综合排序'){
-                        this.thisProduct = this.temporaryList.slice(0,3)
-                    }else{
-                        this.thisProduct = this.save.slice(0,3)
-                    }
-                document.querySelector('.pageUp').style = 'cursor:no-drop'
-            }else if(this.page == 2){
-                // this.thisProduct = this.temporaryList.slice(3,6)
-                if(this.eventSort == '综合排序'){
-                    this.thisProduct = this.temporaryList.slice(3,6)
-                }else{
-                    this.thisProduct = this.save.slice(3,6)
-                }
-            }else{
-                this.page = 1;
-            }
-        },
-        down(){
-            if(this.$route.query.searchName == undefined){
-                this.page +=1;
-                document.querySelector('.pageUp').style = 'cursor:pointer'
-                if(this.page<this.length){
+        // up(){
+        //     // document.querySelector('.pageDown').style = 'cursor:pointer'
+        //     this.page -=1;
+        //     if(this.page == 1){
+        //         // this.thisProduct = this.temporaryList.slice(0,3)
+        //         if(this.eventSort == '综合排序'){
+        //                 this.thisProduct = this.temporaryList.slice(0,3)
+        //             }else{
+        //                 this.thisProduct = this.save.slice(0,3)
+        //             }
+        //         document.querySelector('.pageUp').style = 'cursor:no-drop'
+        //     }else if(this.page == 2){
+        //         // this.thisProduct = this.temporaryList.slice(3,6)
+        //         if(this.eventSort == '综合排序'){
+        //             this.thisProduct = this.temporaryList.slice(3,6)
+        //         }else{
+        //             this.thisProduct = this.save.slice(3,6)
+        //         }
+        //     }else{
+        //         this.page = 1;
+        //     }
+        // },
+        // down(){
+        //     if(this.$route.query.searchName == undefined){
+        //         this.page +=1;
+        //         document.querySelector('.pageUp').style = 'cursor:pointer'
+        //         if(this.page<this.length){
                     
-                    if(this.page == 2){
-                        if(this.eventSort == '综合排序'){
-                            this.thisProduct = this.temporaryList.slice(3,6)
-                        }else{
-                            this.thisProduct = this.save.slice(3,6)
-                        }
-                        var production = this.thisProduct;
-                            for(let key in production){
-                            var pro = production[key]['productImg']
-                            pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                            production[key]['productImg'] = pro
-                        }
-                    }
-                }else if(this.page==this.length){
-                    if(this.page == 2){
-                        // this.thisProduct = this.temporaryList.slice(3,6)
-                        if(this.eventSort == '综合排序'){
-                            this.thisProduct = this.temporaryList.slice(3,6)
-                        }else{
-                            this.thisProduct = this.save.slice(3,6)
-                        }
-                        var production = this.thisProduct;
-                            for(let key in production){
-                            var pro = production[key]['productImg']
-                            pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                            production[key]['productImg'] = pro
-                        }
-                    }
-                    if(this.page == 3){
-                        //  this.thisProduct = this.temporaryList.slice(7,10)
-                        if(this.eventSort == '综合排序'){
-                            this.thisProduct = this.temporaryList.slice(7,10)
-                        }else{
-                            this.thisProduct = this.save.slice(7,10)
-                        }
-                        var production = this.thisProduct;
-                            for(let key in production){
-                            var pro = production[key]['productImg']
-                            pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                            production[key]['productImg'] = pro
-                        }
-                    }
-                    document.querySelector('.pageDown').style = 'cursor:no-drop'
-                }else{
-                    this.page = this.length
-                }
-            }else{
-               document.querySelector('.pageDown').style = 'cursor:pointer'
-               this.page += 1;
-                var that = this
+        //             if(this.page == 2){
+        //                 if(this.eventSort == '综合排序'){
+        //                     this.thisProduct = this.temporaryList.slice(3,6)
+        //                 }else{
+        //                     this.thisProduct = this.save.slice(3,6)
+        //                 }
+        //                 var production = this.thisProduct;
+        //                     for(let key in production){
+        //                     var pro = production[key]['productImg']
+        //                     pro = "http://123.58.241.146:8088/xinda/pic" + pro
+        //                     production[key]['productImg'] = pro
+        //                 }
+        //             }
+        //         }else if(this.page==this.length){
+        //             if(this.page == 2){
+        //                 // this.thisProduct = this.temporaryList.slice(3,6)
+        //                 if(this.eventSort == '综合排序'){
+        //                     this.thisProduct = this.temporaryList.slice(3,6)
+        //                 }else{
+        //                     this.thisProduct = this.save.slice(3,6)
+        //                 }
+        //                 var production = this.thisProduct;
+        //                     for(let key in production){
+        //                     var pro = production[key]['productImg']
+        //                     pro = "http://123.58.241.146:8088/xinda/pic" + pro
+        //                     production[key]['productImg'] = pro
+        //                 }
+        //             }
+        //             if(this.page == 3){
+        //                 //  this.thisProduct = this.temporaryList.slice(7,10)
+        //                 if(this.eventSort == '综合排序'){
+        //                     this.thisProduct = this.temporaryList.slice(7,10)
+        //                 }else{
+        //                     this.thisProduct = this.save.slice(7,10)
+        //                 }
+        //                 var production = this.thisProduct;
+        //                     for(let key in production){
+        //                     var pro = production[key]['productImg']
+        //                     pro = "http://123.58.241.146:8088/xinda/pic" + pro
+        //                     production[key]['productImg'] = pro
+        //                 }
+        //             }
+        //             document.querySelector('.pageDown').style = 'cursor:no-drop'
+        //         }else{
+        //             this.page = this.length
+        //         }
+        //     }else{
+        //        document.querySelector('.pageDown').style = 'cursor:pointer'
+        //        this.page += 1;
+        //         var that = this
                 
-                    this.searchAdd.start +=3
-                    this.ajax.post(
-                    "/xinda-api/product/package/search-grid",
-                    that.qs.stringify(that.searchAdd)
-                    ).then(function(data) {
-                        console.log(data.data.data)
-                        that.thisProduct = data.data.data
-                        if(that.thisProduct.length == 0){
-                            console.log(111)
-                            // that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
-                            document.querySelector('.pageDown').style = 'cursor:no-drop'
-                        }else{
-                            if(that.thisProduct.length < 3){
-                                document.querySelector('.pageDown').style = 'cursor:no-drop'
-                            }
-                            var production = that.thisProduct;
-                            for(let key in production){
-                                var pro = production[key]['productImg']
-                                pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                                production[key]['productImg'] = pro
-                            }
-                        }
+        //             this.searchAdd.start +=3
+        //             this.ajax.post(
+        //             "/xinda-api/product/package/search-grid",
+        //             that.qs.stringify(that.searchAdd)
+        //             ).then(function(data) {
+        //                 console.log(data.data.data)
+        //                 that.thisProduct = data.data.data
+        //                 if(that.thisProduct.length == 0){
+        //                     console.log(111)
+        //                     // that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+        //                     document.querySelector('.pageDown').style = 'cursor:no-drop'
+        //                 }else{
+        //                     if(that.thisProduct.length < 3){
+        //                         document.querySelector('.pageDown').style = 'cursor:no-drop'
+        //                     }
+        //                     var production = that.thisProduct;
+        //                     for(let key in production){
+        //                         var pro = production[key]['productImg']
+        //                         pro = "http://123.58.241.146:8088/xinda/pic" + pro
+        //                         production[key]['productImg'] = pro
+        //                     }
+        //                 }
                     
-                    })
+        //             })
                 
                 
                
-            }
-        },
+        //     }
+        // },
         confirm(value){
             console.log(value);
             console.log(this.obj)
@@ -699,11 +754,11 @@ export default {
                 this.obj.productTypeCode = 0;
             }
             if(this.searchAdd.searchName == undefined){
-                document.querySelector('.pageUp').style = 'cursor:no-drop'
+                // document.querySelector('.pageUp').style = 'cursor:no-drop'
                 if(this.page=this.length){
-                    document.querySelector('.pageDown').style = 'cursor:no-drop'
+                    // document.querySelector('.pageDown').style = 'cursor:no-drop'
                 }else{
-                    document.querySelector('.pageDown').style = 'cursor:pointer'
+                    // document.querySelector('.pageDown').style = 'cursor:pointer'
                 }
                 console.log(this.show)
                 this.$refs.notice_add.provinceCode = ''

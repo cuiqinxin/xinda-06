@@ -40,6 +40,9 @@
     name : 'Page',
     //通过props来接受从父组件传递过来的值
     props : {
+        parentCount:{
+            type : Object,
+        },
         all:{
             type : Number,
         },
@@ -92,7 +95,7 @@
             backgroundColor:'#0275d8'}
             if (this.index !== page) {
                 this.index = page
-                // this.$parent.page=(page-1)*6
+                // this.parentCount.page=(page-1)*6
                 //父组件通过change方法来接受当前的页码
                 this.$emit('change', this.index)
             }
@@ -102,13 +105,13 @@
 
         //计算总页码
         pages(){
-            return Math.ceil(this.$parent.all/this.$parent.pageSize)
+            return Math.ceil(this.parentCount.all/this.parentCount.pageSize)
         },
         //计算页码，当count等变化时自动计算
 
         pagers () {           //在数组里循环当前页面显示的页码  (为了得到当前页面显示的页码)
             const array = []
-            const perPages = this.$parent.perPages    //页面中显示的页码数
+            const perPages = this.parentCount.perPages    //页面中显示的页码数
             const pageCount = this.pages    //总页码
             let current = this.index        //当前页码
             const _offset = (perPages - 1) / 2            
@@ -134,12 +137,13 @@
 
             }
             return array
+            console.log(array)
         }
     },
     data () {
         return {
             index : this.pageIndex, //当前页码
-            limit : this.$parent.limit, //每页显示条数
+            limit : this.parentCount.limit, //每页显示条数
             size : this.all, //总记录数
             showPrevMore : false,
             showNextMore : false,
