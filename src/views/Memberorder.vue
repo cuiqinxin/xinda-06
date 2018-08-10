@@ -137,6 +137,9 @@ export default {
                     });
                     return;
                 }
+                if(data.data.data.length==0){
+                    that.noneorder='showorder noneorder';return;                    
+                }
                 that.noneorder='yincangorder';
                 for(var i in data.data.data){
                     that.orderArr.push(data.data.data[i]);
@@ -175,9 +178,6 @@ export default {
                 }             
                 if(that.fenye>1){that.nextClick='click';}
         }).catch(function(){console.log('失败');})
-        // setTimeout(function(){
-            
-        // },0);
     },
     methods:{
         deleOrder(value){
@@ -268,9 +268,9 @@ export default {
         },
         searchOrder(){
             if(this.searchOrderNumber==''){
+                this.orderHint='';
                 if(this.callbackSign==1){
                     this.chuliArr=[];
-                    this.orderHint='';
                     this.pagei=1;
                     this.fenye=Math.ceil(this.orderArr.length/2);
                     if(this.fenye>1){this.nextClick='click';}
@@ -301,11 +301,11 @@ export default {
                         i--;
                     }
                 }
-                if(this.chuliArr.length==0){
+            }
+            if(this.chuliArr.length==0){
                     this.noneorder='showorder noneorder';
-                }else{
+            }else{
                     this.noneorder='yincangorder';
-                }
             }
         }
     }
@@ -320,7 +320,7 @@ export default {
         color: #999;
         font-size: 38px;
         text-align: center;
-        line-height: 320px;
+        line-height: 270px;
     }
     .yincangorder{
         display: none;
@@ -436,6 +436,7 @@ export default {
                 background-color: #fff;
                 border-radius: 5px;
                 height: 26px;
+                cursor: pointer;
             }
         }
         #createTime{
