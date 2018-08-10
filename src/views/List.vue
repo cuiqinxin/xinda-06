@@ -180,7 +180,17 @@ export default {
         };
     },
     created() {
+<<<<<<< HEAD
        
+=======
+        if(this.homePage=="财税服务"){
+            [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,true,false,false,false]
+        }else if(this.homePage=="公司工商"){
+            [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,false,true,false,false]
+        }else{
+            [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,false,false,false,false]
+        }
+>>>>>>> 81ae48a0dd99b523c34dcd694dc852094a8d790a
         this.firstLevel=this.$route.query.name;
         this.id = this.$route.query.id;
         this.code = this.$route.query.code;
@@ -739,6 +749,13 @@ export default {
             this.storageCode = []
             this.classify = []
             this.page = 1;
+            if(this.homePage=="财税服务"){
+                [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,true,false,false,false]
+            }else if(this.homePage=="公司工商"){
+                [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,false,true,false,false]
+            }else{
+                [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,false,false,false,false]
+            };
             if(val.query.index2 == undefined && val.query.code == undefined){
                 this.current1 = val.query.index
             }else if(val.query.index2 == undefined && val.query.code != undefined){

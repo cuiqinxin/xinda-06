@@ -8,6 +8,7 @@ export default new vuex.Store({
     state:{
         count:0,
         userPhoneNumber:'',
+        cartNum:'0',
     },
     //改变全局变量
     mutations:{
@@ -19,13 +20,10 @@ export default new vuex.Store({
         // },
         loginStatus(state,n){
             state.userPhoneNumber=n;
+        },
+        cartNum(){
+            this.state.count++;
         }
-        // sum(){
-        //     this.state.count++;
-        // },
-        // sum1(){
-        //     this.state.count+=2;
-        // }
     },
     // //有关全局变量的全局函数
     // getters:{
