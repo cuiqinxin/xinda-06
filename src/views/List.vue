@@ -15,7 +15,7 @@
                             </el-col>
                             <el-col :span="21">
                                 <div class="header-box">
-                                    <div v-for="(item,index1) in items" v-bind:class="{blue:index1==current1}"  class="serviceClassify" :value="item" :key="index1" @click="sort1(index1,$event)">{{item}}</div>
+                                    <div v-for="(item,index1) in items" v-bind:class="{blue:index1==current1}"  class="serviceClassify" :value="item" :key="index1" @click="sort1(index1,$event),pageChange">{{item}}</div>
                                 </div>
                             </el-col>
                         </el-row>
@@ -25,7 +25,7 @@
                             </el-col>
                             <el-col :span="21">
                                 <div class="header-box">
-                                    <div v-bind:class="{blue:index2==current2}" class="serviceClassify" :value="item" v-for="(item,index2) in classify" :key="index2" @click="sort2(index2,$event)">{{item}}</div>
+                                    <div v-bind:class="{blue:index2==current2}" class="serviceClassify" :value="item" v-for="(item,index2) in classify" :key="index2" @click="sort2(index2,$event),pageChange" >{{item}}</div>
                                 </div>
                             </el-col>
                         </el-row>
@@ -136,7 +136,8 @@ export default {
                 productTypeCode: "",
                 productId: "",
                 limit: 5,
-                start: 0
+                start: 0,
+                sort: ''
             },
             newCode: '',
             buyAdd:{
@@ -172,7 +173,9 @@ export default {
                 pageIndex:1,
                 all:'',
                 perPages:1  //页面中显示的页码数只能为单数
-            }  
+            },
+            flag:0 ,
+            x:0
         };
     },
     created() {
@@ -189,6 +192,7 @@ export default {
         this.ajax.post("/xinda-api/product/style/list").then(function(data) {
             var classify1 = [];
             that.Data = data.data.data
+            console.log(that.Data)
             var newData = that.Data;
             //服务分类渲染      
             for (let key in newData) {
@@ -205,26 +209,48 @@ export default {
             if(that.code == undefined){
                 var secondName = []
                 for(let key in secondlevel){
-                    secondName.push(secondlevel[key]['name'])
-                    that.storageCode.push(secondlevel[key]["code"])
+                    console.log(secondlevel)
+                    secondName.push(that.typeList[key]['name'])
+                    that.storageCode.push(that.typeList[key]["code"])
                     that.newCode = that.storageCode[0];
+                    console.log(that.newCode)
                     that.obj.productTypeCode = that.newCode
                     that.obj.productId = ''
-                    if(secondlevel[key]['name'] == secondName[0]){
-                        var thirdName = secondlevel[key].itemList
-                        for(let key in thirdName){
-                            that.classify.push(thirdName[key]['name'])
+                    if(that.typeList[key]['name'] == secondName[0]){
+                        var thirdName = that.typeList[key]
+                        console.log(that.typeList[key])
+                        var level2 = []
+                        for(let key in thirdName.itemList){
+                            level2.push(thirdName.itemList[key].name)
+                            if(thirdName.itemList[key]['name'] == level2[0]){
+                                that.nowTestlist = thirdName
+                            }
+                            that.classify.push(thirdName.itemList[key]['name'])
+                            }
                         }
                     }       
                 }
-            }
             //点击二级 类型渲染
-            else if(that.code>=0){
+            else if(that.id == undefined){
                 that.obj.productTypeCode = that.code
                 that.obj.productId = '' 
                 for(let key in secondlevel){
                     if(that.code == secondlevel[key]['code']){
                         var storage = secondlevel[key].itemList
+                        that.nowTestlist = secondlevel[key]
+                        for(let key in storage){
+                            that.classify.push(storage[key].name)
+                        }
+                    }
+                }
+            }else{
+                that.obj.productTypeCode = 0
+                that.obj.productId = that.id
+                for(let key in secondlevel){
+                    var thirdlevel = secondlevel[key].item
+                    if(that.code == secondlevel[key]['code']){
+                        var storage = secondlevel[key].itemList
+                        that.nowTestlist = secondlevel[key]
                         for(let key in storage){
                             that.classify.push(storage[key].name)
                         }
@@ -252,6 +278,7 @@ export default {
                 that.temporaryList = data.data.data;
                 console.log(that.temporaryList)
                 that.thisProduct = that.temporaryList
+                console.log(that.thisProduct)
                 if( that.thisProduct.length == 0){
                     that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
                 }else{
@@ -266,7 +293,7 @@ export default {
             })
             
         });
-        
+
     },
     components: {
         city,
@@ -274,10 +301,23 @@ export default {
     },
     methods: {
         pageChange (page) {
-            this.currentPage = page
+            
+            if(this.x == 1){
+                console.log("page")
+                this.parentCount.pageIndex = 1
+                
+            }else{
+
+            console.log(this.x)
+            this.parentCount.pageIndex = page
+            }
             var that = this;
             console.log(this.searchAdd.searchName)
             if(this.searchAdd.searchName == '' || this.searchAdd.searchName == undefined){
+                if(that.obj.sort==2 || that.obj.sort == 3){
+                    console.log('sort')
+                    this.thisProduct = this.temporaryList.slice((page-1)*5,(page-1)*5+5)
+                }else{
                 that.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
                 // that.obj
                     {
@@ -286,7 +326,7 @@ export default {
                         providerId: that.obj.productId,
                         productTypeCode: that.obj.productTypeCode,
                     // searchName: that.searchAdd.searchName
-                    // sort:2
+                        sort:that.sort
                     }
                     )).then(function(data){
                         console.log(that.parentCount.all)
@@ -298,29 +338,32 @@ export default {
                         pro = "http://123.58.241.146:8088/xinda/pic" + pro
                         production[key]['productImg'] = pro
                     }
-                });
+                });}
             }else{
-                console.log(1111)
-                that.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
+                console.log(123123)
+                
+                    that.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
                         // that.obj
                     {
                     start:(page-1)*5,
                     limit:5,
-                    // providerId: that.obj.productId,
-                    // productTypeCode: that.obj.productTypeCode,
                     searchName: that.searchAdd.searchName
                     // sort:2
                     }
                     )).then(function(data){
                         that.thisProduct=data.data.data
                         console.log(that.thisProduct)
-                });
+                    });
+                
             }
             
+            this.x+=2
         }, 
-
+       
         sort1(index1, event) {
+            this.x = 1
             this.parentCount.currentPage = 1;
+            this.parentCount.all = ''
             this.current3 = 0;
             this.$refs.notice_add.provinceCode = ''
             this.$refs.notice_add.cityCode = ''
@@ -335,6 +378,7 @@ export default {
             for(let key in testlist){
                 if(this.currentTarget == testlist[key]['name']){
                     this.nowTestlist = testlist[key];
+                    console.log(this.nowTestlist)
                     var newtestlist = testlist[key].itemList;
                     for(let key in newtestlist){
                         this.classify.push(newtestlist[key]['name'])
@@ -384,7 +428,9 @@ export default {
             })
         },
         sort2(index2, event) {
+            this.x = 1
             this.parentCount.currentPage = 1;
+            this.parentCount.all = ''
             this.current3 = 0;
             this.$refs.notice_add.provinceCode = ''
             this.$refs.notice_add.cityCode = ''
@@ -394,8 +440,11 @@ export default {
             that.current2 = index2;
             that.currentTarget1 = event.currentTarget.innerHTML;
             var productList = that.nowTestlist.itemList;
+            console.log(that.nowTestlist)
             for(let key in productList){
+                console.log(productList[key]['name'])
                 if(productList[key]['name'] == that.currentTarget1){
+                     
                     that.obj.productId = productList[key]['id'];
                     that.obj.productTypeCode = 0;
                 }
@@ -441,26 +490,72 @@ export default {
             item.productImg = "../static/errorImg.png";
         },
         sortprice(index3, event) {
-            this.page = 1;
-            this.current3 = index3;
-            this.eventSort = event.currentTarget.innerHTML
-            if(event.currentTarget.innerHTML == '价格'){
-                for(let i = 0;i<this.save.length;i++){
-                    for(let j = 0;j<this.save.length-i-1;j++){
-                        if(this.save[j].price>this.save[j+1].price){
-                            var flag = this.save[j];
-                            this.save[j] = this.save[j+1];
-                            this.save[j+1] = flag;
-                        }
-                    }
-                }
+            this.flag++;
+            console.log(this.flag)
+            if(this.flag == 1){
+                this.obj.sort = 2
+            }else{
+                console.log(this.flag)
+                this.obj.sort = 3
+                this.flag = 0
+            }
+            var that = this
+            that.ajax.post(
+                "/xinda-api/product/package/grid",
+                that.qs.stringify({
+                    productTypeCode : that.obj.productTypeCode,
+                    productId : that.obj.productId,
+                    sort :  that.obj.sort
+                })
+            )
+            .then(function(data) {
+                 that.parentCount.all=data.data.data.length
+                 console.log(that.parentCount.all)
+                 that.temporaryList = data.data.data
+                 that.thisProduct = that.temporaryList.slice(0,5)
+                 
+            })
+
+            // that.ajax.post(
+            //     "/xinda-api/product/package/grid",
+            //     that.qs.stringify(that.obj)
+            // )
+            // .then(function(data) {
+            //     that.temporaryList = data.data.data;
+            //     that.thisProduct = that.temporaryList
+            //     if( that.thisProduct.length == 0){
+            //         that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+            //     }else{
+            //         var production = that.thisProduct;
+            //             for(let key in production){
+            //             var pro = production[key]['productImg']
+            //             pro = "http://123.58.241.146:8088/xinda/pic" + pro
+            //             production[key]['productImg'] = pro
+            //         }
+                        
+                    
+            //     }
+            // })
+            // this.page = 1;
+            // this.current3 = index3;
+            // this.eventSort = event.currentTarget.innerHTML
+            // if(event.currentTarget.innerHTML == '价格'){
+            //     for(let i = 0;i<this.save.length;i++){
+            //         for(let j = 0;j<this.save.length-i-1;j++){
+            //             if(this.save[j].price>this.save[j+1].price){
+            //                 var flag = this.save[j];
+            //                 this.save[j] = this.save[j+1];
+            //                 this.save[j+1] = flag;
+            //             }
+            //         }
+            //     }
                 
-                this.thisProduct = this.save.slice(0,3)
+            //     this.thisProduct = this.save.slice(0,3)
                 
                
-            }else{
-                this.thisProduct = this.temporaryList.slice(0,3)
-            }
+            // }else{
+            //     this.thisProduct = this.temporaryList.slice(0,3)
+            // }
         },
         buy(event){
             var that = this
@@ -595,6 +690,7 @@ export default {
         
         $route(val,oldval){
             this.parentCount.currentPage = 1;
+            this.parentCount.all = ''
             this.homePage = this.$route.query.name
             this.current3 = 0;
             this.firstLevel=val.query.name;
@@ -639,7 +735,7 @@ export default {
                 this.firstLevel=val.query.name;
                 
             }else if(this.id == undefined && this.code != undefined && oldval.query.name != val.query.name){
-                this.current2=0
+                this.current2=-1
                 this.firstLevel=val.query.name;
                 this.code = val.query.code;
                 
@@ -653,7 +749,14 @@ export default {
                 var myData = newData[key];
                 if (myData["name"] == this.firstLevel) {
                     this.typeList = myData.itemList;
+                    console.log(this.typeList.name)
+                    var level2 = []
                     for (let key in this.typeList) {
+                        level2.push(this.typeList[key].name)
+                        
+                        if(this.typeList[key]["name"] == level2[0]){
+                            this.nowTestlist = this.typeList[key]
+                        }
                         this.items.push(this.typeList[key]["name"]); 
                         this.storageCode.push(this.typeList[key].code)
                         this.obj.productTypeCode = this.typeList[key].code
@@ -662,7 +765,10 @@ export default {
                 }
             }
             for(let key in this.typeList){
+                
                 if(this.typeList[key].code == this.code){
+                    console.log(this.typeList[key])
+                    this.nowTestlist = this.typeList[key]
                     this.obj.productTypeCode = this.typeList[key].code
                     this.obj.productId = ''
                     this.classify = []
