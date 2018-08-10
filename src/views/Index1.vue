@@ -81,9 +81,9 @@
                     <div class="zhi-p zhi-pl">
                         <h6>知识产权</h6>
                         <ul>
-                            <li>商标注册</li>
-                            <li>版权保护</li>
-                            <li>专利申请</li>
+                            <li><router-link :to="{path:'/list',query:{name:'知识产权',code:8,index:1}}">商标注册</router-link></li>
+                            <li><router-link :to="{path:'/list',query:{name:'知识产权',code:9,index:2}}">版权保护</router-link></li>
+                            <li><router-link :to="{path:'/list',query:{name:'知识产权',code:10,index:0}}">专利申请</router-link></li>
                         </ul>
                     </div>
                 </div>
@@ -542,10 +542,13 @@ export default {
                 }
                 li{
                     font-size: 14px;
-                    cursor: pointer;
+                    // cursor: pointer;
                     margin: 5px 0;
                     border-left: 1px solid @color-269;
                     padding-left: 5px;
+                    a{
+                        color: @color-269;
+                    }
                 }
 
             }
