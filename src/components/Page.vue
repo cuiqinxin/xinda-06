@@ -102,13 +102,11 @@
         }
     },
     computed : {
-
         //计算总页码
         pages(){
             return Math.ceil(this.parentCount.all/this.parentCount.pageSize)
         },
         //计算页码，当count等变化时自动计算
-
         pagers () {           //在数组里循环当前页面显示的页码  (为了得到当前页面显示的页码)
             const array = []
             const perPages = this.parentCount.perPages    //页面中显示的页码数
@@ -119,7 +117,6 @@
                 start : current - _offset,
                 end   : current + _offset
             }
-
             //-1, 3
             if (offset.start < 1) {
                 offset.end = offset.end + (1 - offset.start)
@@ -129,12 +126,12 @@
                 offset.start = offset.start - (offset.end - pageCount)
                 offset.end = pageCount
             }
-            this.showPrevMore = (offset.start > 1)
-            this.showNextMore = (offset.end < pageCount)
+            
+            this.showPrevMore = (offset.start > 1)&&(this.pages>=10)
+            this.showNextMore = (offset.end < pageCount)&&(this.pages>=10)
             // }
             for (let i = offset.start; i <= offset.end; i++) {
                 array.push(i)
-
             }
             return array
             console.log(array)
