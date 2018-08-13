@@ -23,6 +23,7 @@ import Shop from '@/views/shop'
 import Join from '@/views/Join'
 import Dianpu from '@/components/dianpu'
 import Page from '@/components/Page'
+import p_all from '@/views/p_all'
 // import Shopin from '@/views/shopin'
 
 import shoppingcart from '@/views/shoppingcart'
@@ -85,6 +86,11 @@ export default new Router({       //module.expotrs={}
       alias: '/',         //起一个别名
       component: Header,
       children: [
+        {
+          path: '/p_all',
+          name: 'p_all',
+          component: p_all
+        },
         {
           path: 'join',
           name: 'Join',
