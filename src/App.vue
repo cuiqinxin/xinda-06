@@ -23,7 +23,7 @@
             </div>
           </div>
           <span>欢迎来到信达！</span>
-          <router-link :to="{path:'/outter/login',query:{id:123}}" v-if="!userPhoneNumber">登录</router-link>
+          <router-link to="/outter/login" v-if="!userPhoneNumber">登录</router-link>
           <router-link to="/outter/zhuce" v-if="!userPhoneNumber">快速注册</router-link>
         </el-col>
         <el-col :span="12" class="top-right">
