@@ -57,12 +57,12 @@
                             <el-row>
                                 <el-col :md="18"  :sm="16">
                                     <div class="list-left">
-                                        <el-col :md="4" :sm="5" :xs="0" v-if="item['productImg']"><img :src="item.productImg" @error="this.onerror='';src='../static/errorImg.png'"  class="proImg"></el-col>
+                                        <el-col :md="4" :sm="5" :xs="0" v-if="item['productImg']"><img :src="item['productImg']" @error='errorImage(item)'  class="proImg"></el-col>
                                         <el-col :md="20" :sm="19" :xs="24"><div class="proInfo">
                                             <p v-if="item['errorInfo']" class="errorInfo">{{item['errorInfo']}}</p>
                                             <h3  v-if="item['serviceName']"><router-link :to="{path:'/goodsdetail',query:{id:item.id}}">{{item['serviceName']}}</router-link></h3>
                                             <p  v-if="item['serviceInfo']">{{item['serviceInfo']}}</p>
-                                            <div class="xs-flex">
+                                            <div class="xs-flex" v-if="item['serviceInfo']">
                                                 <p  v-if="item['regionName']">{{item['regionName']}}</p>
                                                  <p class="hidden-sm-and-up">￥ {{item['price']}}.00<span>元</span></p>
                                             </div>
@@ -82,9 +82,10 @@
                                 <p class="error">当前选项无内容</p>
                             </el-row>
                         </div>
-                        <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+                        <!-- <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css"> -->
+                       <el-col :xs="24"><p v-show="isShow" class="moreload">{{loadText}}</p></el-col>
                     </div>
-                    <div class="pagebox">
+                    <div class="pagebox hidden-xs-only">
                          <page @change="pageChange" :parentCount="parentCount" ref="pagemore"></page>
                     </div>
                     
@@ -110,33 +111,35 @@ export default {
     name: "Outter",
     data() {
         return {
+            loadText:' loading...',
+            isShow: false,
             homePage:this.$route.query.name,
             page:1,
-            length:0,
+            // length:0,
             current1: 0,
             current2: -1,
             current3: 0,
             todos: [{ text: "综合排序" }, { text: "价格" }],
-            url: "../static/u684.23c4d55.png",
+            url: "../../static/u684.23c4d55.png",
             goodImg: [],
             items: [],
             classify: [],
-            serviceName: "",
-            serviceInfo: "",
-            regionName: "",
-            price: "",
+            // serviceName: "",
+            // serviceInfo: "",
+            // regionName: "",
+            // price: "",
             currentTarget: "",
             currentTarget1: "",
-            serviceClassify: [],
+            // serviceClassify: [],
             typeList: "",
-            product: '',
+            // product: '',
             thisProduct:[],
             temporaryList:'',
-            save:'',
+            // save:'',
             firstLevel: "",
             productTypeCode: "",
-            classifyName: "1eff122d06604fc1aadf9e7acefba21a",
-            menuList: "",
+            // classifyName: "1eff122d06604fc1aadf9e7acefba21a",
+            // menuList: "",
             nowTestlist: '',
             obj: {
                 productTypeCode: "",
@@ -148,7 +151,7 @@ export default {
             newCode: '',
             buyAdd:{
                 id:'0cb85ec6b63b41fc8aa07133b6144ea3',
-                num:'1'
+                num:1
             },
             cartAdd:{
                 id: '',
@@ -158,12 +161,12 @@ export default {
             code: '',
             index1:'',
             Data: '',
-            name: '',
+            // name: '',
             storageCode: [],
             list:'',
             thirdName:'',
             region:'',
-            eventSort: '',
+            // eventSort: '',
             searchName:'',
             searchAdd:{
                 start:0,
@@ -182,10 +185,11 @@ export default {
                         perPages:1  //页面中显示的页码数只能为单数
                     },
             flag:0 ,
-            x:0
+            start:4,
         };
     },
     created() {
+        // console.log(document.getElementsByClassName('pagebox')[0].hidden)
         if(this.homePage=="财税服务"){
             [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,true,false,false,false]
         }else if(this.homePage=="公司工商"){
@@ -212,7 +216,6 @@ export default {
             var classify1 = [];
             that.Data = data.data.data
             var newData = that.Data;
-            console.log(that.Data)
             //服务分类渲染      
             for (let key in newData) {
                 var myData = newData[key];
@@ -284,27 +287,48 @@ export default {
             .then(function(data) {
                  that.parentCount.all=data.data.data.length
             })
-
-
-            that.ajax.post(
-                "/xinda-api/product/package/grid",
-                that.qs.stringify(that.obj)
-            )
-            .then(function(data) {
-                that.temporaryList = data.data.data;
-                that.thisProduct = that.temporaryList
-                if( that.thisProduct.length == 0){
-                    that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
-                }else{
-                    var production = that.thisProduct;
-                    for(let key in production){
-                        var pro = production[key]['productImg']
-                        pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                        production[key]['productImg'] = pro
+            
+            if(document.body.offsetWidth<=762){
+                that.ajax.post(
+                    "/xinda-api/product/package/grid",
+                    that.qs.stringify(that.obj)
+                )
+                .then(function(data) {
+                    that.temporaryList = data.data.data;
+                    that.thisProduct = that.temporaryList
+                    if( that.thisProduct.length == 0){
+                        that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+                    }else{
+                        var production = that.thisProduct;
+                        for(let key in production){
+                            var pro = production[key]['productImg']
+                            pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                            production[key]['productImg'] = pro
+                        }
                     }
-                }
-                
-            })
+                    
+                })
+            }else{
+                that.ajax.post(
+                    "/xinda-api/product/package/grid",
+                    that.qs.stringify(that.obj)
+                )
+                .then(function(data) {
+                    that.temporaryList = data.data.data;
+                    that.thisProduct = that.temporaryList
+                    if( that.thisProduct.length == 0){
+                        that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+                    }else{
+                        var production = that.thisProduct;
+                        for(let key in production){
+                            var pro = production[key]['productImg']
+                            pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                            production[key]['productImg'] = pro
+                        }
+                    }
+                    
+                })
+            }
             
         });
         }else{
@@ -345,15 +369,81 @@ export default {
         }
         
     },
+    mounted(){
+        if(document.body.offsetWidth<=762){
+            window.addEventListener('scroll', this.scrollBottom)
+        }
+       
+    },
     components: {
         city,
         page
     },
     methods: {
+        errorImage(item){
+            item.productImg = "../../static/errorImg.png";
+        },
+        getScrollTop() {
+            var scrollTop = 0;
+            if (document.documentElement && document.documentElement.scrollTop) {
+                scrollTop = document.documentElement.scrollTop;
+            } else if (document.body) {
+                scrollTop = document.body.scrollTop;
+            }
+            return scrollTop;
+        },
+ 
+        // 获取当前可是范围的高度
+        getClientHeight() {
+            var clientHeight = 0;
+            if (document.body.clientHeight && document.documentElement.clientHeight) {
+                clientHeight = Math.min(document.body.clientHeight,
+                        document.documentElement.clientHeight);
+            } else {
+                clientHeight = Math.max(document.body.clientHeight,
+                        document.documentElement.clientHeight);
+            }
+            return clientHeight;
+        },
+ 
+        // 获取文档完整的高度
+        getScrollHeight() {
+            return Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);
+        },
+        scrollBottom(){ 
+            var that = this
+            if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight()) {
+                this.start++
+                this.page++
+                this.isShow = true
+                if(that.thisProduct.length<that.parentCount.all){
+                this.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
+                // that.obj
+                    {
+                        start:that.start,
+                        limit:1,
+                        providerId: that.obj.productId,
+                        productTypeCode: that.obj.productTypeCode,
+                    // searchName: that.searchAdd.searchName
+                        // sort:that.sort
+                    }
+                    )).then(function(data){
+                        for(let key in data.data.data){
+                            that.thisProduct.push(data.data.data[key])
+                            if(that.thisProduct.length == that.parentCount.all){
+                                that.loadText = 'No more loading'
+                            }
+                        }    
+                    });
+                }
+                if(that.thisProduct.length == that.parentCount.all){
+                     that.isShow = false;
+                }
+            }
+        },
         pageChange (page) {
-
+            document.documentElement.scrollTop = 200;
             this.currentPage = page
-            
             var that = this;
             if(this.searchAdd.searchName == '' || this.searchAdd.searchName == undefined){
                 if(that.obj.sort==2 || that.obj.sort == 3){
@@ -387,17 +477,12 @@ export default {
 
                 
                     that.ajax.post('/xinda-api/product/package/search-grid',that.qs.stringify(
-                        // that.obj
                     {
-                    start:(page-1)*5,
-                    limit:5,
-                    searchName: that.searchAdd.searchName
-                    // sort:2
-                    }
-                    )).then(function(data){
-                        console.log(that.searchAdd.searchName)
+                        start:(page-1)*5,
+                        limit:5,
+                        searchName: that.searchAdd.searchName
+                    })).then(function(data){
                         that.thisProduct=data.data.data
-                        console.log(that.thisProduct)
                         var production = that.thisProduct;
                         for(let key in production){
                             var pro = production[key]['providerImg']
@@ -407,8 +492,6 @@ export default {
                     });
                 }
             }
-            // }
-            // this.x+=2
         }, 
        
         sort1(index1, event) {
@@ -430,7 +513,6 @@ export default {
             this.current1 = index1;
             this.current2 = -1;
             this.currentTarget = event.currentTarget.innerHTML;
-            this.productTypeCode = event.currentTarget;
             var testlist = this.typeList;
             for(let key in testlist){
                 if(this.currentTarget == testlist[key]['name']){
@@ -485,7 +567,6 @@ export default {
                     
                 }
             })
-            // this.$options.methods.pageChange(page);
         },
         sort2(index2, event) {
             document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#000')
@@ -545,11 +626,6 @@ export default {
                     }
                 }
             })
-            // document.querySelector('.pageUp').style = 'cursor:no-drop'
-            // document.querySelector('.pageDown').style = 'cursor:no-drop'
-        },
-        isHasImg(item) {
-            item.productImg = "../static/errorImg.png";
         },
         sortprice(index3, event) {
             this.$refs.pagemore.go(1)
@@ -631,7 +707,7 @@ export default {
                         var production = that.temporaryList;
                         for(let key in production){
                             var pro = production[key]['providerImg']
-                            pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                            // pro = "http://123.58.241.146:8088/xinda/pic" + pro
                             production[key]['productImg'] = pro
                         }
                     }
@@ -716,7 +792,10 @@ export default {
                 })
             )
             .then(function(data) {
-                 that.parentCount.all=data.data.data.length
+                that.parentCount.all=data.data.data.length
+                if(that.parentCount.all == 0){
+                    that.parentCount.all = 1
+                }
             })
 
             that.ajax.post(
@@ -725,8 +804,8 @@ export default {
             )
             .then(function(data) {
                 that.temporaryList = data.data.data;
-                // that.length = Math.ceil(that.temporaryList.length/3)
                 for(let key in that.temporaryList){
+
                     if(that.temporaryList[key].regionId != that.region){
                         that.temporaryList.length = 0;
                         that.temporaryList = {0:{errorInfo:'当前选项无内容'}}
@@ -734,14 +813,14 @@ export default {
                     }else{
                         that.thisProduct = that.temporaryList
                         var production = that.thisProduct;
-                        for(let key in production){
-                            var pro = production[key]['productImg']
-                            pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                            production[key]['productImg'] = pro
-                        }
                     }
                 }
-                that.length = Math.ceil(that.temporaryList.length/3)
+                for(let key in production){
+                    var pro = production[key]['productImg']
+                    pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                    production[key]['productImg'] = pro
+                }
+                // that.length = Math.ceil(that.temporaryList.length/3)
             })
         }, 
         open2() {
@@ -751,7 +830,7 @@ export default {
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    that.$router.push('/Outter/login');
+                    that.$router.push({path:'/outter/login',query:{pan:123}});
                 }).catch(() => {
                 this.$message({
                     type: 'info',
@@ -1188,5 +1267,11 @@ export default {
         }
 }
 
-
+.moreload{
+    color: #2693d4;
+    text-align: center;
+    width:100%;
+    height: 25px;
+    margin-top: 5px;
+}
 </style>
