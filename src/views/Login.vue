@@ -56,13 +56,14 @@ export default {
             photoValue:'',
             phoneTip:'',
             passTip:'',
-            photoTip:''
+            photoTip:'',
+            panduan:''
         }
     },
     created(){
         this.$parent.info = '欢迎登录';
         this.$parent.infoWeb = '登录';
-        this.id=this.$route.query.id;
+        this.panduan=this.$route.query.pan;
         document.onkeyup=(e)=>{
             var key=window.event.keyCode;
             if(key==13){
@@ -114,9 +115,11 @@ export default {
                         }
                         if(data.data.status==1){
                             store.commit('loginStatus',that.phoneValue)
-                            //{path:'/outter/login',query:{id:123}}
-                            // that.$router.push({path:'/header/index1'});
-                            that.$router.go(-1);
+                            if(that.panduan=='123'){
+                                that.$router.go(-1);
+                            }else{
+                                that.$router.push({path:'/header/index1'});
+                            }
                         }
                 }).catch(function(){console.log('失败');})
             }
