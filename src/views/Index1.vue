@@ -244,7 +244,7 @@
                         <p>公司变更</p>
                     </div>
                     <div>
-                        <router-link to=""><img src="../../static/7.png"></router-link>
+                        <router-link to="/p_all"><img src="../../static/7.png"></router-link>
                         <p>全部服务</p>
                     </div>
                 </el-col>
