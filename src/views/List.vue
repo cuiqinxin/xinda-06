@@ -40,8 +40,11 @@
                             </el-col>
                         </el-row>
                     </div>
+                    <div class="xs-sortBox hidden-md-and-up">
+                        <div v-for="(todo, index3) in todos" :key="index3" v-bind:class="{blue:index3==current3}" class="sort " @click="sortprice(index3,$event)">{{ todo.text }}<li :id="index3" v-show="index3==1" class="el-icon-sort-up"></li><li :id="index3" v-show="index3==1" class="el-icon-sort-down"></li> </div>
+                    </div>
                     <div class="bottom-box">
-                        <div class="sort-box">
+                        <div class="sort-box hidden-xs-only">
                             <div v-for="(todo, index3) in todos" :key="index3" v-bind:class="{blue:index3==current3}" class="sort " @click="sortprice(index3,$event)">{{ todo.text }}<li :id="index3" v-show="index3==1" class="el-icon-sort-up"></li><li :id="index3" v-show="index3==1" class="el-icon-sort-down"></li> </div>
                         </div>
                         <div class="product">
@@ -59,12 +62,15 @@
                                             <p v-if="item['errorInfo']" class="errorInfo">{{item['errorInfo']}}</p>
                                             <h3  v-if="item['serviceName']"><router-link :to="{path:'/goodsdetail',query:{id:item.id}}">{{item['serviceName']}}</router-link></h3>
                                             <p  v-if="item['serviceInfo']">{{item['serviceInfo']}}</p>
-                                            <p  v-if="item['regionName']">{{item['regionName']}}</p>
+                                            <div class="xs-flex">
+                                                <p  v-if="item['regionName']">{{item['regionName']}}</p>
+                                                 <p class="hidden-sm-and-up">￥ {{item['price']}}.00<span>元</span></p>
+                                            </div>
                                         </div></el-col>
                                     </div>
                                 </el-col>
 
-                                <el-col :md="6" :sm="8" v-if="item['price']">
+                                <el-col :md="6" :sm="8" v-if="item['price']" class="hidden-xs-only">
                                     <div class="list-right">
                                         <p>￥ {{item['price']}}.00</p>
                                         <div>
@@ -180,9 +186,6 @@ export default {
         };
     },
     created() {
-<<<<<<< HEAD
-       
-=======
         if(this.homePage=="财税服务"){
             [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,true,false,false,false]
         }else if(this.homePage=="公司工商"){
@@ -190,7 +193,6 @@ export default {
         }else{
             [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,false,false,false,false]
         }
->>>>>>> 81ae48a0dd99b523c34dcd694dc852094a8d790a
         this.firstLevel=this.$route.query.name;
         this.id = this.$route.query.id;
         this.code = this.$route.query.code;
@@ -305,8 +307,6 @@ export default {
             })
             
         });
-        // document.getElementsByClassName('sort')[1].children[0].classList.add('el-icon-sort-up')
-        // document.getElementsByClassName('sort')[1].children[1].classList.add('el-icon-sort-down')
         }else{
              this.ajax.post("/xinda-api/product/style/list").then(function(data) {
             that.Data = data.data.data
@@ -319,6 +319,9 @@ export default {
                     })
                 ).then(function(data) {
                     that.parentCount.all=data.data.data.length
+                    if(that.parentCount.all == 0){
+                        that.parentCount.all = 1
+                    }
                 })
 
                 this.ajax.post(
@@ -409,6 +412,11 @@ export default {
         }, 
        
         sort1(index1, event) {
+            document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#000')
+            document.getElementsByClassName('el-icon-sort-down')[1].setAttribute('style','color:#000')
+            document.getElementsByClassName('el-icon-sort-up')[3].setAttribute('style','color:#000')
+            document.getElementsByClassName('el-icon-sort-down')[3].setAttribute('style','color:#000')
+            this.flag = 0
             this.show = true
             this.$refs.pagemore.go(1)
             this.parentCount.currentPage = 1;
@@ -451,8 +459,12 @@ export default {
             )
             .then(function(data) {
                  that.parentCount.all=data.data.data.length
+                 if(that.parentCount.all == 0){
+                    that.parentCount.all = 1
+                }
             })
-
+            that.obj.sort = ''
+            // console.log(this.obj.sort)
             that.ajax.post(
                 "/xinda-api/product/package/grid",
                 that.qs.stringify(that.obj)
@@ -476,6 +488,11 @@ export default {
             // this.$options.methods.pageChange(page);
         },
         sort2(index2, event) {
+            document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#000')
+            document.getElementsByClassName('el-icon-sort-down')[1].setAttribute('style','color:#000')
+            document.getElementsByClassName('el-icon-sort-up')[3].setAttribute('style','color:#000')
+            document.getElementsByClassName('el-icon-sort-down')[3].setAttribute('style','color:#000')
+            this.flag = 0
             this.show = true
             this.$refs.pagemore.go(1)
             this.parentCount.currentPage = 1;
@@ -504,7 +521,10 @@ export default {
                 })
             )
             .then(function(data) {
-                 that.parentCount.all=data.data.data.length
+                that.parentCount.all=data.data.data.length
+                if(that.parentCount.all == 0){
+                    that.parentCount.all = 1
+                }
             })
 
             that.ajax.post(
@@ -512,11 +532,7 @@ export default {
                 that.qs.stringify(that.obj)
             )
             .then(function(data) {
-                
                 that.temporaryList = data.data.data;
-                // that.save = JSON.parse(JSON.stringify(that.temporaryList))
-                // that.length = Math.ceil(that.temporaryList.length/3)
-
                 that.thisProduct = that.temporaryList
                 if( that.thisProduct.length == 0){
                     that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
@@ -532,20 +548,19 @@ export default {
             // document.querySelector('.pageUp').style = 'cursor:no-drop'
             // document.querySelector('.pageDown').style = 'cursor:no-drop'
         },
-         isHasImg(item) {
+        isHasImg(item) {
             item.productImg = "../static/errorImg.png";
         },
         sortprice(index3, event) {
-            // this.flag = 0;
+            this.$refs.pagemore.go(1)
             this.current3 = index3
-            console.log(this.flag)
             this.flag++;
             if(this.current3 == 0){
                 this.flag = -1;
-                console.log(1212)
                 document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#000')
                 document.getElementsByClassName('el-icon-sort-down')[1].setAttribute('style','color:#000')
-                console.log(this.flag)
+                document.getElementsByClassName('el-icon-sort-up')[3].setAttribute('style','color:#000')
+                document.getElementsByClassName('el-icon-sort-down')[3].setAttribute('style','color:#000')
                 this.obj.sort = ''
                 this.flag = 0
             }
@@ -554,12 +569,16 @@ export default {
                 this.searchAdd.sort = 2
                 document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#fff')
                 document.getElementsByClassName('el-icon-sort-down')[1].setAttribute('style','color:#3171b4')
+                document.getElementsByClassName('el-icon-sort-up')[3].setAttribute('style','color:#fff')
+                document.getElementsByClassName('el-icon-sort-down')[3].setAttribute('style','color:#3171b4')
             }else if(this.flag > 1){
                 this.obj.sort = 3
                 this.searchAdd.sort = 3
                 this.flag = 0
                 document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#3171b4')
                 document.getElementsByClassName('el-icon-sort-down')[1].setAttribute('style','color:#fff')
+                document.getElementsByClassName('el-icon-sort-up')[3].setAttribute('style','color:#3171b4')
+                document.getElementsByClassName('el-icon-sort-down')[3].setAttribute('style','color:#fff')
             }
             var that = this
             if(this.searchAdd.searchName == '' || this.searchAdd.searchName == undefined){
@@ -575,15 +594,21 @@ export default {
             )
             .then(function(data) {
                  that.parentCount.all=data.data.data.length
-                 that.temporaryList = data.data.data
-                 that.thisProduct = that.temporaryList.slice(0,5)
-                 var production = that.temporaryList;
-                for(let key in production){
-                    var pro = production[key]['productImg']
-                    pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                            production[key]['productImg'] = pro
+                 if(that.parentCount.all == 0){
+                    that.parentCount.all = 1
                 }
-                 
+                that.temporaryList = data.data.data
+                that.thisProduct = that.temporaryList.slice(0,5)
+                if(that.thisProduct.length == 0){
+                    that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+                }else{
+                    var production = that.temporaryList;
+                    for(let key in production){
+                        var pro = production[key]['productImg']
+                        pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                        production[key]['productImg'] = pro
+                    }
+                }
             })
             }else{
                 that.ajax.post('/xinda-api/product/package/search-grid',that.qs.stringify(
@@ -595,15 +620,22 @@ export default {
                     }
                     )).then(function(data){
                         that.parentCount.all=data.data.data.length
+                        if(that.parentCount.all == 0){
+                            that.parentCount.all = 1
+                        }
                         that.temporaryList=data.data.data
                         that.thisProduct = that.temporaryList.slice(0,5)
+                        if(that.thisProduct.length == 0){
+                    that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+                    }else{
                         var production = that.temporaryList;
                         for(let key in production){
                             var pro = production[key]['providerImg']
                             pro = "http://123.58.241.146:8088/xinda/pic" + pro
                             production[key]['productImg'] = pro
                         }
-                    });
+                    }
+                });
             }
         },
         buy(event){
@@ -719,7 +751,7 @@ export default {
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    that.$router.push('/Outter/Zhuce');
+                    that.$router.push('/Outter/login');
                 }).catch(() => {
                 this.$message({
                     type: 'info',
@@ -738,7 +770,6 @@ export default {
             this.parentCount.all = ''
             this.homePage = this.$route.query.name
             this.current3 = 0;
-            // this.firstLevel=val.query.name;
             this.firstLevel=this.$route.query.name;
             
             this.code = val.query.code;
@@ -798,13 +829,9 @@ export default {
                 this.id = val.query.id
             }
             var newData = this.Data;
-            console.log(this.Data)
             for (let key in newData) {
-                console.log(111111111)
                 var myData = newData[key];
-                console.log(myData["name"])
                 if (myData["name"] == this.firstLevel) {
-                    console.log(111111111)
                     this.typeList = myData.itemList;
                     var level2 = []
                     for (let key in this.typeList) {
@@ -848,9 +875,6 @@ export default {
                 this.obj.productTypeCode = 0;
             }
             if(this.searchAdd.searchName == undefined){
-                // this.$refs.notice_add.provinceCode = ''
-                // this.$refs.notice_add.cityCode = ''
-                // this.$refs.notice_add.areaCode = ''
                 that.ajax.post(
                     "/xinda-api/product/package/grid",
                     that.qs.stringify({
@@ -890,7 +914,9 @@ export default {
                     })
                 ).then(function(data) {
                     that.parentCount.all=data.data.data.length
-                    console.log(data.data.data)
+                    if(that.parentCount.all == 0){
+                        that.parentCount.all = 1
+                    }
                 })
 
                 this.ajax.post(
@@ -1036,7 +1062,7 @@ export default {
         }
         .proInfo {
             height: 100px;
-            width: 81%;
+            // width: 81%;
             padding-left: 10px;
             h3 {
                 line-height: 30px;
@@ -1123,8 +1149,44 @@ export default {
         cursor: pointer;
     }
 }
-
-
+.xs-flex{
+    display: flex;
+    justify-content: space-between;
+    .hidden-sm-and-up{
+        color: #f00!important;
+        font-size: 20px!important;
+        align-self: flex-end;
+        span{
+            color:#909399;
+            font-size: 14px;
+        }
+    }
+}
+.xs-sortBox{
+    display: flex;
+    justify-content: center;
+    .sort {
+            width: 105px;
+            height: 35px;
+            text-align: center;
+            line-height: 45px;
+            position: relative;
+            font-size: 16px;
+            line-height: 35px;
+            .el-icon-sort-down{
+                position: absolute;
+                left: 80px;
+                top: 10px;
+                color: #000
+            }
+            .el-icon-sort-up{
+                position: absolute;
+                left: 64px;
+                top: 10px;
+                color: #000
+            }
+        }
+}
 
 
 </style>

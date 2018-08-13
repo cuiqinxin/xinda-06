@@ -49,7 +49,7 @@ export default {
         return {
             id:'',
             imgurl:'/xinda-api/ajaxAuthcode',
-            style:'bi',
+            style:'bi', 
             types:'password',
             phoneValue:'',
             passValue:'',
