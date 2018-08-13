@@ -98,6 +98,7 @@
                 // this.parentCount.page=(page-1)*6
                 //父组件通过change方法来接受当前的页码
                 this.$emit('change', this.index)
+                console.log(this.pagers)
             }
         }
     },
@@ -156,6 +157,9 @@
         },
         total(val) {
             this.size = val || 1
+        },
+        $route(val){
+            this.index = 1
         }
     }
 }

@@ -319,6 +319,7 @@ export default {
     }
   },
   created(){
+      [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [true,false,false,false,false]
     //   this.$parent.hover = true;
     this.ajax.post("/xinda-api/recommend/list").then(data=>{
         this.hq=data.data.data.hq;

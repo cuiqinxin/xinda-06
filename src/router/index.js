@@ -10,6 +10,7 @@ import Tests from '@/views/Tests'
 import Member from '@/views/Member'
 import Memberindex from '@/views/Memberindex'
 import Memberorder from '@/views/Memberorder'
+import Ordertest from '@/views/ordertest'
 import Memberassess from '@/views/Memberassess'
 import Memberinstall from '@/views/Memberinstall'
 import Header from '@/components/Header'
@@ -24,6 +25,7 @@ import dianpumobile from '@/views/dianpumobile'
 import Join from '@/views/Join'
 import Dianpu from '@/components/dianpu'
 import Page from '@/components/Page'
+import p_all from '@/views/p_all'
 // import Shopin from '@/views/shopin'
 
 import shoppingcart from '@/views/shoppingcart'
@@ -86,6 +88,11 @@ export default new Router({       //module.expotrs={}
       alias: '/',         //起一个别名
       component: Header,
       children: [
+        {
+          path: '/p_all',
+          name: 'p_all',
+          component: p_all
+        },
         {
           path: 'join',
           name: 'Join',
@@ -156,6 +163,11 @@ export default new Router({       //module.expotrs={}
               path: 'memberorder',
               name: 'Memberorder',
               component: Memberorder
+            },
+            {
+              path: 'ordertest',
+              name: 'ordertest',
+              component: Ordertest
             },
             {
               path: 'memberassess',
