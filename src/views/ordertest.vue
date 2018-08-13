@@ -44,22 +44,21 @@
             </el-row>
             <div :class="noneorder">还没有订单！</div>
             <div class="allorder">
-                <el-row class="orderBody" v-for="(item,index) in chuliArr[pagei-1]" :key="index">
+                <el-row class="orderBody" v-for="(item,index1) in orderArr[pagei-1]" :key="index1">
                     <el-col :span="24" class="orderhao">
-                        <p class="ohaoma">订单号：{{item[0].businessNo}}</p>
-                        <p class="hidden-xs-only">下单时间：{{item[0].createTime}}</p>
+                        <p class="ohaoma">订单号：{{item.businessNo}}</p>
+                        <p class="hidden-xs-only">下单时间：{{item.createTime}}</p>
                         <p class="hidden-sm-and-up">等待买家付款</p>
                     </el-col>
                     <el-col :span="24" class="wholeOrder">
                         <el-col :span="21" :xs="24">
-                            <el-col :span="24" v-for="(item,index) in item" :key="index" class="onceOrder">
+                            <el-col :span="24" v-for="(item,index) in orderArr1[pagei-1][index1]" :key="index" class="onceOrder">
                                 <el-col :span="16" :xs="24" class="orderspe">
                                     <div class="havepho">
                                         <span class="imgss"></span>
                                         <p>
                                             <span class="hidden-xs-only">{{item['providerName']}}</span>
                                             <span class="phocom">{{item['serviceName']}}</span>
-                                            <span class="hidden-xs-and-up">{{item['id']}}</span>
                                             <span class="hidden-sm-and-up">下单时间：{{item['createTime']}}</span>
                                             <span class="hidden-sm-and-up yuanchen"><span class="moneyred">￥{{item['unitPrice']}}</span>元&nbsp;&nbsp;&nbsp;&nbsp;×{{item['buyNum']}}</span>
                                         </p>
@@ -78,10 +77,10 @@
                             </el-col>
                         </el-col>
                         <el-col :span="3" :xs="24" class="orderoper">   
-                            <p class="heji hidden-sm-and-up">合计：<span class="moneyred">￥{{item[0].totalOrder}}</span></p>
+                            <p class="heji hidden-sm-and-up">合计：<span class="moneyred">￥{{item.totalPrice}}</span></p>
                             <div class="fushan">         
-                                <router-link :to="{path:'/pay',query:{businessNo:item[0].businessNo,total:item[0].totalOrder}}" class="paymoney">付款</router-link>  
-                                <a href="javascript:void(0)" @click="deleOrder(item[0].id)">删除订单</a> 
+                                <router-link :to="{path:'/pay',query:{businessNo:item.businessNo,total:item.totalPrice}}" class="paymoney">付款</router-link>  
+                                <a href="javascript:void(0)" @click="deleOrder(item.id,index1)">删除订单</a> 
                             </div>                 
                         </el-col>
                     </el-col>
@@ -101,20 +100,22 @@
 
 <script>
 export default {
-    name: 'Memberorder',
+    name: 'ordertest',
     data () {
         return {
             value1: '',
             nextClick:'unclick',
-            prevClick:'unclick',
+            prevClick:'click',
             orderArr:[], 
-            chuliArr:[],
+            orderArr1:[],
+            lalala:[],
             pagei:1,
             fenye:0,
             callbackSign:0,
             searchOrderNumber:'',
             orderHint:'',
-            noneorder:'yincangorder'
+            noneorder:'yincangorder',
+            lengthLimit:1
         }
     },
     created(){
@@ -122,100 +123,85 @@ export default {
         this.$parent.assessRight='choose assess hidden-xs-only';
         this.$parent.installRight='choose install';
         var that=this;
-        this.ajax.post('/xinda-api/service-order/grid',this.qs.stringify(
-            {'businessNo':'S1808060119090450019','startTime':'2018-08-06','endTime':'2018-08-06','start':0}
-            // {}
+        this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
+            {'start':0}
         )).then(
             function(data){
-                // console.log(data);
-                if(data.data.status=='-999'){
-                    that.noneorder='showorder noneorder';
-                    that.$alert('请先登录', '提示', {
-                        confirmButtonText: '确定',
-                        type: 'warning',
-                        callback: action => {
-                            that.$router.push({path:'/outter/login'});
-                        }
-                    });
-                    return;
-                }
-                if(data.data.data.length==0){
-                    that.noneorder='showorder noneorder';return;                    
-                }
-                that.noneorder='yincangorder';
-                for(var i in data.data.data){
-                    that.orderArr.push(data.data.data[i]);
-                }
-                for(var i in that.orderArr){   
-                    var newDate = new Date();
-                    newDate.setTime(that.orderArr[i].createTime);
-                    var nianfen=newDate.toLocaleDateString().replace(/\//g,'-');
-                    var shijian=newDate.toTimeString().substr(0,8);
-                    var sss=nianfen+' '+shijian;
-                    that.orderArr[i].createTime=sss;
-                }
-                for(let i=0;i<that.orderArr.length;i++){
-                    let b=[that.orderArr[i]];
-                    for(let j=i+1;j<that.orderArr.length;j++){  
-                        if((that.orderArr[j].businessNo==that.orderArr[i].businessNo)&&(that.orderArr[j].createTime==that.orderArr[i].createTime)){  
-                            b.push(that.orderArr[j]);
-                            that.orderArr.splice(j,1);
-                            j--;
-                        }
-                    }
-                    that.orderArr[i]=b;
-                }
-                for(var i in that.orderArr){
-                    var totalOrder=0;
-                    for(var j in that.orderArr[i]){
-                        totalOrder+=that.orderArr[i][j].totalPrice;
-                    }
-                    that.orderArr[i][0].totalOrder=totalOrder;
-                }
-                that.fenye=Math.ceil(that.orderArr.length/2);
-                for(var i=0;i<that.orderArr.length;i=i+2){
-                    var b=[that.orderArr[i],that.orderArr[i+1]];
-                    if(b[1]==undefined){b.pop()};
-                    that.chuliArr.push(b);
-                }             
-                if(that.fenye>1){that.nextClick='click';}
-                // console.log(that.chuliArr);
+                if(data.data.status=='-999'){return;}
+                if(data.data.data.length==0){return;}
+                that.fenye=Math.ceil(data.data.data.length/2);
         }).catch(function(){console.log('失败');})
+        this.orderChange(0);      
     },
-    methods:{
-        deleOrder(value){
+    methods:{      //v-if="!(index1+1==delesign&&delepage==pagei)"
+        deleOrder(value,dis){
             var that=this;
-            this.ajax.post('/xinda-api/business-order/del',this.qs.stringify(
-                {'id':value}
-            )).then(
-                function(data){
-                    if(data.data.status==1){
-                        console.log(lalala);
-                    }
-            }).catch(function(){console.log('失败');})
+            that.$confirm('此操作将删除该订单，是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+            }).then(() => {
+                    that.ajax.post('/xinda-api/business-order/del',that.qs.stringify(
+                        {'id':value}
+                    )).then(
+                        function(data){
+                            if(data.data.status==1){
+                                that.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+                            }
+                            var sign=that.pagei-1;
+                            that.orderArr[sign].splice(dis,1);
+                            that.orderArr1[sign].splice(dis,1);
+                            if(that.orderArr[0].length==0){that.noneorder='showorder noneorder';that.fenye=0;return;}
+                            that.noneorder='yincangorder';
+                            while(sign<=that.fenye){
+                                if(that.orderArr[sign+1]!=undefined){
+                                    that.orderArr[sign].push(that.orderArr[sign+1][0]);
+                                    that.orderArr[sign+1].shift();
+                                    that.orderArr1[sign].push(that.orderArr1[sign+1][0]);
+                                    that.orderArr1[sign+1].shift();
+                                }
+                                sign++;
+                            }
+                            var bbb=that.orderArr.length;
+                            if(that.orderArr[bbb-1].length==0){that.orderArr.pop();that.orderArr1.pop();}
+                            that.fenye=that.orderArr.length;
+                    })
+            }).catch(() => { 
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });  
+            }); 
         },
         nextp(){
             if(this.pagei>=this.fenye){ return;}
-            if(this.pagei==this.fenye-1){
-                this.nextClick='unclick';
-                this.prevClick='click';
-                this.pagei++;
-                return;
-            }
-            this.nextClick='click';
-            this.prevClick='click';
+            // if(this.pagei==this.fenye-1){
+            //     this.nextClick='unclick';
+            //     this.prevClick='click';
+            //     this.pagei++;
+            //     return;
+            // }
+            // this.nextClick='click';
+            // this.prevClick='click';
+            if(this.lengthLimit>this.pagei){this.pagei++;return;}
             this.pagei++;
+            this.lengthLimit=this.pagei;
+            var chuan=(this.pagei-1)*2;
+            this.orderChange(chuan);
         },
         prevp(){
             if(this.pagei<=1){return;}
-            if(this.pagei==2){
-                this.nextClick='click';
-                this.prevClick='unclick';
-                this.pagei--;
-                return;
-            }
-            this.prevClick='click';
-            this.nextClick='click';
+            // if(this.pagei==2){
+            //     this.nextClick='click';
+            //     this.prevClick='unclick';
+            //     this.pagei--;
+            //     return;
+            // }
+            // this.prevClick='click';
+            // this.nextClick='click';
             this.pagei--;
         },
         datachoose(){
@@ -311,6 +297,88 @@ export default {
             }else{
                     this.noneorder='yincangorder';
             }
+        },
+        changeDate(arr){
+            for(var i in arr){   
+                var newDate = new Date();
+                newDate.setTime(arr[i].createTime);
+                var nianfen=newDate.toLocaleDateString().replace(/\//g,'-');
+                var shijian=newDate.toTimeString().substr(0,8);
+                var sss=nianfen+' '+shijian;
+                arr[i].createTime=sss;
+            }
+        },
+        orderChange(page){
+            var that=this;
+            this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
+                {'start':page,'limit':2}
+            )).then(
+                function(data){
+                    if(data.data.status=='-999'){
+                        that.noneorder='showorder noneorder';
+                        that.$alert('请先登录', '提示', {
+                            confirmButtonText: '确定',
+                            type: 'warning',
+                            callback: action => {
+                                that.$router.push({path:'/outter/login'});
+                            }
+                        });
+                        return;
+                    }
+                    if(data.data.data.length==0){that.noneorder='showorder noneorder';return;}
+                    that.noneorder='yincangorder';
+                    that.changeDate(data.data.data);
+                    that.orderArr.push(data.data.data);
+                    var xun=that.pagei-1;
+                    // that.orderArr1[xun]=[]; 
+                    // console.log(that.orderArr);                   
+                    // for(let i in that.orderArr[xun]){
+                    //     // let ji=that.orderArr[xun][i].businessNo;
+                    //     (function(i){that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
+                    //         {'businessNo':that.orderArr[xun][i].businessNo}
+                    //     )).then(
+                    //         function(data){
+                    //             that.changeDate(data.data.data);
+                    //             // var bb=[];
+                    //             // if(data.data.data[0].businessNo==ji){
+                    //                 // var b=;
+                    //                 // console.log(xun);
+                    //                 // lalala.push(data.data.data);
+                    //                 that.orderArr1[xun].push(data.data.data);                                   
+                    //             // }
+                    //     })
+                    //     })(i)
+                    // }
+                    if(that.orderArr[xun].length==2){
+                        that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
+                            {'businessNo':that.orderArr[xun][0].businessNo}
+                        )).then(
+                            function(data){
+                                that.changeDate(data.data.data);
+                                that.lalala.push(data.data.data);  
+                        })
+                        that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
+                            {'businessNo':that.orderArr[xun][1].businessNo}
+                        )).then(
+                            function(data){
+                                that.changeDate(data.data.data);
+                                that.lalala.push(data.data.data);
+                                that.orderArr1.push(that.lalala); 
+                                that.lalala=[];   
+                        })
+                    }else{
+                        that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
+                            {'businessNo':that.orderArr[xun][0].businessNo}
+                        )).then(
+                            function(data){
+                                that.changeDate(data.data.data);
+                                that.lalala.push(data.data.data);
+                                that.orderArr1.push(that.lalala); 
+                                that.lalala=[]; 
+                        })
+                    }
+                    console.log(that.orderArr1);
+            }).catch(function(){console.log('失败');})
         }
     }
 }
