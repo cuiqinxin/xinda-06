@@ -160,6 +160,9 @@
         },
         total(val) {
             this.size = val || 1
+        },
+        $route(val){
+            this.index = 1
         }
     }
 }

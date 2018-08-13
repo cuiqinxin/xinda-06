@@ -49,7 +49,7 @@ export default {
         return {
             id:'',
             imgurl:'/xinda-api/ajaxAuthcode',
-            style:'bi',
+            style:'bi', 
             types:'password',
             phoneValue:'',
             passValue:'',
@@ -114,7 +114,9 @@ export default {
                         }
                         if(data.data.status==1){
                             store.commit('loginStatus',that.phoneValue)
-                            that.$router.push({path:'/header/index1'});
+                            //{path:'/outter/login',query:{id:123}}
+                            // that.$router.push({path:'/header/index1'});
+                            that.$router.go(-1);
                         }
                 }).catch(function(){console.log('失败');})
             }
