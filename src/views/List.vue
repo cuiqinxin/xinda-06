@@ -41,7 +41,7 @@
                         </el-row>
                     </div>
                     <div class="xs-sortBox hidden-md-and-up">
-                        <div v-for="(todo, index3) in todos" :key="index3" v-bind:class="{blue:index3==current3}" class="sort " @click="sortprice(index3,$event)">{{ todo.text }}<li :id="index3" v-show="index3==1" class="el-icon-sort-up"></li><li :id="index3" v-show="index3==1" class="el-icon-sort-down"></li> </div>
+                        <div v-for="(todo, index3) in todos" :key="index3" v-bind:class="{blue:index3==current3}" class="sort" @click="sortprice(index3,$event)">{{ todo.text }}<li :id="index3" v-show="index3==1" class="el-icon-sort-up"></li><li :id="index3" v-show="index3==1" class="el-icon-sort-down"></li> </div>
                     </div>
                     <div class="bottom-box">
                         <div class="sort-box hidden-xs-only">
@@ -413,7 +413,7 @@ export default {
         scrollBottom(){ 
             var that = this
             if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight()) {
-                console.log(123)
+                
                 this.start++
                 this.page++
                 this.isShow = true
@@ -708,7 +708,7 @@ export default {
                         var production = that.temporaryList;
                         for(let key in production){
                             var pro = production[key]['providerImg']
-                            // pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                            pro = "http://123.58.241.146:8088/xinda/pic" + pro
                             production[key]['productImg'] = pro
                         }
                     }
@@ -1253,6 +1253,7 @@ export default {
             position: relative;
             font-size: 16px;
             line-height: 35px;
+            border: 1px solid  #5aa3dd;
             .el-icon-sort-down{
                 position: absolute;
                 left: 80px;
