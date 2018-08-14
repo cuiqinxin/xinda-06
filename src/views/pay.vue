@@ -1,4 +1,7 @@
 <template>
+
+
+
     <div class="pay">
          <p class="firstpay">首页/支付</p>
          <p class="tabledetail">订单详情</p>
@@ -7,47 +10,32 @@
 
         <!-- style -->
          <div class="orderdetail" >
-             <!-- demo -->
              <div class="businessOrder">
                  <el-col :span="8"><div class="businessNo">
-                     订单编号：<span>S1704040001075133085</span>
-                 </div></el-col>
-                 <el-col :span="7"><div class="createTime">创建时间：<span>2017-03-31 12:00:09</span> </div></el-col>
-                 <el-col :span="5"><div class="totalPrice">订单金额：<span style="color:#62a8dc;">￥500.00元</span></div></el-col>
-                 <!-- <el-col :span="3"><div class="orderclick">订单详情 <div class="tubiao"></div></div></el-col>    -->
-                 <el-col :span="3" class="orderclickouter"><a  href="javascript:void(0)" class="orderclick">订单详情 <div class="tubiao"></div></a></el-col> 
-               
-             </div>
-             <!-- demoover -->
-             <div class="businessOrder">
-                 <el-col :span="8"><div class="businessNo">
-
                      订单编号：<span>{{businessOrder.businessNo}}</span>
                  </div></el-col>
                  <el-col :span="7"><div class="createTime">创建时间：<span>{{ businessOrder.createTime}}</span> </div></el-col>
                  <el-col :span="5"><div class="totalPrice">订单金额：<span style="color:#62a8dc;">￥{{businessOrder.totalPrice}}元</span></div></el-col>
                 
-                 <el-col :span="3" class="orderclickouter"><a  href="javascript:void(0)" class="orderclick" @click="show=!show">订单详情 <div class="tubiao"></div></a></el-col> 
+                 <el-col :span="3" class="orderclickouter"><a  href="javascript:void(0)" class="orderclick" @click="xiangqing">订单详情 <div class="tubiao"><img :src="xiangqingsrc" alt="#"></div></a></el-col> 
                
              </div>
-             <transition name="bounce" class="orders">
-                 <div class="orderlist" v-for="(item,index) in shoppingdata" :key="index">
+             <div class="ordersouter">
+                    <transition name="bounce" class="orders">
+                 <div v-if="show" >
+                       <div class="orderlist" v-for="(item,index) in serviceOrderList" :key="index">
                      <el-col :span="7" class="serviceName">服务名称：<span>{{item.serviceName}}</span>   </el-col>
                     <el-col :span="6" class="unitPrice">单价：<span>￥{{item.unitPrice}}元</span></el-col>
                     <el-col :span="5" class="buyNum">数量：<span>{{item.buyNum}}</span></el-col>
                     <el-col :span="6" class="totalPrice">服务总额：<span>￥{{item.totalPrice}}元</span></el-col>
                  </div>
-
-                  <div  v-if="show" class="orderlist">
-                     <el-col :span="7" class="serviceName">服务名称：<span>注册分公司</span>   </el-col>
-                    <el-col :span="6" class="unitPrice">单价：<span>￥800.00元</span></el-col>
-                    <el-col :span="5" class="buyNum">数量：<span>1</span></el-col>
-                    <el-col :span="6" class="totalPrice">服务总额：<span>￥800.00元</span></el-col>
                  </div>
-                 
+               
 
 
              </transition>
+             </div>
+          
 
 
          </div>
@@ -58,26 +46,26 @@
             
             <p class="paystyle">平台支付</p>
             <div class="yinlian">
-                <input type="radio" name="paystyle" value="yinlian">
+                <input type="radio" name="paystyle" value="yinlian" v-model="paystyle">
                 <div class="img"></div>
             </div>
            
             <p class="paystyle">非网银支付</p>
             <div class="feiwangyin">
                 <div class="weixin">
-                    <input type="radio" name="paystyle" value="weixin">
+                    <input type="radio" name="paystyle" value="weixin" v-model="paystyle">
                     <div class="img"></div>
                     <p class="weixinzhifu">微信支付</p>
                 </div>
                 <div class="zhifubao">
-                    <input type="radio" name="paystyle" value="zhifubao">
+                    <input type="radio" name="paystyle" value="zhifubao" v-model="paystyle">
                      <div class="img"></div>
                      <p class="weixinzhifu">快捷支付</p>
                 </div>
             </div>
              <p class="paystyle">自助转账<span>因限额不能支付时，建议使用自助转账</span></p>
              <div class="zizhu">
-                 <input type="radio" name="paystyle" value="zizhu">
+                 <input type="radio" name="paystyle" value="zizhu" v-model="paystyle">
                  <div class="img"></div>
                  <div class="contain">
                      <p class="up"><span>开户账号：</span>110916853310605</p>
@@ -87,38 +75,43 @@
              </div>
              <p class="tip">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p>
            
-
+            <!-- <p>{{paystyle}}</p> -->
            
               <div class="bottomtotal">
                    <p class="bottomtotalprice">
-                      金额总计：<span>￥8000.00元</span>
+                      金额总计：<span>￥{{businessOrder.totalPrice}}.00元</span>
                   </p>
           </div>
           <div class="bottom">
               <router-link to="/" class="jiesuan">继续购物</router-link>
-           <a href="javascript:void(0)" class="jiesuan">去结算</a>
+           <a href="javascript:void(0)" class="jiesuan" @click="gopay">去结算</a>
              </div>
 
+             <!-- 支付方式弹出框 -->
+             <div class="paybox" v-if="payboxstate">
+                 <p class="xiaoshi" @click="xclick"><a href="javascript:void(0)" class="xiaoshiclick">×</a> </p>
+                <div class="erweimastate" v-if="erweimastate">
+                    <div class="erweima">
+                        <img :src="paysrc" alt="暂未开放，敬请期待"  >
+                       
+                        </div>
+                        <p class="saoyisao">请使用扫一扫进行扫码支付</p>
+                        <div class="payboxbottom">
+                            <a href="javascript:void(0)" class="payover"  @click="payover">已完成支付</a>
 
-        <!-- <p class="tabledetail" style="margin-top:45px">支付方式</p>
-        <p class="paystyle">非网银支付</p>
-        <p class="paystyle">平台支付</p>
-        <p class="paystyle">自助转账<span>因限额不能支付时，建议使用自助转账</span></p> -->
-      
-      
+                            <a href="javascript:void(0)" class="payquestion" @click="payquestion">支付遇到问题</a>
+                    </div>
+                </div>
+                 <p v-else style="line-height:275px;">暂未开放，敬请期待</p>
+              
+                <a href="javascript:void(0)" class="goback"  @click="xclick">返回重新选择支付方式</a>
 
-
-
-           <!-- <el-row class='shoptitle'>
-                <el-col :span="3" class="company">公司</el-col>
-                <el-col :span="4" class="servicegoods">服务商品</el-col>
-                <el-col :span="4" class="price">单价</el-col>
-                <el-col :span="4" class="number">数量</el-col>
-                <el-col :span="5" class="money">金额</el-col>
-                <el-col :span="4" class="operation">操作</el-col>
-         </el-row> -->
-
+             </div>
+            
     </div>
+
+
+   
 </template>
 
 <script>
@@ -131,21 +124,19 @@
 export default {
   name: "pay",
   created() {
-
     var that = this;
-    this.ajax
-      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/submit", {})
-      .then(function(data) {
-        console.log(data.data.data);
-        var businessNo=data.data.data;
         // 开始；订单号请求成功后进行订单详情请求
-        this.ajax
-      .post("http://123.58.241.146:8088/xinda/xinda-api/cart/submit", {})
+        that.ajax
+      .post("/xinda-api/business-order/detail",  that.qs.stringify({
+          "businessNo":this.$route.query.businessNo
+      }))
       .then(function(data) {
-         businessOrder=data.data.data.businessOrder;
-         serviceOrderList=data.data.data.serviceOrderList;
+        // console.log(data.data);
+
+         that.businessOrder=data.data.data.businessOrder;
+         that.serviceOrderList=data.data.data.serviceOrderList;
         //  将时间戳格式化
-          var date = new Date(businessOrder.createTime);
+          var date = new Date(that.businessOrder.createTime);
             var y = date.getFullYear();  
             var m = date.getMonth() + 1;  
             m = m < 10 ? ('0' + m) : m;  
@@ -157,41 +148,119 @@ export default {
             var second = date.getSeconds();
             minute = minute < 10 ? ('0' + minute) : minute;  
             second = second < 10 ? ('0' + second) : second; 
-            businessOrder.createTime=y + '-' + m + '-' + d+' '+h+':'+minute+':'+second; 
-
+            that.businessOrder.createTime=y + '-' + m + '-' + d+' '+h+':'+minute+':'+second; 
         })
-        .catch(function(data) {
-            console.log("请求失败");
-        });
-        // 结束
-
-       
-        })
-        .catch(function(data) {
-            console.log("请求失败");
-        });
-
-
   },
   data() {
     return {
         businessOrder:'',
         serviceOrderList:'',
         show:true,
-        
+        xiangqingsrc:"../../static/shouqi.png",
+        paystyle:'',
+        payboxstate:false,
+        paysrc:"",
+        erweimastate:true,
     };
-  }
+  },
 
-  //   computed:{
-  //       count(){
-  //           return store.state.count;
-  //       }
-  //   }
+    methods:{
+        //图片切换
+        xiangqing(){
+           this.show=!this.show 
+           if(this.xiangqingsrc=="../../static/xiala.png"){
+               this.xiangqingsrc="../../static/shouqi.png";
+           }else{
+              this.xiangqingsrc="../../static/xiala.png"; 
+           }
+        },
+        //支付方式
+        gopay(){
+            if(this.paystyle==''){
+                 this.open();
+            }else if(this.paystyle=='yinlian'){
+                 var that = this;
+       //银联的接口请求
+    //     that.ajax
+    //   .post("/xinda-api/pay/china-pay",  that.qs.stringify({
+    //       "businessNo":that.businessOrder.businessNo
+    //   }))
+    //   .then(function(data) {
+    //     console.log(data);
+                this.payboxstate=true;
+                this.erweimastate=false;
+      
+    //     })
+            }else if(this.paystyle=='weixin'){
+                // 微信的接口请求
+                this.erweimastate=true;
+                this.payboxstate=true;
+                this.paysrc="../../static/微信支付二维码.jpg";
+
+
+
+            }else if(this.paystyle=='zhifubao'){
+                this.erweimastate=true;
+                 this.payboxstate=true;
+                this.paysrc="../../static/支付宝支付二维码.jpg";
+
+            }else if(this.paystyle=='zizhu'){
+                this.payboxstate=true;
+                this.erweimastate=false;
+            }
+        },
+        //支付方式结束
+        //支付弹出框消失
+        xclick(){
+            this.payboxstate=false;
+        },
+        //支付完成
+        payover(){
+            this.$router.push({
+                path:"/header/paysuccess",
+                // params: { 
+                // name: 'name', 
+                // dataObj: this.msg
+                // }
+            });
+        },
+        //支付失败
+        payquestion(){
+            this.$router.push({
+                path:"/header/payfailed",
+                 // params: { 
+                // name: 'name', 
+                // dataObj: this.msg
+                // }
+                });
+        },
+
+        //弹出框函数
+        open() {
+            this.$alert('请选择支付方式！', '提示', {
+            confirmButtonText: '确定',
+            callback: action => {
+                // this.$message({
+                // type: 'info',
+                // message: `action: ${ action }`
+                // });
+            }
+            });
+        },
+        //弹出框函数结束
+
+    },
+    computed:{
+        a:function(){
+            console.log(this.paystyle)
+        }
+    }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
+
 .pay {
   max-width: 1200px;
   margin: 0 auto;
@@ -233,11 +302,13 @@ export default {
                 .tubiao{
                     width:16px;
                     height:14px;
-                    background:url(../../static/xiala.png) no-repeat;
-                    background-size:100%;
                     position:relative;
-                    top:3.5px;
+                    top:1.5px;
                     left:3px;
+                    img{
+                        width:100%;
+                        height:100%;
+                    }
                 }
             }
          }
@@ -402,6 +473,10 @@ export default {
         }     
       } 
 }
+.ordersouter{
+    min-height:20px;
+    overflow:hidden;
+}
 .bounce-enter-active {
   transition: all .3s ease;
 }
@@ -411,5 +486,69 @@ export default {
 .bounce-enter, .bounce-leave-to{
   transform: translateY(-30px);
   opacity: 0; 
+}
+// 支付弹窗box
+.paybox{
+    width:295px;
+    height:371px;
+    // border:1px solid;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+    z-index:4000;
+    background:#fff;
+    box-shadow: 0 0 10px #a7a3a3;
+    .xiaoshi{
+        text-align:right;
+        padding:5px 10px;
+        background:#e5e5e5;
+        font-size:21px;
+    }
+    .erweima{
+        width:236px;
+        height:236px;
+        margin:0 auto;
+        // border:1px solid;
+        img{
+            width:100%;
+            // height:100%;
+        }
+    }
+    p{
+        text-align:center;
+    }
+    .saoyisao{
+        position:relative;
+        top:-9px;
+    }
+    .payboxbottom{
+        display:flex;
+        justify-content: center;
+        // border:1px solid;
+    }
+    .payover,.payquestion{
+        display:block;
+        color:#62a8dc;
+        border:1px solid #62a8dc;
+        font-size:13px;
+        width:88px;
+        text-align:center;
+        margin:3px 10px;
+    }
+    .goback{
+       display:block;
+        border:1px solid #4eb5ba;
+        color:#fff;
+        width:200px;
+        margin:0 auto;
+        background:#4eb5ba; 
+         margin-top:7px;
+         text-align:center;
+    }
+
+
 }
 </style>

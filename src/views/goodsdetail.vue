@@ -1,181 +1,291 @@
 <template>
     <div  class="goodsdetail">
-        <p class="littletip">首页/公司注册</p>
-        <!-- 具体商品描述盒子 -->
-        <div class="singlegoods">
-            <!-- 图片 -->
-            <div class="img">
-                <img :src="newsrc" alt="#"  :onerror="logo">
+        <div class="block">
+                <p class="littletip">首页/公司注册</p>
+            <!-- 具体商品描述盒子 -->
+            <div class="singlegoods">
+                <!-- 图片 -->
+                <div class="img">
+                    <img :src="newsrc" alt="#"  :onerror="logo">
+                </div>
+                <!-- 商品参数 -->
+                <div class="parameterouter">
+                    <div class="parameter">
+                        <p class="servicename">
+                            {{detailproviderProduct.serviceName}}
+                        </p>
+                        <p class="serviceinfo">
+                            {{detailproviderProduct.serviceInfo}}
+                        </p>
+                        <!-- 价格 -->
+                        <div class="price">
+                            <div class="marketprice">
+                                <p class="left">
+                                    市场价：
+                                </p>
+                                <span>￥{{detailproduct.marketPrice}}</span>
+                            </div>
+                            <div class="realprice">
+                                <p class="left">
+                                    价<span class="distance">格：</span>
+                                </p>
+                                <span>￥{{detailproviderProduct.price}}.00</span>
+                            </div>
+                        </div>
+                        <!-- 类型 -->
+                        <div class="type">
+                            <span>类型：</span>
+                            <div class="servicetype">
+                                公司工商
+                            </div>
+                        </div>
+                        <!-- 地区 -->
+                        <div class="area">
+                                <span>地区：</span>
+                                {{detailregion}}
+                        </div>
+                        <!-- 购买数量 -->
+                        <div class="buynum">
+                                <span>购买数量：</span>
+                                <a href="javascript:void(0)"  class="reduce" @click="inputvalue==1?open4():reduce()">-</a>
+                                <input type="text" class="input" :value="inputvalue" readOnly="true">
+                                <a href="javascript:void(0)"  class="add" @click="add" >+</a> 
+                        </div>
+                        <!-- 最底部button -->
+                        <div class="bottom">
+                                <a href="javascript:void(0)" class="shopnext" @click="addcart">立即购买</a>
+                                <a href="javascript:void(0)"  class="addcart"  @click="addcart">加入购物车</a>
+                        </div>
+                    </div>
+                </div> 
+                <!-- 供应商 -->
+                <div class="provider">
+                    <p class="title">
+                        顶级服务商
+                    </p>
+                    <div class="providername">  
+                        <p >
+                        {{detailprovider.name}}
+                    </p>
+                    </div>
+                    
+                    <a href="javascript:void(0)" class="question" @click="dialogVisible = true">马上咨询</a>
+                    <div class="aboutprovider">
+                        <router-link
+                        :to="{
+                            path: '/dianpu', 
+                            query: { 
+                                
+                                id:detailprovider.id
+                            },
+                        }" class="providerlink">查看服务商</router-link>
+                    </div>
+                </div> 
             </div>
-            <!-- 商品参数 -->
-            <div class="parameterouter">
-                <div class="parameter">
-                    <p class="servicename">
-                        {{detailproviderProduct.serviceName}}
-                    </p>
-                    <p class="serviceinfo">
-                        {{detailproviderProduct.serviceInfo}}
-                    </p>
-                    <!-- 价格 -->
-                    <div class="price">
-                        <div class="marketprice">
-                            <p class="left">
-                                市场价：
-                            </p>
-                            <span>￥{{detailproduct.marketPrice}}</span>
+         
+            <!-- 具体商品描述盒子over -->
+            <div class="banner">
+                <img src="../../static/goodsdetailbanner.png" alt="#">
+            </div>
+            <!-- 分页底部 -->
+            <div class="goodsbottom">
+                <div class="title">
+                    <a href="javascript:void(0)" :class="servicestyle" @click="bottomstyle" >服务内容</a>
+                    <a href="javascript:void(0)" :class="servicestyle1" @click="bottomstyle1"  >商品评价</a>
+                </div>
+                <div class="servicecontain" v-if="ok" v-html="detailproviderProduct.serviceContent"></div>
+                <div class="evaluatecontain" v-else>
+                    <!-- 评价详情 -->
+                    <div class="valuenum">
+                        <!-- 评价统计-->
+                        <div class="total">
+                            <div class="biggoodnum">
+                            <span>0%</span> <p>好评</p>    
+                            </div>
+                            <div class="percent">
+                                <div class="up demo">
+                                    <div class="goodnum">好评（0%）</div>
+                                    <div class="goodnumtip demo1 "></div>
+                                </div>
+                                <div class="middle demo">
+                                    <div class="midnum">中评（0%）</div>
+                                    <div class="midnumtip demo1"></div>
+                                </div>
+                                <div class="down demo">
+                                    <div class="badnum">差评（0%）</div>
+                                    <div class="badgoodnumtip demo1"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="realprice">
-                            <p class="left">
-                                价<span class="distance">格：</span>
-                            </p>
-                            <span>￥{{detailproviderProduct.price}}.00</span>
+                        <!-- 客户印象-->
+                        <div class="right">
+                            客户印象
                         </div>
                     </div>
-                    <!-- 类型 -->
-                    <div class="type">
-                        <span>类型：</span>
-                        <div class="servicetype">
-                            公司工商
+                    <!-- 评价详情结束 -->
+                    <div class="button">
+                        <div class="all littlebutton">全部评价（0）</div>
+                        <div class="good littlebutton">好评（0）</div>
+                        <div class="mid littlebutton">中评（0）</div>
+                        <div class="bad littlebutton">差评（0）</div>
+                    </div>
+                    <div class="inin">
+                        <div class="incontain">
+                            <div class="title">
+                                <div>评价</div>
+                                <div>满意度</div>
+                                <div>用户</div>
+                            </div>
+                            <div class="content"></div>
+                            <div class="page">
+                                <el-button class="pre">上一页</el-button>
+                                <input type="text" value="1" readOnly="true"  outline="none">
+                                <el-button class="nex">下一页</el-button>
+                            </div>
                         </div>
-                    </div>
-                    <!-- 地区 -->
-                    <div class="area">
-                            <span>地区：</span>
-                            {{detailregion}}
-                    </div>
-                    <!-- 购买数量 -->
-                    <div class="buynum">
-                            <span>购买数量：</span>
-                            <a href="javascript:void(0)"  class="reduce" @click="inputvalue==1?open4():reduce()">-</a>
-                            <input type="text" class="input" :value="inputvalue" readOnly="true">
-                            <a href="javascript:void(0)"  class="add" @click="add" >+</a> 
-                    </div>
-                    <!-- 最底部button -->
-                    <div class="bottom">
-                            <a href="javascript:void(0)" class="shopnext" @click="addcart">立即购买</a>
-                            <a href="javascript:void(0)"  class="addcart"  @click="addcart">加入购物车</a>
                     </div>
                 </div>
-            </div> 
-            <!-- 供应商 -->
-            <div class="provider">
-                <p class="title">
-                    顶级服务商
-                </p>
-                <p class="providername">
-                    {{detailprovider.name}}
-                </p>
-                <a href="javascript:void(0)" class="question" @click="dialogVisible = true">马上咨询</a>
-                <div class="aboutprovider">
-                    <router-link
-                     :to="{
-                        path: '/dianpu', 
-                        query: { 
+            </div>
+        </div>
+        <div class="xsblock" >
+              <!-- 具体商品描述盒子 -->
+            <div class="singlegoods">
+                <!-- 图片 -->
+                <div class="img">
+                    <img :src="newsrc" alt="#"  :onerror="logo">
+                    <div class="xuanfu">
+                        <!-- 服务名称 -->
+                         <p class="servicename">
+                            {{detailproviderProduct.serviceName}}
+                        </p>
+                        <p class="serviceinfo">
+                            {{detailproviderProduct.serviceInfo}}
+                        </p>
+                    </div>
+                </div>
+                <!-- 商品参数 -->
+                <div class="parameterouter">
+                    <div class="parameter">
+                         <!-- 地区 -->
+                        <div class="area">
+                                <span>地区：</span>
+                                {{detailregion}}
+                        </div>
+                        <!-- 价格 -->
+                        <div class="price">
                             
-                            id:detailprovider.id
-                        },
-                    }" class="providerlink">查看服务商</router-link>
-                </div>
-            </div> 
-        </div>
-        <!-- 马上咨询 -->
-        <el-dialog  class="zixunzixun"  title="免费电话咨询" :visible.sync="dialogVisible"  width="43%"  >
-            <!-- 步骤条 -->
-            <el-steps  :active="active" align-center>
-                <el-step title="输入手机号码" ></el-step>
-                <el-step title="您接听来电" ></el-step>
-                <el-step title="被叫方接听"></el-step>
-                <el-step title="咨询结束"></el-step>
-            </el-steps>
-            <!-- 步骤条结束 -->
-            <div class="inputarea">
-                <!-- 顶部 -->
-                 <el-input class="up" v-model="input" placeholder="请输入手机号"></el-input>
-                 <!-- 中部 -->
-                <div class="mid">
-                     <el-input v-model="input" placeholder="请输入图形验证码"></el-input> 
-                    <div class="tuxing">
-                        <img src="" alt="#" :onerror="provideralt">
-                    </div>
-                </div>
-                <!-- 底部 -->
-                <div class="down">
-                    <el-input v-model="input" placeholder="请输入验证码"></el-input>
-                    <el-button>获取验证码</el-button>
-                </div>
+                                <p >
+                                    价格：
+                                </p>
+                                <span class="middle">￥{{detailproviderProduct.price}}.00</span>
+                                 <span class="right">￥{{detailproduct.marketPrice}}</span>
+                           
+                        </div>
+                          <!-- 供应商 -->
+                          <p class="providerp">
+                              服务商家
+                          </p>
+                          <div class="provider">
+                              <div class="img">
+                                    <img :src="'http://123.58.241.146:8088/xinda/pic'+detailprovider.providerImg" alt="#">
+                              </div>
 
-                    <el-button class="tijiao">开始免费咨询</el-button>
-            </div>
-            
-            <p style="text-align:center">本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
-            <span slot="footer" class="dialog-footer">
-             </span>
-        </el-dialog>
-        <!-- 马上咨询 结束-->
-        <!-- 具体商品描述盒子over -->
-        <div class="banner">
-            <img src="../../static/goodsdetailbanner.png" alt="#">
-        </div>
-        <!-- 分页底部 -->
-        <div class="goodsbottom">
-            <div class="title">
-                 <a href="javascript:void(0)" :class="servicestyle" @click="bottomstyle" >服务内容</a>
-                <a href="javascript:void(0)" :class="servicestyle1" @click="bottomstyle1"  >商品评价</a>
-            </div>
-            <div class="servicecontain" v-if="ok" v-html="detailproviderProduct.serviceContent"></div>
-            <div class="evaluatecontain" v-else>
-                <!-- 评价详情 -->
-                <div class="valuenum">
-                    <!-- 评价统计-->
-                    <div class="total">
-                        <div class="biggoodnum">
-                           <span>0%</span> <p>好评</p>    
-                        </div>
-                        <div class="percent">
-                            <div class="up demo">
-                                <div class="goodnum">好评（0%）</div>
-                                <div class="goodnumtip demo1 "></div>
+                              <div class="contain">
+                                  <p>{{detailprovider.name}}</p>
+                                  <div class="xinyu">
+                                         信誉<img src="../../static/信誉.png" alt="#">
+                                  </div>
+                               
+                                  <p>{{detailregion}}</p>
+                                  <p>累计服务客户次数：<span>{{serviceNum}}</span></p>
+                                   <div class="aboutprovider">
+                                <router-link
+                                :to="{
+                                    path: '/dianpu', 
+                                    query: { 
+                                        
+                                        id:detailprovider.id
+                                    },
+                                }" class="providerlink">查看服务商</router-link>
                             </div>
-                            <div class="middle demo">
-                                <div class="midnum">中评（0%）</div>
-                                <div class="midnumtip demo1"></div>
-                            </div>
-                            <div class="down demo">
-                                <div class="badnum">差评（0%）</div>
-                                <div class="badgoodnumtip demo1"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 客户印象-->
-                    <div class="right">
-                        客户印象
-                    </div>
-                </div>
-                <!-- 评价详情结束 -->
-                <div class="button">
-                    <div class="all littlebutton">全部评价（0）</div>
-                    <div class="good littlebutton">好评（0）</div>
-                    <div class="mid littlebutton">中评（0）</div>
-                    <div class="bad littlebutton">差评（0）</div>
-                </div>
-                <div class="inin">
-                    <div class="incontain">
-                        <div class="title">
-                            <div>评价</div>
-                            <div>满意度</div>
-                            <div>用户</div>
-                        </div>
-                        <div class="content"></div>
-                        <div class="page">
-                            <el-button class="pre">上一页</el-button>
-                            <input type="text" value="1" readOnly="true"  outline="none">
-                            <el-button class="nex">下一页</el-button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                           
+                              </div>
+                             <img class="jinpai" src="../../static/金牌服务商.png" alt="#">
+                          </div>
+                     <!-- 供应商jieshu --> 
+                      <p class="providerp">
+                              服务介绍
+                          </p>
+                        <div class="servicecontain" v-html="detailproviderProduct.serviceContent"></div>
+                     <p class="providerp">
+                             用户评价
+                          </p>
+                          <div class="pingjia">
 
+                          </div>
+                     
+                    </div>
+                    <div class="goosbottom">
+                       <el-col :span="8" class="lianxi"  >
+                           <div @click="dialogVisible = true">
+
+                           
+                           <p><img src="../../static/联系商家.png" alt="#"></p>
+                           <a href="javascript:void(0)" class="lianxishangjai" >联系商家</a>
+                         </div>
+                       </el-col>
+                       
+                       <el-col :span="8" class="gouwuche"><a href="javascript:void(0)" class="addcart" @click="addcart">加入购物车</a></el-col>
+
+                       <el-col :span="8" class="goumai">
+                           <a href="javascript:void(0)" class="gobuy" @click="gobuy">立即购买</a></el-col>
+                    </div>
+                </div> 
+              
+            </div>
+        </div>
+       
+       <!-- 马上咨询 -->
+            <el-dialog  class="zixunzixun"  title="免费电话咨询" :visible.sync="dialogVisible"  >
+                <!-- 步骤条 -->
+                <el-steps  :active="active" align-center>
+                    <el-step class="steptitle" title="输入手机号码" ></el-step>
+                    <el-step title="您接听来电" ></el-step>
+                    <el-step title="被叫方接听"></el-step>
+                    <el-step title="咨询结束"></el-step>
+                </el-steps>
+                <!-- 步骤条结束 -->
+                <div class="inputarea">
+                    <!-- 顶部 -->
+                    <div class="upouter">
+                         <el-input class="up" v-model="phoneinput" placeholder="请输入手机号"></el-input>
+                         <p class="phoneerro" v-if="phoneerro"> {{phoneerrocontain}}</p>
+                    </div>
+                   
+
+                    <!-- 中部 -->
+                    <div class="mid">
+                        <el-input v-model="picinput" placeholder="请输入图形验证码"></el-input> 
+                        <div class="tuxing">
+                            <img :src="imgurl" alt="11" @click="imgchange" :onerror="provideralt">
+                        </div>
+                         <p class="picerro">{{picerrocontain}}</p>
+                    </div>
+                    <!-- 底部 -->
+                    <div class="down">
+                        <el-input v-model="codeinput" placeholder="请输入验证码"></el-input>
+                        <el-button>获取验证码</el-button>
+                        <p class="msgerro"> {{msgerrocontain}}</p>
+                    </div>
+
+                        <el-button class="tijiao">开始免费咨询</el-button>
+                </div>
+                
+                <p style="text-align:center">本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
+                <span slot="footer" class="dialog-footer">
+                </span>
+            </el-dialog>
+       <!-- 马上咨询 结束-->
    
     </div> 
 
@@ -192,19 +302,38 @@
            sId:that.$route.query.id
             })).then(function(data) {
             that.detaildata=data.data.data;
-            console.log(that.detaildata);
+            // console.log(that.detaildata);
             that.detailproduct=that.detaildata.product;
             // console.log(that.detaildata.product);
             that.detailprovider=that.detaildata.provider;
             that.detailproviderProduct=that.detaildata.providerProduct;
             that.detailregion=that.detaildata.regionText;
+            that.serviceNum=that.detaildata.providerBusiness.serviceNum
+            // console.log(that.detaildata);
             }).catch(function(data) {
                 console.log("请求失败");
             });  
+        //登录判断
+           that.ajax.post(
+                    "/xinda-api/sso/login-info",
+                    that.qs.stringify({})
+                ).then(function(data){
+                    // console.log(data.data);
+                    that.loginstate=data.data.status;
+            })
+        // over
+        that.ajax.post(
+                    "/xinda-api/ajaxAuthcode",
+                    that.qs.stringify({})
+                ).then(function(data){
+                    console.log(data);
+                    that.pic_href=data.data;
+                    
+            })
+
     },
     data () { 
         return {
-             
              detaildata:'',
              detailproduct:"",
              detailprovider:'',
@@ -213,28 +342,61 @@
              inputvalue:1,
              servicestyle:'goodsbottomservice',
              servicestyle1:'',
+             serviceNum:'',
              ok:true,
              active: 0,
              dialogVisible: false,
              logo:'this.src="' + require('../../static/errorImg.png') + '"',
              provideralt:'this.src="' + require('../../static/ajaxAuthcode.jpg') + '"',
-             input: ''
+
+             phoneinput: '',
+             picinput: '',
+             codeinput: '',
+             loginstate:'',
+            
+             imgurl:`/xinda-api/ajaxAuthcode`,
+
+             phoneerro:false,
+             picerro:false,
+             msgerro:false,
+            
+            phoneerrocontain:'图片验证码不正确！',
+            picerrocontain:'图片验证码不正确！',
+            msgerrocontain:'图片验证码不正确！',
+
             
             } 
     }, 
     computed:{
-
         newsrc:function(){
             return 'http://123.58.241.146:8088/xinda/pic'+this.detailproduct.img
-        }
-
+        },
+      
     },
-  
-    methods:{
-        //  isHasImg(item) {
-        //     item= "";
-        // },
+//   watch:{
+//         // 手机号验证
+//             phonetest(){
+//                 if( this.phoneinput=='' ){
+//                     this.phoneerrocontain='请输入手机号'; 
+//                     this.phoneerro=true;
+//                 }else{
+//                     if(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(this.phoneinput)){
+//                         this.phoneerrocontain='请输入手机号'; 
+//                         this.phoneerro=false;
+//                     }else{
+//                         this.phoneerrocontain='手机号错误'; 
+//                         this.phoneerro=true;
+//                     }
+//                 }
+//             },
 
+
+//   },
+    methods:{
+        imgchange(){
+            var data=(new Date()).getTime();
+            this.imgurl=`/xinda-api/ajaxAuthcode?=${data}`
+        },
         reduce:function(){
                 this.inputvalue--;
         },
@@ -247,14 +409,7 @@
         // 加入购物车,在此之前需要进行登录判断
         addcart:function(){
             var that=this;
-            // 登录判断
-            that.ajax.post(
-                    "/xinda-api/sso/login-info",
-                    that.qs.stringify({})
-                ).then(function(data){
-                    console.log(data.data);
-                    // 未登陆
-                    if(data.data.status==0){
+                    if(that.loginstate==0){
                         that.open2();
                     }else{
                          // 成功则进行添加购物车请求
@@ -262,12 +417,42 @@
                         "/xinda-api/cart/add",
                         that.qs.stringify({                 id:that.detailproviderProduct.id,num:that.inputvalue})
                             ).then(function(data){
-                                console.log(data);
+                                // console.log(data);
                             });  
                         // 添加购物车请求结束
                     }
-                });             
+                // });             
         },
+        //立即购买
+        gobuy(){
+            var that=this;
+                    if(that.loginstate==0){
+                        that.open2();
+                    }else{
+                         // 成功则进行添加购物车请求
+                        that.ajax.post(
+                        "/xinda-api/cart/add",
+                        that.qs.stringify({                 id:that.detailproviderProduct.id,num:that.inputvalue})
+                            ).then(function(){
+                                // console.log(data);
+                                that.$router.push({path:"/header/shoppingcart"})
+                            });  
+                        // 添加购物车请求结束
+                    }
+        },
+    // 马上咨询部分函数
+    
+
+
+
+
+
+
+    // 马上咨询部分函数
+
+
+
+
         // 提示框函数
         open2() {
             var that=this;
@@ -331,7 +516,16 @@
 </script>
 
 <style lang="less" > 
-    .goodsdetail{
+@media screen and (min-width:769px){
+
+  
+    .xsblock{
+        display:none;
+    }
+    .block{
+        display:block;
+    }
+  .goodsdetail{
         max-width:1200px;
         // height:1200px;
         // border:1px solid ;
@@ -490,7 +684,7 @@
                     color: #fff;
                     background-color: #2693d4;
                     margin-right: 20px;
-                    padding:6px 16px 6px 16px;
+                    padding:6px 18px 6px 18px;
                 }
                 .addcart{
                     display:block;
@@ -523,6 +717,7 @@
             .providername{
                 font-size:14px;
                 margin-top:10px;
+                height:45px;
             }
             .question{
                 display:block;
@@ -532,12 +727,13 @@
                 padding:5px 10px 5px 10px;
                 font-size:14px;
                 width:90px;
-                margin:25px auto;
+                margin:0  auto;
+                margin-bottom:25px;
             }
             .aboutprovider{
                 background:#bddef2;
                 // border:1px solid;
-                height:65px;
+                height:64px;
                 display:flex;
                 align-items: center;
                 justify-content: center;
@@ -687,17 +883,211 @@
             }
         }
     }
+}
+@media screen and (max-width:769px){
+    .el-message-box{
+        width:300px;
+    }
+    .xsblock{
+        display:block; 
+    }
+    
+    .block{
+        display:none;
+    }
+    .singlegoods{
+        .img{
+            width:100%;
+            position:relative;
+            // max-height:475px;
+            img{
+                width:100%;
+            }
+        }
+        .xuanfu{
+            width:100%;
+            height:90px;
+           
+            // border:1px solid;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            white-space:nowrap;
+            position:absolute;
+            bottom:4px;
+            right:0;
+            background:rgba(0, 0, 0, 0.4);
+            color:white;
+            
+            // display:flex;
+            // align-items: center;
+            .servicename{
+                line-height:40px;
+                font-size: 20px;
+                font-weight: bold;
+                margin-top:12px;
+                margin-left:5px;
+            }
+            .serviceinfo{
+                margin-left:5px;
+            }
+        }
+        .area{
+            margin:0 15px;
+            line-height:44px;
+            border-bottom:1px solid #c5c5c5;
+            font-size:15px;
+        }
+        .price{
+            padding:0 15px;
+            line-height:44px;
+            border-bottom: 5px solid #ebebeb;
+            font-size:15px;
+            display:flex;
+            
+            .middle{
+                color: red;
+                font-size: 22px;
+                font-weight: 700;
+            }
+            .right{
+                color: #ccc;
+                text-decoration:line-through;
+            }
+        }
+        .providerp{
+                line-height: 45px;
+                margin-top: 10px;
+                font-size: 18px;
+                padding-left: 2%;
+                border-bottom: 2px solid #2393d3;
+        }
+        .provider{
+            display:flex;
+            position:relative;
+            margin-top:10px;
+            padding:10px;
+            border-bottom: 5px solid #ebebeb;
+            .xinyu{
+               line-height:22px;
+               img{
+                   height:100%;
+                   width:90px;
+                   position: relative;
+                   top:3px;;
+               } 
+            }
+            .img{
+                width:150px;
+                height:100px;
+                // border:1px solid;
+                display:flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .contain{
+                margin-left:50px;
+                font-size:12px;
+                line-height:22px;
+                margin-bottom:20px;
+                    .providerlink{
+                        display:block;
+                        width: 90px;
+                        line-height: 30px;
+                        background-color: #ff591b;
+                        color: #fff;
+                        // border-right: 4px;
+                        border: none;
+                        outline: none;
+                        margin-top: 10px;
+                        text-align:center;
+                    }
+                    
+                
+            }
+            .jinpai{
+                width:100px;
+                position:absolute;
+                bottom:25px;
+                left:30px;
+                
+            }
+        }
+        .servicecontain{
+            padding:15px;
+            padding-bottom:0;
+            border-bottom: 5px solid #ebebeb;
+        }
+        .pingjia{
+            height:100px;
+        }
+        .goosbottom{
+            height:60px;
+            .lianxi{
+                height:100%;
+                background:#edeff2;
+                text-align:center;
+                img{
+                    width:30px;
+                    margin-top:6px;
+                }
+                .lianxishangjai{
+                    color:#2d2d2d;
+                }
+            }
+            .gouwuche{
+                height:100%;
+                 line-height:60px;
+                background:#2693d4;
+                text-align:center;
+                .addcart{
+                    color:white;
+                }
+            }
+            .goumai{
+                height:100%;
+                line-height:60px;
+                background:#fc4145;
+                text-align:center;
+                .gobuy{
+                   color:white; 
+                }
+
+            }
+
+        }
+    }
+}
+
+
+    .el-dialog{
+        max-width:520px;
+        min-width:340px;
+    }
     .zixunzixun{
+        
+        
+        .steptitle{
+            flex-basis: 30% !important;
+        }
+        .el-step__title{
+            font-size:13px;
+            line-height:20px;
+            
+            // font-weight:300;
+        }
         .el-dialog__body{
             padding-top:15px;
             padding-bottom:0;
+          
         }
        .el-steps{
-           width:80%;
+           width:100%;
            margin:0 auto;
        }
        .inputarea{
-          width:55%; 
+          max-width:338px; 
           margin:0 auto;
        }
        .up,.mid,.down{
@@ -739,6 +1129,16 @@
            top:-7px;
        }
 
+    }
+    .upouter,.mid,.down{
+        position:relative;
+    }
+    .phoneerro,.picerro,.msgerro{
+        position:absolute;
+        top:31px;
+        left:2px;
+        color:red;
+        
     }
          
 </style>

@@ -1,8 +1,8 @@
 <template>
     <div class="p_all">
             <ul class="left">
-                <li v-for="(item,key,index) in menuList" :key="index" @click="xuan(key)" v-bind:class="{active:key==isActive}">{{item.name}}
-                   <el-menu class="right" v-if="key==change">
+                <li v-for="(item,key,index) in menuList" :key="index" @click="xuan(index)" v-bind:class="{active:index==isActive}">{{item.name}}
+                   <el-menu class="right" v-if="index==change">
                         <el-submenu :index="index1+''" v-for="(item1,key1,index1) in item.itemList" :key="index1" style="background-color: #f3f4f5">
                             <template slot="title">{{item1.name}}</template>
                             <el-menu-item-group v-for="(item2,key2,index2) in item1.itemList" :key="index2">
@@ -24,7 +24,7 @@
             return {
                 menuList:{},
                 change: 1,
-                isActive:1,
+                isActive:0,
             }
         },
         created() {
@@ -55,6 +55,7 @@
             font-size: 16px;
             line-height: 40px;
             border-bottom: 1px solid #f3f4f5;
+            border-right: 1px solid #f3f4f5;
             text-align: center;
             cursor: pointer;
         }
