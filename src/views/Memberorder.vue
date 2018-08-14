@@ -320,7 +320,7 @@ export default {
                             confirmButtonText: '确定',
                             type: 'warning',
                             callback: action => {
-                                that.$router.push({path:'/outter/login'});
+                                that.$router.push({path:'/outter/login',query:{pan:123}});
                             }
                         });
                         return;

@@ -276,7 +276,7 @@
             cancelButtonText: '取消',
             type: 'warning'
             }).then(() => {
-                that.$router.push('/Outter/Zhuce');
+                that.$router.push({path:'/outter/login',query:{pan:123}});
             // this.$message({
             //     type: 'success',
             //     message: '删除成功!'
