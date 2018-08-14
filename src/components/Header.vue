@@ -94,10 +94,6 @@
         </div>
       </div>
     </div>
-    <div class="grabble2 hidden-lg-and-up">
-      <div class="adress2">{{datavalue}}&or;</div>
-      <div class="logo2"><router-link to="/header/index1"></router-link></div>
-    </div>
 
     <router-view/>
 
@@ -545,25 +541,7 @@ export default {
     }
   }
 }
-.grabble2{
-  height: 72px;
-  overflow: hidden;
-  .adress2{
-    float: left;
-    margin: 25px 10px;
-  }
-  .logo2{
-    a{
-      width: 75px;
-      height: 33px;
-      display: block;
-      background-image: url(../../static/data_image_jpeg;bas….jpg);
-      background-size: cover;
-      background-repeat: no-repeat;
-      margin: 20px auto;
-    }
-  }
-}
+
 .active{
   color: #2693d4!important;
   border-bottom: 4px solid #2693d4;
