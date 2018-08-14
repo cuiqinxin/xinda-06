@@ -1,5 +1,9 @@
 <template>
   <div class="index1">
+    <div class="grabble2 hidden-lg-and-up">
+      <div class="adress2">{{datavalue}}&or;</div>
+      <div class="logo2"><router-link to="/header/index1"></router-link></div>
+    </div>
     <div class="hidden-md-and-down">
         <el-carousel class="lunbo" height="400px">
             <el-carousel-item>
@@ -289,7 +293,7 @@
                         <img :src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)">
                     </div>
                     <div class="chu2-p">
-                        <h5>{{item.serviceName.split('（')[0].split('(')[0]}}</h5>
+                        <h5 @click="row(item.id)">{{item.serviceName.split('（')[0].split('(')[0]}}</h5>
                         <p class="chu2-p1">{{item.serviceInfo}}</p>
                         <p class="chu2-p2"><span>￥{{item.price}}</span>{{item.unit}}</p>
                     </div>
@@ -316,6 +320,7 @@ export default {
       provider:'',
       active: true,
       active1: false,
+      datavalue:'',
     }
   },
   created(){
@@ -326,6 +331,9 @@ export default {
         this.product=data.data.data.product;
         this.provider=data.data.data.provider;
         console.log(this.hq)
+    });
+    this.ajax.post("/xinda-api/common/select-region").then(data=> {
+      this.datavalue = data.data.data.name;
     });
   },
   methods:{
@@ -359,6 +367,11 @@ export default {
       },
       change_active1(){
           [this.active,this.active1] = [false,true]
+      },
+      row(id){
+          this.$router.push({
+            path:'/header/goodsdetail',query:{id:id}
+        })
       },
   },
 }
@@ -783,6 +796,7 @@ export default {
                     overflow: hidden; 
                     text-overflow: ellipsis; 
                     margin-bottom: 8px;
+                    cursor: pointer;
                 }
             }
             .chu2-p1{
@@ -818,4 +832,23 @@ export default {
             }
         }
     }
+    .grabble2{
+        height: 72px;
+        overflow: hidden;
+        .adress2{
+            float: left;
+            margin: 25px 10px;
+        }
+        .logo2{
+            a{
+                width: 75px;
+                height: 33px;
+                display: block;
+                background-image: url(../../static/data_image_jpeg;bas….jpg);
+                background-size: cover;
+                background-repeat: no-repeat;
+                margin: 20px auto;
+                }
+            }
+        }
 </style>
