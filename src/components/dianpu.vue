@@ -86,7 +86,7 @@ export default {
             count : 0, //总记录数
             limit:5,
             pageIndex:1,
-            all:"",
+            all:'',
             perPages:3  //页面中显示的页码数只能为单数
          } 
     }
