@@ -9,7 +9,7 @@
             <option :value="item" v-for="(value,item) in city" :key="item">{{value}}</option>
         </select>
         <select name="" id="" v-model="areaCode" @change="areaChange">
-            <option value="" >-----区-----</option>
+            <option  :areaCode='0'  value="">-----区-----</option>
             <option :value="item" v-for="(value,item) in area" :key="item">{{value}}</option>
         </select>
     </div>
@@ -42,8 +42,7 @@ export default {
       areaChange(){
         //   this.area = citydata[this.data]
         this.$emit('confirm',this.areaCode);
-        // console.log(this.areaCode);
-        console.log(this.$parent.all)
+        console.log(this.areaCode);
       },
   }
 }
