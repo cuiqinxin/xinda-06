@@ -413,6 +413,7 @@ export default {
         scrollBottom(){ 
             var that = this
             if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight()) {
+                console.log(123)
                 this.start++
                 this.page++
                 this.isShow = true
