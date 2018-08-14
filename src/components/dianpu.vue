@@ -57,7 +57,7 @@
         </el-container>
     </div>
 <div class="paging">
-    <page @change="pageChange" :kk="j"></page>
+    <page @change="pageChange" :parentCount="j"></page>
 </div>   
 
     <router-view/>
@@ -74,25 +74,18 @@ export default {
         },
   data () {
     return {
-      activeName: 'second',
+      activeName: 'first',
       items : [],
       name:'',
       dianpu:'',
       provide:'',
-    //   pageSize : 6 , //每页显示6条数据
-    //   currentPage : 1, //当前页码
-    //   count : 0, //总记录数
-    //   limit:6,
-    //   pageIndex:1,
-    //   all:20,
-    //   perPages:3  //页面中显示的页码数只能为单数
      j:{
             pageSize : 5 , //每页显示6条数据
             currentPage : 1, //当前页码
             count : 0, //总记录数
             limit:5,
             pageIndex:1,
-            all:"",
+            all:'',
             perPages:3  //页面中显示的页码数只能为单数
          } 
     }
@@ -127,11 +120,8 @@ export default {
       .then(function(data){
             console.log(data.data.data);
             that.name=data.data.data
-            that.count=data.data.data.length
+            that.j.all=data.data.data.length
         });
-  
-
-
         var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
     start:0,

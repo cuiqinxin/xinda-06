@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Public from '@/components/Public'    //@ => ..
+import NotFoundComponent from '@/components/NotFoundComponent'    //@ => ..
 import Test from '@/components/Test'    //@ => ..
 import Login from '@/views/Login'    //@ => ..
 import Zhuce from '@/views/Zhuce'    //@ => ..
@@ -20,6 +21,8 @@ import Outter from '@/views/Outter'
 import Datang from '@/views/datang'
 import Chanpinx from '@/views/chanpinx'
 import Shop from '@/views/shop'
+import Shopmobile from '@/views/shopmobile'
+import dianpumobile from '@/views/dianpumobile'
 import Join from '@/views/Join'
 import Dianpu from '@/components/dianpu'
 import Page from '@/components/Page'
@@ -29,13 +32,24 @@ import p_all from '@/views/p_all'
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
 import goodsdetail from '@/views/goodsdetail'
+import payfailed from '@/views/payfailed'
+import paysuccess from '@/views/paysuccess'
 import Index1 from '@/views/Index1'
 
 import List from '@/views/List'
 Vue.use(Router)
+
+
 export default new Router({       //module.expotrs={}
+  mode: 'history',        //新路由返回顶部，前进后退像浏览器的原生表现那样
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  },
   routes: [
-    
     {
       path: '/test',
       name: 'Test',
@@ -102,6 +116,16 @@ export default new Router({       //module.expotrs={}
           component: Shop,
         },
         {
+          path: '/shopmobile',
+          name: 'Shopmobile',
+          component: Shopmobile,
+        },
+        {
+          path: '/dianpumobile',
+          name: 'dianpumobile',
+          component: dianpumobile,
+        },
+        {
           path: 'dianpu',
           name: 'Dianpu',
           component: Dianpu
@@ -135,7 +159,18 @@ export default new Router({       //module.expotrs={}
         {
           path: 'pay',
           name: 'pay',
-          component: pay
+          component: pay,
+        
+        },
+        {
+          path: 'payfailed',
+          name: 'payfailed',
+          component: payfailed
+        },
+        {
+          path: 'paysuccess',
+          name: 'paysuccess',
+          component: paysuccess
         },
         {
           path: 'goodsdetail',
@@ -193,10 +228,9 @@ export default new Router({       //module.expotrs={}
     // }
   
     // {
-    //   path: '/dianpu',
-    //   name: Dianpu,
-    //   component: dianpu
+    //   path: '*',
+    //   name: NotFoundComponent,
+    //   component: NotFoundComponent
     // }
-
   ]
 })
