@@ -85,7 +85,11 @@ export default {
             count : 0, //总记录数
             limit:5,
             pageIndex:1,
+<<<<<<< HEAD
             all:"",
+=======
+            all:'',
+>>>>>>> 7721f949bc4474fe2d85af5fd99926a031d86b0f
             perPages:3  //页面中显示的页码数只能为单数
          } 
     }
