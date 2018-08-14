@@ -27,6 +27,8 @@ import Page from '@/components/Page'
 import shoppingcart from '@/views/shoppingcart'
 import pay from '@/views/pay'
 import goodsdetail from '@/views/goodsdetail'
+import payfailed from '@/views/payfailed'
+import paysuccess from '@/views/paysuccess'
 import Index1 from '@/views/Index1'
 
 import List from '@/views/List'
@@ -128,7 +130,18 @@ export default new Router({       //module.expotrs={}
         {
           path: 'pay',
           name: 'pay',
-          component: pay
+          component: pay,
+        
+        },
+        {
+          path: 'payfailed',
+          name: 'payfailed',
+          component: payfailed
+        },
+        {
+          path: 'paysuccess',
+          name: 'paysuccess',
+          component: paysuccess
         },
         {
           path: 'goodsdetail',

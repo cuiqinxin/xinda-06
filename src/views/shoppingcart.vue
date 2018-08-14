@@ -23,7 +23,7 @@
           <!-- 服务商logo -->
           <el-col :span="3"><div class="logo"><img v-bind:src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)" alt="#"></div></el-col>
           <!-- 服务名称 -->
-          <el-col :span="4"><div class="servicegoods">{{item.serviceName}}</div></el-col>
+          <el-col :span="4"><div class="servicegoods"><p>{{item.serviceName}}</p></div></el-col>
 
            <!-- 单价 -->
           <el-col :span="4"><div class="price">￥<span>{{item.unitPrice}}</span></div></el-col>
@@ -39,50 +39,19 @@
           <el-col :span="5"><div class="money">￥<span>{{item.totalPrice}}</span></div></el-col>
          <!-- 是否删除 -->
           <el-col :span="4"><div class="operation" >
-            <!-- <a href="javascript:void(0)" class="remove" :id="index">删除</a> -->
             <button type="text" class="remove" :id="item.serviceId" @click.capture.self="open2">删除</button>
             </div></el-col>
         </el-row>
  </div>
- <!-- stytle  -->
-          <!-- <div class="details">
-          <p class="store">店铺：云智慧服务有限公司</p>
 
-        <el-row class='shopdetails'>
-          <el-col :span="3"><div class="logo"><img src="http://123.58.241.146:8088/xinda/pic/2016/09/28/8c419db3f572418a80ff5a08397fb857" alt="#"></div></el-col>
-          <el-col :span="4"><div class="servicegoods">注册股份有限公司</div></el-col>
-          <el-col :span="4"><div class="price">￥<span>800</span></div></el-col>
-
-          <el-col :span="4">
-            <div class="number">
-            <a href="javascript:void(0)" class="reduce" @click="reducenum" id="11111">-</a>
-            <input type="text" class="input" value="1" readOnly="true">
-            <a href="javascript:void(0)" class="add" @click="addnum">+</a>
-            </div>
-            </el-col>
-
-          <el-col :span="5"><div class="money">￥<span>800</span></div></el-col>
-        
-          <el-col :span="4"><div class="operation">
-              <el-button type="text" class="remove"  @click="open2">删除</el-button>
-            </div></el-col>
-        </el-row>
-      </div> -->
- <!-- stytle 结束 -->
-          <!-- <el-row :gutter="5">
-        <el-col :span="18"><div class="grid-content bg-purple"></div></el-col>
-      
-      </el-row> -->
       <div class="allmoney"><p style="width:220px;text-align:center">
         金额总计:<span>￥{{newtotalprice}}</span>
         
         </p></div>
 
       <div class="total">
-        <!-- <a href="javascript:void(0)" class="shopnext">继续购物</a>
-        <a  href="javascript:void(0)"  class="account">去结算</a> -->
         <router-link to="/" class="shopnext">继续购物</router-link>
-        <router-link to="/header/pay" class="shopnext">去结算</router-link>
+        <a href="javascript:void(0)" class="shopnext" @click="commitcart">去结算</a>
           </div>
 
       <p class="hotservice">热门服务</p>
@@ -171,6 +140,7 @@ export default {
       seen:true,
       totalprice:0,
       // removeid:''
+      ordernum:'',
     };
   },
   
@@ -183,7 +153,7 @@ export default {
       .then(function(data) {
         //如果购物车为空，则显示购物车为空页面
         if (data.data.data.length == 0) {
-          // that.seen=false;
+          that.seen=false;
         //如果购物车部不为空，则渲染页面；
         } else {
           that.shoppingdata = data.data.data;
@@ -238,10 +208,34 @@ export default {
       });
       
   },
+    //提交购物车
+  commitcart:function(){
+    var that = this;
+    that.ajax
+      .post("/xinda-api/cart/submit", {})
+      .then(function(data) {
+        that.ordernum=data.data.data;
+        // console.log(that.ordernum);
+      // kaishi 
+      that.$router.push({
+            path: '/header/pay', 
+            query: { 
+                businessNo: that.ordernum
+            }})
+      // jieshu 
+
+
+        })
+  },
   //减少商品数量
  reducenum:function(e){
-      var goodsindex=e.target.id;
+   var goodsindex=e.target.id;
       var that = this;
+      
+    if(that.shoppingdata[goodsindex].buyNum==1){
+      //当购买数量为时，提示删除
+      //当购买数量为时，提示删除
+    }else{
       that.shoppingdata[goodsindex].buyNum--;
       that.shoppingdata[goodsindex].totalPrice=that.shoppingdata[goodsindex].buyNum*that.shoppingdata[goodsindex].unitPrice;
       that.ajax
@@ -267,6 +261,7 @@ export default {
       .catch(function(data) {
         console.log("请求失败/您的购物车中没有该产品，请刷新页面"); 
       });
+    }
       
   },
 
@@ -285,32 +280,32 @@ export default {
           // console.log(this);
 //开始
 
- that.ajax
-      .post("/xinda-api/cart/del", that.qs.stringify({
-		    id:removeindex,
-        }))
-      .then(function(data) {//减少商品成功则进行ajax请求购物车列表数据，刷新页面数据
-        console.log(data);
-          that.ajax
-      .post("/xinda-api/cart/list", that.qs.stringify({}))
-      .then(function(data) {
-        if (data.data.data.length == 0) {
-          that.seen=false;
-        } else {
-          that.shoppingdata = data.data.data;
-          //总价，总计价格
-      //     for(i=0 ;i<shoppingdata.length;i++){
-      //   that.totalprice+=shoppingdata[i].totalPrice;
-      // }
-        }
-      })
-      .catch(function(data) {
-        console.log("请求失败");
-      });
-      })
-      .catch(function(data) {
-        console.log("请求失败/您的购物车中没有该产品，请刷新页面"); 
-      });
+        that.ajax
+              .post("/xinda-api/cart/del", that.qs.stringify({
+                id:removeindex,
+                }))
+              .then(function(data) {//减少商品成功则进行ajax请求购物车列表数据，刷新页面数据
+                console.log(data);
+                  that.ajax
+              .post("/xinda-api/cart/list", that.qs.stringify({}))
+              .then(function(data) {
+                if (data.data.data.length == 0) {
+                  that.seen=false;
+                } else {
+                  that.shoppingdata = data.data.data;
+                  //总价，总计价格
+              //     for(i=0 ;i<shoppingdata.length;i++){
+              //   that.totalprice+=shoppingdata[i].totalPrice;
+              // }
+                }
+              })
+              .catch(function(data) {
+                console.log("请求失败");
+              });
+              })
+              .catch(function(data) {
+                console.log("请求失败/您的购物车中没有该产品，请刷新页面"); 
+              });
 
 
 
@@ -327,11 +322,8 @@ export default {
         });
       }
     
-
-
    },
 
-   
 
 
 }
@@ -438,6 +430,18 @@ export default {
         border:0;
         outline:none;
         background:#f7f7f7;
+      }
+      .servicegoods{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        height:80px;
+        width:100%;
+        p{
+          line-height:20px;
+        }
+        
+       
       }
     }
   }
