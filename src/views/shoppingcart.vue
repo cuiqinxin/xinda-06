@@ -156,6 +156,7 @@ export default {
           that.seen=false;
         //如果购物车部不为空，则渲染页面；
         } else {
+          
           that.shoppingdata = data.data.data;
         }
       })

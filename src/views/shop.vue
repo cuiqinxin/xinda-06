@@ -17,26 +17,28 @@
                 <p>产品类型</p>
             </li>
             <li class="pro_list">
-
-            <p>所有</p>
-            <template v-for="dp in dianpu1"  :codes="dp.productTypeCodes">
-                 <p v-for="item in dp.productTypes.split(',')" :key="item" @click="kkk()">{{item}}
-      
-                 </p> 
-                     
+            <p @click="alll" :style="allstyle">所有</p>
+            <template v-for="dp in dianpu1"   >
+                 <p v-for="(item,key,index) in dp.productTypes.split(',')" :key="index" @click="kkk(item,dp.productTypeCodes)" :class="{active:item==indexp}" :codes="dp.productTypeCodes">{{item}}  
+                  </p>                
             </template>
             </li> 
-        </ul>
-        
+        </ul>        
     </div> 
     <div class="shop_li">
         <div class="shop_sort">
             <div>{{post}}</div>
-             <el-radio-group v-model="radio3">
+            <ul class="choose">
+            <li :style="zonghe" @click="zongxu">综合排序</li>
+            <li @click="goodp" :style="haoping">好评</li>
+            <li :style="jiedan" @click="danshu">接单数</li>
+            </ul>
+            
+             <!-- <el-radio-group v-model="radio3">
                 <el-radio-button label="综合排序" ></el-radio-button>
-                <el-radio-button label="价格"></el-radio-button>
+                <el-radio-button label="好评" @click="goodp"></el-radio-button>
                 <el-radio-button label="接单数"></el-radio-button>
-            </el-radio-group>
+            </el-radio-group> -->
         </div>
         <div class="shop_shop">
             
@@ -45,6 +47,7 @@
             class="shop_1"
             v-if="areaCode==dp.regionId||areaCode=='0'"
             :codes="dp.productTypeCodes"
+            v-show="dshow==''||dshow==dp.productTypeCodes"
             >
                 <ul class="shop_1_left">
                     <li class="logo">
@@ -67,7 +70,9 @@
                         <p class="num_2">好评率:{{dp.goodJudge == 0?0 :dp.goodJudge/dp.totalJudge*100}}%</p>
                         </li>
                     <li class="type">
-                            <p v-for="(value,item) in dp.productTypes.split(',')" :key="item">{{value}}</p> 
+                            <p v-for="(value,item) in dp.productTypes.split(',')" :key="item">{{value}}
+                                <a v-for="(valuec,itemc) in dp.productTypes.split(',')" :key="itemc"></a>
+                                </p> 
                     </li>
                     <button class="enter"  >
                         <router-link :to="{path:'/dianpu',query:{id:dp.id}}" > 
@@ -109,7 +114,19 @@ export default {
     providerId:'',
     perPages:3,
     radio3:'',
-    areaCode:'0'
+    areaCode:'0',
+    p:'0',
+    indexp:'11',
+    bao:true,
+    haoping:'',
+    lan:{
+         backgroundColor: "#2393d3",
+         color:"white",
+    },
+    jiedan:'',
+    zonghe:'',
+    dshow:'',
+    allstyle:'',
     }
   },
   created(){
@@ -127,7 +144,7 @@ export default {
           '/xinda-api/provider/search-grid',this.qs.stringify({
         //   start:0,
         searchName:this.$route.query.searchName,
-        // sort:2,
+        sort:1,
       }))
       .then(function(data){
             console.log(data.data.data);
@@ -143,14 +160,73 @@ export default {
       }
     }, 
   methods:{
+      goodp(){
+        this.haoping=this.lan
+        this.jiedan=''
+        this.zonghe=''
+        console.log('sss')
+        var that = this
+        this.ajax.post(
+        '/xinda-api/provider/search-grid',this.qs.stringify({
+        //   start:0,
+        // searchName:this.$route.query.searchName,
+        sort:2,
+        }))
+        .then(function(data){
+                console.log(data.data.data);
+                that.dianpu=data.data.data  
+            });
+      },
+        danshu(){
+        this.haoping=''
+        this.jiedan=this.lan
+        this.zonghe=''
+        console.log('sss')
+        var that = this
+        this.ajax.post(
+        '/xinda-api/provider/search-grid',this.qs.stringify({
+        //   start:0,
+        // searchName:this.$route.query.searchName,
+        sort:3,
+        }))
+        .then(function(data){
+                console.log(data.data.data);
+                that.dianpu=data.data.data  
+            });
+      },
+        zongxu(){
+        this.haoping=''
+        this.jiedan=''
+        this.zonghe=this.lan
+        console.log('sss')
+        var that = this
+        this.ajax.post(
+        '/xinda-api/provider/search-grid',this.qs.stringify({
+        //   start:0,
+        // searchName:this.$route.query.searchName,
+        sort:1,
+        }))
+        .then(function(data){
+                console.log(data.data.data);
+                that.dianpu=data.data.data  
+            });
+      },
       link(){
         this.providerId = dp.providerId;
         console.log(this.providerId);
       },
-    kkk(e){
-        console.log('4')
+    kkk(aaa,bbb){
+        console.log(aaa);
+        this.indexp=aaa;
+        this.dshow=bbb;
+        console.log(bbb);
+        this.allstyle='';
     },   
-  
+  alll(){
+      this.dshow='';
+      this.allstyle=this.lan;
+      this.indexp='';
+  },
       choose1:function(val){
         alert(this.$children.productTypes)
     },
@@ -179,12 +255,28 @@ console.log(newval.query.searchName)
       },
   }
 //   filters:{
-
 //   }
 }
 </script>
 
 <style scoped lang="less">
+.choose{
+    width:267px;
+    display:flex;
+    height: 50px;
+    justify-content: space-between;
+    line-height: 50px;
+    li{
+    border-right: 1px solid #ccc;
+    text-align: center;
+    padding:0 20px;
+    }
+}
+.active{
+    background-color: #2393d3;
+    color:white;
+    border-radius: 5px;
+}
 .Store{
     width:1200px;
     margin: 0 auto;

@@ -81,9 +81,9 @@
                     <div class="zhi-p zhi-pl">
                         <h6>知识产权</h6>
                         <ul>
-                            <li>商标注册</li>
-                            <li>版权保护</li>
-                            <li>专利申请</li>
+                            <li><router-link :to="{path:'/list',query:{name:'知识产权',code:8,index:1}}">商标注册</router-link></li>
+                            <li><router-link :to="{path:'/list',query:{name:'知识产权',code:9,index:2}}">版权保护</router-link></li>
+                            <li><router-link :to="{path:'/list',query:{name:'知识产权',code:10,index:0}}">专利申请</router-link></li>
                         </ul>
                     </div>
                 </div>
@@ -182,7 +182,7 @@
                         <h5>{{item.serviceName.split('（')[0].split('(')[0]}}</h5>
                         <p class="hq-p1">{{item.serviceInfo}}</p>
                         <p><span>￥{{item.price}}</span>{{item.unit}}</p>
-                        <router-link :to="{path:'/header/goodsdetail',query:{id:item.providerId}}">查看详情</router-link>
+                        <router-link :to="{path:'/header/goodsdetail',query:{id:item.id}}">查看详情</router-link>
                     </div>
                 </div>
             </div>
@@ -319,11 +319,13 @@ export default {
     }
   },
   created(){
+      [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [true,false,false,false,false]
     //   this.$parent.hover = true;
     this.ajax.post("/xinda-api/recommend/list").then(data=>{
         this.hq=data.data.data.hq;
         this.product=data.data.data.product;
         this.provider=data.data.data.provider;
+        console.log(this.hq)
     });
   },
   methods:{
@@ -541,10 +543,13 @@ export default {
                 }
                 li{
                     font-size: 14px;
-                    cursor: pointer;
+                    // cursor: pointer;
                     margin: 5px 0;
                     border-left: 1px solid @color-269;
                     padding-left: 5px;
+                    a{
+                        color: @color-269;
+                    }
                 }
 
             }

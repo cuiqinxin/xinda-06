@@ -100,7 +100,7 @@
 
 <script>
 export default {
-    name: 'Memberorder',
+    name: 'ordertest',
     data () {
         return {
             value1: '',

@@ -10,6 +10,7 @@ import Tests from '@/views/Tests'
 import Member from '@/views/Member'
 import Memberindex from '@/views/Memberindex'
 import Memberorder from '@/views/Memberorder'
+import Ordertest from '@/views/ordertest'
 import Memberassess from '@/views/Memberassess'
 import Memberinstall from '@/views/Memberinstall'
 import Header from '@/components/Header'
@@ -19,9 +20,12 @@ import Outter from '@/views/Outter'
 import Datang from '@/views/datang'
 import Chanpinx from '@/views/chanpinx'
 import Shop from '@/views/shop'
+import Shopmobile from '@/views/shopmobile'
+import dianpumobile from '@/views/dianpumobile'
 import Join from '@/views/Join'
 import Dianpu from '@/components/dianpu'
 import Page from '@/components/Page'
+import p_all from '@/views/p_all'
 // import Shopin from '@/views/shopin'
 
 import shoppingcart from '@/views/shoppingcart'
@@ -87,6 +91,11 @@ export default new Router({       //module.expotrs={}
       component: Header,
       children: [
         {
+          path: '/p_all',
+          name: 'p_all',
+          component: p_all
+        },
+        {
           path: 'join',
           name: 'Join',
           component: Join
@@ -95,6 +104,16 @@ export default new Router({       //module.expotrs={}
           path: '/shop',
           name: 'Shop',
           component: Shop,
+        },
+        {
+          path: '/shopmobile',
+          name: 'Shopmobile',
+          component: Shopmobile,
+        },
+        {
+          path: '/dianpumobile',
+          name: 'dianpumobile',
+          component: dianpumobile,
         },
         {
           path: 'dianpu',
@@ -157,6 +176,11 @@ export default new Router({       //module.expotrs={}
               path: 'memberorder',
               name: 'Memberorder',
               component: Memberorder
+            },
+            {
+              path: 'ordertest',
+              name: 'ordertest',
+              component: Ordertest
             },
             {
               path: 'memberassess',

@@ -12,7 +12,9 @@
           </div>
           <div class="grabble-input" :class="{color_red:color_red}">
             <p class="p1">
-              <a :class="{color:style}" @click="changecolor">产品</a><span></span><a :class="{color:style1}" @click="changecolor1">服务商</a>
+              <a :class="{color:style}" @click="changecolor">产品</a>
+              <span></span>
+              <a :class="{color:style1}" @click="changecolor1">服务商</a>
             </p>
             <div>
               <el-autocomplete
@@ -20,7 +22,9 @@
                 :fetch-suggestions="querySearchAsync"
                 :placeholder='placeholder'
                 @select="handleSelect"
-                
+                @keyup.enter.native="search"
+                v-focus="focuss"
+                :value="state4"
               ></el-autocomplete><button 
                 @click="link1"
                 v-if="style"><span></span>
@@ -43,7 +47,7 @@
           <ul>
             <li class="hov">
               <router-link to="/index1" :class="{active:nav}">全部产品</router-link>
-              <ul class="nav-select" v-if="none" :class="{hover:hover}">
+              <ul class="nav-select" v-if="none" :class="{hover:hover}"> 
                 <li v-for="(item,key,index) in menuList" :key="index">
                   <span></span>
                   <div>
@@ -82,8 +86,8 @@
               </ul>
             </li>
             
-            <li><router-link :to="{path:'/list',query:{name:'财税服务'}}" :class="{active:nav1}">财税服务</router-link></li>
-            <li><router-link :to="{path:'/list',query:{name:'公司工商'}}" :class="{active:nav2}">公司工商</router-link></li>
+            <li><router-link :to="{path:'/list',query:{name:'财税服务',index:0}}" :class="{active:nav1}">财税服务</router-link></li>
+            <li><router-link :to="{path:'/list',query:{name:'公司工商',index:0}}" :class="{active:nav2}">公司工商</router-link></li>
             <li><router-link to="/join" :class="{active:nav3}">加盟我们</router-link></li>
             <li><router-link to="/shop" :class="{active:nav4}">店铺</router-link></li>
           </ul>
@@ -92,7 +96,7 @@
     </div>
     <div class="grabble2 hidden-lg-and-up">
       <div class="adress2">{{datavalue}}&or;</div>
-      <div class="logo2"><a href="/"></a></div>
+      <div class="logo2"><router-link to="/header/index1"></router-link></div>
     </div>
 
     <router-view/>
@@ -107,11 +111,11 @@
         </ul>
       </el-row>
     </footer>
-    <footer  class="footer2-2 hidden-lg-and-up" style="height: 90px"></footer>
+    <footer  class="footer2-2 hidden-lg-and-up" style="height: 90px;width: 100%"></footer>
     <footer class="footer1-2 hidden-lg-and-up">
       <ul>
         <li>
-          <router-link to="/">
+          <router-link to="/header/index1">
           <p class="footer1-2-img"></p>
           <p>首页</p>
           </router-link>
@@ -164,8 +168,28 @@ export default {
       placeholder:'搜索您需要的服务或服务商',
       none: true,
       hover: false,
+      focuss: false
     };
   },
+  directives: {
+
+    focus: {
+
+        inserted: function (el, {value}) {
+
+        console.log(el,{value})
+
+            if (value) {
+
+                el.querySelector('input').focus();
+                console.log(el);
+
+            }
+
+        }
+
+    }
+ },
   created() {
     var navArr={};
     var that = this;
@@ -178,9 +202,23 @@ export default {
           navArr[navSelect[key].showOrder] = navSelect[key];
         }
       that.menuList = navArr;
+      console.log(that.menuList)
     });
   },
   methods: {
+    search(){
+      console.log('enter')
+      if(this.style===true){
+        this.link1();
+        this.focuss = true
+        console.log('12')
+        // console.log(this.focus)
+      }else{
+        this.link();
+        this.focuss = true
+        console.log('123')
+      }
+    },
     none1(){
       this.none = false;
       setTimeout(() => {
@@ -197,7 +235,6 @@ export default {
         this.$router.push({
             path:'/shop',query:{searchName:this.state4}
         })
-        this.state4 = '';
       }  
     },
     link1(){
@@ -210,7 +247,6 @@ export default {
         this.$router.push({
             path:'/list',query:{searchName:this.state4}
         })
-        this.state4 = '';
       }
     },
     changecolor() {

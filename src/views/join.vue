@@ -5,7 +5,7 @@
     <p>只做有价值的平台</p>
 </div>
 <div class="to_join">
-    <img src="../../static/jiameng_03.jpg" alt="">
+    <img src="../../static/jiameng_03.jpg" alt=""> 
     <h3>信达提供线上精准营销方案、帮助服务商快捷、低成本的获取有效客户，为传统优质服务商插上互联连网的翅膀，助力企业的腾飞。</h3>
     <img src="../../static/12_01.jpg" alt="">
 </div>
@@ -102,6 +102,9 @@ export default {
    hr:'false'
     }
   },
+  created(){
+      [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,false,false,true,false]
+  },
 //   created(){
 //            var that = this;
 //       this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({start:0,limit:6,sort:1})).then(function(data){
@@ -156,7 +159,7 @@ export default {
  
     .top{
         width:100%;
-        height: 250px;
+        min-height: 300px;
         margin:0 auto;
         background-image: url(../../static/joinus1.02aa3f5.jpg);
         background-size: cover;
