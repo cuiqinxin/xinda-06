@@ -1,0 +1,178 @@
+<template>
+  <div class="Store">
+       <div class="sort">
+           <ul>
+               <li></li>
+               <li></li>
+           </ul>
+       </div>
+        <div class="shop_shop">
+            
+            <div 
+            v-for="(dp,index) in dianpu" :key="index" 
+            class="shop_1"
+            :codes="dp.productTypeCodes"
+            >
+                <ul class="shop_1_left">           
+                       <img :src="'http://123.58.241.146:8088/xinda/pic/'+(dp.providerImg)">
+                       <!-- <img :src="dp.providerImg" alt="">  -->
+                </ul>
+                <ul class="shop_1_right">
+                    <h5 class="title">{{dp.providerName}}</h5>                  
+                    <li class="region">{{dp.regionName}}</li>
+                    <li class="num">
+                        <p class="num_1">累计客户服务次数:<a>{{dp.orderNum}}</a></p>
+                        <p class="num_2">好评率:<a>{{dp.goodJudge == 0?0 :dp.goodJudge/dp.totalJudge*100}}%</a></p>
+                    </li>
+                </ul>
+            </div>
+        
+        </div>
+    <router-view/>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Shopmobile',
+  data () {
+    return {
+    title:'',
+    credit:'',
+    region:'',
+    dianpu:'',
+    dianpu1:'',
+    providerId:'',
+    }
+  },
+  created(){
+           var that = this;
+           this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({start:0,limit:6,sort:1})).then(function(data){
+           that.dianpu1=data.data.data;
+        if((!/\?/.test(location.href))){
+           that.dianpu=data.data.data;
+        }
+        });
+        var that = this
+      this.ajax.post(
+          '/xinda-api/provider/search-grid',this.qs.stringify({
+        //   start:0,
+        searchName:this.$route.query.searchName,
+        // sort:2,
+      }))
+      .then(function(data){
+            console.log(data.data.data);
+            // console.log(searchName);
+            that.dianpu=data.data.data  
+        });
+          
+  },
+  components:{
+      
+    }, 
+  methods:{
+ 
+  },
+watch:{
+$route(newval,oldval){
+    var that = this;
+console.log(newval.query.searchName)
+      this.ajax.post(
+          '/xinda-api/provider/search-grid',this.qs.stringify({
+        searchName:this.$route.query.searchName,
+      }))
+      .then(function(data){
+            console.log(data.data.data);
+            that.dianpu=data.data.data  
+        });}
+},
+  computed:{
+   
+  }
+
+}
+</script>
+
+<style scoped lang="less">
+ 
+.Store{
+    width:100%;
+    .list{
+        border:1px solid #ccc;
+        background-color: #f7f7f7;
+        width:100%;
+    .serve{
+        display:flex;
+            height:48px;
+         .serve_eara{
+            border-bottom: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            font-size: 16px;
+            font-weight: 700;            
+            width:10%;
+            line-height: 48px;
+            text-align: center;
+        }
+         .eara{
+            border-bottom: 1px solid #ccc;
+        }
+    }
+    }
+    }
+    .shop_shop{
+        width:100%;
+        overflow: hidden;
+        justify-content: space-around;
+        .shop_1{
+            margin:0 auto;
+            float:left;
+            border-bottom:1px solid #ccc;
+            display:flex;
+            width:96%;
+            height:135px;
+             .shop_1_left{
+                margin: 15px;                 
+                width:20%;
+                text-align:center;
+                border:1px solid #ccc;
+                line-height: 105px;
+                img{
+                    display: inline-block;
+                    width:90%;
+                }
+               
+            }
+            .shop_1_right{
+                margin: 15px 0 15px 15px;
+                width:62%;
+               
+                .num{
+                    margin:5px 0;
+                    p{
+                        display:inline-block;
+                        font-size:16px;
+                        a{
+                            color:red;
+                        }
+                    }
+                }
+                .title{
+                    font-size: 20px;
+                    margin-bottom:10px;
+                }
+                .credit{
+                    color:#ccc;
+                    font-size: 12px;
+                    margin:5px 0;
+                }
+                .region{
+                    color:#ccc;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+
+
+</style>
+

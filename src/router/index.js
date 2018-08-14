@@ -20,6 +20,8 @@ import Outter from '@/views/Outter'
 import Datang from '@/views/datang'
 import Chanpinx from '@/views/chanpinx'
 import Shop from '@/views/shop'
+import Shopmobile from '@/views/shopmobile'
+import dianpumobile from '@/views/dianpumobile'
 import Join from '@/views/Join'
 import Dianpu from '@/components/dianpu'
 import Page from '@/components/Page'
@@ -100,6 +102,16 @@ export default new Router({       //module.expotrs={}
           path: '/shop',
           name: 'Shop',
           component: Shop,
+        },
+        {
+          path: '/shopmobile',
+          name: 'Shopmobile',
+          component: Shopmobile,
+        },
+        {
+          path: '/dianpumobile',
+          name: 'dianpumobile',
+          component: dianpumobile,
         },
         {
           path: 'dianpu',
