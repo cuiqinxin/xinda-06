@@ -23,6 +23,9 @@ export default new vuex.Store({
         },
         cartNum(){
             this.state.count++;
+        },
+        cartNum2(){
+            this.state.count--;
         }
     },
     // //有关全局变量的全局函数

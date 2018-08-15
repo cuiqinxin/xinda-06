@@ -53,7 +53,7 @@
                         </div>
                         <!-- 最底部button -->
                         <div class="bottom">
-                                <a href="javascript:void(0)" class="shopnext" @click="addcart">立即购买</a>
+                                <a href="javascript:void(0)" class="shopnext" @click="gobuy">立即购买</a>
                                 <a href="javascript:void(0)"  class="addcart"  @click="addcart">加入购物车</a>
                         </div>
                     </div>
@@ -247,43 +247,60 @@
        
        <!-- 马上咨询 -->
             <el-dialog  class="zixunzixun"  title="免费电话咨询" :visible.sync="dialogVisible"  >
-                <!-- 步骤条 -->
-                <el-steps  :active="active" align-center>
-                    <el-step class="steptitle" title="输入手机号码" ></el-step>
-                    <el-step title="您接听来电" ></el-step>
-                    <el-step title="被叫方接听"></el-step>
-                    <el-step title="咨询结束"></el-step>
-                </el-steps>
-                <!-- 步骤条结束 -->
-                <div class="inputarea">
-                    <!-- 顶部 -->
-                    <div class="upouter">
-                         <el-input class="up" v-model="phoneinput" placeholder="请输入手机号"></el-input>
-                         <p class="phoneerro" v-if="phoneerro"> {{phoneerrocontain}}</p>
-                    </div>
-                   
+                <div class="zixunyemian" v-if='zixunyemianstate'>
+                    <!-- 步骤条 -->
+                    <el-steps  :active="active" align-center>
+                        <el-step class="steptitle" title="输入手机号码" ></el-step>
+                        <el-step title="您接听来电" ></el-step>
+                        <el-step title="被叫方接听"></el-step>
+                        <el-step title="咨询结束"></el-step>
+                    </el-steps>
+                    <!-- 步骤条结束 -->
+                    <div class="inputarea">
+                        <!-- 顶部 -->
+                        <div class="upouter">
 
-                    <!-- 中部 -->
-                    <div class="mid">
-                        <el-input v-model="picinput" placeholder="请输入图形验证码"></el-input> 
-                        <div class="tuxing">
-                            <img :src="imgurl" alt="11" @click="imgchange" :onerror="provideralt">
+                            <el-input class="up" v-model="phoneinput" placeholder="请输入手机号" @blur="phonetest"></el-input>
+
+                            <p class="phoneerro" v-if="phoneerro"> {{phoneerrocontain}}</p>
                         </div>
-                         <p class="picerro">{{picerrocontain}}</p>
-                    </div>
-                    <!-- 底部 -->
-                    <div class="down">
-                        <el-input v-model="codeinput" placeholder="请输入验证码"></el-input>
-                        <el-button>获取验证码</el-button>
-                        <p class="msgerro"> {{msgerrocontain}}</p>
-                    </div>
+                    
 
-                        <el-button class="tijiao">开始免费咨询</el-button>
+                        <!-- 中部 -->
+                        <div class="mid">
+
+                            <el-input v-model="picinput" placeholder="请输入图形验证码" @blur="imgblur"></el-input> 
+
+                            <div class="tuxing">
+                                <img :src="imgurl" alt="11" @click="imgchange" :onerror="provideralt">
+                            </div>
+
+                            <p class="picerro" v-if="picerro">{{picerrocontain}}</p>
+
+                        </div>
+                        <!-- 底部 -->
+                        <div class="down">
+
+                            <el-input v-model="codeinput" placeholder="请输入验证码"  @blur="msgblur"></el-input>
+                            <el-button @click="codeclick">获取验证码</el-button>
+
+                            <p class="msgerro" v-if="msgerro"> {{msgerrocontain}}</p>
+
+                        </div>
+
+                            <el-button class="tijiao"  @click='questioncommit'>开始免费咨询</el-button>
+                    </div>
+                    
+                    <p style="text-align:center">本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
+                   
                 </div>
-                
-                <p style="text-align:center">本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
-                <span slot="footer" class="dialog-footer">
-                </span>
+                <div class="commitsuccess" v-else>
+                    <p class='commitup'>本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
+                    <p class='commitmid'>正在为您接通电话</p>
+                    <p class='commitdown'>请您注意接听来电</p>
+                </div>
+                 <span slot="footer" class="dialog-footer">
+                 </span>
             </el-dialog>
        <!-- 马上咨询 结束-->
    
@@ -293,8 +310,10 @@
    
 </template> 
 <script>  
+import store from '../store'
  export default {
       name: "goodsdetail",
+
     created(){
         // 商品详情渲染
         var that = this;
@@ -311,7 +330,7 @@
             that.serviceNum=that.detaildata.providerBusiness.serviceNum
             // console.log(that.detaildata);
             }).catch(function(data) {
-                console.log("请求失败");
+                // console.log("请求失败");
             });  
         //登录判断
            that.ajax.post(
@@ -326,7 +345,7 @@
                     "/xinda-api/ajaxAuthcode",
                     that.qs.stringify({})
                 ).then(function(data){
-                    console.log(data);
+                    // console.log(data);
                     that.pic_href=data.data;
                     
             })
@@ -364,6 +383,9 @@
             picerrocontain:'图片验证码不正确！',
             msgerrocontain:'图片验证码不正确！',
 
+            picstatus:"",
+            zixunyemianstate:true,
+
             
             } 
     }, 
@@ -374,29 +396,13 @@
       
     },
 //   watch:{
-//         // 手机号验证
-//             phonetest(){
-//                 if( this.phoneinput=='' ){
-//                     this.phoneerrocontain='请输入手机号'; 
-//                     this.phoneerro=true;
-//                 }else{
-//                     if(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(this.phoneinput)){
-//                         this.phoneerrocontain='请输入手机号'; 
-//                         this.phoneerro=false;
-//                     }else{
-//                         this.phoneerrocontain='手机号错误'; 
-//                         this.phoneerro=true;
-//                     }
-//                 }
-//             },
+//         
 
 
 //   },
     methods:{
-        imgchange(){
-            var data=(new Date()).getTime();
-            this.imgurl=`/xinda-api/ajaxAuthcode?=${data}`
-        },
+      
+      
         reduce:function(){
                 this.inputvalue--;
         },
@@ -412,13 +418,15 @@
                     if(that.loginstate==0){
                         that.open2();
                     }else{
+                        that.open3();
+
                          // 成功则进行添加购物车请求
-                        that.ajax.post(
-                        "/xinda-api/cart/add",
-                        that.qs.stringify({                 id:that.detailproviderProduct.id,num:that.inputvalue})
-                            ).then(function(data){
-                                // console.log(data);
-                            });  
+                        // that.ajax.post(
+                        // "/xinda-api/cart/add",
+                        // that.qs.stringify({                 id:that.detailproviderProduct.id,num:that.inputvalue})
+                        //     ).then(function(data){
+                        //         // console.log(data);
+                        //     });  
                         // 添加购物车请求结束
                     }
                 // });             
@@ -441,7 +449,141 @@
                     }
         },
     // 马上咨询部分函数
-    
+
+      // 手机号验证
+        phonetest(){
+                if( this.phoneinput=='' ){
+                    this.phoneerrocontain='请输入手机号'; 
+                    this.phoneerro=true;
+                    return;
+                }else{
+                    if(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(this.phoneinput)){
+                        this.phoneerrocontain='请输入手机号'; 
+                        this.phoneerro=false;
+                    }else{
+                        this.phoneerrocontain='手机号错误'; 
+                        this.phoneerro=true;
+                        return;
+                    }
+                }
+        },
+        // 图片验证码切换
+        imgchange(){
+            var data=(new Date()).getTime();
+            this.imgurl=`/xinda-api/ajaxAuthcode?=${data}`
+        },
+        //图片验证码失焦判断
+        imgblur(){
+             if( this.picinput=='' ){
+                    this.picerrocontain='请输入图片验证码'; 
+                    this.picerro=true;
+                    this.imgchange();
+                    return;}else{
+                        this.picerrocontain='请输入图片验证码'; 
+                        this.picerro=false;
+                        
+                    }
+
+        },
+
+
+        //验证码短信接口
+        codeclick(){
+            var that=this;
+            this.phonetest();
+            // 先验证手机号
+            //  if( this.phoneinput=='' ){
+            //         this.phoneerrocontain='请输入手机号'; 
+            //         this.phoneerro=true;
+            //         return;
+            //     }else if(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(this.phoneinput)){
+            //             this.phoneerrocontain=''; 
+            //             this.phoneerro=false;
+            //     }else{
+            //             this.phoneerrocontain='手机号错误'; 
+            //             this.phoneerro=true;
+            //             return;
+            //     }
+            //手机号正确后，进行图片验证码判断 
+            if( this.picinput=='' ){
+                    this.picerrocontain='请输入图片验证码'; 
+                    this.picerro=true;
+                    this.imgchange();
+                    return;
+                }else{
+                         // 信息无误后可请求短信验证码
+                        that.ajax.post(
+                            "/xinda-api/register/sendsms",
+                            that.qs.stringify({
+                            cellphone: that.phoneinput,					
+                            smsType:1,							
+                            imgCode:that.picinput	
+                            })
+                            ).then(function(data){
+                                console.log(data.data);
+                                if(data.data.status==-1){
+                                    that.picerrocontain='图片验证码不正确'; 
+                                    that.picerro=true;
+                                    that.picinput='';
+                                    that.imgchange();
+                                }else{
+                                    that.picerro=false;  
+                                    that.picstatus=data.data.status;
+                                }
+                            });  
+                }
+
+
+           
+
+        },
+        // msg验证码
+        msgblur(){
+             if( this.codeinput=='' ){
+                    this.msgerrocontain='请输入短信验证码'; 
+                    this.msgerro=true;
+                    // this.imgchange();
+                    return;
+                    }else if(/^888888$/.test(this.codeinput)==false){
+                        this.msgerrocontain='短信验证码错误'; 
+                        this.msgerro=true;
+                        return;
+                    }else{
+                        this.msgerrocontain=''; 
+                        this.msgerro=false;
+                    }
+
+        },
+        //咨询提交函数
+        questioncommit(){
+            var that=this;
+            this.phonetest();
+            this.imgblur();
+            this.msgblur();
+            if(that.picstatus=='-1'){
+                that.picerrocontain='图片验证码不正确';
+                that.picerro=true;
+            }else if(that.picstatus==''){
+                this.msgerrocontain='短信验证码错误'; 
+                this.msgerro=true;
+            }else{
+                 if( this.codeinput=='' ){
+                    this.msgerrocontain='请输入短信验证码'; 
+                    this.msgerro=true;
+                    // this.imgchange();
+                    return;
+                    }else if(/^888888$/.test(this.codeinput)==false){
+                        this.msgerrocontain='短信验证码错误'; 
+                        this.msgerro=true;
+                        return;
+                    }else{
+                        this.msgerrocontain=''; 
+                        this.msgerro=false;
+                        this.zixunyemianstate=false;
+                    }
+            }
+        },
+
 
 
 
@@ -473,6 +615,34 @@
             });          
             });
         },
+           // 提示框函数
+        open3() {
+            var that=this;
+            this.$confirm('确定加入购物车？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).then(() => {
+               // 成功则进行添加购物车请求
+                this.$message({
+                type: 'success',
+                message: '加入购物车成功!'
+            });
+                        that.ajax.post(
+                        "/xinda-api/cart/add",
+                        that.qs.stringify({                 id:that.detailproviderProduct.id,num:that.inputvalue})
+                            ).then(function(){
+                                // console.log(data);
+                                // that.$router.push({path:"/header/shoppingcart"})
+                            });  
+                        // 添加购物车请求结束
+            }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消加入购物车'
+            });          
+            });
+        },
         // 提示框函数open5
         // open5() {
         //     this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
@@ -493,7 +663,7 @@
                 serviceId:that.detailproviderProduct.id,
                 type:1
                 })).then(function(data) {
-                    console.log(data);
+                    // console.log(data);
             }).catch(function(data) {
                 console.log("请求失败");
             });
@@ -1065,6 +1235,10 @@
         max-width:520px;
         min-width:340px;
     }
+    // .zixunyemian{
+    //    max-height:520px;
+    //     min-width:340px;
+    // }
     .zixunzixun{
         
         
@@ -1138,7 +1312,21 @@
         top:31px;
         left:2px;
         color:red;
-        
     }
+    .commitup{
+        font-size:20px;
+    }
+    .commitmid,.commitdown{
+        font-size: 18px;
+        color: #4ca8e6;
+        text-align:center;
+        margin-top:30px;
+    }
+    .commitdown{
+        margin-bottom:30px;
+    }
+    // .commitsuccess{
+    //     min-height:400px;
+    // }
          
 </style>
