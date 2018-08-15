@@ -4,7 +4,7 @@
       <div class="grabble-con">
         <div class="grabble-top">
           <div class="grabble-left" >
-            <router-link to="/header/index1" class="logo"></router-link>
+            <router-link to="/" class="logo"></router-link>
             <div class="address">
               <p>{{datavalue}}</p>
               <p class="changeaddress">[切换城市]</p>
@@ -46,7 +46,7 @@
         <div class="nav">
           <ul>
             <li class="hov">
-              <router-link to="/index1" :class="{active:nav}">全部产品</router-link>
+              <router-link to="/" :class="{active:nav}">全部产品</router-link>
               <ul class="nav-select" v-if="none" :class="{hover:hover}"> 
                 <li v-for="(item,key,index) in menuList" :key="index">
                   <span></span>
@@ -168,22 +168,14 @@ export default {
     };
   },
   directives: {
-
     focus: {
-
         inserted: function (el, {value}) {
-
         console.log(el,{value})
-
             if (value) {
-
                 el.querySelector('input').focus();
                 console.log(el);
-
             }
-
         }
-
     }
  },
   created() {
@@ -200,6 +192,12 @@ export default {
       that.menuList = navArr;
       console.log(that.menuList)
     });
+    var href=this.$route.path;
+    if(href=='/'){
+      this.hover = true;
+    }else{
+      this.hover = false;
+    }
   },
   methods: {
     search(){
@@ -329,6 +327,22 @@ export default {
   },
   mounted() {
     this.restaurants = this.grabble();
+  },
+  watch:{
+    $route(){
+      var href=this.$route.path;
+      if(href=='/'){
+        this.hover = true;
+      }else{
+        this.hover = false;
+      }
+      if(href!='/index1'||href!='/list'||href!='/join'||href!='/shop'){
+        [this.nav,this.nav1,this.nav2,this.nav3,this.nav4] = [false,false,false,false,false]
+      }
+      if(href!='/list'){
+        this.state4 = '';
+      }
+    }
   }
 };
 </script>

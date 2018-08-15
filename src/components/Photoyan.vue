@@ -24,7 +24,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
     .yan{
         font-size: 0;
         img{

@@ -515,7 +515,7 @@
     } 
 </script>
 
-<style lang="less" > 
+<style scoped lang="less" > 
 @media screen and (min-width:769px){
 
   

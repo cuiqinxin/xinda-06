@@ -40,7 +40,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
     .firstpay{
         font-size: 14px;
         line-height: 50px;

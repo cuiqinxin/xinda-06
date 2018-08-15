@@ -330,7 +330,6 @@ export default {
         this.hq=data.data.data.hq;
         this.product=data.data.data.product;
         this.provider=data.data.data.provider;
-        console.log(this.hq)
     });
     this.ajax.post("/xinda-api/common/select-region").then(data=> {
       this.datavalue = data.data.data.name;

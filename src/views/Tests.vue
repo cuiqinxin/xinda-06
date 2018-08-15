@@ -94,7 +94,7 @@
     }
 }
 </script>
-<style>
+<style scoped>
     .el-table th {
         text-align: center;
     }

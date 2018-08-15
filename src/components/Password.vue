@@ -30,7 +30,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
     
     @media screen and (max-width: 768px){
         .pass{margin:32px 0 30px;}

@@ -41,13 +41,28 @@ Vue.use(Router)
 
 
 export default new Router({       //module.expotrs={}
-  mode: 'history',        //新路由返回顶部，前进后退像浏览器的原生表现那样
+  // mode: 'history',        //新路由返回顶部，前进后退像浏览器的原生表现那样
+  // scrollBehavior (to, from, savedPosition) {
+  //   if (savedPosition) {
+  //     return savedPosition
+  //   } else {
+  //     return { x: 0, y: 0 }
+  //   }
+  // },
+  // state: {
+  //   recruitScrollY:0
+  // },
+  // getters: {
+  //   recruitScrollY:state => state.recruitScrollY
+  // },
+  // mutations: {
+  //   changeRecruitScrollY(state,recruitScrollY) { 
+  //     state.recruitScrollY = recruitScrollY
+  //   }
+  // },
+ 
   scrollBehavior (to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { x: 0, y: 0 }
-    }
+    return { x: 0, y: 0 }
   },
   routes: [
     {
@@ -101,7 +116,7 @@ export default new Router({       //module.expotrs={}
       component: Header,
       children: [
         {
-          path: '/p_all',
+          path: 'p_all',
           name: 'p_all',
           component: p_all
         },
@@ -111,17 +126,17 @@ export default new Router({       //module.expotrs={}
           component: Join
         },
         {
-          path: '/shop',
+          path: 'shop',
           name: 'Shop',
           component: Shop,
         },
         {
-          path: '/shopmobile',
+          path: 'shopmobile',
           name: 'Shopmobile',
           component: Shopmobile,
         },
         {
-          path: '/dianpumobile',
+          path: 'dianpumobile',
           name: 'dianpumobile',
           component: dianpumobile,
         },
@@ -178,7 +193,7 @@ export default new Router({       //module.expotrs={}
           component: goodsdetail 
         },
         {
-          path: '/member',
+          path: 'member',
           name: 'Member',
           component: Member,
           children:[
