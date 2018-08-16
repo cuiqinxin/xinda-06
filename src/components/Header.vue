@@ -198,6 +198,12 @@ export default {
     }else{
       this.hover = false;
     }
+    if(href!='/index1'||href!='/list'||href!='/join'||href!='/shop'){
+      [this.nav,this.nav1,this.nav2,this.nav3,this.nav4] = [false,false,false,false,false]
+    }
+    if(href!='/list'){
+      this.state4 = '';
+    }
   },
   methods: {
     search(){

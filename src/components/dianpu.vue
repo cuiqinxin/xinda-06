@@ -22,12 +22,12 @@
             <el-main>
                 <ul class="provide_list">
                     <el-tabs v-model="activeName" @tab-click="handleClick">
-                     <el-tab-pane label="服务产品内容" name="first">  
+                     <el-tab-pane label="服务产品内容" name="first" @click="fuwuneir">  
                          <ul class="">
                             <h3>服务内容</h3>
                            <el-row class="service_product">
                                 <el-col :span=7 v-for="(pro,index) in provide" :key="index">
-                                    <h4>{{pro.serviceName}}*{{index+1}}{{provide.length}}</h4>
+                                    <h4>{{pro.serviceName}}</h4>
                                     <img src="../../static/diang.png" alt="">
                                     <p class="info">{{pro.serviceInfo}}</p>
                                     <p class="buynum">销量：{{pro.buyNum}}</p>
@@ -40,13 +40,13 @@
                             </el-row>
                         </ul>
                     </el-tab-pane>
-                     <el-tab-pane label="客服" name="second" class="second">
+                     <el-tab-pane label="客服" name="second" class="second" @click="nofenye">
                          <ul class="kefu">
                          <span>工作时间：{{name.workTime}}</span> 
                          <span>QQ客服：{{name.qq}}</span> 
                          </ul>
                          </el-tab-pane>
-                     <el-tab-pane label="资格证书" name="third" class="third">
+                     <el-tab-pane label="资格证书" name="third" class="third" @click="nofenye">
                          <ul class="zhengshu">
                          <img src="../../static/u4652.36247c6.png" alt="">
                          </ul>
@@ -57,7 +57,7 @@
         </el-container>
     </div>
 <div class="paging">
-    <page @change="pageChange" :parentCount="j"></page>
+    <page @change="pageChange" :parentCount="j" v-show="fenye"></page>
 </div>   
 
     <router-view/>
@@ -79,6 +79,7 @@ export default {
       name:'',
       dianpu:'',
       provide:'',
+      fenye:'ture',
      j:{
             pageSize : 5 , //每页显示6条数据
             currentPage : 1, //当前页码
@@ -91,6 +92,9 @@ export default {
     }
   },
   methods:{
+      nofenye(){this.fenye=false,
+      console.log(123)},
+      fuwuneir(){this.fenye=true},
       handleClick(tab, event) {
         // console.log(tab);
       },
@@ -103,6 +107,8 @@ export default {
             providerId: this.$route.query.id,
             sort:2})).then(function(data){
                     that.provide=data.data.data
+            console.log(data.data.data);
+
         });
         },   
         },
@@ -118,9 +124,18 @@ export default {
           '/xinda-api/provider/detail',
       this.qs.stringify(obj))
       .then(function(data){
-            console.log(data.data.data);
             that.name=data.data.data
-            that.j.all=data.data.data.length
+
+        });
+         var that = this;
+    this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
+
+    providerId: this.$route.query.id,
+    sort:2})).then(function(data){
+            that.j.all=data.data.data.length; 
+            console.log(data.data.data.length);
+            console.log(data.data.data);
+
         });
         var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({

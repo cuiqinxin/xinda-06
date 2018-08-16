@@ -47,7 +47,6 @@ export default {
     name: 'Login',
     data () {
         return {
-            id:'',
             imgurl:'/xinda-api/ajaxAuthcode',
             style:'bi', 
             types:'password',
