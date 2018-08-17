@@ -1,5 +1,6 @@
 <template>
   <div id="payfailed" >
+      
         <p class="firstpay">首页/支付</p>
          
         <p class="failedpay">支付成功</p>
@@ -40,7 +41,27 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
+
+@media screen and (max-width:769px){
+
+  .payfailed{
+    flex-direction:column;
+    text-align:center;
+    height:650px!important;
+  }
+
+  .payfaildimg{
+      margin:0 0 30px;
+      margin-right:20px!important;
+  }
+  .firstpay,.failedpay{
+      display:none;
+  }
+}
+
+
+
     .firstpay{
         font-size: 14px;
         line-height: 50px;
