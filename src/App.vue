@@ -95,6 +95,7 @@ export default {
       var that = this;
       this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
           this.cartNum = data.data.data.cartNum;
+          console.log(data)
       });
       fun:{
           this.ajax.post("/xinda-api/sso/login-info").then(data=>{

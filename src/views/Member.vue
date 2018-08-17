@@ -64,7 +64,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
     span{display: inline-block;}
     .cheng{
         background-color: #f7f7f7;
