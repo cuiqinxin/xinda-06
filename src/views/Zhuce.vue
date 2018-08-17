@@ -18,14 +18,15 @@
                         <p class="wrongTip">{{telTip}}</p>
                         <city @confirm="confirm" display="12345"></city>
                         <p class="wrongTip">{{cityTip}}</p>
-                        <el-popover placement="right" width="300" trigger="click">
+                        <!-- <el-popover placement="right" width="300" trigger="click">
                             <div><i :class="lengthLimit"></i>6-20个字符<br/><i :class="typeLimit"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType"></i>字母、数字和下划线至少包含2种</div>                 
                             <div class="pass" slot="reference">
                                 <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                                 <span :class="style" @click="show"></span>
                             </div>
                         </el-popover> 
-                        <p class="wrongTip">{{passTip}}</p>
+                        <p class="wrongTip">{{passTip}}</p> -->
+                        <password ref="passa" @input="passzhi"></password>
                         <a href="javascript:void(0)" class="log" @click="regisyan">立即注册</a>
                         <p class="zunshou hidden-xs-only">注册即同意遵守<a href="javascript:void(0)">《服务协议》</a></p>
                     </el-col>
@@ -42,8 +43,6 @@
         <el-row class="now hidden-sm-and-up">
             <el-col :span="20" :offset="2" id="spe"><p>已有账号？</p><router-link to="/outter/login" class="liji">立即登录</router-link></el-col>
         </el-row>
-        <!--  -->
-        <!-- <p>{{count}}</p> -->
     </div>
 </template>
 
@@ -257,6 +256,13 @@ export default {
                 this.cityTip='';
             }
         },
+        // passti(value){
+        //     this.passTip=value;
+        // },
+        passzhi(value){
+            this.passValue=value;
+            console.log(this.passValue);
+        },
         imgchange(){
             var data=(new Date()).getTime();
             this.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
@@ -275,7 +281,7 @@ export default {
         password,
         city,
         photoyan
-    }
+    },
 }
 </script>
 

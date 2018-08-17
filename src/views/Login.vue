@@ -1,13 +1,10 @@
 <template>
     <div class="Login">       
         <div class="deng">
-            <!-- <p @click="chufa">{{count}}</p> -->
-            <!-- <p class="nadaoshuju">{{userPhoneNumber}}</p> -->
-            <!-- <p>{{gett}}</p> -->
             <el-row>
                 <el-col :span="12" :xs="24" class="left">
                     <el-col :sm={span:11,offset:6} :xs={span:18,offset:3} class="shu">
-                        <input type="text" placeholder="请输入手机号码" v-model="phoneValue" @keyup="phoneKey">
+                        <input type="text" placeholder="请输入手机号码" v-model="phoneValue" @keyup="phoneKey" @blur="phoneBlur">
                         <p class="wrongTip">{{phoneTip}}</p>
                         <div class="pass">
                             <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey">
@@ -48,22 +45,22 @@ export default {
     data () {
         return {
             imgurl:'/xinda-api/ajaxAuthcode',
-            style:'bi', 
+            style:'bi',          //睁眼闭眼的样式
             types:'password',
-            phoneValue:'',
-            passValue:'',
-            photoValue:'',
-            phoneTip:'',
-            passTip:'',
-            photoTip:'',
-            panduan:''
+            phoneValue:'',       //手机号的值
+            passValue:'',        //密码的值
+            photoValue:'',       //图片验证码的值
+            phoneTip:'',         //手机号提示
+            passTip:'',          //密码提示
+            photoTip:'',         //图片验证码提示
+            panduan:''           //判断登陆后跳转的标记
         }
     },
     created(){
         this.$parent.info = '欢迎登录';
         this.$parent.infoWeb = '登录';
         this.panduan=this.$route.query.pan;
-        document.onkeyup=(e)=>{
+        document.onkeyup=(e)=>{       //按回车键登录
             var key=window.event.keyCode;
             if(key==13){
                 this.logyan();
@@ -71,7 +68,7 @@ export default {
         }
     },
     methods:{
-        logyan(){
+        logyan(){                     //登录验证
             var logins=0;
             if(this.phoneValue==''){
                 this.phoneTip='手机号不能为空！';
@@ -90,10 +87,10 @@ export default {
             }else{
                 this.photoTip='';logins++;
             }
-            if(logins==3){
+            if(logins==3){                   //都不为空且手机号格式正确才发送验证
                 var that=this;
                 var md5=require('md5');
-                this.datavalue=this.ajax.post('/xinda-api/sso/login',this.qs.stringify(
+                this.ajax.post('/xinda-api/sso/login',this.qs.stringify(
                     {'loginId':this.phoneValue,'password':md5(that.passValue),'imgCode':this.photoValue}
                 )).then(
                     function(data){
@@ -120,7 +117,16 @@ export default {
                                 that.$router.push({path:'/header/index1'});
                             }
                         }
-                }).catch(function(){console.log('失败');})
+                })
+            }
+        },
+        phoneBlur(){                  //手机号失焦验证
+            if(this.phoneValue==''){
+                this.phoneTip='手机号码不能为空';
+            }else if(!/^1[23456789]\d{9}$/.test(this.phoneValue)){
+                this.phoneTip='手机号码格式不正确';
+            }else{
+                this.phoneTip='';
             }
         },
         phoneKey(){
@@ -132,11 +138,11 @@ export default {
         photoKey(){
             this.photoTip='';
         },
-        imgchange(){
+        imgchange(){          //点击切换验证码
             var data=(new Date()).getTime();
             this.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`
         },
-        show(){
+        show(){               //睁眼闭眼效果
             if(this.style=='zheng'){
                 this.style='bi';
                 this.types='password';

@@ -27,7 +27,7 @@
                         </el-popover> 
                         <p class="wrongTip">{{passTip}}</p>
                         <div class="pass again">
-                            <input :type="types" placeholder="请输入密码" v-model="againValue" @keyup="againKey">
+                            <input :type="types" placeholder="请再次输入密码" v-model="againValue" @keyup="againKey">
                             <span :class="style" @click="show"></span>
                         </div>
                         <p class="wrongTip">{{againTip}}</p>
