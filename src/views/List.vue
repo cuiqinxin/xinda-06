@@ -881,9 +881,9 @@ export default {
             }
             else if(oldval>762 && val<=762){
                 this.start = 4
-                
-                if(this.currentIndex == 2){
+                if(this.currentIndex >= 2){
                     var that = this;
+                    if(this.$route.query.searchName == '' || this.$route.query.searchName == undefined){
                     this.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
                         {
                             start:0,
@@ -900,6 +900,22 @@ export default {
                                 production[key]['productImg'] = pro
                         }
                     });
+                    }else{
+                        that.ajax.post('/xinda-api/product/package/search-grid',that.qs.stringify(
+                        {
+                            start:0,
+                            limit:5,
+                            searchName: that.searchAdd.searchName
+                        })).then(function(data){
+                            that.thisProduct=data.data.data
+                            var production = that.thisProduct;
+                            for(let key in production){
+                                var pro = production[key]['providerImg']
+                                pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                                production[key]['productImg'] = pro
+                            }
+                        });
+                    }
                 }
             }
                     
