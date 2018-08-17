@@ -88,6 +88,7 @@
         last(){
             if (this.index != this.pages) {
                 this.go(this.pages)
+                console.log(this.pages)
             }
         },
         go (page) {
@@ -98,7 +99,6 @@
                 // this.parentCount.page=(page-1)*6
                 //父组件通过change方法来接受当前的页码
                 this.$emit('change', this.index)
-                console.log(this.pagers)
             }
         }
     },
@@ -106,6 +106,7 @@
         //计算总页码
         pages(){
             return Math.ceil(this.parentCount.all/this.parentCount.pageSize)
+         
         },
         //计算页码，当count等变化时自动计算
         pagers () {           //在数组里循环当前页面显示的页码  (为了得到当前页面显示的页码)
@@ -135,7 +136,6 @@
                 array.push(i)
             }
             return array
-            console.log(array)
         }
     },
     data () {

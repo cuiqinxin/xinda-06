@@ -264,7 +264,7 @@ export default {
 }
 </script>
 
-<style lang="less"> 
+<style scoped lang="less"> 
     span{display: inline-block;}
     a{color:#3f9cd9;}
     input{

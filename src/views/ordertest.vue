@@ -474,7 +474,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
 .orderNei .nadaoshuju{font-size: 14px;}
     button{outline: none;}
     .noneorder{

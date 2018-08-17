@@ -2,7 +2,7 @@
   <div class="index1">
     <div class="grabble2 hidden-lg-and-up">
       <div class="adress2">{{datavalue}}&or;</div>
-      <div class="logo2"><router-link to="/header/index1"></router-link></div>
+      <div class="logo2"><router-link to="/"></router-link></div>
     </div>
     <div class="hidden-md-and-down">
         <el-carousel class="lunbo" height="400px">
@@ -71,7 +71,7 @@
                     <h5>{{item.serviceName.split('（')[0].split('(')[0]}}</h5>
                     <p class="hq-p1">{{item.serviceInfo}}</p>
                     <p><span>￥{{item.price}}</span>{{item.unit}}</p>
-                    <router-link :to="{path:'/header/goodsdetail',query:{id:item.id}}">查看详情</router-link>
+                    <router-link :to="{path:'/goodsdetail',query:{id:item.id}}">查看详情</router-link>
                 </div>
             </div>
         </div>
@@ -186,7 +186,7 @@
                         <h5>{{item.serviceName.split('（')[0].split('(')[0]}}</h5>
                         <p class="hq-p1">{{item.serviceInfo}}</p>
                         <p><span>￥{{item.price}}</span>{{item.unit}}</p>
-                        <router-link :to="{path:'/header/goodsdetail',query:{id:item.id}}">查看详情</router-link>
+                        <router-link :to="{path:'/goodsdetail',query:{id:item.id}}">查看详情</router-link>
                     </div>
                 </div>
             </div>
@@ -330,7 +330,6 @@ export default {
         this.hq=data.data.data.hq;
         this.product=data.data.data.product;
         this.provider=data.data.data.provider;
-        console.log(this.hq)
     });
     this.ajax.post("/xinda-api/common/select-region").then(data=> {
       this.datavalue = data.data.data.name;
