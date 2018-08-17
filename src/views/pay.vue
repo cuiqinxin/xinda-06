@@ -3,91 +3,174 @@
 
 
     <div class="pay">
-         <p class="firstpay">首页/支付</p>
-         <p class="tabledetail">订单详情</p>
+        <div class="payweb hidden-xs-only">
+                <p class="firstpay">首页/支付</p>
+            <p class="tabledetail">订单详情</p>
 
-         <!-- 订单详情 -->
+            <!-- 订单详情 -->
 
-        <!-- style -->
-         <div class="orderdetail" >
-             <div class="businessOrder">
-                 <el-col :span="8"><div class="businessNo">
-                     订单编号：<span>{{businessOrder.businessNo}}</span>
-                 </div></el-col>
-                 <el-col :span="7"><div class="createTime">创建时间：<span>{{ businessOrder.createTime}}</span> </div></el-col>
-                 <el-col :span="5"><div class="totalPrice">订单金额：<span style="color:#62a8dc;">￥{{businessOrder.totalPrice}}元</span></div></el-col>
+            <!-- style -->
+            <div class="orderdetail" >
+                <div class="businessOrder">
+                    <el-col :span="8"><div class="businessNo">
+                        订单编号：<span>{{businessOrder.businessNo}}</span>
+                    </div></el-col>
+                    <el-col :span="7"><div class="createTime">创建时间：<span>{{ businessOrder.createTime}}</span> </div></el-col>
+                    <el-col :span="5"><div class="totalPrice">订单金额：<span style="color:#62a8dc;">￥{{businessOrder.totalPrice}}元</span></div></el-col>
+                    
+                    <el-col :span="3" class="orderclickouter"><a  href="javascript:void(0)" class="orderclick" @click="xiangqing">订单详情 <div class="tubiao"><img :src="xiangqingsrc" alt="#"></div></a></el-col> 
                 
-                 <el-col :span="3" class="orderclickouter"><a  href="javascript:void(0)" class="orderclick" @click="xiangqing">订单详情 <div class="tubiao"><img :src="xiangqingsrc" alt="#"></div></a></el-col> 
-               
-             </div>
-             <div class="ordersouter">
-                    <transition name="bounce" class="orders">
-                 <div v-if="show" >
-                       <div class="orderlist" v-for="(item,index) in serviceOrderList" :key="index">
-                     <el-col :span="7" class="serviceName">服务名称：<span>{{item.serviceName}}</span>   </el-col>
-                    <el-col :span="6" class="unitPrice">单价：<span>￥{{item.unitPrice}}元</span></el-col>
-                    <el-col :span="5" class="buyNum">数量：<span>{{item.buyNum}}</span></el-col>
-                    <el-col :span="6" class="totalPrice">服务总额：<span>￥{{item.totalPrice}}元</span></el-col>
-                 </div>
-                 </div>
-               
+                </div>
+                <div class="ordersouter">
+                        <transition name="bounce" class="orders">
+                    <div v-if="show" >
+                        <div class="orderlist" v-for="(item,index) in serviceOrderList" :key="index">
+                        <el-col :span="7" class="serviceName">服务名称：<span>{{item.serviceName}}</span>   </el-col>
+                        <el-col :span="6" class="unitPrice">单价：<span>￥{{item.unitPrice}}元</span></el-col>
+                        <el-col :span="5" class="buyNum">数量：<span>{{item.buyNum}}</span></el-col>
+                        <el-col :span="6" class="totalPrice">服务总额：<span>￥{{item.totalPrice}}元</span></el-col>
+                    </div>
+                    </div>
+                
 
 
-             </transition>
-             </div>
-          
-
-
-         </div>
-         <!-- 订单详情 结束-->
-        <!-- 支付方式 -->
-        <p class="tabledetail" style="margin-top:45px">支付方式</p>
-        
+                </transition>
+                </div>
             
-            <p class="paystyle">平台支付</p>
-            <div class="yinlian">
-                <input type="radio" name="paystyle" value="yinlian" v-model="paystyle">
-                <div class="img"></div>
+
+
             </div>
-           
-            <p class="paystyle">非网银支付</p>
-            <div class="feiwangyin">
-                <div class="weixin">
-                    <input type="radio" name="paystyle" value="weixin" v-model="paystyle">
+            <!-- 订单详情 结束-->
+            <!-- 支付方式 -->
+            <p class="tabledetail" style="margin-top:45px">支付方式</p>
+            
+                
+                <p class="paystyle">平台支付</p>
+                <div class="yinlian">
+                    <input type="radio" name="paystyle" value="yinlian" v-model="paystyle">
                     <div class="img"></div>
-                    <p class="weixinzhifu">微信支付</p>
                 </div>
-                <div class="zhifubao">
-                    <input type="radio" name="paystyle" value="zhifubao" v-model="paystyle">
-                     <div class="img"></div>
-                     <p class="weixinzhifu">快捷支付</p>
+            
+                <p class="paystyle">非网银支付</p>
+                <div class="feiwangyin">
+                    <div class="weixin">
+                        <input type="radio" name="paystyle" value="weixin" v-model="paystyle">
+                        <div class="img"></div>
+                        <p class="weixinzhifu">微信支付</p>
+                    </div>
+                    <div class="zhifubao">
+                        <input type="radio" name="paystyle" value="zhifubao" v-model="paystyle">
+                        <div class="img"></div>
+                        <p class="weixinzhifu">快捷支付</p>
+                    </div>
                 </div>
+                <p class="paystyle">自助转账<span>因限额不能支付时，建议使用自助转账</span></p>
+                <div class="zizhu">
+                    <input type="radio" name="paystyle" value="zizhu" v-model="paystyle">
+                    <div class="img"></div>
+                    <div class="contain">
+                        <p class="up"><span>开户账号：</span>110916853310605</p>
+                        <p class="middle"><span>开户名：</span>北京爱蓝领网络科技有限公司</p>
+                        <p class="down"><span>开户行：</span>招商银行股份有限公司北京东三环支行</p>
+                    </div>
+                </div>
+                <p class="tip">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p>
+            
+                <!-- <p>{{paystyle}}</p> -->
+            
+                <div class="bottomtotal">
+                    <p class="bottomtotalprice">
+                        金额总计：<span>￥{{businessOrder.totalPrice}}.00元</span>
+                    </p>
             </div>
-             <p class="paystyle">自助转账<span>因限额不能支付时，建议使用自助转账</span></p>
-             <div class="zizhu">
-                 <input type="radio" name="paystyle" value="zizhu" v-model="paystyle">
-                 <div class="img"></div>
-                 <div class="contain">
-                     <p class="up"><span>开户账号：</span>110916853310605</p>
-                     <p class="middle"><span>开户名：</span>北京爱蓝领网络科技有限公司</p>
-                     <p class="down"><span>开户行：</span>招商银行股份有限公司北京东三环支行</p>
-                 </div>
-             </div>
-             <p class="tip">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p>
-           
-            <!-- <p>{{paystyle}}</p> -->
-           
-              <div class="bottomtotal">
-                   <p class="bottomtotalprice">
-                      金额总计：<span>￥{{businessOrder.totalPrice}}.00元</span>
-                  </p>
-          </div>
-          <div class="bottom">
+            <div class="bottom">
               <router-link to="/" class="jiesuan">继续购物</router-link>
            <a href="javascript:void(0)" class="jiesuan" @click="gopay">去结算</a>
              </div>
 
-             <!-- 支付方式弹出框 -->
+           
+        </div>
+
+        <!-- 手机端 -->
+        <div class="payshouji hidden-sm-and-up">
+            <p class='title'>订单详情</p>
+            <p class='ordernum'>订单编号：<span>{{businessOrder.businessNo}}</span></p>
+
+            <div class="Ordertitle">
+                    <el-col :span="8"><div class="demo">
+                        服务名称
+                    </div></el-col>
+
+                    <el-col :span="5"><div class="demo">
+                        单价
+                    </div></el-col>
+
+                    <el-col :span="6"><div class="demo">
+                        数量
+                    </div></el-col>
+                    
+                    <el-col :span="5" class="demo">
+                        总额 
+                    </el-col> 
+            </div>
+            <div class="orderlist" v-for="(item,index) in serviceOrderList" :key="index">
+                        <el-col :span="8" class="serviceName demo1"><span>{{item.serviceName}}</span>   </el-col>
+                        <el-col :span="5" class="unitPrice demo1"><span>￥{{item.unitPrice}}元</span></el-col>
+                        <el-col :span="6" class="buyNum demo1"><span>{{item.buyNum}}</span></el-col>
+                        <el-col :span="5" class="totalPrice demo1"><span>￥{{item.totalPrice}}元</span></el-col>
+            </div>
+                 <!-- 支付方式 -->
+            <div class="paysty">
+                 <p class="tabledetail" style="margin-top:45px">支付方式</p>
+            
+                
+                <p class="paystyle">平台支付</p>
+                <div class="yinlian">
+                    <input type="radio" name="paystyle" value="yinlian" v-model="paystyle">
+                    <div class="img"></div>
+                </div>
+            
+                <p class="paystyle">非网银支付</p>
+                <div class="feiwangyin">
+                    <div class="weixin">
+                        <input type="radio" name="paystyle" value="weixin" v-model="paystyle">
+                        <div class="img"></div>
+                        <p class="weixinzhifu">微信支付</p>
+                    </div>
+                    <div class="zhifubao">
+                        <input type="radio" name="paystyle" value="zhifubao" v-model="paystyle">
+                        <div class="img"></div>
+                        <p class="weixinzhifu">快捷支付</p>
+                    </div>
+                </div>
+                <p class="paystyle">自助转账<span>因限额不能支付时，建议使用自助转账</span></p>
+                <div class="zizhu">
+                    <input type="radio" name="paystyle" value="zizhu" v-model="paystyle">
+                    <div class="img"></div>
+                    <div class="contain">
+                        <p class="up"><span>开户账号：</span>110916853310605</p>
+                        <p class="middle"><span>开户名：</span>北京爱蓝领网络科技有限公司</p>
+                        <p class="down"><span>开户行：</span>招商银行股份有限公司北京东三环支行</p>
+                    </div>
+                </div>
+                <p class="tip">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p>
+            
+            </div>
+           
+                <!-- <p>{{paystyle}}</p> -->
+            <div class="allmoney1"><p class="bottom_left">
+              合计:<span>￥{{businessOrder.totalPrice}}.00元</span>
+              
+              </p>
+                <a href="javascript:void(0)" class="jiesuan" @click="gopay">去支付</a>
+            </div>
+        </div>
+
+
+          <!-- 支付方式弹出框 -->
+          <div class="zhezhao" v-if="payboxstate">
+
+          </div>
              <div class="paybox" v-if="payboxstate">
                  <p class="xiaoshi" @click="xclick"><a href="javascript:void(0)" class="xiaoshiclick">×</a> </p>
                 <div class="erweimastate" v-if="erweimastate">
@@ -401,7 +484,7 @@ export default {
         }
   }
   .zizhu{
-      width:435px;
+      max-width:435px!important;
             height:50px;
             border:1px solid #f0efef;
             line-height:50px;
@@ -437,6 +520,7 @@ export default {
       width:18px;
       height:18px;
   }
+//支付方式样式jieshu  
   .bottomtotal{
         display: flex;
         justify-content: flex-end;
@@ -444,6 +528,11 @@ export default {
         padding-right: 7%;
         font-size: 18px;
         line-height: 40px;
+        .bottomtotalprice{
+            width:225px;
+            text-align:center;
+            // border:1px solid;
+        }
         span {
         font-size: 24px;
         color: #2693d4;
@@ -498,7 +587,7 @@ export default {
     right:0;
     bottom:0;
     margin:auto;
-    z-index:4000;
+    z-index:6000;
     background:#fff;
     box-shadow: 0 0 10px #a7a3a3;
     .xiaoshi{
@@ -551,4 +640,201 @@ export default {
 
 
 }
+
+.payshouji{
+    .title{
+        height:40px;
+        line-height:40px;
+        font-size:23px;
+        background:#4eb5ba;
+        text-align:center;
+        color:white;
+    }
+    .ordernum{
+        line-height:40px;
+        color:20px;
+        text-align:center;
+        span{
+            color:#62a8dc;
+        }
+    }
+    .Ordertitle{
+        height:40px;
+        line-height:40px;
+        font-size:16px;
+        text-align:center;
+        background:#e5e5e5;
+         padding:0 5px;
+    }
+    .orderlist{
+        min-height:40px;
+        background:#f7f7f7;
+        display:flex;
+        justify-content: center;
+        align-items:center;
+        padding:0 5px;
+        .demo1{
+            display:flex;
+            justify-content: center;
+            align-items:center;
+            font-size:12px;
+        }
+        .unitPrice,.totalPrice{
+            color:#2693d4;
+        }
+    }
+    .paysty{
+        padding:0 5px;
+         //支付方式样式
+        .paystyle{
+            font-size:14px;
+            line-height:65px;
+            span{
+                font-size:12px; 
+                margin-left:20px;
+            }
+        }
+        .yinlian{
+            width:205px;
+            height:50px;
+            border:1px solid #f0efef;
+            line-height:50px;
+            display:flex;
+            align-items: center;
+            .img{
+                width:150px;
+                height:40px;
+                margin-left:10px;
+                background:url(../../static/yinlian.png) no-repeat;
+                background-size:100% 100%;
+            }
+        }
+
+        .feiwangyin{
+            display:flex;
+            flex-direction: column;
+            .weixin{
+                    width:205px;
+                    height:50px;
+                    border:1px solid #f0efef;
+                    line-height:50px;
+                    display:flex;
+                    align-items: center;
+                    overflow: hidden;
+                    margin-right:22px;
+                    .weixinzhifu{
+                        font-size:14px;
+                        font-family: "微软雅黑";
+                        margin-left:15px;
+                    }
+                    .img{
+                        width:38px;
+                        height:32px;
+                        margin-left:15px;
+                        background:url(../../static/weixinzhifu.png) no-repeat;
+                        background-size:100% 100%;
+                    }
+                }
+                .zhifubao{
+                    margin-top:10px;
+                    width:205px;
+                    height:50px;
+                    border:1px solid #f0efef;
+                    line-height:50px;
+                    display:flex;
+                    align-items: center;
+                    overflow: hidden;
+                    .weixinzhifu{
+                        font-size:14px;
+                        font-family: "微软雅黑";
+                        margin-left:15px;
+                    }
+                    .img{
+                        width:70px;
+                        height:25px;
+                        margin-left:10px;
+                        background:url(../../static/zhifubao.png) no-repeat;
+                        background-size:100% 100%;
+                    }
+                }
+        }
+        .zizhu{
+            max-width:435px!important;
+                    height:50px;
+                    border:1px solid #f0efef;
+                    line-height:50px;
+                    display:flex;
+                    align-items: center;
+                    overflow: hidden;
+                    margin-right:0; 
+                    .img{
+                        max-width:110px;
+                        // height:59px;
+                        margin-left:0;
+                        background:url(../../static/招商银行.jpg) no-repeat;
+                        background-size:100% 100%; 
+                    }
+                    .contain{
+                        font-size:12px;
+                        height:50px;
+                        line-height:16px;
+                        margin-left:10px;
+                        span{
+                            color:#999999;
+                            font-weight:bold;
+                        }
+                    }
+        }
+        .tip{
+            font-size:12px;
+            color:#ff6767;
+            margin-top:15px;
+        }
+        input[name=paystyle]{
+            margin:0 10px 0 10px;
+            width:18px;
+            height:18px;
+        }
+        //支付方式样式jieshu  
+    }
+
+    .allmoney1{
+    margin-top:100px;
+    display:flex;
+    background-color: #e5e5e5;
+    display: flex;
+    line-height: 60px;
+    .bottom_left{
+        width: 66vw;
+        font-size:18px;
+        margin-left:10px;
+        // display:flex;
+        // justify-content: flex-start;
+        span{
+          color:red;
+        }
+    }
+    .jiesuan{
+       width: 33.5vw;
+      display:block;
+      height:100%;
+      text-align:center;
+      color:white;
+      background:red;
+    }
+
+  }
+}
+ .zhezhao{
+     
+     background:black;
+     opacity: 0.4;
+     z-index:5000;
+     position:fixed;
+     left:0;
+     top:0;
+     width:100%;
+     height:100%;
+ }
+
 </style>

@@ -1,127 +1,208 @@
 <template>
 <div class="shoppingcart ">
-   <div  v-if="seen" class="success">
-          <p class="shop">首页/购物车</p>
-          <!-- 商品数量 -->
-          <p class="goods">全部商品（{{shoppingdata.length}}）</p>
-        <el-row class='shoptitle'>
-          <el-col :span="3"><div class="company">公司</div></el-col>
-          <el-col :span="4"><div class="servicegoods">服务商品</div></el-col>
-          <el-col :span="4"><div class="price">单价</div></el-col>
-          <el-col :span="4"><div class="number">数量</div></el-col>
-          <el-col :span="5"><div class="money">金额</div></el-col>
-          <el-col :span="4"><div class="operation">操作</div></el-col>
-        </el-row>
+  <div class="wangye hidden-xs-only">
+        <div  v-if="seen" class="success">
+                <p class="shop">首页/购物车</p>
+                <!-- 商品数量 -->
+                <p class="goods">全部商品（{{shoppingdata.length}}）</p>
+              <el-row class='shoptitle'>
+                <el-col :span="3"><div class="company">公司</div></el-col>
+                <el-col :span="4"><div class="servicegoods">服务商品</div></el-col>
+                <el-col :span="4"><div class="price">单价</div></el-col>
+                <el-col :span="4"><div class="number">数量</div></el-col>
+                <el-col :span="5"><div class="money">金额</div></el-col>
+                <el-col :span="4"><div class="operation">操作</div></el-col>
+              </el-row>
 
- <!-- 订单详细内容 -->
-          <!-- demo  -->
-<div class="details" v-for="(item,index) in shoppingdata" :key="index">
-  <!-- 服务商名称 -->
-          <p class="store">店铺：{{item.providerName}}</p>
+      <!-- 订单详细内容 -->
+                <!-- demo  -->
+        <div class="details" v-for="(item,index) in shoppingdata" :key="index">
+        <!-- 服务商名称 -->
+                <p class="store">店铺：{{item.providerName}}</p>
 
-        <el-row class='shopdetails'>
-          <!-- 服务商logo -->
-          <el-col :span="3"><div class="logo"><img v-bind:src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)" alt="#"></div></el-col>
-          <!-- 服务名称 -->
-          <el-col :span="4"><div class="servicegoods"><p>{{item.serviceName}}</p></div></el-col>
+              <el-row class='shopdetails'>
+                <!-- 服务商logo -->
+                <el-col :span="3"><div class="logo"><img v-bind:src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)" alt="#" :onerror="logo" width="100%" height="100%"></div></el-col>
+                <!-- 服务名称 -->
+                <el-col :span="4"><div class="servicegoods"><p>{{item.serviceName}}</p></div></el-col>
 
-           <!-- 单价 -->
-          <el-col :span="4"><div class="price">￥<span>{{item.unitPrice}}</span></div></el-col>
-             <!-- 购买数量 -->
-          <el-col :span="4">
-            <div class="number">
-            <a href="javascript:void(0)" @click="reducenum" class="reduce" :id="index">-</a>
-            <input type="text" class="input" v-bind:value="item.buyNum" readOnly="true">
-            <a href="javascript:void(0)" @click="addnum"  class="add" :id="index">+</a>
+                <!-- 单价 -->
+                <el-col :span="4"><div class="price">￥<span>{{item.unitPrice}}</span></div></el-col>
+                  <!-- 购买数量 -->
+                <el-col :span="4">
+                  <div class="number">
+                  <a href="javascript:void(0)" @click="reducenum" class="reduce" :id="index">-</a>
+                  <input type="text" class="input" v-bind:value="item.buyNum" readOnly="true">
+                  <a href="javascript:void(0)" @click="addnum"  class="add" :id="index">+</a>
+                  </div>
+                  </el-col>
+                <!-- 产品总价 -->
+                <el-col :span="5"><div class="money">￥<span>{{item.totalPrice}}</span></div></el-col>
+              <!-- 是否删除 -->
+                <el-col :span="4"><div class="operation" >
+                  <button type="text" class="remove" :id="item.serviceId" @click.capture.self="open2">删除</button>
+                  </div></el-col>
+              </el-row>
+      </div>
+
+            <div class="allmoney"><p style="width:220px;text-align:center">
+              金额总计:<span>￥{{newtotalprice}}</span>
+              
+              </p></div>
+
+            <div class="total">
+              <router-link to="/" class="shopnext">继续购物</router-link>
+              <a href="javascript:void(0)" class="shopnext" @click="commitcart">去结算</a>
+                </div>
+
+            <p class="hotservice">热门服务</p>
+
+            <el-row :gutter="20" class="hotservicecontant">
+              <!-- 第一个 -->
+              <el-col :xs="24" :sm="6" ><div class="serviceitem">
+                <p class="title">代理记账＋取票＋取银行回单（半年）</p>
+                <div class="img"><img src="../../static/line.jpg" alt="#"></div>
+                <p class="detail">适用于有经营业务，发票处理，银行账单处理的初创公司</p>
+                <p class="xiaoliang">销量:</p>
+                <div class="money">￥1400.00</div>
+                <div class="price">
+                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
+                </div>
+              
+              </div></el-col>
+              <!-- 第二个 -->
+              <el-col :xs="24" :sm="6" ><div class="serviceitem">
+                <p class="title">代理记账＋取票＋取银行回单（半年）</p>
+                <div class="img"><img src="../../static/line.jpg" alt="#"></div>
+                <p class="detail">适用于有经营业务，发票处理，银行账单处理的初创公司</p>
+                <p class="xiaoliang">销量:</p>
+                <div class="money">￥1400.00</div>
+                <div class="price">
+                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
+                </div>
+              
+              </div></el-col>
+
+              <!-- 第三个 -->
+              <el-col :xs="24" :sm="6" ><div class="serviceitem">
+                <p class="title">代理记账＋取票＋取银行回单（半年）</p>
+                <div class="img"><img src="../../static/line.jpg" alt="#"></div>
+                <p class="detail">适用于有经营业务，发票处理，银行账单处理的初创公司</p>
+                <p class="xiaoliang">销量:</p>
+                <div class="money">￥1400.00</div>
+                <div class="price">
+                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
+                </div>
+              
+              </div></el-col>
+
+              <!-- 第四个 -->
+              <el-col :xs="24" :sm="6" ><div class="serviceitem">
+                <p class="title">代理记账＋取票＋取银行回单（半年）</p>
+                <div class="img"><img src="../../static/line.jpg" alt="#"></div>
+                <p class="detail">适用于有经营业务，发票处理，银行账单处理的初创公司</p>
+                <p class="xiaoliang">销量:</p>
+                <div class="money">￥1400.00</div>
+                <div class="price">
+                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
+                </div>
+              
+              </div></el-col>
+
+      
+      
+              </el-row> 
+
+        </div>
+        <div v-else class="fail">
+          <div class="failcontain">
+            <div class="img"><img src="../../static/cartnull.png" alt="#"></div>
+            <div class="right">
+              <h2>您的购物车是空的！</h2>
+
+              <router-link to="/" class="shopnext">继续购物</router-link>
+
             </div>
-            </el-col>
-          <!-- 产品总价 -->
-          <el-col :span="5"><div class="money">￥<span>{{item.totalPrice}}</span></div></el-col>
-         <!-- 是否删除 -->
-          <el-col :span="4"><div class="operation" >
-            <button type="text" class="remove" :id="item.serviceId" @click.capture.self="open2">删除</button>
-            </div></el-col>
-        </el-row>
- </div>
 
-      <div class="allmoney"><p style="width:220px;text-align:center">
-        金额总计:<span>￥{{newtotalprice}}</span>
-        
-        </p></div>
+          </div>
+          
+      
+      
+      
+      
+      
+      
+        </div>
+  </div>
+  <div class="shouji hidden-sm-and-up">
+    <div  v-if="seen" class="success">
+        <p class="title">购物车中有<span>{{shoppingdata.length}}</span>件商品</p>
 
-      <div class="total">
-        <router-link to="/" class="shopnext">继续购物</router-link>
-        <a href="javascript:void(0)" class="shopnext" @click="commitcart">去结算</a>
+        <div class="demo" v-for="(item,index) in shoppingdata" :key="index">
+
+          <p class="name">{{item.providerName}}</p>
+
+          <div class="contain">
+
+            <div class="left">
+              <div class="img">
+                <img :src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)" alt="#" :onerror="logo" width="100%" height="80%">
+              </div>
+              
+              <div class="word">
+                <p class="servicename">{{item.serviceName}}</p>
+                <p class="price"><span>￥{{item.totalPrice}}</span>元</p>
+                <!-- 购买数量 -->
+                <div class="number">
+                    <a href="javascript:void(0)" @click="reducenum" class="reduce" :id="index">-</a>
+
+                    <input type="text" class="input" v-bind:value="item.buyNum" readOnly="true">
+
+                    <a href="javascript:void(0)" @click="addnum"  class="add" :id="index">+</a>
+                </div>
+                <div class="area">
+                  <i class="el-icon-location-outline"></i>
+                  <span>北京市 </span> 朝阳区
+                </div>
+              </div>
+            </div>
+            <div class="right">
+              <div class="operation" >
+                  <button type="text" class="remove" :id="item.serviceId" @click.capture.self="open2">删除订单</button>
+              </div>
+            </div>
           </div>
 
-      <p class="hotservice">热门服务</p>
+        </div>
 
-      <el-row :gutter="20" class="hotservicecontant">
-        <!-- 第一个 -->
-        <el-col :span="6"><div class="serviceitem">
-          <p class="title">代理记账＋取票＋取银行回单（半年）</p>
-          <div class="img"><img src="../../static/line.jpg" alt="#"></div>
-          <p class="detail">适用于有经营业务，发票处理，银行账单处理的初创公司</p>
-          <p class="xiaoliang">销量:</p>
-          <div class="money">￥1400.00</div>
-          <div class="price">
-            <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
-          </div>
-        
-        </div></el-col>
-        <!-- 第二个 -->
-        <el-col :span="6"><div class="serviceitem">
-          <p class="title">代理记账＋取票＋取银行回单（半年）</p>
-          <div class="img"><img src="../../static/line.jpg" alt="#"></div>
-          <p class="detail">适用于有经营业务，发票处理，银行账单处理的初创公司</p>
-          <p class="xiaoliang">销量:</p>
-          <div class="money">￥1400.00</div>
-          <div class="price">
-            <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
-          </div>
-        
-        </div></el-col>
-
-        <!-- 第三个 -->
-        <el-col :span="6"><div class="serviceitem">
-          <p class="title">代理记账＋取票＋取银行回单（半年）</p>
-          <div class="img"><img src="../../static/line.jpg" alt="#"></div>
-          <p class="detail">适用于有经营业务，发票处理，银行账单处理的初创公司</p>
-          <p class="xiaoliang">销量:</p>
-          <div class="money">￥1400.00</div>
-          <div class="price">
-            <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
-          </div>
-        
-        </div></el-col>
-
-        <!-- 第四个 -->
-        <el-col :span="6"><div class="serviceitem">
-          <p class="title">代理记账＋取票＋取银行回单（半年）</p>
-          <div class="img"><img src="../../static/line.jpg" alt="#"></div>
-          <p class="detail">适用于有经营业务，发票处理，银行账单处理的初创公司</p>
-          <p class="xiaoliang">销量:</p>
-          <div class="money">￥1400.00</div>
-          <div class="price">
-            <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
-          </div>
-        
-        </div></el-col>
-
- 
- 
-        </el-row> 
-
-   </div>
-  <div v-else class="fail">
-   
-    <div class="img"></div>
-    <div class="right">
-      <h2>您的购物车是空的！</h2>
-       <router-link to="/" class="shopnext">继续购物</router-link>
+        <div class="allmoney1"><p class="bottom_left">
+              合计:<span>￥{{newtotalprice}}</span>
+              
+              </p>
+                <a href="javascript:void(0)" class="shopnext" @click="commitcart">去结算</a>
+        </div>
 
     </div>
 
+    <div v-else class="fail">
+          <div class="failcontain">
+            <div class="img"><img src="../../static/cartnull.png" alt="#"></div>
+            <div class="right">
+              <h2>您的购物车是空的！</h2>
+
+              <router-link to="/" class="shopnext">继续购物</router-link>
+
+            </div>
+
+          </div>
+          
+      
+      
+      
+      
+      
+      
+        </div>
   </div>
 
 </div>
@@ -141,6 +222,7 @@ export default {
       totalprice:0,
       // removeid:''
       ordernum:'',
+      logo:'this.src="' + require('../../static/errorImg.png') + '"',
     };
   },
   
@@ -152,6 +234,7 @@ export default {
       .post("/xinda-api/cart/list", that.qs.stringify({}))
       .then(function(data) {
         //如果购物车为空，则显示购物车为空页面
+        console.log(data.data.data);
         if (data.data.data.length == 0) {
           that.seen=false;
         //如果购物车部不为空，则渲染页面；
@@ -332,6 +415,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
+@media screen and (max-width:769px){
+
+  .failcontain{
+    flex-direction:column;
+  }
+}
+
+
 .shoppingcart {
   font-size: 14px;
 
@@ -535,35 +626,184 @@ export default {
     // display:none;
     // max-width:1200px;
     width:100%;
-    height:500px;
+    height:600px;
     background:#f5f5f5;
-    display:flex;
-    // justify-content: center;
-    .img{
-      width:460px;
-      height:320px;
-      background:url(../../static/cartnull.png) no-repeat;
-      background-size:100%;
-     margin:85px 30px 0  250px;
+    
+    
+    .failcontain{
+      margin:0 auto;
+     
+      max-width:1200px;
+      height:100%;
+      display:flex;
+      justify-content: center;
+      align-items:center;
+     
+
+
+        .img{
+          max-width:430px;
+          min-width:320px;
+          max-height:320px;
+      
+          img{
+            width:100%;
+            // height:100%;
+          }
+        }
+        .shopnext{
+            display: block;
+            border: 1px solid #2693d4;
+            line-height: 30px;
+            color: #2693d4;
+            text-align: center;
+            border-radius: 5px;
+            width: 105px;
+            margin-left: 85px;
+            margin-top:36px;
+            font-size: 20px;
+        }
+        h2{
+          // margin: 196px 0 15px;
+          font-size: 35px;
+          color:#b0b0b0;
+        }
     }
-     .shopnext{
-         display: block;
-         border: 1px solid #2693d4;
-        line-height: 30px;
-        color: #2693d4;
-        text-align: center;
-        border-radius: 5px;
-        width: 105px;
-        margin-left: 85px;
-        margin-top:36px;
-        font-size: 20px;
-      }
-     h2{
-      margin: 196px 0 15px;
-      font-size: 36px;
-      color:#b0b0b0;
-      }
+   
     
   }
 }
+
+.shouji{
+  
+  .title{
+    line-height: 40px;
+    background-color: #e5e5e5;
+    overflow: hidden;
+    padding:0 18px;
+    span{
+      color:#2693d4;
+      font-weight:bold;
+    }
+  }
+  .demo{
+    padding-bottom:10px;
+    border-bottom:1px solid #cfcfcf;
+    .name{
+      font-size: 18px;
+      margin: 13px 0 0 18px;
+    }
+    .contain{
+      padding:5px;
+      height:170px;
+      // border:1px solid;
+      .left{
+        display:flex;
+        align-items: center;
+        height:100%;
+        max-width:280px;
+        float:left;
+        .img{
+          max-width:170px;
+          height:166px;
+          border:2px solid #e3e3e3;
+          display:flex;
+          align-items: center;
+          img{  
+            width:100%;
+            min-width:135px;
+            // height:170px;
+            // border:1px solid;
+          }
+        }
+        
+        .word{
+          .servicename{
+            font-size: 14px;
+            font-weight:700;
+            margin:7px;
+          }
+          .price{
+             margin:7px;
+            span{
+              color:red;
+              font-size: 18px;
+              font-weight:700;
+            }
+          }
+          // kaishi
+            .number {
+               margin:7px;
+                display: flex;
+                // justify-content: center;
+                align-items: center;
+                height: 30px;
+                .reduce,
+                .add {
+                  display: block;
+                  width: 18px;
+                  height: 20px;
+                  font-size: 18px;
+                  font-weight: bold;
+                  color: #202020;
+                  border: 0;
+                  background: #bcbdbd;
+                  text-align: center;
+                  line-height: 20px;
+                }
+                .input {
+                  height: 16px;
+                  width: 35px;
+                  // border: 0;
+                  padding:0;
+                  // position:relative;
+                  // top:-2px;
+                  outline: none;
+                  text-align: center;
+                }
+            }
+          // jieshu 
+        }
+      }
+      .right{
+        float:right;
+        margin-top:10px;
+        .remove {
+          color: red;
+          border:0;
+          outline:none;
+          background:#f7f7f7;
+        }
+      }
+    }
+  }
+  .allmoney1{
+    margin-top:100px;
+    display:flex;
+    background-color: #e5e5e5;
+    display: flex;
+    line-height: 60px;
+    .bottom_left{
+        width: 66vw;
+        font-size:18px;
+        margin-left:10px;
+        // display:flex;
+        // justify-content: flex-start;
+        span{
+          color:red;
+        }
+    }
+    .shopnext{
+       width: 33.5vw;
+      display:block;
+      height:100%;
+      text-align:center;
+      color:white;
+      background:red;
+    }
+
+  }
+}
+
+
 </style>
