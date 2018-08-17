@@ -167,15 +167,28 @@ export default {
                 currentPage : 1, //当前页码
                 limit:5,
                 pageIndex:1,
-                all:'',
+                all:1,
                 perPages:1  //页面中显示的页码数只能为单数
                     },
             flag:0 ,
             start:4,
             screenWidth: document.body.clientWidth,
+            loginStatus:0
         };
     },
     created() {
+        var that = this
+        that.ajax.post(
+                    "/xinda-api/sso/login-info",
+                    that.qs.stringify({})
+                ).then(function(data){
+                    // 未登陆
+                    if(data.data.status==0){
+                        that.loginStatus = 0;
+                    }else{
+                        that.loginStatus = 1;
+                    }
+                });            
         if(this.homePage=="财税服务"){
             [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,true,false,false,false]
         }else if(this.homePage=="公司工商"){
@@ -676,12 +689,12 @@ export default {
             var that = this
             that.buyAdd.id = event.currentTarget.id
             // 登录判断
-            that.ajax.post(
-                    "/xinda-api/sso/login-info",
-                    that.qs.stringify({})
-                ).then(function(data){
-                    // 未登陆
-                    if(data.data.status==0){
+            // that.ajax.post(
+            //         "/xinda-api/sso/login-info",
+            //         that.qs.stringify({})
+            //     ).then(function(data){
+            //         // 未登陆
+                    if(this.loginStatus==0){
                         that.open2();
                     }else{
                          // 已登录则向购物车列表发送数据
@@ -692,19 +705,19 @@ export default {
                         ).then(function(data){
                         })
                     }
-                });             
+                // });             
             
         },
         //加入购物车
         cart(event){
             var that = this
             var id = event.currentTarget.id
-            that.ajax.post(
-                "/xinda-api/sso/login-info",
-                that.qs.stringify({})
-            ).then(function(data){
-                // 未登陆
-                if(data.data.status==0){
+            // that.ajax.post(
+            //     "/xinda-api/sso/login-info", 
+            //     that.qs.stringify({})
+            // ).then(function(data){
+            //     // 未登陆
+                if(this.loginStatus==0){
                     that.open2();
                 }else{
                     that.$confirm('是否加入购物车', '提示', {
@@ -713,7 +726,6 @@ export default {
                         type: 'warning'
                     }).then(() => {
                         //确定加入购物车
-                        
                             that.cartAdd.id = id
                             that.cartAdd.num = 1;
                             that.ajax.post(
@@ -721,18 +733,20 @@ export default {
                                 that.qs.stringify(that.cartAdd)
                             ).then(function(data){
                                 that.$message({
-                                    type: 'info',
+                                    type: 'success',
+                                    showClose: true,
                                     message: '已加入购物车'
                                 }); 
                             })                 
                     }).catch(() => {
+                        //取消
                         that.$message({
                             type: 'info',
                             message: '未加入购物车'
                         });          
                     });
                 }
-            });       
+            // });       
         },
         //服务区域
         confirm(value){

@@ -33,19 +33,13 @@
             <li @click="goodp" :style="haoping">好评</li>
             <li :style="jiedan" @click="danshu">接单数</li>
             </ul>
-            
-             <!-- <el-radio-group v-model="radio3">
-                <el-radio-button label="综合排序" ></el-radio-button>
-                <el-radio-button label="好评" @click="goodp"></el-radio-button>
-                <el-radio-button label="接单数"></el-radio-button>
-            </el-radio-group> -->
         </div>
         <div class="shop_shop">
             
             <div 
             v-for="(dp,index) in dianpu" :key="index" 
             class="shop_1"
-            v-if="areaCode==dp.regionId||areaCode=='0'"
+            v-if="areaCode==dp.regionId||areaCode=='-----区-----'"
             :codes="dp.productTypeCodes"
             v-show="dshow==''||dshow==dp.productTypeCodes"
             >
@@ -114,7 +108,7 @@ export default {
     providerId:'',
     perPages:3,
     radio3:'',
-    areaCode:'0',
+    areaCode:'-----区-----',
     p:'0',
     indexp:'11',
     bao:true,

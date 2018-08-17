@@ -229,7 +229,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
     .hintScore{
         position: relative;
         margin-left: 15px;

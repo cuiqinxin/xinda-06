@@ -1,9 +1,9 @@
 <template>
   <div class="Store">
        <div class="sort">
-           <ul>
-               <li></li>
-               <li></li>
+           <ul clsss="sort_top">
+               <li :class="{active:sort1==sort2}" @click="defaultsort">默认排序</li>
+               <li :class="{active:sort1==sort3}" @click="valume">销量</li>
            </ul>
        </div>
         <div class="shop_shop">
@@ -18,7 +18,7 @@
                        <!-- <img :src="dp.providerImg" alt="">  -->
                 </ul>
                 <ul class="shop_1_right">
-                    <h5 class="title">{{dp.providerName}}</h5>                  
+                    <h5 :class="title">{{dp.providerName}}</h5>                  
                     <li class="region">{{dp.regionName}}</li>
                     <li class="num">
                         <p class="num_1">累计客户服务次数:<a>{{dp.orderNum}}</a></p>
@@ -43,6 +43,9 @@ export default {
     dianpu:'',
     dianpu1:'',
     providerId:'',
+    sort1:1,
+    sort2:2,
+    sort3:2,
     }
   },
   created(){
@@ -71,7 +74,28 @@ export default {
       
     }, 
   methods:{
- 
+ defaultsort(){
+     this.sort2=1,
+     this.sort3=2;
+      var that = this;
+           this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({start:0,limit:6,sort:1})).then(function(data){
+           that.dianpu1=data.data.data;
+        if((!/\?/.test(location.href))){
+           that.dianpu=data.data.data;
+        }
+        });
+ },
+ valume(){
+     this.sort2=2,
+     this.sort3=1;
+      var that = this;
+           this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({start:0,limit:6,sort:3})).then(function(data){
+           that.dianpu1=data.data.data;
+        if((!/\?/.test(location.href))){
+           that.dianpu=data.data.data;
+        }
+        });
+ },
   },
 watch:{
 $route(newval,oldval){
@@ -94,9 +118,31 @@ console.log(newval.query.searchName)
 </script>
 
 <style scoped lang="less">
+.active{
+    background-color: #2693d4;
+    color:white;
+}
+     .sort{
+        width:100%;
+        text-align: center;
+        ul{
+            width:40%;
+            height: 40px;
+            line-height: 40px;
+            margin: 0 auto;
+            border: 1px solid #2693d4;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-around;
+            li{
+                width:50%;
+            }
+        }
+    }
  
 .Store{
     width:100%;
+
     .list{
         border:1px solid #ccc;
         background-color: #f7f7f7;
@@ -167,7 +213,7 @@ console.log(newval.query.searchName)
                 }
                 .region{
                     color:#ccc;
-                    font-size: 12px;
+                    font-size: 14px;
                 }
             }
         }
