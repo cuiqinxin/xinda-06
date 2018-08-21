@@ -367,7 +367,7 @@ export default {
     //  console.log(e.target.id);
     
      var that=this;
-     console.log(e.target),
+     console.log(removeindex),
         this.$confirm('此操作将从购物车删除该商品, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -375,7 +375,7 @@ export default {
         }).then(() => {
           // console.log(this);
 //开始
-that.$store.commit('cartNumreduce','');
+that.$store.commit('cartNumreduce',removeindex);
         that.ajax
               .post("/xinda-api/cart/del", that.qs.stringify({
                 id:removeindex,

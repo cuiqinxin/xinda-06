@@ -29,11 +29,13 @@ export default new Vuex.Store({
         // 清空购物车
         cartNum0(){
             this.state.cartNum=0;
-            this.statecartId=[];
+            this.state.cartId=[];
         },
         // 购物车数量加减
-        cartNumreduce(){
+        cartNumreduce(state,e){
             this.state.cartNum--;
+            state.cartId.splice(state.cartId.indexOf(e),1);
+            
         },
         //判断是否调用购物车加减方法
         cartNumber(state,e){
