@@ -129,10 +129,10 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/">
+          <a href="javascript:void(0)" @click="phonelogin">
           <p class="footer1-2-img"></p>
           <p>我的</p>
-          </router-link>
+          </a>
         </li>
       </ul>
     </footer>
@@ -330,6 +330,12 @@ export default {
     handleSelect(item) {
       console.log(item);
     },
+    phonelogin(){
+      this.ajax.post("/xinda-api/sso/login-info").then(data=>{
+        if(data.data.status==1){this.$router.push({path:'/memberindex'});}  
+        if(data.data.status!=1){this.$router.push({path:'/quit'});}
+      })
+    }
   },
   mounted() {
     this.restaurants = this.grabble();

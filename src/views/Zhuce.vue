@@ -18,15 +18,21 @@
                         <p class="wrongTip">{{telTip}}</p>
                         <city @confirm="confirm" display="12345"></city>
                         <p class="wrongTip">{{cityTip}}</p>
-                        <!-- <el-popover placement="right" width="300" trigger="click">
+                        <el-popover placement="right" width="300" trigger="focus" class="hidden-xs-only">
                             <div><i :class="lengthLimit"></i>6-20个字符<br/><i :class="typeLimit"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType"></i>字母、数字和下划线至少包含2种</div>                 
                             <div class="pass" slot="reference">
                                 <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                                 <span :class="style" @click="show"></span>
                             </div>
                         </el-popover> 
-                        <p class="wrongTip">{{passTip}}</p> -->
-                        <password ref="passa" @input="passzhi"></password>
+                        <el-popover placement="bottom" width="300" trigger="focus" class="hidden-sm-and-up">
+                            <div><i :class="lengthLimit"></i>6-20个字符<br/><i :class="typeLimit"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType"></i>字母、数字和下划线至少包含2种</div>                 
+                            <div class="pass" slot="reference">
+                                <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
+                                <span :class="style" @click="show"></span>
+                            </div>
+                        </el-popover>
+                        <p class="wrongTip">{{passTip}}</p>
                         <a href="javascript:void(0)" class="log" @click="regisyan">立即注册</a>
                         <p class="zunshou hidden-xs-only">注册即同意遵守<a href="javascript:void(0)">《服务协议》</a></p>
                     </el-col>
@@ -48,8 +54,6 @@
 
 <script>
 import city from '../components/City'
-import password from '../components/Password'
-import photoyan from '../components/Photoyan'
 export default {
     name: 'Zhuce',
     created(){
@@ -155,7 +159,7 @@ export default {
                                     if(second==-1){clearInterval(jishi);that.phoneClick='点击获取';that.showyan='valid';}
                                 },1000);
                             }
-                    }).catch(function(){console.log('失败');});
+                    });
                 }else{
                     this.phoneTip='手机号不正确';
                 }
@@ -243,9 +247,9 @@ export default {
                                         }).catch(() => {   
                                         });
                                     }
-                            }).catch(function(){console.log('失败');});
+                            });
                         }
-                }).catch(function(){console.log('失败');});
+                });
             }
         },
         confirm(value){
@@ -255,13 +259,6 @@ export default {
             }else{
                 this.cityTip='';
             }
-        },
-        // passti(value){
-        //     this.passTip=value;
-        // },
-        passzhi(value){
-            this.passValue=value;
-            console.log(this.passValue);
         },
         imgchange(){
             var data=(new Date()).getTime();
@@ -278,14 +275,12 @@ export default {
         }
     },
     components:{
-        password,
         city,
-        photoyan
     },
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
     span{display: inline-block;}
     a{color:#3f9cd9;}
     input{

@@ -88,7 +88,7 @@
                     <el-col :span="24" class="hidden-sm-and-up gekai"></el-col>
                 </el-row>
             </div>
-            <div class="page myorder">
+            <div class="page myorder hidden-xs-only">
                 <div>
                     <button :class="prevClick" @click="prevp">上一页</button>
                     <p class="shows">{{pagei}}</p>
@@ -443,7 +443,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .orderNei .nadaoshuju{font-size: 14px;}
     button{outline: none;}
     .noneorder{
