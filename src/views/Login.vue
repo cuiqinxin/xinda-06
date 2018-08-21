@@ -108,6 +108,19 @@ export default {
                         }
                         if(data.data.status==1){
                             store.commit('loginStatus',that.phoneValue)
+                            that.ajax
+                            .post("/xinda-api/cart/list", that.qs.stringify({}))
+                            .then(function(data) {
+                            
+                                store.commit('gaincartNum',data.data.data.length);
+                                
+                                for(var i=0;i<data.data.data.length;i++){
+                                
+                                    store.commit('gaincartId',data.data.data[i].serviceId);
+                                    
+                                }
+                                
+                            })
                             if(that.panduan=='123'){
                                 that.$router.go(-1);
                             }else{

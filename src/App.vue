@@ -179,28 +179,22 @@ export default {
       })
     },
     created(){
-      var that = this;
-      this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
-        this.cartNum = data.data.data.cartNum;
-      })
+      // var that = this;
+      // this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
+      //   this.cartNum = data.data.data.cartNum;
+      // })
         // 购物车数据
     
-                //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
-                var that = this;
-                
-                this.ajax
-                .post("/xinda-api/cart/list", that.qs.stringify({}))
-                .then(function(data) {
-                  
-                    store.commit('gaincartNum',data.data.data.length);
-                    
-                    for(var i=0;i<data.data.data.length;i++){
-                    
-                         store.commit('gaincartId',data.data.data[i].serviceId);
-                        
-                    }
-                    
-                })
+      //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
+      var that = this;
+      this.ajax
+      .post("/xinda-api/cart/list", that.qs.stringify({}))
+      .then(function(data) {
+          store.commit('gaincartNum',data.data.data.length);
+          for(var i=0;i<data.data.data.length;i++){
+            store.commit('gaincartId',data.data.data[i].serviceId);
+          }
+      })
                 
       //  console.log(this.cartid);
         // over
