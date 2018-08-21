@@ -131,10 +131,10 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/">
+          <a href="javascript:void(0)" @click="phonelogin">
           <p class="footer1-2-img"></p>
           <p>我的</p>
-          </router-link>
+          </a>
         </li>
       </ul>
     </footer>
@@ -316,6 +316,12 @@ export default {
         this.link();
       }
     },
+    phonelogin(){
+      this.ajax.post("/xinda-api/sso/login-info").then(data=>{
+        if(data.data.status==1){this.$router.push({path:'/memberindex'});}  
+        if(data.data.status!=1){this.$router.push({path:'/quit'});}
+      })
+    }
   },
   mounted() {
     this.restaurants = this.grabble();
@@ -350,7 +356,7 @@ export default {
     max-width: 1200px;
     margin: 0 auto;
     position: relative;
-    z-index: 999;
+    z-index: 998;
     .grabble-top {
       display: flex;
       justify-content: space-between;
@@ -587,7 +593,7 @@ export default {
   height: 88px;
   border-top: 2px solid #f9f9f9;
   position: fixed;
-  z-index: 999;
+  z-index: 1000;
   bottom: 0;
   left: 0;
   background-color: #fff;

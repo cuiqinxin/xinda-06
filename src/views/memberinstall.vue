@@ -36,8 +36,8 @@
                     </div>
                     <div class="zhang newpassword xiu">
                         <p class="z_spe">新密码：</p>
-                        <el-popover placement="bottom" width="300" trigger="click">
-                            <div><i class="el-icon-circle-close-outline colori"></i>6-20个字符<br/><i class="el-icon-circle-close-outline colori"></i>只能包含字母、数字以及下划线<br/><i class="el-icon-circle-close-outline colori"></i>字母、数字和下划线至少包含2种</div>                 
+                        <el-popover placement="bottom" width="300" trigger="focus">
+                            <div><i :class="lengthLimit1"></i>6-20个字符<br/><i :class="typeLimit1"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType1"></i>字母、数字和下划线至少包含2种</div>                                                                     
                             <input type="text" v-model="passValue" slot="reference" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                         </el-popover> 
                         <p class="wrongTip">{{newpassTip}}</p>
@@ -54,7 +54,7 @@
             </el-tabs>
             <div id="tits" class="hidden-sm-and-up"> 
                 <p class="phone"><router-link to="/memberindex" class="jian">&lt;</router-link>账户设置</p>
-                <p class="shezhiuser">账户设置</p>                                               
+                <p class="shezhiuser hidden">账户设置</p>                                               
                 <div class="zhang dangqian">
                     <p class="z_spe">当前头像：</p>
                     <span class="touxiang"></span>                                        
@@ -88,10 +88,7 @@
                 <p class="wrongTip">{{oldpassTip}}</p>
                 <div class="zhang newpassword xiu">
                     <p class="z_spe">新密码：</p>
-                    <el-popover placement="bottom" width="300" trigger="focus" class="lalala">
-                        <div><i class="el-icon-circle-close-outline colori"></i>6-20个字符<br/><i class="el-icon-circle-close-outline colori"></i>只能包含字母、数字以及下划线<br/><i class="el-icon-circle-close-outline colori"></i>字母、数字和下划线至少包含2种</div>                 
-                        <input type="text" v-model="passValue" slot="reference" @keyup="passKey" @keydown="passSign" @blur="passBlur">
-                    </el-popover> 
+                    <input type="text" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur"> 
                 </div>
                 <p class="wrongTip">{{newpassTip}}</p>
                 <div class="zhang xiu againxiu">
@@ -125,6 +122,9 @@ export default {
             oldpassTip:'',
             newpassTip:'',
             agapassTip:'',
+            lengthLimit1:'el-icon-circle-close-outline colori',
+            typeLimit1:'el-icon-circle-close-outline colori',
+            twiceType1:'el-icon-circle-close-outline colori',
         }
     },
     created(){
@@ -150,7 +150,7 @@ export default {
                 that.userName=data.data.data.name;
                 that.radio=data.data.data.gender+'';
                 that.cityCode=data.data.data.regionId;                
-        }).catch(function(){console.log('失败');})
+        })
     },
     methods:{
         handleClick(tab, event) {
@@ -166,8 +166,8 @@ export default {
                     {headImg:'/2016/10/28/152843b6d9a04abe83a396d2ba03675f',name:that.userName,gender:that.radio,email:that.emailValue,regionId:that.cityCode}
                 )).then(
                     function(data){
-                        // console.log(data);
-                }).catch(function(){console.log('失败');})
+                        console.log(data);
+                })
                 this.$message({
                     type: 'success',
                     message: '修改成功!'
@@ -202,7 +202,7 @@ export default {
                                     message: '修改成功!'
                                 });
                             }
-                    }).catch(function(){console.log('失败');})
+                    })
             }).catch(() => { 
                     this.$message({
                         type: 'info',
@@ -252,15 +252,28 @@ export default {
             }else if(this.passSigns=='2'&&this.passValue!=''){
                 this.newpassTip='';
             }
+            if(this.passValue.length>5&&this.passValue.length<21){
+                console.log(111);
+                this.lengthLimit1='el-icon-circle-check-outline righti';
+                console.log(this.passValue,this.lengthLimit1);
+            }else{
+                this.lengthLimit1='el-icon-circle-close-outline colori';
+            }
+            if(!/\W/.test(this.passValue)){
+                this.typeLimit1='el-icon-circle-check-outline righti';
+            }else{
+                this.typeLimit1='el-icon-circle-close-outline colori';
+            }
+            if((/[A-Za-z]/.test(this.passValue)&&/\d/.test(this.passValue)&&(!/\W/.test(this.passValue)))||(/[A-Za-z]/.test(this.passValue)&&/\_/.test(this.passValue)&&(!/\W/.test(this.passValue)))||(/\_/.test(this.passValue)&&/\d/.test(this.passValue)&&(!/\W/.test(this.passValue)))){
+                this.twiceType1='el-icon-circle-check-outline righti';
+            }else{
+                this.twiceType1='el-icon-circle-close-outline colori';
+            }
         },
         passBlur(){
             if(this.passValue==''){
                 this.newpassTip='';
-            }else if(this.passValue.length<6||this.passValue.length>20){
-                this.newpassTip='密码设置不符合要求';
-            }else if(/\W/.test(this.passValue)){
-                this.newpassTip='密码设置不符合要求';
-            }else if(/^[A-Za-z]{6,20}$/.test(this.passValue)||/^\d{6,20}$/.test(this.passValue)||/^\_{6,20}$/.test(this.passValue)){
+            }else if(this.passValue.length<6||this.passValue.length>20||/\W/.test(this.passValue)||/^[A-Za-z]{6,20}$/.test(this.passValue)||/^\d{6,20}$/.test(this.passValue)||/^\_{6,20}$/.test(this.passValue)){
                 this.newpassTip='密码设置不符合要求';
             }
         },
@@ -276,6 +289,11 @@ export default {
 
 <style lang="less">
     .colori{&::before{color: red;margin-right: 5px}}
+    .righti{&::before{color: rgb(36, 228, 78);margin-right: 5px}}
+    .intro{
+        font-size: 14px;
+        margin:23px 0 10px;
+    } 
     .Memberinstall{
         display: inline-block;
         vertical-align: top;
@@ -372,12 +390,13 @@ export default {
             line-height: 32px;
             margin-top: 15px;
         }
+        .shezhiuser{margin-top: 72px;}
         .phone{
             text-align: center;
             font-size: 18px;
             line-height: 72px; 
             background-color: #e5e5e5;
-            position: absolute;top:0;width:100%;
+            position: absolute;top:-3px;width:100%;
             .jian{
                 float: left;
                 left: 14px;

@@ -5,7 +5,6 @@
                 <el-col :span="12" :xs="24" class="left">
                     <el-col :sm={span:11,offset:6} :xs={span:18,offset:3} class="shu">
                         <input type="text" placeholder="请输入手机号码" v-model="phoneValue" @blur="phoneBlur" @keyup="phoneKey">                       
-                        <!-- <photoyan></photoyan> -->
                         <p class="wrongTip">{{phoneTip}}</p>                      
                         <div class="yan">
                             <input type="text" placeholder="请输入图片验证码" class="yanma" v-model="photoValue" @keyup="photoKey">
@@ -17,18 +16,21 @@
                             <button @click="telget" :id="showyan">{{phoneClick}}</button>
                         </div>
                         <p class="wrongTip">{{telTip}}</p>
-                        <!-- <password></password> -->
-                        <el-popover placement="right" width="300" trigger="click">
+                        <el-popover placement="right" width="300" trigger="focus" class="hidden-xs-only">
                             <div><i :class="lengthLimit"></i>6-20个字符<br/><i :class="typeLimit"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType"></i>字母、数字和下划线至少包含2种</div>                 
                             <div class="pass" slot="reference">
                                 <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
-                                <span :class="style" @click="show"></span>
+                                <span :class="style" @click="show(1)"></span>
                             </div>
                         </el-popover> 
+                        <div class="pass hidden-sm-and-up">
+                            <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
+                            <span :class="style" @click="show(1)"></span>
+                        </div>
                         <p class="wrongTip">{{passTip}}</p>
                         <div class="pass again">
-                            <input :type="types" placeholder="请再次输入密码" v-model="againValue" @keyup="againKey">
-                            <span :class="style" @click="show"></span>
+                            <input :type="types1" placeholder="请再次输入密码" v-model="againValue" @keyup="againKey">
+                            <span :class="style1" @click="show(2)"></span>
                         </div>
                         <p class="wrongTip">{{againTip}}</p>
                         <a href="javascript:void(0)" class="log" @click="forgetyan">确认修改</a>
@@ -50,8 +52,6 @@
 </template>
 
 <script>
-import password from '../components/Password'
-import photoyan from '../components/Photoyan'
 export default {
     name: 'Forget',     
     created(){
@@ -69,6 +69,8 @@ export default {
             imgurl:'/xinda-api/ajaxAuthcode',
             style:'bi',
             types:'password',
+            style1:'bi',
+            types1:'password',
             passValue:'',
             photoValue:'',
             phoneValue:'',
@@ -157,7 +159,7 @@ export default {
                                     if(second==-1){clearInterval(jishi);that.phoneClick='点击获取';that.showyan='valid';}
                                 },1000);
                             }
-                    }).catch(function(){console.log('失败');});
+                    });
                 }else{
                     this.phoneTip='手机号不正确';
                 }
@@ -240,26 +242,32 @@ export default {
                             }).catch(() => {   
                             });
                         }
-                }).catch(function(){console.log('失败');});
+                });
             }
         },
         imgchange(){
             var data=(new Date()).getTime();
             this.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
         },
-        show(){
-            if(this.style=='zheng'){
-                this.style='bi';
-                this.types='password';
+        show(val){
+            if(val==2){
+                if(this.style1=='zheng'){
+                    this.style1='bi';
+                    this.types1='password';
+                }else{
+                    this.style1='zheng';
+                    this.types1='text';
+                }
             }else{
-                this.style='zheng';
-                this.types='text';
+                if(this.style=='zheng'){
+                    this.style='bi';
+                    this.types='password';
+                }else{
+                    this.style='zheng';
+                    this.types='text';
+                }
             }
         }
-    },
-    components:{
-        password,
-        photoyan
     }
 }
 </script>

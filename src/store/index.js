@@ -8,6 +8,7 @@ export default new Vuex.Store({
     state:{
         userPhoneNumber:'',
         cartNum:'0',
+        loading:false
     },
     //改变全局变量
     mutations:{
@@ -19,14 +20,16 @@ export default new Vuex.Store({
         },
         cartNum2(){
             this.state.count--;
+        },
+        loading (state,extra) {
+			state.loading = extra
         }
     },
     // //有关全局变量的全局函数
     // getters:{
-    //     gett(state){
-    //         //.....
-    //        return state.count+100
-    //     }
+    //     showLoading(state){
+    //         return state.showLoading 
+    //     },
     // },
     // //异步操作 写ajax
     // actions:{
