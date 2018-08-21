@@ -1,23 +1,16 @@
-import vue from 'vue'
-import vuex from 'vuex'
+// import vue from 'vue'
+// import vuex from 'vuex'
 
-vue.use(vuex)
+// Vue.use(vuex)
 
-export default new vuex.Store({
+export default new Vuex.Store({
     //设置全局变量  所有组件都能用
     state:{
-        count:0,
         userPhoneNumber:'',
         cartNum:'0',
     },
     //改变全局变量
     mutations:{
-        // sum(){
-        //     this.state.count++;
-        // },
-        // sum1(){
-        //     this.state.count+=2;
-        // },
         loginStatus(state,n){
             state.userPhoneNumber=n;
         },

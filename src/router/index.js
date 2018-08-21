@@ -1,6 +1,5 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Public from '@/components/Public'    //@ => ..
+// import Vue from 'vue'
+// import Router from 'vue-router'
 import NotFoundComponent from '@/components/NotFoundComponent'    //@ => ..
 import Test from '@/components/Test'    //@ => ..
 import Login from '@/views/Login'    //@ => ..
@@ -37,29 +36,10 @@ import paysuccess from '@/views/paysuccess'
 import Index1 from '@/views/Index1'
 
 import List from '@/views/List'
-Vue.use(Router)
+// Vue.use(Router)
 
 
-export default new Router({       //module.expotrs={}
-  // mode: 'history',        //新路由返回顶部，前进后退像浏览器的原生表现那样
-  // scrollBehavior (to, from, savedPosition) {
-  //   if (savedPosition) {
-  //     return savedPosition
-  //   } else {
-  //     return { x: 0, y: 0 }
-  //   }
-  // },
-  // state: {
-  //   recruitScrollY:0
-  // },
-  // getters: {
-  //   recruitScrollY:state => state.recruitScrollY
-  // },
-  // mutations: {
-  //   changeRecruitScrollY(state,recruitScrollY) { 
-  //     state.recruitScrollY = recruitScrollY
-  //   }
-  // },
+export default new VueRouter({       //module.expotrs={}
  
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }

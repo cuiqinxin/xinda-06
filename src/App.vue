@@ -31,7 +31,9 @@
             <span class="shop-img"></span>
             <router-link to="/shoppingcart">购物车<a>{{cartNum}}</a>件</router-link>
           </router-link>
-          <router-link to="" class="service-enter">服务商入口</router-link>
+          <router-link to="" class="service-enter">服务商入口
+            <p class="red-p">暂未开放，敬请期待</p>
+          </router-link>
         </el-col>
       </el-row>
     </div>
@@ -89,7 +91,7 @@ export default {
     computed:{
       userPhoneNumber(){
         return store.state.userPhoneNumber;
-      }
+      },
     },
     created(){
       var that = this;
@@ -137,11 +139,6 @@ export default {
             margin: 0 12px;
           }
         }
-        // a{
-        //   position: relative;
-        //   color:#2693d4;
-        //   margin: 0 12px;
-        // }
       }
       .top-right{
         text-align: right;
@@ -165,6 +162,9 @@ export default {
         }
         .service-enter{
           color: #2693d4;
+          &:hover .red-p{
+            display: block;
+          }
         }
       }
     }
@@ -251,6 +251,17 @@ export default {
       }
     }
   }
-
+  .red-p{
+    display: none;
+    color: red;
+    border: 1px solid red;
+    border-radius: 4px;
+    padding: 0 5px; 
+    margin-top: 8px;
+    position: absolute;
+    right: 0px;
+    top: 23px;
+    line-height: 25px;
+  }
   
 </style>
