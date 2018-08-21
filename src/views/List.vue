@@ -173,7 +173,8 @@ export default {
             flag:0 ,
             start:4,
             screenWidth: document.body.clientWidth,
-            loginStatus:0
+            loginStatus:0,
+            currentIndex :0,
         };
     },
     created() {
@@ -282,6 +283,7 @@ export default {
                     })
                 )
                 .then(function(data) {
+                    console.log(data.data.data)
                     that.parentCount.all=data.data.data.length
                 })
                 that.ajax.post(
@@ -343,8 +345,13 @@ export default {
     mounted(){
         //监听屏幕大小
         if(document.body.offsetWidth<=762){
+            console.log(111)
             window.addEventListener('scroll', this.scrollBottom)
         }
+        // else if(document.body.offsetWidth>762){
+            
+            
+        // }
 
         const that = this
             window.onresize = () => {
@@ -393,13 +400,18 @@ export default {
             return Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);
         },
         scrollBottom(){ 
+            console.log('chufa')
             var that = this
-            if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight()) {
+            this.isShow = false
+            if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<=762) {
+                console.log(this.start)
                 //到达底部
                 this.start++
                 this.page++
                 this.isShow = true
-                if(that.thisProduct.length<that.parentCount.all){
+                console.log(this.thisProduct.length,this.parentCount.all)
+                if(this.thisProduct.length<this.parentCount.all){
+                    that.loadText = 'loading...'
                     this.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
                         {
                             start:that.start,
@@ -412,12 +424,12 @@ export default {
                             that.thisProduct.push(data.data.data[key])
                             if(that.thisProduct.length == that.parentCount.all){
                                 that.loadText = 'No more loading'
+                                setInterval(function(){
+                                    that.isShow = false
+                                },500)
                             }
                         }    
                     });
-                }
-                if(that.thisProduct.length == that.parentCount.all){
-                     that.isShow = false;
                 }
             }
         },
@@ -425,6 +437,7 @@ export default {
         pageChange (page) {
             document.documentElement.scrollTop = 200;
             this.currentPage = page
+            this.currentIndex = page;
             var that = this;
             if(this.searchAdd.searchName == '' || this.searchAdd.searchName == undefined){
                 if(that.obj.sort==2 || that.obj.sort == 3){
@@ -477,7 +490,7 @@ export default {
             this.flag = 0
             this.show = true
             this.$refs.pagemore.go(1)
-            this.parentCount.currentPage = 1;
+            // this.parentCount.currentPage = 1;
             this.parentCount.all = ''
             this.current3 = 0;
             this.$refs.notice_add.provinceCode = ''
@@ -548,7 +561,7 @@ export default {
             this.flag = 0
             this.show = true
             this.$refs.pagemore.go(1)
-            this.parentCount.currentPage = 1;
+            // this.parentCount.currentPage = 1;
             this.parentCount.all = ''
             this.current3 = 0;
             this.$refs.notice_add.provinceCode = ''
@@ -851,9 +864,59 @@ export default {
         //监听屏幕宽度
          screenWidth (val,oldval) {
             this.screenWidth = val
+            if(val>=769){
+                console.log(this.currentIndex)
+            }
             //手机端渲染
+            // console.log(val)
             if(val<=762){
                 window.addEventListener('scroll', this.scrollBottom)
+                this.isShow = false;
+            }
+            if(oldval<=762 && val>762){
+                this.thisProduct = this.thisProduct.splice(0,5)
+                this.isShow = false;
+                // this.parentCount.currentPage = 1;
+                this.$refs.pagemore.go(1)
+            }
+            else if(oldval>762 && val<=762){
+                this.start = 4
+                if(this.currentIndex >= 2){
+                    var that = this;
+                    if(this.$route.query.searchName == '' || this.$route.query.searchName == undefined){
+                    this.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
+                        {
+                            start:0,
+                            limit:5,
+                            providerId: that.obj.productId,
+                            productTypeCode: that.obj.productTypeCode,
+                        }
+                        )).then(function(data){
+                            that.thisProduct=data.data.data
+                            var production = that.thisProduct;
+                            for(let key in production){
+                                var pro = production[key]['productImg']
+                                pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                                production[key]['productImg'] = pro
+                        }
+                    });
+                    }else{
+                        that.ajax.post('/xinda-api/product/package/search-grid',that.qs.stringify(
+                        {
+                            start:0,
+                            limit:5,
+                            searchName: that.searchAdd.searchName
+                        })).then(function(data){
+                            that.thisProduct=data.data.data
+                            var production = that.thisProduct;
+                            for(let key in production){
+                                var pro = production[key]['providerImg']
+                                pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                                production[key]['productImg'] = pro
+                            }
+                        });
+                    }
+                }
             }
                     
         },
@@ -1139,8 +1202,8 @@ export default {
             justify-content: center;
         }
         .proImg {
-            width: 100%;
-            height: 110%;
+            width: 93%;
+            // height: 110%;
         }
         .proInfo {
             height: 100px;
