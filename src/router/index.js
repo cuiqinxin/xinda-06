@@ -1,6 +1,5 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Public from '@/components/Public'    //@ => ..
+// import Vue from 'vue'
+// import Router from 'vue-router'
 import NotFoundComponent from '@/components/NotFoundComponent'    //@ => ..
 import Test from '@/components/Test'    //@ => ..
 import Login from '@/views/Login'    //@ => ..
@@ -11,7 +10,7 @@ import Tests from '@/views/Tests'
 import Member from '@/views/Member'
 import Memberindex from '@/views/Memberindex'
 import Memberorder from '@/views/Memberorder'
-import Ordertest from '@/views/ordertest'
+import Orderphone from '@/views/orderphone'
 import Memberassess from '@/views/Memberassess'
 import Memberinstall from '@/views/Memberinstall'
 import Header from '@/components/Header'
@@ -37,29 +36,10 @@ import paysuccess from '@/views/paysuccess'
 import Index1 from '@/views/Index1'
 
 import List from '@/views/List'
-Vue.use(Router)
+// Vue.use(Router)
 
 
-export default new Router({       //module.expotrs={}
-  // mode: 'history',        //新路由返回顶部，前进后退像浏览器的原生表现那样
-  // scrollBehavior (to, from, savedPosition) {
-  //   if (savedPosition) {
-  //     return savedPosition
-  //   } else {
-  //     return { x: 0, y: 0 }
-  //   }
-  // },
-  // state: {
-  //   recruitScrollY:0
-  // },
-  // getters: {
-  //   recruitScrollY:state => state.recruitScrollY
-  // },
-  // mutations: {
-  //   changeRecruitScrollY(state,recruitScrollY) { 
-  //     state.recruitScrollY = recruitScrollY
-  //   }
-  // },
+export default new VueRouter({       //module.expotrs={}
  
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }
@@ -203,9 +183,9 @@ export default new Router({       //module.expotrs={}
               component: Memberorder
             },
             {
-              path: 'ordertest',
-              name: 'ordertest',
-              component: Ordertest
+              path: 'orderphone',
+              name: 'orderphone',
+              component: Orderphone
             },
             {
               path: 'memberassess',

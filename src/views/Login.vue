@@ -11,7 +11,6 @@
                             <span :class="style" @click="show"></span>
                         </div>
                         <p class="wrongTip">{{passTip}}</p>
-                        <!-- <photoyan></photoyan> -->
                         <div class="yan">
                             <input type="text" placeholder="请输入图片验证码" class="yanma" v-model="photoValue" @keyup="photoKey">
                             <img :src="imgurl" @click="imgchange">
@@ -38,8 +37,6 @@
 
 <script>
 import store from '../store'
-import password from '../components/Password'
-import photoyan from '../components/Photoyan'
 export default {
     name: 'Login',
     data () {
@@ -151,11 +148,7 @@ export default {
                 this.types='text';
             }
         }
-    },
-    components:{
-        password,
-        photoyan
-    },
+    }
 }
 </script>
 

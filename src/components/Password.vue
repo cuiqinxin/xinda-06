@@ -81,7 +81,11 @@ export default {
 }
 </script>
 
+<<<<<<< HEAD
 <style scoped lang="less">
+=======
+<style lang="less">
+>>>>>>> 17f0d5e77fdab8944323467c37b26e155a91ffeb
     .pass{
         margin:24px 0 0;
         border: 1px solid #cbcbcb;

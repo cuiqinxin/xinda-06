@@ -103,7 +103,6 @@ export default {
             {start:0,limit:6,status:2}
         )).then(
             function(data){
-                // console.log(data);
                 if(data.data.status=='-999'){
                     that.$alert('请先登录', '提示', {
                         confirmButtonText: '确定',
@@ -114,20 +113,12 @@ export default {
                     });
                     return;
                 }
-        }).catch(function(){console.log('失败');})
+        })
     },
     methods:{
         handleClick(tab, event) {
         },
         tijiaoasse(){
-            var that=this;
-            this.ajax.post('/xinda-api/service/judge/submit',this.qs.stringify(
-                {id:'e456a5952fd6486091b9a229a85c45fd',type:1,score:2,content:1121}
-            )).then(
-                function(data){
-                    // console.log(data);
-            }).catch(function(){console.log('失败');});
-
             this.assessWan='assessNei hidden-xs-only showassess';
             this.activeName='second';
             this.assessGo='gopingjia hidden-xs-only noneassess';
@@ -229,7 +220,7 @@ export default {
 }
 </script>
 
-<style  lang="less">
+<style lang="less">
     .hintScore{
         position: relative;
         margin-left: 15px;

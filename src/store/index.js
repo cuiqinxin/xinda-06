@@ -1,25 +1,18 @@
-import vue from 'vue'
-import vuex from 'vuex'
+// import vue from 'vue'
+// import vuex from 'vuex'
 
+// Vue.use(vuex)
 
-vue.use(vuex)
-
-export default new vuex.Store({
+export default new Vuex.Store({
     //设置全局变量  所有组件都能用
     state:{
-        count:0,
         userPhoneNumber:'',
         cartNum:'0',
         cartId:[],
+        loading:false
     },
     //改变全局变量
     mutations:{
-        // sum(){
-        //     this.state.count++;
-        // },
-        // sum1(){
-        //     this.state.count+=2;
-        // },
         loginStatus(state,n){
             state.userPhoneNumber=n;
         },
@@ -36,6 +29,7 @@ export default new vuex.Store({
         // 清空购物车
         cartNum0(){
             this.state.cartNum=0;
+            this.statecartId=[];
         },
         // 购物车数量加减
         cartNumreduce(){
@@ -48,8 +42,13 @@ export default new vuex.Store({
                 this.state.cartNum++;
             }else{
                 return;
-            }
+            }},
            
+        cartNum2(){
+            this.state.count--;
+        },
+        loading (state,extra) {
+			state.loading = extra
         }
         
     },
@@ -57,10 +56,9 @@ export default new vuex.Store({
 
     // //有关全局变量的全局函数
     // getters:{
-    //     gett(state){
-    //         //.....
-    //        return state.count+100
-    //     }
+    //     showLoading(state){
+    //         return state.showLoading 
+    //     },
     // },
    
 });

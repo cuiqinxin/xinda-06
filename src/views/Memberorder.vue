@@ -88,7 +88,7 @@
                     <el-col :span="24" class="hidden-sm-and-up gekai"></el-col>
                 </el-row>
             </div>
-            <div class="page myorder">
+            <div class="page myorder hidden-xs-only">
                 <div>
                     <button :class="prevClick" @click="prevp">上一页</button>
                     <p class="shows">{{pagei}}</p>
@@ -100,6 +100,7 @@
 </template>
 
 <script>
+import store from '../store';
 export default {
     name: 'Memberorder',
     data () {
@@ -399,14 +400,15 @@ export default {
         },
         //向后台请求订单
         orderChange(page,startdate,enddate,limited,panchu,shou){
+            store.commit('loading',true)
             var that=this;
             this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
                 {'startTime':startdate,'endTime':enddate,'start':page,'limit':limited}
             )).then(
                 function(data){  
-                    console.log(data);            
-                    if((data.data.status=='-999'&&that.delelast==1)||(data.data.data.length==0&&that.delelast==1)){that.noneorder='showorder noneorder';that.fenye=0;return;}
-                    if(shou==2&&data.data.data.length==0){that.noneorder='showorder noneorder';that.fenye=0;return;}
+                    // console.log(data);            
+                    if((data.data.status=='-999'&&that.delelast==1)||(data.data.data.length==0&&that.delelast==1)){that.noneorder='showorder noneorder';that.fenye=0;store.commit('loading',false);return;}
+                    if(shou==2&&data.data.data.length==0){that.noneorder='showorder noneorder';that.fenye=0;store.commit('loading',false);return;}
                     that.noneorder='yincangorder';
                     that.changeDate(data.data.data);
                     if(panchu==1){
@@ -436,6 +438,7 @@ export default {
                             })
                         }
                     }
+                    store.commit('loading',false)                    
                     console.log(that.orderArr,that.orderArr1);
             }).catch(function(){console.log('失败');})
         }

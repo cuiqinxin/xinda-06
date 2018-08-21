@@ -30,8 +30,29 @@
           <router-link to="" class="shop-cart" v-if="userPhoneNumber">
             <span class="shop-img"></span>
             <router-link to="/shoppingcart">购物车<a>{{cartnum}}</a>件</router-link>
+            <div class="showcart">
+                <h4 :class="cartfirsthint">{{isdenglu}}</h4>    
+                <div class="xiangxi" v-for="(item,index) in showlist.slice(0,4)" :key="index">
+                  <router-link :to="{path:'/goodsdetail',query:{id:item.serviceId}}">
+                    <img :src="'http://123.58.241.146:8088/xinda/pic/'+(item['providerImg'])"  class="imgsss">                    
+                  </router-link>
+                  <div class="cartmid">
+                    <h4><router-link :to="{path:'/goodsdetail',query:{id:item.serviceId}}">{{item['serviceName']}}</router-link></h4>
+                    <p class="miaoshu">{{item['serviceInfo']}}</p>
+                  </div>
+                  <div class="cartright">
+                    <p class="cartzuizuo">￥<span>{{item['unitPrice']}}.00</span></p>
+                    <a href="javascript:void(0)" @click="deletecarts(index,item.serviceId)">删除</a>
+                  </div>
+                </div>
+                <div :class="lookforcarter">
+                  <router-link to="/shoppingcart" class="lookforc">查看我的购物车</router-link>
+                </div>
+            </div>
           </router-link>
-          <router-link to="" class="service-enter">服务商入口</router-link>
+          <router-link to="" class="service-enter">服务商入口
+            <p class="red-p">暂未开放，敬请期待</p>
+          </router-link>
         </el-col>
       </el-row>
     </div>
@@ -42,19 +63,30 @@
     <!-- 开始公共底部 -->
     <footer class="footer2 hidden-md-and-down">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
     <!-- 结束公共底部 -->
+
+    <!-- loading正在加载组件 -->
+    <Loading v-show="loading"></Loading>
   </div>
 </template>
 
 <script>
 import store from './store';
+import {mapState} from 'vuex'
+import Loading from './components/Loading.vue'
 export default {
     name: 'App',
     data() {
       return {
         status: 0,
         cartNum: 0,
-        // sta: true,
+        // sta: true, 
         userPhoneNumber1:'',
+        cartfirsthint:'carttitsss cartzuiyou',
+        isdenglu:'购物车是空的哦！',
+        lookforcarter:'lookforcarts',
+        showlist:[],
+        changebiao:0,         //第几次加到showlist
+        endqingqiu:2
       };
     },
     methods:{
@@ -84,6 +116,52 @@ export default {
             message: '已取消退出'
           });          
         });
+      },
+      errorImage(item){
+        item.productImg = "../../static/errorImg.png";
+      },
+      deletecarts(index,order){
+        console.log(index,order);
+        this.ajax.post("/xinda-api/cart/del",this.qs.stringify(
+            {'id':order}
+        )).then(data=>{
+          if(data.data.status==1){
+            this.cartNum--;
+            this.showlist.splice(index,1);
+            if(this.showlist.length==4&&this.endqingqiu==2){
+              this.showlister();
+            }
+            if(this.showlist.length==0){
+              this.cartfirsthint='carttitsss cartzuiyou';
+              this.isdenglu='购物车是空的哦！';
+              this.lookforcarter='lookforcarts';return;
+            }
+          }
+        })
+      },
+      showlister(){
+        this.ajax.post("/xinda-api/cart/list").then(data=>{
+          if(this.endqingqiu!=2){return;}
+          if(data.data.data.length==0){
+            this.cartfirsthint='carttitsss cartzuiyou';
+            this.isdenglu='购物车是空的哦！';
+            this.lookforcarter='lookforcarts';return;
+          }else{
+            this.cartfirsthint='carttitsss';
+            this.isdenglu='最近加入的商品：';
+            this.lookforcarter='lookforcart';
+          }
+          var listend=(this.changebiao+1)*8;
+          if(listend>data.data.data.length){
+            listend=data.data.data.length;
+            this.endqingqiu=0;
+          }
+          for(var i=this.changebiao*8;i<listend;i++){
+            this.showlist.push(data.data.data[i]);
+          }
+          this.changebiao++;
+          console.log(this.showlist);
+        })
       }
     },
     computed:{
@@ -96,12 +174,36 @@ export default {
       cartnum:function(){
         return store.state.cartNum;
       },
+      ...mapState({
+        loading: state => state.loading
+      })
     },
     created(){
       var that = this;
       this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
-          this.cartNum = data.data.data.cartNum;
-      });
+        this.cartNum = data.data.data.cartNum;
+      })
+        // 购物车数据
+    
+                //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
+                var that = this;
+                
+                this.ajax
+                .post("/xinda-api/cart/list", that.qs.stringify({}))
+                .then(function(data) {
+                  
+                    store.commit('gaincartNum',data.data.data.length);
+                    
+                    for(var i=0;i<data.data.data.length;i++){
+                    
+                         store.commit('gaincartId',data.data.data[i].serviceId);
+                        
+                    }
+                    
+                })
+                
+      //  console.log(this.cartid);
+        // over
       fun:{
           this.ajax.post("/xinda-api/sso/login-info").then(data=>{
             if(data.data.status === 0){
@@ -110,34 +212,11 @@ export default {
               store.commit('loginStatus',data.data.data.loginId);
             }
         })
-      };
-
-       // 购物车数据
-    
-                //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
-                var that = this;
-                // console.log(vue);
-                this.ajax
-                .post("/xinda-api/cart/list", that.qs.stringify({}))
-                .then(function(data) {
-                    //如果购物车为空，则显示购物车为空页面
-                    // console.log(data.data.data.length);
-                    // that.state.cartNum= data.data.data.length;
-                    store.commit('gaincartNum',data.data.data.length);
-                    
-                    for(var i=0;i<data.data.data.length;i++){
-                        // that.state.cartId.push(data.data.data[i].serviceId);
-                         store.commit('gaincartId',data.data.data[i].serviceId);
-                        
-                    }
-                    
-                   
-                    
-                })
-                
-      //  console.log(this.cartid);
-        // over
-
+      }
+      this.showlister();     
+    },
+    components:{
+        Loading,
     },
 }
 </script>
@@ -169,17 +248,22 @@ export default {
             margin: 0 12px;
           }
         }
-        // a{
-        //   position: relative;
-        //   color:#2693d4;
-        //   margin: 0 12px;
-        // }
       }
       .top-right{
+        display: flex;
+        justify-content: flex-end;
         text-align: right;
         .shop-cart{
           color: #000;
-          margin-right: 16px;
+          margin-right: 4px;
+          padding: 0 12px;
+          position: relative;
+          &:hover{background-color: #fff;}
+          &:hover .showcart{display: block;}
+          .showcart{text-align: left;font-size: 12px;line-height: 20px}
+          .cartzuiyou{text-align: right;}
+          .cartright a{float: right;} 
+          .lookforc{color: #fff;}         
           .shop-img{
             display: inline-block;
             width: 21px;
@@ -197,6 +281,9 @@ export default {
         }
         .service-enter{
           color: #2693d4;
+          &:hover .red-p{
+            display: block;
+          }
         }
       }
     }
@@ -221,6 +308,51 @@ export default {
       border: 2px solid red!important;
     }
   }
+  .showcart{
+    position: absolute;
+    display: none;
+    cursor: initial;
+    right: 0;
+    z-index: 9999;
+    padding: 8px 8px;
+    width: 310px;
+    min-height: 40px;
+    border: 1px solid #e6e6e6;
+    border-top: 0;
+    background-color: #fff;
+    .carttitsss{margin:9px 0;}
+    .xiangxi{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      .imgsss{
+        width: 40px;
+        height: 30px;
+        margin:5px 0;
+      }
+      .cartmid{
+        margin:0 20px 0 10px;
+        width: 59%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        .miaoshu{color:#9c9c9c;}
+      }
+      .cartzuizuo{
+        font-weight: bold;
+        span{color: #f22e00;}
+      }
+    }
+    .lookforc{
+      padding:0 10px;
+      background-color: #ff4400;
+      line-height: 25px;
+      margin:10px 0 0;
+      float: right;
+    }
+  }
+  .lookforcart{border-top: 1px solid #e6e6e6;}
+  .lookforcarts{border-top: 0;}
   .member{
     position: absolute;
     background-color: #fff;
@@ -283,6 +415,17 @@ export default {
       }
     }
   }
-
+  .red-p{
+    display: none;
+    color: red;
+    border: 1px solid red;
+    border-radius: 4px;
+    padding: 0 5px; 
+    margin-top: 8px;
+    position: absolute;
+    right: 0px;
+    top: 23px;
+    line-height: 25px;
+  }
   
 </style>
