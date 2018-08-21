@@ -64,7 +64,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" >
     span{display: inline-block;}
     @media screen and (max-width: 768px){
         .touxiang{

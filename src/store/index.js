@@ -1,6 +1,7 @@
 import vue from 'vue'
 import vuex from 'vuex'
 
+
 vue.use(vuex)
 
 export default new vuex.Store({
@@ -9,6 +10,7 @@ export default new vuex.Store({
         count:0,
         userPhoneNumber:'',
         cartNum:'0',
+        cartId:[],
     },
     //改变全局变量
     mutations:{
@@ -21,13 +23,38 @@ export default new vuex.Store({
         loginStatus(state,n){
             state.userPhoneNumber=n;
         },
-        cartNum(){
-            this.state.count++;
+       
+        gaincartNum(state,a){
+            state.cartNum= a;
+            // console.log(this.state.cartNum)
+
         },
-        cartNum2(){
-            this.state.count--;
+        gaincartId(state,b){
+            state.cartId.push(b);
+            // console.log(this.state.cartId[0])
+        },
+        // 清空购物车
+        cartNum0(){
+            this.state.cartNum=0;
+        },
+        // 购物车数量加减
+        cartNumreduce(){
+            this.state.cartNum--;
+        },
+        //判断是否调用购物车加减方法
+        cartNumber(state,e){
+            if(state.cartId.indexOf(e)==-1){
+                state.cartId.push(e);
+                this.state.cartNum++;
+            }else{
+                return;
+            }
+           
         }
+        
     },
+
+
     // //有关全局变量的全局函数
     // getters:{
     //     gett(state){
@@ -35,12 +62,5 @@ export default new vuex.Store({
     //        return state.count+100
     //     }
     // },
-    // //异步操作 写ajax
-    // actions:{
-    //     act(context){
-    //         setTimeout(function(){
-    //            context.commit('sum');
-    //         },2000)
-    //     }
-    // }
+   
 });

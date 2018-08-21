@@ -274,7 +274,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style  lang="less">
     .colori{&::before{color: red;margin-right: 5px}}
     .Memberinstall{
         display: inline-block;

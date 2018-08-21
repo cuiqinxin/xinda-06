@@ -22,7 +22,7 @@ Vue.prototype.qs = qs;
 // })
 
 /* eslint-disable no-new */
-new Vue({
+ new Vue({
   el: '#app',
   router,
   store,
