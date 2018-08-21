@@ -370,7 +370,7 @@ export default {
     max-width: 1200px;
     margin: 0 auto;
     position: relative;
-    z-index: 999;
+    z-index: 998;
     .grabble-top {
       display: flex;
       justify-content: space-between;
@@ -602,7 +602,7 @@ export default {
   height: 88px;
   border-top: 2px solid #f9f9f9;
   position: fixed;
-  z-index: 999;
+  z-index: 1000;
   bottom: 0;
   left: 0;
   background-color: #fff;

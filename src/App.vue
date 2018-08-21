@@ -61,11 +61,16 @@
     <!-- 开始公共底部 -->
     <footer class="footer2 hidden-md-and-down">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
     <!-- 结束公共底部 -->
+
+    <!-- loading正在加载组件 -->
+    <Loading v-show="loading"></Loading>
   </div>
 </template>
 
 <script>
 import store from './store';
+import {mapState} from 'vuex'
+import Loading from './components/Loading.vue'
 export default {
     name: 'App',
     data() {
@@ -160,12 +165,15 @@ export default {
     computed:{
       userPhoneNumber(){
         return store.state.userPhoneNumber;
-      }
+      },
+      ...mapState({
+        loading: state => state.loading
+      })
     },
     created(){
       var that = this;
       this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
-          this.cartNum = data.data.data.cartNum;
+        this.cartNum = data.data.data.cartNum;
       })
       fun:{
           this.ajax.post("/xinda-api/sso/login-info").then(data=>{
@@ -176,7 +184,10 @@ export default {
             }
         })
       }
-      this.showlister();      
+      this.showlister();     
+    },
+    components:{
+        Loading,
     },
 }
 </script>

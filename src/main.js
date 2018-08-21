@@ -17,6 +17,7 @@ Vue.config.productionTip = false
 Vue.prototype.ajax = axios;
 Vue.prototype.qs = qs;
 
+
 // router.afterEach((to,from,next) => {
 //   window.scrollTo(0,0);
 // })
