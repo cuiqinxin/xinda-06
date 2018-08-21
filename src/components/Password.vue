@@ -81,8 +81,39 @@ export default {
 }
 </script>
 
+<<<<<<< HEAD
+<style lang="less">
+    .pass{
+        margin:24px 0 0;
+        border: 1px solid #cbcbcb;
+        border-radius: 5px;
+        input{
+            border:0;
+            width: 62%;
+        }
+        span{
+            width: 23px;  
+            vertical-align: top;
+            float: right;
+            cursor: pointer;
+        }
+    }
+    .bi{
+        margin:12px 8px 11px;        
+        height: 11px;
+        background: url(../../static/bi.png) no-repeat;      
+    }
+    .zheng{
+        margin:9px 8px 8px;        
+        height: 17px;
+        background: url(../../static/zheng.png) no-repeat;      
+    }
+    .colori{&::before{color: red;margin-right: 5px}}
+    .righti{&::before{color: rgb(36, 228, 78);margin-right: 5px}} 
+=======
 <style scoped lang="less">
     
+>>>>>>> 00281d2c8dedd69c77106417adde442dab2856c8
     @media screen and (max-width: 768px){
         .pass{margin:32px 0 0;}
     }

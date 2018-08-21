@@ -11,7 +11,7 @@ import Tests from '@/views/Tests'
 import Member from '@/views/Member'
 import Memberindex from '@/views/Memberindex'
 import Memberorder from '@/views/Memberorder'
-import Ordertest from '@/views/ordertest'
+import Orderphone from '@/views/orderphone'
 import Memberassess from '@/views/Memberassess'
 import Memberinstall from '@/views/Memberinstall'
 import Header from '@/components/Header'
@@ -203,9 +203,9 @@ export default new Router({       //module.expotrs={}
               component: Memberorder
             },
             {
-              path: 'ordertest',
-              name: 'ordertest',
-              component: Ordertest
+              path: 'orderphone',
+              name: 'orderphone',
+              component: Orderphone
             },
             {
               path: 'memberassess',

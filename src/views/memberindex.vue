@@ -10,7 +10,7 @@
                 <div class="choose order">
                     <div>
                         <span></span>
-                        <router-link to="/member/memberorder" class="cholink">我的订单</router-link>
+                        <router-link to="/member/orderphone" class="cholink">我的订单</router-link>
                     </div>
                     <p class="hidden-sm-and-up">></p>
                 </div>
@@ -53,7 +53,7 @@ export default {
                         return;
                     }
                     store.commit('loginStatus',data.data.data.loginId)              
-            }).catch(function(){console.log('失败');})
+            })
         }
     },
     computed:{
@@ -64,7 +64,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
     span{display: inline-block;}
     @media screen and (max-width: 768px){
         .touxiang{
