@@ -274,7 +274,7 @@ export default {
                         }
                     }
                 }
-                //符合请求的宣布数据数量
+                //符合请求的全部数据数量
                 that.ajax.post(
                     "/xinda-api/product/package/grid",
                     that.qs.stringify({
@@ -283,7 +283,6 @@ export default {
                     })
                 )
                 .then(function(data) {
-                    console.log(data.data.data)
                     that.parentCount.all=data.data.data.length
                 })
                 that.ajax.post(
@@ -345,13 +344,8 @@ export default {
     mounted(){
         //监听屏幕大小
         if(document.body.offsetWidth<=762){
-            console.log(111)
             window.addEventListener('scroll', this.scrollBottom)
         }
-        // else if(document.body.offsetWidth>762){
-            
-            
-        // }
 
         const that = this
             window.onresize = () => {
@@ -400,16 +394,13 @@ export default {
             return Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);
         },
         scrollBottom(){ 
-            console.log('chufa')
             var that = this
             this.isShow = false
             if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<=762) {
-                console.log(this.start)
                 //到达底部
                 this.start++
                 this.page++
                 this.isShow = true
-                console.log(this.thisProduct.length,this.parentCount.all)
                 if(this.thisProduct.length<this.parentCount.all){
                     that.loadText = 'loading...'
                     this.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
@@ -859,16 +850,13 @@ export default {
                 });          
             });
         },
+
     },
     watch: {
         //监听屏幕宽度
          screenWidth (val,oldval) {
             this.screenWidth = val
-            if(val>=769){
-                console.log(this.currentIndex)
-            }
             //手机端渲染
-            // console.log(val)
             if(val<=762){
                 window.addEventListener('scroll', this.scrollBottom)
                 this.isShow = false;
@@ -970,6 +958,110 @@ export default {
                 this.code = val.query.code;
                 this.id = val.query.id
             }
+
+            //从搜索页面进入普通商品列表页面
+            if(this.$route.query.searchName == undefined){
+                document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#000')
+                document.getElementsByClassName('el-icon-sort-down')[1].setAttribute('style','color:#000')
+                document.getElementsByClassName('el-icon-sort-up')[3].setAttribute('style','color:#000')
+                document.getElementsByClassName('el-icon-sort-down')[3].setAttribute('style','color:#000')
+                this.ajax.post("/xinda-api/product/style/list").then(function(data) {
+                    var classify1 = [];
+                    that.Data = data.data.data
+                    var newData = that.Data;
+                    //服务分类渲染      
+                    for (let key in newData) {
+                        var myData = newData[key];
+                        if (myData["name"] == that.firstLevel) {
+                            that.typeList = myData.itemList;
+                            var secondlevel = myData.itemList;
+                            for (let key in secondlevel) {
+                                that.items.push(secondlevel[key]["name"]); 
+                            }
+                        }
+                    }
+                    //点击一级 类型渲染
+                    if(that.code == undefined){
+                        var secondName = []
+                        for(let key in secondlevel){
+                            secondName.push(that.typeList[key]['name'])
+                            that.storageCode.push(that.typeList[key]["code"])
+                            that.newCode = that.storageCode[0];
+                            that.obj.productTypeCode = that.newCode
+                            that.obj.productId = ''
+                            if(that.typeList[key]['name'] == secondName[0]){
+                                var thirdName = that.typeList[key]
+                                var level2 = []
+                                for(let key in thirdName.itemList){
+                                    level2.push(thirdName.itemList[key].name)
+                                    if(thirdName.itemList[key]['name'] == level2[0]){
+                                        that.nowTestlist = thirdName
+                                    }
+                                    that.classify.push(thirdName.itemList[key]['name'])
+                                }
+                            }
+                        }       
+                    }
+                    //点击二级 类型渲染
+                    else if(that.id == undefined){
+                        that.obj.productTypeCode = that.code
+                        that.obj.productId = '' 
+                        for(let key in secondlevel){
+                            if(that.code == secondlevel[key]['code']){
+                                var storage = secondlevel[key].itemList
+                                that.nowTestlist = secondlevel[key]
+                                for(let key in storage){
+                                    that.classify.push(storage[key].name)
+                                }
+                            }
+                        }
+                    }else{
+                        that.obj.productTypeCode = 0
+                        that.obj.productId = that.id
+                        for(let key in secondlevel){
+                            var thirdlevel = secondlevel[key].item
+                            if(that.code == secondlevel[key]['code']){
+                                var storage = secondlevel[key].itemList
+                                that.nowTestlist = secondlevel[key]
+                                for(let key in storage){
+                                    that.classify.push(storage[key].name)
+                                }
+                            }
+                        }
+                    }
+                    //符合请求的全部数据数量
+                    that.ajax.post(
+                        "/xinda-api/product/package/grid",
+                        that.qs.stringify({
+                            productTypeCode : that.obj.productTypeCode,
+                            productId : that.obj.productId 
+                        })
+                    )
+                    .then(function(data) {
+                        that.parentCount.all=data.data.data.length
+                    })
+                    that.ajax.post(
+                        "/xinda-api/product/package/grid",
+                        that.qs.stringify(that.obj)
+                    )
+                    .then(function(data) {
+                        that.temporaryList = data.data.data;
+                        that.thisProduct = that.temporaryList
+                        if( that.thisProduct.length == 0){
+                            that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+                        }else{
+                            var production = that.thisProduct;
+                            for(let key in production){
+                                var pro = production[key]['productImg']
+                                pro = "http://123.58.241.146:8088/xinda/pic" + pro
+                                production[key]['productImg'] = pro
+                            }
+                        }        
+                    })
+                    
+                });
+            }
+            else{
             //服务分类渲染
             var newData = this.Data;
             for (let key in newData) {
@@ -1082,6 +1174,7 @@ export default {
                     }
                 
                 })
+            }
             }
         },
         
