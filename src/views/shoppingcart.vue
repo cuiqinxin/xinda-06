@@ -211,7 +211,7 @@
 </template>
 
 <script>
-
+import store from "../store"
 export default {
   name: "shoppingcart",
 
@@ -228,6 +228,9 @@ export default {
   
 
   created() {
+
+    //  this.$store.dispatch('denglu',store);
+
     //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
     var that = this;
     this.ajax
