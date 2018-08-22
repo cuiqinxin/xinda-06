@@ -216,13 +216,11 @@ export default {
                             that.telTip=data.data.msg;
                             var data=(new Date()).getTime();
                             that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
-                        }
-                        if(data.data.status==-2){
+                        }else if(data.data.status==-2){
                             that.phoneTip=data.data.msg;
                             var data=(new Date()).getTime();
                             that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
-                        }
-                        if(data.data.status==1){
+                        }else if(data.data.status==1){
                             var md5=require('md5');
                             that.ajax.post('/xinda-api/register/register',that.qs.stringify(
                                 {'cellphone':that.phoneValue,'smsType':1,'validCode':that.phoneYan,'password':md5(that.passValue),'regionId':that.cityCode}
@@ -232,8 +230,7 @@ export default {
                                         that.phoneTip=data.data.msg;
                                         var data=(new Date()).getTime();
                                         that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
-                                    }
-                                    if(data.data.status==1){
+                                    }else if(data.data.status==1){
                                         that.$confirm('注册成功！是否跳转到登录页?', '提示', {
                                             confirmButtonText: '确定',
                                             cancelButtonText: '取消',
