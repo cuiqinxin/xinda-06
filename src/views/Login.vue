@@ -109,8 +109,9 @@ export default {
                             .post("/xinda-api/cart/list", that.qs.stringify({}))
                             .then(function(data) {
                                 store.commit('gaincartNum',data.data.data.length);           
-                                for(var i=0;i<data.data.data.length;i++){                               
-                                    store.commit('gaincartId',data.data.data[i].serviceId);   
+                                for(var i=0;i<data.data.data.length;i++){  
+                                    var obj={'id':data.data.data[i].serviceId,'price':data.data.data[i].unitPrice,'sname':data.data.data[i].serviceName,'sinfo':data.data.data[i].serviceInfo,'simg':data.data.data[i].providerImg}          
+                                    store.commit('gaincartId',obj);                            
                                 } 
                             })
                             if(that.panduan=='123'){

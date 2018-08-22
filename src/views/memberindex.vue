@@ -21,7 +21,7 @@
                     </div>
                     <p class="hidden-sm-and-up">></p>
                 </div>
-                <router-link to="/quit" class="photui hidden-sm-and-up">退出登录</router-link>
+                <a href="javascript:void(0)" class="photui hidden-sm-and-up" @click="quitlog">退出登录</a>
             </el-col>
         </el-row>
     </div>
@@ -31,10 +31,6 @@
 import store from '../store'
 export default {
     name: 'memberindex',
-    data () {
-        return {
-        }
-    },
     created(){
         if(store.state.userPhoneNumber==''){
             var that=this;
@@ -56,6 +52,14 @@ export default {
             })
         }
     },
+    methods:{
+        quitlog(){
+            store.commit('loginStatus','')
+            this.ajax.post("/xinda-api/sso/logout").then(data=>{
+                this.$router.push({path:'/quit'});
+            });
+        }
+    },
     computed:{
         userPhoneNumber(){
             return store.state.userPhoneNumber;
@@ -66,6 +70,13 @@ export default {
 
 <style lang="less">
     span{display: inline-block;}
+    .phone{
+            height: 72px; 
+            width: 100%;
+            position: absolute;
+            top:0; 
+            background-color: #fff; 
+        }
     @media screen and (max-width: 768px){
         .touxiang{
             width: 125px;

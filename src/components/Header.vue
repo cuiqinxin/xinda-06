@@ -125,7 +125,7 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/">
+          <router-link to="/shoppingcart">
           <p class="footer1-2-img"></p>
           <p>购物车</p>
           </router-link>
