@@ -56,9 +56,9 @@ export default new Vuex.Store({
                 return;
             }},
            
-        cartNum2(){
-            this.state.count--;
-        },
+        // cartNum2(){
+        //     this.state.count--;
+        // },
         loading (state,extra) {
 			state.loading = extra
         }
