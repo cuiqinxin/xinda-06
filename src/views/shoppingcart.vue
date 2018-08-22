@@ -22,7 +22,7 @@
 
               <el-row class='shopdetails'>
                 <!-- 服务商logo -->
-                <el-col :span="3"><div class="logo"><img v-bind:src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)" alt="#" :onerror="logo" width="100%" height="100%"></div></el-col>
+                <el-col :span="3"><div class="logo"><img v-bind:src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)" alt="#" :onerror="logo"  :id="index" @click="goshopdetail"></div></el-col>
                 <!-- 服务名称 -->
                 <el-col :span="4"><div class="servicegoods"><p>{{item.serviceName}}</p></div></el-col>
 
@@ -66,7 +66,7 @@
                 <p class="xiaoliang">销量:</p>
                 <div class="money">￥1400.00</div>
                 <div class="price">
-                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
+                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right" @click='goshopdetail'>查看详情>>></a>
                 </div>
               
               </div></el-col>
@@ -78,7 +78,7 @@
                 <p class="xiaoliang">销量:</p>
                 <div class="money">￥1400.00</div>
                 <div class="price">
-                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
+                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right" @click='goshopdetail'>查看详情>>></a>
                 </div>
               
               </div></el-col>
@@ -91,7 +91,7 @@
                 <p class="xiaoliang">销量:</p>
                 <div class="money">￥1400.00</div>
                 <div class="price">
-                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
+                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right"  @click='goshopdetail'>查看详情>>></a>
                 </div>
               
               </div></el-col>
@@ -104,7 +104,7 @@
                 <p class="xiaoliang">销量:</p>
                 <div class="money">￥1400.00</div>
                 <div class="price">
-                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right">查看详情>>></a>
+                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right"  @click='goshopdetail'>查看详情>>></a>
                 </div>
               
               </div></el-col>
@@ -146,7 +146,7 @@
 
             <div class="left">
               <div class="img">
-                <img :src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)" alt="#" :onerror="logo" width="100%" height="80%">
+                <img :src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)" alt="#" :onerror="logo"  :id="index" @click="goshopdetail">
               </div>
               
               <div class="word">
@@ -211,7 +211,7 @@
 </template>
 
 <script>
-
+import store from "../store"
 export default {
   name: "shoppingcart",
 
@@ -228,6 +228,9 @@ export default {
   
 
   created() {
+
+    //  this.$store.dispatch('denglu',store);
+
     //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
     var that = this;
     this.ajax
@@ -243,6 +246,7 @@ export default {
           that.shoppingdata = data.data.data;
         }
       })
+      // over
   },
   computed:{
     //动态监测页面总价
@@ -260,6 +264,15 @@ export default {
      },
   },
   methods: {
+    // 跳转商品详情页
+    goshopdetail(e){
+      var goodsindex=e.target.id;
+      var that = this;
+       var goodid=that.shoppingdata[goodsindex].serviceId;
+       this.$router.push({path:'/header/goodsdetail',query:{id:goodid}});
+    },
+
+    // 跳转商品详情页
     //添加/减少商品数量
     addnum:function(e){
       var goodsindex=e.target.id;
@@ -295,6 +308,7 @@ export default {
     //提交购物车
   commitcart:function(){
     var that = this;
+    that.$store.commit('cartNum0','')
     that.ajax
       .post("/xinda-api/cart/submit", {})
       .then(function(data) {
@@ -328,7 +342,7 @@ export default {
 		    num:-1
         }))
       .then(function(data) {//减少商品成功则进行ajax请求购物车列表数据，刷新页面数据
-        console.log(data);
+        // console.log(data);
               that.ajax
           .post("/xinda-api/cart/list", that.qs.stringify({}))
           .then(function(data) {
@@ -353,9 +367,10 @@ export default {
   //elementui 自带弹出框函数,点击确定后发送ajax请求，并刷新页面
    open2(e) {
      var removeindex=e.target.id;
-     console.log(e.target.id);
+    //  console.log(e.target.id);
+    
      var that=this;
-     console.log(e.target),
+     console.log(removeindex),
         this.$confirm('此操作将从购物车删除该商品, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -363,7 +378,7 @@ export default {
         }).then(() => {
           // console.log(this);
 //开始
-
+that.$store.commit('cartNumreduce',removeindex);
         that.ajax
               .post("/xinda-api/cart/del", that.qs.stringify({
                 id:removeindex,
@@ -803,6 +818,12 @@ export default {
     }
 
   }
+}
+
+@media screen and (max-width:769px){
+    .el-message-box{
+        width:300px;
+    }
 }
 
 

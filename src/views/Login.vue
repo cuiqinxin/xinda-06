@@ -95,19 +95,25 @@ export default {
                             that.passTip='密码不正确，请重新输入';
                             var data=(new Date()).getTime();
                             that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
-                        }
-                        if(data.data.msg=="账号不存在"){
+                        }else if(data.data.msg=="账号不存在"){
                             that.phoneTip=data.data.msg;
                             var data=(new Date()).getTime();
                             that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
-                        }
-                        if(data.data.msg=="图片验证码错误！"){
-                            that.passTip=data.data.msg;
+                        }else if(data.data.msg=="图片验证码错误！"){
+                            that.photoTip=data.data.msg;
                             var data=(new Date()).getTime();
                             that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
-                        }
-                        if(data.data.status==1){
+                        }else if(data.data.status==1){
                             store.commit('loginStatus',that.phoneValue)
+                            that.ajax
+                            .post("/xinda-api/cart/list", that.qs.stringify({}))
+                            .then(function(data) {
+                                store.commit('gaincartNum',data.data.data.length);           
+                                for(var i=0;i<data.data.data.length;i++){  
+                                    var obj={'id':data.data.data[i].serviceId,'price':data.data.data[i].unitPrice,'sname':data.data.data[i].serviceName,'sinfo':data.data.data[i].serviceInfo,'simg':data.data.data[i].providerImg}          
+                                    store.commit('gaincartId',obj);                            
+                                } 
+                            })
                             if(that.panduan=='123'){
                                 that.$router.go(-1);
                             }else{

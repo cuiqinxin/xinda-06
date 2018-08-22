@@ -1,7 +1,7 @@
 <template>
     <div  class="goodsdetail">
         <div class="block">
-                <p class="littletip">首页/公司注册</p>
+                <p class="littletip" >首页/公司注册</p>
             <!-- 具体商品描述盒子 -->
             <div class="singlegoods">
                 <!-- 图片 -->
@@ -187,7 +187,7 @@
                           </p>
                           <div class="provider">
                               <div class="img">
-                                    <img :src="'http://123.58.241.146:8088/xinda/pic'+detailprovider.providerImg" alt="#">
+                                    <img :src="'http://123.58.241.146:8088/xinda/pic'+detailprovider.providerImg" alt="#" :onerror="logo" width='100' height="100">
                               </div>
 
                               <div class="contain">
@@ -348,7 +348,10 @@ import store from '../store'
                     // console.log(data);
                     that.pic_href=data.data;
                     
-            })
+            });
+
+    // 购物车数量判断
+//   this.$store.dispatch('gaincartdata',store);
 
     },
     data () { 
@@ -401,8 +404,6 @@ import store from '../store'
 
 //   },
     methods:{
-      
-      
         reduce:function(){
                 this.inputvalue--;
         },
@@ -419,14 +420,16 @@ import store from '../store'
                         that.open2();
                     }else{
                         that.open3();
-
+                        var obj={'id':that.detailproviderProduct.id,'price':that.detailproviderProduct.price,'sname':that.detailproviderProduct.serviceName,'sinfo':that.detailproviderProduct.serviceInfo,'simg':that.detailproduct.img}
+                        that.$store.commit('cartNumber',obj)
                          // 成功则进行添加购物车请求
-                        // that.ajax.post(
-                        // "/xinda-api/cart/add",
-                        // that.qs.stringify({                 id:that.detailproviderProduct.id,num:that.inputvalue})
-                        //     ).then(function(data){
-                        //         // console.log(data);
-                        //     });  
+                        that.ajax.post(
+                        "/xinda-api/cart/add",
+                        that.qs.stringify({                 id:that.detailproviderProduct.id,num:that.inputvalue})
+                            ).then(function(){
+                                // console.log(data);
+                                // that.$router.push({path:"/header/shoppingcart"})
+                            });  
                         // 添加购物车请求结束
                     }
                 // });             
@@ -437,6 +440,7 @@ import store from '../store'
                     if(that.loginstate==0){
                         that.open2();
                     }else{
+                        that.$store.commit('cartNumber',{'id':that.detailproviderProduct.id,'price':that.detailproviderProduct.price,'sname':that.detailproviderProduct.serviceName,'sinfo':that.detailproviderProduct.serviceInfo,'simg':that.detailproduct.img})
                          // 成功则进行添加购物车请求
                         that.ajax.post(
                         "/xinda-api/cart/add",
@@ -585,11 +589,6 @@ import store from '../store'
         },
 
 
-
-
-
-
-
     // 马上咨询部分函数
 
 
@@ -618,30 +617,15 @@ import store from '../store'
            // 提示框函数
         open3() {
             var that=this;
-            this.$confirm('确定加入购物车？', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-            }).then(() => {
-               // 成功则进行添加购物车请求
-                this.$message({
-                type: 'success',
-                message: '加入购物车成功!'
-            });
-                        that.ajax.post(
-                        "/xinda-api/cart/add",
-                        that.qs.stringify({                 id:that.detailproviderProduct.id,num:that.inputvalue})
-                            ).then(function(){
-                                // console.log(data);
-                                // that.$router.push({path:"/header/shoppingcart"})
-                            });  
-                        // 添加购物车请求结束
-            }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '已取消加入购物车'
-            });          
-            });
+            this.$alert('加入购物车成功！', '提示', {
+                confirmButtonText: '确定',
+                callback: action => {
+                    // this.$message({
+                    // type: 'info',
+                    // message: `action: ${ action }`
+                    // });
+                }
+                });
         },
         // 提示框函数open5
         // open5() {
@@ -681,11 +665,12 @@ import store from '../store'
         },
         //样式操控方法jieshu 
         
-    }     
+    },
+
     } 
 </script>
 
-<style scoped lang="less" > 
+<style  lang="less" > 
 @media screen and (min-width:769px){
 
   
