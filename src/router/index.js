@@ -36,8 +36,12 @@ import Index1 from '@/views/Index1'
 
 import List from '@/views/List'
 // Vue.use(Router)
+import axios from 'axios'
+import qs from 'qs'
 
-export default new VueRouter({       //module.expotrs={}
+
+const  router = new VueRouter({       //module.expotrs={}
+ 
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }
   },
@@ -221,3 +225,61 @@ export default new VueRouter({       //module.expotrs={}
     // }
   ]
 })
+
+export default router;
+
+
+// 全局路由守卫
+router.beforeEach((to, from, next) => {
+  // to: Route: 即将要进入的目标 路由对象
+  // from: Route: 当前导航正要离开的路由
+  // next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。
+  // console.log('navigation-guards');
+
+var that=this;  // 定义守卫路径
+  const nextRoute = ['Header', 'shoppingcart', 'pay'];
+
+   // 判断是否登陆
+   axios.post(
+    "/xinda-api/sso/login-info",
+    qs.stringify({})
+    ).then(function(data){
+    // console.log(data.data.status);
+    // 未登录状态；当路由到nextRoute指定页时，跳转至login
+    if(data.data.status!=1 && nextRoute.indexOf(to.name) >= 0){
+      // var num = 5
+        // open();
+        that.a.app.$alert('您还未登录,点击 确定 跳转到登录页', '提示', {
+          confirmButtonText: '确定',
+        }).then(()=>{
+          router.push({name:'Login'});
+         
+        }).catch(()=>{
+          router.push({name:'Header'});
+        });
+  
+        // var s = setTimeout(function(){
+        //   num--;
+        //   if(num == 0){
+        //     that.a.app.$router.push({name:'Header'});
+        //     clearInterval()
+        //   }
+        // },1000);
+        
+    }else if(data.data.status==1&&to.name === 'Login'){ // 已登录状态；当路由到login时，跳转至home 
+        router.push({ name: 'Header' });
+    }
+
+})
+  next();
+});
+
+
+// function open() {
+//   this.a.app.$alert('您还未登陆！', '提示', {
+//     confirmButtonText: '确定',
+//     callback: action => {
+    
+//     }
+//   });
+// }

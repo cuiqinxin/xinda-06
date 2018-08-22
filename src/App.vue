@@ -31,21 +31,21 @@
             <span class="shop-img"></span>
             <router-link to="/shoppingcart">购物车<a>{{cartnum}}</a>件</router-link>
             <div class="showcart">
-                <h4 :class="cartfirsthint">{{isdenglu}}</h4>    
+                <h4 :class="[showlist==0 ? activeClass : '', errorClass]" v-html="showlist==0 ? '购物车是空的哦！':'最近加入的商品：'"></h4>    
                 <div class="xiangxi" v-for="(item,index) in showlist.slice(0,4)" :key="index">
-                  <router-link :to="{path:'/goodsdetail',query:{id:item.serviceId}}">
-                    <img :src="'http://123.58.241.146:8088/xinda/pic/'+(item['providerImg'])"  class="imgsss">                    
+                  <router-link :to="{path:'/goodsdetail',query:{id:item.id}}">
+                    <img :src="'http://123.58.241.146:8088/xinda/pic/'+(item['simg'])"  class="imgsss">                    
                   </router-link>
                   <div class="cartmid">
-                    <h4><router-link :to="{path:'/goodsdetail',query:{id:item.serviceId}}">{{item['serviceName']}}</router-link></h4>
-                    <p class="miaoshu">{{item['serviceInfo']}}</p>
+                    <h4><router-link :to="{path:'/goodsdetail',query:{id:item.id}}">{{item['sname']}}</router-link></h4>
+                    <p class="miaoshu">{{item['sinfo']}}</p>
                   </div>
                   <div class="cartright">
-                    <p class="cartzuizuo">￥<span>{{item['unitPrice']}}.00</span></p>
-                    <a href="javascript:void(0)" @click="deletecarts(index,item.serviceId)">删除</a>
+                    <p class="cartzuizuo">￥<span>{{item['price']}}.00</span></p>
+                    <a href="javascript:void(0)" @click="deletecarts(item.id)">删除</a>
                   </div>
                 </div>
-                <div :class="lookforcarter">
+                <div :class="showlist==0 ? 'lookforcarts' : 'lookforcart'">
                   <router-link to="/shoppingcart" class="lookforc">查看我的购物车</router-link>
                 </div>
             </div>
@@ -79,9 +79,10 @@ export default {
       return {
         status: 0,
         cartNum: 0,
-        cartfirsthint:'carttitsss cartzuiyou',
-        isdenglu:'购物车是空的哦！',
-        lookforcarter:'lookforcarts',
+        // sta: true,                        
+        userPhoneNumber1:'',
+        activeClass:'cartzuiyou',
+        errorClass:'carttitsss',
         showlist:[],
         changebiao:0,         //第几次加到showlist
         endqingqiu:2
@@ -118,49 +119,15 @@ export default {
       errorImage(item){
         item.productImg = "../../static/errorImg.png";
       },
-      deletecarts(index,order){
-        console.log(index,order);
+      deletecarts(order){
         this.ajax.post("/xinda-api/cart/del",this.qs.stringify(
             {'id':order}
         )).then(data=>{
           if(data.data.status==1){
-            this.cartNum--;
-            this.showlist.splice(index,1);
-            if(this.showlist.length==4&&this.endqingqiu==2){
-              this.showlister();
-            }
-            if(this.showlist.length==0){
-              this.cartfirsthint='carttitsss cartzuiyou';
-              this.isdenglu='购物车是空的哦！';
-              this.lookforcarter='lookforcarts';return;
-            }
+            store.commit('cartNumreduce',order);
           }
         })
       },
-      showlister(){
-        this.ajax.post("/xinda-api/cart/list").then(data=>{
-          if(this.endqingqiu!=2){return;}
-          if(data.data.data.length==0){
-            this.cartfirsthint='carttitsss cartzuiyou';
-            this.isdenglu='购物车是空的哦！';
-            this.lookforcarter='lookforcarts';return;
-          }else{
-            this.cartfirsthint='carttitsss';
-            this.isdenglu='最近加入的商品：';
-            this.lookforcarter='lookforcart';
-          }
-          var listend=(this.changebiao+1)*8;
-          if(listend>data.data.data.length){
-            listend=data.data.data.length;
-            this.endqingqiu=0;
-          }
-          for(var i=this.changebiao*8;i<listend;i++){
-            this.showlist.push(data.data.data[i]);
-          }
-          this.changebiao++;
-          console.log(this.showlist);
-        })
-      }
     },
     computed:{
       userPhoneNumber(){
@@ -171,6 +138,9 @@ export default {
       },
       cartnum:function(){
         return store.state.cartNum;
+      },
+      showlist:function(){
+        return store.state.cartconcrete;   
       },
       ...mapState({
         loading: state => state.loading
@@ -188,27 +158,28 @@ export default {
       this.ajax
       .post("/xinda-api/cart/list", that.qs.stringify({}))
       .then(function(data) {
-          store.commit('gaincartNum',data.data.data.length);
-          for(var i=0;i<data.data.data.length;i++){
-            store.commit('gaincartId',data.data.data[i].serviceId);
-          }
+        store.commit('gaincartNum',data.data.data.length);
+        for(var i=0;i<data.data.data.length;i++){
+          var obj={'id':data.data.data[i].serviceId,'price':data.data.data[i].unitPrice,'sname':data.data.data[i].serviceName,'sinfo':data.data.data[i].serviceInfo,'simg':data.data.data[i].providerImg}          
+          store.commit('gaincartId',obj);
+        }
+        that.showlist=store.state.cartconcrete;
       })
-                
       //  console.log(this.cartid);
         // over
       fun:{
-          this.ajax.post("/xinda-api/sso/login-info").then(data=>{
-            if(data.data.status === 0){
-              store.commit('loginStatus','')
-            }else if(data.data.status === 1){
-              store.commit('loginStatus',data.data.data.loginId);
-            }
+        this.ajax.post("/xinda-api/sso/login-info").then(data=>{
+          if(data.data.status === 0){
+            store.commit('loginStatus','')
+          }else if(data.data.status === 1){
+            store.commit('loginStatus',data.data.data.loginId);
+          }
         })
       }
-      this.showlister();     
+      // this.showlister();     
     },
     components:{
-        Loading,
+      Loading,
     },
 }
 </script>

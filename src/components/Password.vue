@@ -81,6 +81,10 @@ export default {
 }
 </script>
 
+<<<<<<< HEAD
+<style scoped lang="less">
+    
+=======
 <style lang="less">
     .pass{
         margin:24px 0 0;
@@ -109,6 +113,7 @@ export default {
     }
     .colori{&::before{color: red;margin-right: 5px}}
     .righti{&::before{color: rgb(36, 228, 78);margin-right: 5px}} 
+>>>>>>> 5e94b27e57b296fa6070e7cb5d97e5cd1417b4d2
     @media screen and (max-width: 768px){
         .pass{margin:32px 0 0;}
     }
