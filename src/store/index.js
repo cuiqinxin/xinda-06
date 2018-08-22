@@ -3,6 +3,10 @@
 
 // Vue.use(vuex)
 
+
+
+
+
 export default new Vuex.Store({
     //设置全局变量  所有组件都能用
     state:{
@@ -56,11 +60,6 @@ export default new Vuex.Store({
     },
 
 
-    // //有关全局变量的全局函数
-    // getters:{
-    //     showLoading(state){
-    //         return state.showLoading 
-    //     },
-    // },
+
    
 });
