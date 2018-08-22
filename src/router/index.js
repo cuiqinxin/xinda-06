@@ -1,7 +1,6 @@
 // import Vue from 'vue'
 // import Router from 'vue-router'
-import NotFoundComponent from '@/components/NotFoundComponent'    //@ => ..
-import Test from '@/components/Test'    //@ => ..
+// import NotFoundComponent from '@/components/NotFoundComponent'    //@ => ..
 import Login from '@/views/Login'    //@ => ..
 import Zhuce from '@/views/Zhuce'    //@ => ..
 import Forget from '@/views/Forget'
@@ -47,11 +46,6 @@ const  router = new VueRouter({       //module.expotrs={}
     return { x: 0, y: 0 }
   },
   routes: [
-    {
-      path: '/test',
-      name: 'Test',
-      component: Test
-    },
     {
       path: '/datang',
       name: 'Datang',

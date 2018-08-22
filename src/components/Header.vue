@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="grabble hidden-md-and-down">
+    <div class="grabble hidden-sm-and-down">   
       <div class="grabble-con">
         <div class="grabble-top">
           <div class="grabble-left" >
@@ -40,7 +40,7 @@
               <router-link :to="{path:'/list',query:{name:'公司工商',code:4,index:0}}" class="color1">公司注册</router-link>
             </p>
           </div>
-          <div class="grabble-right">
+          <div class="grabble-right hidden-md-and-down">
             <span></span>
             <a>010-83421842</a>
           </div>
@@ -99,7 +99,7 @@
 
     <router-view/>
 
-    <footer class="footer1 hidden-md-and-down">
+    <footer class="footer1 hidden-sm-and-down">
       <el-row class="footer1-con">
         <h4>关于我们</h4>
         <ul>
@@ -109,8 +109,8 @@
         </ul>
       </el-row>
     </footer>
-    <footer  class="footer2-2 hidden-lg-and-up" style="height: 90px;width: 100%"></footer>
-    <footer class="footer1-2 hidden-lg-and-up">
+    <footer  class="footer2-2 hidden-md-and-up" style="height: 90px;width: 100%"></footer>
+    <footer class="footer1-2 hidden-md-and-up">
       <ul>
         <li>
           <router-link to="/header/index1">
@@ -443,7 +443,7 @@ export default {
       ul{
         display: flex;
         >li{
-          width: 199px;
+          width: 195px;
           >a{
             display: block;
             width: 80px;
@@ -507,7 +507,7 @@ export default {
               .nav-select1{
                 display: none;
                 position: absolute;
-                left: 199px;
+                left: 195px;
                 top: 0;
                 flex-direction: column;
                 background-color: rgb(150,170,194);
@@ -644,6 +644,11 @@ export default {
   padding: 0 5px; 
   margin-top: 8px;
   position: absolute;
+}
+@media screen and (min-width: 768px) and (max-width: 1200px){
+  .nav-select :hover ul{
+    display : none!important;
+  }
 }
 </style>
  
