@@ -1,10 +1,10 @@
 <template>
   <div class="index1">
-    <div class="grabble2 hidden-lg-and-up">
+    <div class="grabble2 hidden-md-and-up">
       <div class="adress2">{{datavalue}}&or;</div>
       <div class="logo2"><router-link to="/"></router-link></div>
     </div>
-    <div class="hidden-md-and-down">
+    <div class="hidden-sm-and-down">
         <el-carousel class="lunbo" height="400px">
             <el-carousel-item>
                 <img src="../../static/timg.jpg">
@@ -48,7 +48,7 @@
                         <p><span>3000</span>元/年</p>
                     </div>
                 </div>
-                <div>
+                <div class="hidden-md-and-down">
                     <div @click="rou4">
                         <div class="star-img3"></div>
                         <h4>国内普通商标注册</h4>
@@ -80,7 +80,7 @@
                 <li>知识产权</li>
             </ul>
             <div class="zhi-con">
-                <div class="zhi-con-left">
+                <div class="zhi-con-left hidden-md-and-down">
                     <img src="../../static/property_03.503817a.jpg">
                     <div class="zhi-p zhi-pl">
                         <h6>知识产权</h6>
@@ -94,30 +94,36 @@
                 <div class="zhi-con-right">
                     <div class="zhi-con-rtop">
                         <div>
-                            <img src="../../static/property_05.5160ddd.jpg">
-                            <div class="zhi-pr">
-                                <h5>商标注册</h5>
-                                <p>急速申报，办理简便</p>
-                                <div><span>￥1000</span>/次</div>
-                            </div>
+                            <router-link :to="{path:'/list',query:{name:'知识产权',code:8,index:1}}">
+                                <img src="../../static/property_05.5160ddd.jpg">
+                                <div class="zhi-pr">
+                                    <h5>商标注册</h5>
+                                    <p>急速申报，办理简便</p>
+                                    <div><span>￥1000</span>/次</div>
+                                </div>
+                            </router-link>
                         </div>
                         <div>
-                            <img src="../../static/property_07.20bed75.jpg">
-                            <div class="zhi-pr">
-                                <h5>版权专利</h5>
-                                <p>快速提交，全程跟踪</p>
-                                <div><span>￥1000</span>/次</div>
-                            </div>
+                            <router-link :to="{path:'/list',query:{name:'知识产权',code:9,index:2}}">
+                                <img src="../../static/property_07.20bed75.jpg">
+                                <div class="zhi-pr">
+                                    <h5>版权专利</h5>
+                                    <p>快速提交，全程跟踪</p>
+                                    <div><span>￥1000</span>/次</div>
+                                </div>
+                            </router-link>
                         </div>
                     </div>
                     <div class="zhi-con-rb">
                         <div>
-                            <img src="../../static/property_11.a620967.jpg">
-                            <div class="zhi-pr zhi-prb">
-                                <h5>著作权</h5>
-                                <p>专业顾问，经验丰富，快速响应，顺利拿证！</p>
-                                <div><span>￥1000</span>/次</div>
-                            </div>
+                            <router-link :to="{path:'/list',query:{name:'知识产权',code:10,index:0}}">
+                                <img src="../../static/property_11.a620967.jpg">
+                                <div class="zhi-pr zhi-prb">
+                                    <h5>著作权</h5>
+                                    <p>专业顾问，经验丰富，快速响应，顺利拿证！</p>
+                                    <div><span>￥1000</span>/次</div>
+                                </div>
+                            </router-link>
                         </div>
                     </div>
                 </div>
@@ -205,7 +211,7 @@
             </ul>
         </div>
     </div>
-    <div class="hidden-lg-and-up index1-2">
+    <div class="hidden-md-and-up index1-2">
         <el-carousel class="lunbo1" height="250px">
             <el-carousel-item>
                 <img src="../../static/timg.jpg">
@@ -850,4 +856,16 @@ export default {
                 }
             }
         }
+    @media screen and (min-width: 768px) and (max-width: 1200px){
+        .zhi-con-right{
+            width: 90%;
+            margin: 0 auto;
+            .zhi-con-rtop{
+                margin-bottom: 22px;
+                >div{
+                    width: 48%;
+                }
+            }
+        }
+    }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- 开始公共头部 -->
-    <div class="top hidden-md-and-down">
+    <div class="top hidden-sm-and-down">   
       <el-row class="top-con" type="flex" justify="space-between">
         <el-col :span="12" class="top-left">
           <div class="topHover">
@@ -61,7 +61,7 @@
     <router-view/>
 
     <!-- 开始公共底部 -->
-    <footer class="footer2 hidden-md-and-down">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
+    <footer class="footer2 hidden-sm-and-down">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
     <!-- 结束公共底部 -->
 
     <!-- loading正在加载组件 -->
@@ -79,8 +79,6 @@ export default {
       return {
         status: 0,
         cartNum: 0,
-        // sta: true, 
-        userPhoneNumber1:'',
         cartfirsthint:'carttitsss cartzuiyou',
         isdenglu:'购物车是空的哦！',
         lookforcarter:'lookforcarts',
