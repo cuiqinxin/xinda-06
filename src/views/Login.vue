@@ -116,7 +116,7 @@ export default {
                             if(that.panduan=='123'){
                                 that.$router.go(-1);
                             }else{
-                                that.$router.push({path:'/header/index1'});
+                                that.$router.push({path:'/'});
                             }
                         }
                 })
