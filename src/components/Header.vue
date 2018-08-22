@@ -7,7 +7,10 @@
             <router-link to="/" class="logo"></router-link>
             <div class="address">
               <p>{{datavalue}}</p>
-              <p class="changeaddress">[切换城市]</p>
+              <p class="changeaddress">
+                [切换城市]
+                <a class="red">当前仅北京开放</a>
+              </p>
             </div>
           </div>
           <div class="grabble-input" :class="{color_red:color_red}">
@@ -23,7 +26,6 @@
                 :placeholder='placeholder'
                 @select="handleSelect"
                 @keyup.enter.native="search"
-                v-focus="focuss"
                 :value="state4"
               ></el-autocomplete><button 
                 @click="link1"
@@ -164,20 +166,8 @@ export default {
       placeholder:'搜索您需要的服务或服务商',
       none: true,
       hover: false,
-      focuss: false
     };
   },
-  directives: {
-    focus: {
-        inserted: function (el, {value}) {
-        console.log(el,{value})
-            if (value) {
-                el.querySelector('input').focus();
-                console.log(el);
-            }
-        }
-    }
- },
   created() {
     var navArr={};
     var that = this;
@@ -190,7 +180,6 @@ export default {
           navArr[navSelect[key].showOrder] = navSelect[key];
         }
       that.menuList = navArr;
-      console.log(that.menuList)
     });
     var href=this.$route.path;
     if(href=='/'){
@@ -207,16 +196,10 @@ export default {
   },
   methods: {
     search(){
-      console.log('enter')
       if(this.style===true){
         this.link1();
-        this.focuss = true
-        console.log('12')
-        // console.log(this.focus)
       }else{
         this.link();
-        this.focuss = true
-        console.log('123')
       }
     },
     none1(){
@@ -294,7 +277,6 @@ export default {
           )
           .then(function(data) {
             var product = data.data.data;
-            // console.log(that.productstatus,that)
             that.productstatus = 200;
             for (let i = 0; i < product.length; i++) {
               production[i] = {
@@ -328,7 +310,11 @@ export default {
       };
     },
     handleSelect(item) {
-      console.log(item);
+      if(this.style===true){
+        this.link1();
+      }else{
+        this.link();
+      }
     },
     phonelogin(){
       this.ajax.post("/xinda-api/sso/login-info").then(data=>{
@@ -387,6 +373,9 @@ export default {
         .address {
           .changeaddress {
             color: #2693d4;
+            &:hover .red{
+              display: block;
+            }
           }
         }
       }
@@ -482,7 +471,7 @@ export default {
             >li{
               display: flex;
               position: relative;
-              padding: 17px 0;
+              padding: 16px 0;
               &:hover{
                 background-color: rgba(38,147,211,1);
               }
@@ -491,6 +480,7 @@ export default {
               }
               >div{
                 .nav-span{
+                  height: 17px;
                   color: #fff;
                   font-size: 13px;
                   margin: 0 20px 5px 0;
@@ -499,6 +489,7 @@ export default {
                 }
               }
               .nav-h2{
+                height: 21px;
                 display: block;
                 cursor: pointer;
                 color: #fff;
@@ -644,6 +635,15 @@ export default {
 }
 .color {
   color: #2693d4;
+}
+.red{
+  display: none;
+  color: red;
+  border: 1px solid red;
+  border-radius: 4px;
+  padding: 0 5px; 
+  margin-top: 8px;
+  position: absolute;
 }
 </style>
  

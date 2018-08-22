@@ -8,9 +8,15 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-
-
 module.exports = {
+  
+  externals: {
+    'vue':'Vue',
+    'vue-router':'VueRouter',
+    'axios':'axios',
+    'vuex': 'Vuex',
+    'element-ui': 'ELEMENT',
+  },
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'

@@ -29,7 +29,7 @@
         <el-col :span="12" class="top-right">
           <router-link to="" class="shop-cart" v-if="userPhoneNumber">
             <span class="shop-img"></span>
-            <router-link to="/shoppingcart">购物车<a>{{cartNum}}</a>件</router-link>
+            <router-link to="/shoppingcart">购物车<a>{{cartnum}}</a>件</router-link>
             <div class="showcart">
                 <h4 :class="cartfirsthint">{{isdenglu}}</h4>    
                 <div class="xiangxi" v-for="(item,index) in showlist.slice(0,4)" :key="index">
@@ -50,7 +50,9 @@
                 </div>
             </div>
           </router-link>
-          <router-link to="" class="service-enter">服务商入口</router-link>
+          <router-link to="" class="service-enter">服务商入口
+            <p class="red-p">暂未开放，敬请期待</p>
+          </router-link>
         </el-col>
       </el-row>
     </div>
@@ -166,6 +168,12 @@ export default {
       userPhoneNumber(){
         return store.state.userPhoneNumber;
       },
+      cartid:function(){
+        return store.state.cartId;
+      },
+      cartnum:function(){
+        return store.state.cartNum;
+      },
       ...mapState({
         loading: state => state.loading
       })
@@ -175,6 +183,27 @@ export default {
       this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
         this.cartNum = data.data.data.cartNum;
       })
+        // 购物车数据
+    
+                //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
+                var that = this;
+                
+                this.ajax
+                .post("/xinda-api/cart/list", that.qs.stringify({}))
+                .then(function(data) {
+                  
+                    store.commit('gaincartNum',data.data.data.length);
+                    
+                    for(var i=0;i<data.data.data.length;i++){
+                    
+                         store.commit('gaincartId',data.data.data[i].serviceId);
+                        
+                    }
+                    
+                })
+                
+      //  console.log(this.cartid);
+        // over
       fun:{
           this.ajax.post("/xinda-api/sso/login-info").then(data=>{
             if(data.data.status === 0){
@@ -219,11 +248,6 @@ export default {
             margin: 0 12px;
           }
         }
-        // a{
-        //   position: relative;
-        //   color:#2693d4;
-        //   margin: 0 12px;
-        // }
       }
       .top-right{
         display: flex;
@@ -257,6 +281,9 @@ export default {
         }
         .service-enter{
           color: #2693d4;
+          &:hover .red-p{
+            display: block;
+          }
         }
       }
     }
@@ -388,6 +415,17 @@ export default {
       }
     }
   }
-
+  .red-p{
+    display: none;
+    color: red;
+    border: 1px solid red;
+    border-radius: 4px;
+    padding: 0 5px; 
+    margin-top: 8px;
+    position: absolute;
+    right: 0px;
+    top: 23px;
+    line-height: 25px;
+  }
   
 </style>
