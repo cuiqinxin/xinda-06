@@ -9,8 +9,10 @@ import qs from 'qs'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
+import infiniteScroll from 'vue-infinite-scroll';
 
 
+Vue.use(infiniteScroll)
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 
