@@ -279,14 +279,14 @@ export default {
                 // 微信的接口请求
                 this.erweimastate=true;
                 this.payboxstate=true;
-                this.paysrc="../../static/微信支付二维码.jpg";
+                this.paysrc="../../static/weixinzhifu.jpg";
 
 
 
             }else if(this.paystyle=='zhifubao'){
                 this.erweimastate=true;
                  this.payboxstate=true;
-                this.paysrc="../../static/支付宝支付二维码.jpg";
+                this.paysrc="../../static/zhifubaozhifu.jpg";
 
             }else if(this.paystyle=='zizhu'){
                 this.payboxstate=true;

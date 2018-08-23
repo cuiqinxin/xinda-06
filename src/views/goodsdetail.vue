@@ -1033,6 +1033,7 @@ import store from '../store'
                         // width:px;
                         height:34px;
                         margin:0 5px 0 5px;
+                        padding:0 15px ;
                     }
                 }
             }
@@ -1265,7 +1266,7 @@ import store from '../store'
            }
        }
        .el-button{
-           padding:0 5px 0 5px;
+           padding:0 5px 0 5px!important;
            line-height:30px;
            margin-left:21px;
            background:#f5f4f4;
