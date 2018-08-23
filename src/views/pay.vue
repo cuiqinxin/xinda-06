@@ -214,9 +214,10 @@ export default {
           "businessNo":this.$route.query.businessNo
       }))
       .then(function(data) {
-        // console.log(data.data);
+        // console.log(that.businessOrde);
 
          that.businessOrder=data.data.data.businessOrder;
+        //  console.log();
          that.serviceOrderList=data.data.data.serviceOrderList;
         //  将时间戳格式化
           var date = new Date(that.businessOrder.createTime);
@@ -299,12 +300,12 @@ export default {
         },
         //支付完成
         payover(){
+            var that=this;
             this.$router.push({
                 path:"/header/paysuccess",
-                // params: { 
-                // name: 'name', 
-                // dataObj: this.msg
-                // }
+                query: { 
+                    businessNo: that.businessOrder.businessNo
+                }
             });
         },
         //支付失败
@@ -836,5 +837,7 @@ export default {
      width:100%;
      height:100%;
  }
-
+.el-message-box{
+    width: 300px!important;
+}
 </style>

@@ -180,7 +180,6 @@ export default {
             screenWidth: document.body.clientWidth,
             loginStatus:0,
             currentIndex :0,
-            
         };
     },
     created() {
@@ -350,7 +349,7 @@ export default {
     mounted(){
         console.log(document.body.scrollHeight)
         //监听屏幕大小
-        if(document.body.offsetWidth<=768){
+        if(document.body.offsetWidth<768){
             window.addEventListener('scroll', this.scrollBottom)
         }
 
@@ -406,7 +405,7 @@ export default {
             
             var that = this
             this.isShow = false
-            if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<=768) {
+            if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<768) {
                 //if(this.obj.sort == 2 || this.obj.sort == 3 || this.obj.sort == ''){
                     if(this.searchAdd.searchName == '' || this.searchAdd.searchName == undefined){                     
                         this.page++
@@ -479,51 +478,6 @@ export default {
                                         },500)
                         }
                     }
-            //     }
-            // else{    
-            //     this.start++
-            //     this.page++
-            //     this.isShow = true
-            //     if(this.thisProduct.length<this.parentCount.all){
-            //         that.loadText = 'loading...'
-            //         this.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
-            //             {
-            //                 start:that.start,
-            //                 limit:1,
-            //                 providerId: that.obj.productId,
-            //                 productTypeCode: that.obj.productTypeCode,
-            //             }
-            //         )).then(function(data){
-            //             for(let key in data.data.data){
-                            
-            //                 // that.thisProduct.push(data.data.data[key])
-            //                 var production = data.data.data[key];
-                           
-            //                 // for(let key in production){
-                                
-            //                     var pro = production['productImg']
-            //                     pro = "http://123.58.241.146:8088/xinda/pic" + pro
-            //                     production['productImg'] = pro
-            //                 // }
-                            
-            //                 that.thisProduct.push(data.data.data[key])
-                            
-            //                 if(that.thisProduct.length == that.parentCount.all){
-                                
-            //                     that.loadText = 'No more loading'
-            //                     setInterval(function(){
-            //                         that.isShow = false
-            //                     },500)
-            //                 }
-            //             }    
-            //         });
-            //     }else{
-            //         that.loadText = 'No more loading'
-            //         setInterval(function(){
-            //                         that.isShow = false
-            //                     },500)
-            //     }
-            // }
           }
         },
         //分页器组件
@@ -743,7 +697,7 @@ export default {
             if(this.searchAdd.searchName == '' || this.searchAdd.searchName == undefined){
                 
                 
-                if(this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<=768){
+                if(this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<768){
                     this.start++
                     
                 this.page++
@@ -863,10 +817,9 @@ export default {
         },
         //加入购物车item
         cart(event,item){
-            console.log(item)
             var that = this
-            var id = event.currentTarget.id
-            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.img}
+            var id = event.currentTarget.id       
+            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.providerImg}
 
             // that.ajax.post(
             //     "/xinda-api/sso/login-info", 
@@ -1010,17 +963,17 @@ export default {
          screenWidth (val,oldval) {
             this.screenWidth = val
             //手机端渲染
-            if(val<=768){
+            if(val<768){
                 window.addEventListener('scroll', this.scrollBottom)
                 this.isShow = false;
             }
-            if(oldval<=768 && val>768){
+            if(oldval<768 && val>=768){
                 this.thisProduct = this.thisProduct.splice(0,5)
                 this.isShow = false;
                 // this.parentCount.currentPage = 1;
                 this.$refs.pagemore.go(1)
             }
-            else if(oldval>768 && val<=768){
+            else if(oldval>=768 && val<768){
                 this.start = 4
                 if(this.currentIndex >= 2){
                     var that = this;
@@ -1118,9 +1071,9 @@ export default {
                 document.getElementsByClassName('el-icon-sort-down')[1].setAttribute('style','color:#000')
                 document.getElementsByClassName('el-icon-sort-up')[3].setAttribute('style','color:#000')
                 document.getElementsByClassName('el-icon-sort-down')[3].setAttribute('style','color:#000')
-                this.ajax.post("/xinda-api/product/style/list").then(function(data) {
+                //this.ajax.post("/xinda-api/product/style/list").then(function(data) {
                     var classify1 = [];
-                    that.Data = data.data.data
+                    //that.Data = data.data.data
                     var newData = that.Data;
                     //服务分类渲染      
                     for (let key in newData) {
@@ -1212,7 +1165,7 @@ export default {
                         }        
                     })
                     
-                });
+                //});
             }
             else{
             //服务分类渲染
@@ -1475,7 +1428,6 @@ export default {
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
-
             }
             .errorInfo{
                 font-size: 40px;
