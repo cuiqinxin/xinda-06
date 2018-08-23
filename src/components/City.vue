@@ -45,7 +45,7 @@ export default {
       areaChange(){
         //   this.area = citydata[this.data]
         this.$emit('confirm',this.areaCode);
-        console.log(this.areaCode);
+        // console.log(this.areaCode);
       },
   }
 }
@@ -57,7 +57,6 @@ export default {
     select{
        height:36px;
        margin:5px 10px 0;
-    } 
-    
+    }  
 }
 </style>
