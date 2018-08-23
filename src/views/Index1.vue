@@ -584,6 +584,7 @@ export default {
                 right: 0;
                 margin: 0 20px 40px 0;
                 h5{
+                    color: @color-269;
                     font-size: 18px;
                     font-weight: 400;
                 }
