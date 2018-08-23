@@ -1,11 +1,12 @@
 <template>
   <!--transition标签 按钮出现附带动画-->
   <transition name="el-fade-in">
-    <transition name="el-fade-in">
+    <!-- <transition name="el-fade-in"> -->
     <div class="page-component-up" @click="scrollToTop" v-show="toTopShow">
-      <i class="el-icon-caret-top"></i>
+      <!-- <i class="el-icon-caret-top"></i> -->
+      <img src="../../static/top.png" alt="" class="el-icon-caret-top">
     </div>
-  </transition>
+  <!-- </transition> -->
   </transition>
 </template>
 
@@ -19,10 +20,12 @@
     },
     methods: {
       handleScroll() {
-        //id scroller-box是自己在组件上添加的，为了方便获取dom
-        // this.scrollTop = document.getElementById("scroller-box").children[0].scrollTop
+        // document.getElementsByClassName('page-component-up')[0].style.bottom = 100 +'px'
         this.scrollTop = document.documentElement.scrollTop
-        // console.log(document.documentElement.scrollTop,window.pageYOffset)
+        if(this.toTopShow == false && this.scrollTop > 100){
+          document.getElementsByClassName('page-component-up')[0].style.bottom = 100 +'px'
+          document.getElementsByClassName('el-icon-caret-top')[0].style.opacity = 0.8
+        }
         if (this.scrollTop > 100) {
           this.toTopShow = true
         }else {
@@ -30,20 +33,35 @@
         }
       },
       scrollToTop() {
+        var bottom1 = 110
+        var opacity1 = 0.8
+        var high = document.documentElement.clientHeight
+        var count = 0
         let timer = null, _that = this
         //动画，使用requestAnimationFrame代替setInterval
         cancelAnimationFrame(timer)
         timer = requestAnimationFrame(function fn() {
           if (_that.scrollTop > 0) {
-            // _that.scrollTop -= 50
-            document.documentElement.scrollTop = 0
-            document.getElementById("scroller-box").children[0].scrollTop = document.documentElement.scrollTop
-            // document.getElementById("scroller-box").children[0].scrollTop = _that.scrollTop
+            
+            
+            if(count == 0){
+              bottom1 -= 20
+              document.getElementsByClassName('page-component-up')[0].style.bottom = bottom1 + "px"
+              count += 1
+            }
+            document.documentElement.scrollTop -= 20
+            if(document.getElementsByClassName('page-component-up')[0].style.bottom < (high + 20)+ "px"){
+            bottom1 += 30
+            opacity1 -= 0.06
+            document.getElementsByClassName('page-component-up')[0].style.bottom = bottom1 + "px"
+            document.getElementsByClassName('el-icon-caret-top')[0].style.opacity = opacity1
+            }
+            
+            else{
+              _that.toTopShow = false
+            }
             timer = requestAnimationFrame(fn)
-          } else {
-            cancelAnimationFrame(timer)
-            _that.toTopShow = false
-          }
+          } 
         })
       }
     },
@@ -59,31 +77,32 @@
 
 <style scoped lang="less">
     .page-component-up{
-    background-color: #409eff;
+    // background-color: #409eff;
     position: fixed;
-    right: 100px;
-    bottom: 150px;
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: .3s;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+    right: 40px;
+    bottom: 110px;
+    width: 60px;
+    height: 60px;
+    // transition: top 2s linear;
+    // box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
     z-index: 100;
     .el-icon-caret-top{
-      color: #fff;
+      // color: #fff;
+      opacity:0.8;
       display: block;
+      width: 100%;
       line-height: 40px;
       text-align: center;
       font-size: 18px;
+      // box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
     }
     p{
       display: none;
       text-align: center;
       color: #fff;
     }
-    &:hover{
-      opacity: .8;
-    }
+    // &:hover{
+    //   opacity: .8;
+    // }
   }
 </style>

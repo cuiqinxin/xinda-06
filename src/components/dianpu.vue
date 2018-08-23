@@ -108,11 +108,9 @@ export default {
             sort:2})).then(function(data){
                     that.provide=data.data.data
             console.log(data.data.data);
-
         });
         },   
         },
-
   watch : {
   },
   created(){

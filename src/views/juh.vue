@@ -1,6 +1,6 @@
 <template>
-  <div class="datang">
-    <div class="datang_title">
+<div class="datang">
+   <div class="datang_title">
         <img :src="'http://123.58.241.146:8088/xinda/pic/'+(name.providerImg)" >
         <h1>{{name.name}}</h1>  
         </div>
@@ -11,45 +11,51 @@
     <p>所有服务</p>
     <div class="sanjiao"></div>
 </div>
-    <div class="main">
-        <ul v-for="(pro,index) in provide" :key="index" class="main_1">
+ <div class="index">
+  <r-scroll ref="scroll" @loadmore="queryDate" :scrollCount="j">
+    <ul v-for="(pro,index) in provide" :key="index" class="main_1">
             <li class="main-left">
                  <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  onerror="this.onerror=''; src='../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg'"> 
             </li>
             <li :span="16" class="main-right">
-            <h4>{{pro.serviceName}}</h4>
+            <h4>{{pro.serviceName}}{{index}}</h4>
             <p class="info">{{pro.serviceInfo}}</p>
             <ul class="bottom">
                 <span class="region_1"></span><span>{{pro.regionName}}</span>
                 <span class="mprice">￥：{{pro.price}}<span class="yuan">元</span></span>
             </ul>
-            </li>
-            
+            </li>    
         </ul>
-    </div>
-    <router-view/>
-  </div>
-</template> 
-
+  </r-scroll>
+ </div>
+ </div>
+</template>
+ 
 <script>
-
-
-export default {
-  name: 'dianpumobile',
- components : {
-        },
-  data () {
-    return {
+import rScroll from '../components/rscroll'
+function timeout (ms) {
+ return new Promise((resolve, reject) => {
+  setTimeout(resolve, ms, 'done')
+ })
+}
+ 
+export default{
+    name: 'juh',
+    
+ components: {rScroll},
+ data () {
+  return {
       name:'',
       dianpu:'',
-      provide:'',
-    }
-  },
-  methods:{
-        },
-  watch : {
-  },
-  created(){
+      provide:[],
+      j:{
+      scrolltop:0,
+      showlaoding : true,
+
+      },     
+    } 
+ },
+ created(){
       var obj={
        id: this.$route.query.id
         }
@@ -60,34 +66,81 @@ export default {
       sort:1
       }))
       .then(function(data){
-            console.log(data.data.data);
             that.name=data.data.data
         });
         var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
     start:0,
-    // start:that.page,
-    limit:20,
-    // productTypeCode: "1",
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
-            that.provide=data.data.data  
-            console.log(data.data.data);
-
+           that.j.scrolltop=data.data.data.length;
+            console.log(that.j.scrolltop)
         });
         },
-  computed:{
-    
-  },
+ methods: {
+  async queryDate (page) {
+   await timeout(1000)
+   console.log(page)
+    // this.j.showlaoding = true
+    var that = this;
+    this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
+        start:page*3,
+        limit:3,
+    providerId: "9080f0c120a64eb3831d50ba93c33e78",
+    sort:2})).then(function(data){
+        console.log(data.data.data.length)
+        console.log(that.j.scrolltop)
+        if(that.j.scrolltop>=that.provide.length){
+            that.provide=that.provide.concat(data.data.data )  
+            console.log(that.provide)
+            console.log(page) 
+        }   
+        }); 
+   // this.j.showlaoding = false   
+   // 调用组件中的loaded函数，如果数据加载完成后记得调用组件的compleate函数
+    // this.$refs.scroll.loaded()
+  }
+ },
+ mounted () {
+
+// function queryDate (page) {
+// //    await timeout(1000)
+   
+//     // this.j.showlaoding = true
+//     var that = this;
+//     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
+//         start:page,
+//         limit:3,
+//     providerId: "9080f0c120a64eb3831d50ba93c33e78",
+//     sort:2})).then(function(data){
+//         if(that.j.scrolltop<=data.data.data.length){
+//             that.provide=that.provide.concat(data.data.data ) 
+//              console.log(that.provide)
+//             console.log(page)
+//             console.log(data.data.data)  
+//         }else{
+
+//         }
+//         }); 
+           
+//             // this.j.showlaoding = false
+      
+//    // 调用组件中的loaded函数，如果数据加载完成后记得调用组件的compleate函数
+//    this.$refs.scroll.loaded()
+// //   this.queryDate(this.page)
+
+//   }
+ }
 }
 </script>
-
-<style scoped lang="less">
-@media screen and (max-width:768px){
+ 
+<style lang="less">
+// .index{
+//     height:100vh;
+// }
 .datang_title{
     margin-top: 30px;
     text-align: center;
-    
     img{
         width:100px;
     }
@@ -107,11 +160,15 @@ export default {
         bottom: 0;
     }
 }
+
 .introduce{
     width:96%;
     margin:30px auto;
 }
-.main{
+.datang {
+    min-height: 100vh;
+    width: 90%;
+    padding-top: 18px;
     width:96%;
     margin:0 auto;
     .main_1{
@@ -174,7 +231,6 @@ export default {
         }
     }
 }
-}
 @media screen and (min-width:420px) and (max-width:768px){
     .main-right{
         .info{
@@ -212,5 +268,12 @@ export default {
             font-size: 12px;
         }
     }
+}
+.item{
+ background-color: #f2f2f2;
+ border-bottom: 1px solid #fff;
+ height: 40px;
+ line-height: 40px;
+ text-align: center;
 }
 </style>

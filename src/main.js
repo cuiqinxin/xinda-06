@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 import qs from 'qs'
 import 'element-ui/lib/theme-chalk/display.css';
+import infiniteScroll from 'vue-infinite-scroll';
 
 
 Vue.use(ELEMENT);

@@ -68,7 +68,7 @@
                                 <a v-for="(valuec,itemc) in dp.productTypes.split(',')" :key="itemc"></a>
                                 </p> 
                     </li>
-                    <button class="enter"  >
+                    <button class="enter"  @click="openFullScreen2"  >
                         <router-link :to="{path:'/dianpu',query:{id:dp.id}}" > 
                     进入店铺
                     </router-link>
@@ -113,6 +113,7 @@ export default {
     indexp:'11',
     bao:true,
     haoping:'',
+     fullscreenLoading: false,
     lan:{
          backgroundColor: "#2393d3",
          color:"white",
@@ -154,16 +155,24 @@ export default {
       }
     }, 
   methods:{
+       openFullScreen2() {
+        const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+        setTimeout(() => {
+          loading.close();
+        }, 1000);
+      },
       goodp(){
         this.haoping=this.lan
         this.jiedan=''
         this.zonghe=''
-        console.log('sss')
         var that = this
         this.ajax.post(
         '/xinda-api/provider/search-grid',this.qs.stringify({
-        //   start:0,
-        // searchName:this.$route.query.searchName,
         sort:2,
         }))
         .then(function(data){
@@ -179,8 +188,7 @@ export default {
         var that = this
         this.ajax.post(
         '/xinda-api/provider/search-grid',this.qs.stringify({
-        //   start:0,
-        // searchName:this.$route.query.searchName,
+
         sort:3,
         }))
         .then(function(data){
@@ -291,9 +299,7 @@ console.log(newval.query.searchName)
             line-height: 48px;
             text-align: center;
         }
-         .eara{
-            border-bottom: 1px solid #ccc;
-        }
+        
     }
     .pro_kind{
             height:48px;

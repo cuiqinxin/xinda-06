@@ -74,15 +74,15 @@
                                     <div class="list-right">
                                         <p>￥ {{item['price']}}.00</p>
                                         <div>
-                                            <button :id="item['id']" @click="buy($event)">立即购买</button>
-                                            <button :id="item.id" @click="cart($event)">加入购物车</button>
+                                            <button :id="item.id" @click="buy($event,item)">立即购买</button>
+                                            <button :id="item.id" @click="cart($event,item)">加入购物车</button>
                                         </div>
                                     </div>
                                 </el-col>
                                 <p class="error">当前选项无内容</p>
                             </el-row>
                         </div>
-                        <div id="scroller-box">
+                        <div id="scroller-box" class="hidden-sm-and-up">
                             <scrollTop></scrollTop>
                         </div>
                         
@@ -350,7 +350,7 @@ export default {
     mounted(){
         console.log(document.body.scrollHeight)
         //监听屏幕大小
-        if(document.body.offsetWidth<=762){
+        if(document.body.offsetWidth<=768){
             window.addEventListener('scroll', this.scrollBottom)
         }
 
@@ -406,7 +406,7 @@ export default {
             
             var that = this
             this.isShow = false
-            if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<=762) {
+            if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<=768) {
                 //if(this.obj.sort == 2 || this.obj.sort == 3 || this.obj.sort == ''){
                     if(this.searchAdd.searchName == '' || this.searchAdd.searchName == undefined){                     
                         this.page++
@@ -743,7 +743,7 @@ export default {
             if(this.searchAdd.searchName == '' || this.searchAdd.searchName == undefined){
                 
                 
-                if(this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<=762){
+                if(this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<=768){
                     this.start++
                     
                 this.page++
@@ -836,9 +836,10 @@ export default {
             }
         },
         //立即购买
-        buy(event){
+        buy(event,item){
             var that = this
             that.buyAdd.id = event.currentTarget.id
+            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.img}
             // 登录判断
             // that.ajax.post(
             //         "/xinda-api/sso/login-info",
@@ -849,7 +850,7 @@ export default {
                         that.open2();
                     }else{
                          // 已登录则向购物车列表发送数据
-                         that.$store.commit('cartNumber',that.buyAdd.id)
+                         that.$store.commit('cartNumber',obj)
                         that.$router.push('/shoppingcart')
                         that.ajax.post(
                             "/xinda-api/cart/add",
@@ -860,10 +861,13 @@ export default {
                 // });             
             
         },
-        //加入购物车
-        cart(event){
+        //加入购物车item
+        cart(event,item){
+            console.log(item)
             var that = this
             var id = event.currentTarget.id
+            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.img}
+
             // that.ajax.post(
             //     "/xinda-api/sso/login-info", 
             //     that.qs.stringify({})
@@ -878,7 +882,7 @@ export default {
                         type: 'warning'
                     }).then(() => {
                         //确定加入购物车
-                        that.$store.commit('cartNumber',id)
+                        that.$store.commit('cartNumber',obj)
                             that.cartAdd.id = id
                             that.cartAdd.num = 1;
                             that.ajax.post(
@@ -1006,17 +1010,17 @@ export default {
          screenWidth (val,oldval) {
             this.screenWidth = val
             //手机端渲染
-            if(val<=762){
+            if(val<=768){
                 window.addEventListener('scroll', this.scrollBottom)
                 this.isShow = false;
             }
-            if(oldval<=762 && val>762){
+            if(oldval<=768 && val>768){
                 this.thisProduct = this.thisProduct.splice(0,5)
                 this.isShow = false;
                 // this.parentCount.currentPage = 1;
                 this.$refs.pagemore.go(1)
             }
-            else if(oldval>762 && val<=762){
+            else if(oldval>768 && val<=768){
                 this.start = 4
                 if(this.currentIndex >= 2){
                     var that = this;
@@ -1454,10 +1458,10 @@ export default {
             h3 {
                 line-height: 30px;
                 margin-bottom: 5px;
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
                 overflow: hidden;
-                -webkit-line-clamp: 1;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+
                 a{
                     color: #000;
                 }
@@ -1557,9 +1561,10 @@ export default {
             text-align: center;
             line-height: 45px;
             position: relative;
+            padding-right: 5px;
             font-size: 16px;
             line-height: 35px;
-            border: 1px solid  #5aa3dd;
+            border: 1px solid  #acd1f0;
             .el-icon-sort-down{
                 position: absolute;
                 left: 80px;

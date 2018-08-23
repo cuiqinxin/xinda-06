@@ -48,7 +48,7 @@ export default {
   .payfailed{
     flex-direction:column;
     text-align:center;
-    height:600px!important;
+    height:100vh!important;
   }
 
   .payfaildimg{
