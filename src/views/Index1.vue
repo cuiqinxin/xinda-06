@@ -584,6 +584,7 @@ export default {
                 right: 0;
                 margin: 0 20px 40px 0;
                 h5{
+                    color: @color-269;
                     font-size: 18px;
                     font-weight: 400;
                 }
@@ -738,6 +739,7 @@ export default {
     }
     .index1-2{
         .lunbo1{
+            height: 250px;
             img{
                 width: 100%;
                 height: 250px;
@@ -856,7 +858,7 @@ export default {
                 }
             }
         }
-    @media screen and (min-width: 768px) and (max-width: 1200px){
+    @media screen and (min-width: 992px) and (max-width: 1200px){
         .zhi-con-right{
             width: 90%;
             margin: 0 auto;
@@ -868,4 +870,5 @@ export default {
             }
         }
     }
+
 </style>

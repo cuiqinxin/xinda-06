@@ -11,7 +11,9 @@
     <p>所有服务</p>
     <div class="sanjiao"></div>
 </div>
-    <div class="main">
+    <div class="main" > 
+<test-slot :scrollCount="j" @getdata="getDate">
+
         <ul v-for="(pro,index) in provide" :key="index" class="main_1">
             <li class="main-left">
                  <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  onerror="this.onerror=''; src='../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg'"> 
@@ -24,28 +26,47 @@
                 <span class="mprice">￥：{{pro.price}}<span class="yuan">元</span></span>
             </ul>
             </li>
-            
         </ul>
+    </test-slot>
+
     </div>
     <router-view/>
   </div>
 </template> 
 
 <script>
-
-
+import testSlot from '../components/testSlot'
 export default {
-  name: 'dianpumobile',
- components : {
-        },
+  name: 'loading',
   data () {
     return {
       name:'',
       dianpu:'',
       provide:'',
+      j:{
+      scrolltop:0,
+      showlaoding : true,
+      }
     }
   },
   methods:{
+    getData(page) {
+    this.j.showlaoding = true
+    var that = this;
+    this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
+        start:that.page,
+        limit:3,
+    providerId: "9080f0c120a64eb3831d50ba93c33e78",
+    sort:2})).then(function(data){
+      if(that.j.scrolltop>=that.provide.length){
+            that.provide=that.provide.concat(data.data.data )   
+      }else{
+        that.more='没有喽。。。'
+      }
+        }); 
+            console.log(that.provide)
+            this.j.showlaoding = false
+      },
         },
   watch : {
   },
@@ -71,13 +92,15 @@ export default {
     // productTypeCode: "1",
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
-            that.provide=data.data.data  
-            console.log(data.data.data);
+           that.j.scrolltop=data.data.data.length;
 
         });
         },
   computed:{
     
+  },
+   components:{
+    testSlot
   },
 }
 </script>
