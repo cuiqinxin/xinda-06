@@ -53,7 +53,7 @@ export default {
     span{display: inline-block;}
     .Quit{font-size: 0;}
     // .el-popup-parent--hidden .el-message-box{width: 300px !important;}
-    .phone{
+    .Quit .phone{
             height: 72px; 
             width: 100%;
             position: absolute;

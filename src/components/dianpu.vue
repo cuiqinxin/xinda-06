@@ -34,7 +34,7 @@
                                     <p class="price">￥：{{pro.price}}</p>
                                     <p class="bottom">
                                         <span class="mprice">原价￥：{{pro.marketPrice}}</span>
-                                        <a>查看详情》</a>
+                                        <a> <router-link :to="{path:'/goodsdetail',query:{id:pro.id}}" >查看详情》</router-link></a>
                                     </p>
                                 </el-col>
                             </el-row>
@@ -80,7 +80,8 @@ export default {
       dianpu:'',
       provide:'',
       fenye:'ture',
-     j:{
+      screenWidth:document.body.clientWidth,
+      j:{
             pageSize : 5 , //每页显示6条数据
             currentPage : 1, //当前页码
             count : 0, //总记录数
@@ -92,6 +93,12 @@ export default {
     }
   },
   methods:{
+       dianpumobile(){
+        this.$router.push({
+            path:"/aap",
+           query:{ id:this.$route.query.id}
+        })
+     },
       nofenye(){this.fenye=false,
       console.log(123)},
       fuwuneir(){this.fenye=true},
@@ -111,7 +118,36 @@ export default {
         });
         },   
         },
+        mounted()  {
+        if(this.screenWidth<=992){
+                  this.dianpumobile()
+        }
+
+        const that = this
+         window.onresize = () => {
+            return (() => {
+                window.screenWidth = document.body.clientWidth
+                that.screenWidth = window.screenWidth
+            })()
+        }
+        },
   watch : {
+      screenWidth (val) {
+                if (!this.timer) {
+                    this.screenWidth = val
+                    this.timer = true
+                    let that = this
+                    setTimeout(function () {
+                        // that.screenWidth = that.$store.state.canvasWidth
+                        console.log(that.screenWidth)
+                        if(that.screenWidth<=992){
+                  that.dianpumobile()
+          }
+                        // that.init()
+                        that.timer = false
+                    }, 400)
+                }
+            }
   },
   created(){
       var obj={
@@ -131,9 +167,6 @@ export default {
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
             that.j.all=data.data.data.length; 
-            console.log(data.data.data.length);
-            console.log(data.data.data);
-
         });
         var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
@@ -169,7 +202,7 @@ export default {
       overflow: hidden;
   .datang_title{
       height:200px;
-      width:100%;
+    //   width:100%;
       border:1px solid #ccc;
       align-items: center;
       display: flex;

@@ -70,13 +70,6 @@ export default {
 
 <style lang="less">
     span{display: inline-block;}
-    .phone{
-            height: 72px; 
-            width: 100%;
-            position: absolute;
-            top:0; 
-            background-color: #fff; 
-        }
     @media screen and (max-width: 768px){
         .touxiang{
             width: 125px;
@@ -148,7 +141,7 @@ export default {
             color:#fff;
             font-size: 18px;
         }
-        .phone{
+        .memberindex .phone{
             height: 72px; 
             width: 100%;
             position: absolute;
