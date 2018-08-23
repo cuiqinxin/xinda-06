@@ -13,6 +13,7 @@ import Orderphone from '@/views/orderphone'
 import Memberassess from '@/views/Memberassess'
 import Memberinstall from '@/views/Memberinstall'
 import Header from '@/components/Header'
+import aap from '@/views/aap'
 import production from '@/views/production'
 import register from '@/views/register'
 import Outter from '@/views/Outter'
@@ -21,10 +22,14 @@ import Chanpinx from '@/views/chanpinx'
 import Shop from '@/views/shop'
 import Shopmobile from '@/views/shopmobile'
 import dianpumobile from '@/views/dianpumobile'
+// import rScroll from '@/views/rScroll'
+// import rScroll from '@/components/rScroll'
+import loading from '@/views/loading'
 import Join from '@/views/Join'
 import Dianpu from '@/components/dianpu'
 import Page from '@/components/Page'
 import p_all from '@/views/p_all'
+import juh from '@/views/juh'
 // import Shopin from '@/views/shopin'
 
 import shoppingcart from '@/views/shoppingcart'
@@ -51,7 +56,11 @@ const  router = new VueRouter({       //module.expotrs={}
       name: 'Datang',
       component: Datang
     },
-  
+    {
+      path: '/aap',
+      name: 'aap',
+      component: aap
+    },
     {
       path: '/page',
       name: 'Page',
@@ -116,6 +125,7 @@ const  router = new VueRouter({       //module.expotrs={}
           name: 'dianpumobile',
           component: dianpumobile,
         },
+       
         {
           path: 'dianpu',
           name: 'Dianpu',
@@ -195,6 +205,16 @@ const  router = new VueRouter({       //module.expotrs={}
             },
           ]
         },
+        // {
+        //   path: '/rScroll',
+        //   name: 'rScroll',
+        //   component: rScroll,
+        // },
+        {
+          path: '/loading',
+          name: 'loading',
+          component: loading,
+        },
         {
           path: '/memberindex',
           name: 'Memberindex',
@@ -211,6 +231,11 @@ const  router = new VueRouter({       //module.expotrs={}
       path: '/tests',
       name: 'Tests',
       component: Tests
+    },
+    {
+      path: '/juh',
+      name: 'juh',
+      component: juh
     },
     // {
     //   path:'/dianpu/:id',

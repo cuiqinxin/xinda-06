@@ -1428,7 +1428,6 @@ export default {
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
-
             }
             .errorInfo{
                 font-size: 40px;

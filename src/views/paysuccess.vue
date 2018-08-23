@@ -5,13 +5,18 @@
          
         <p class="failedpay">支付成功</p>
 
+
+
       <div class="payfailed">
             <div class="payfaildimg">
                 <img src="../../static/paysuccess.png" alt="#">
             </div>
             <div class="detail">
                 <p class="blue">支付成功！</p>
+                <p class='businessNo'>订单号：<span>{{$route.query.businessNo}}</span></p>
+                <p class="tiaozhuan">即将为您跳转到 <router-link to='member/memberorder' class="tiaozhuan1">我的订单</router-link>（{{seconds}}s）</p>
                 <p class="tip">我们将尽快确认您的付款信息</p>
+                 
                 <!-- <p class="buttonouter"><a href="javascript:void(0)" class="button">返回支付首页</a></p> -->
                 <p class="contact">如有问题，请联系客服：<span>010-83421842</span></p>
             </div>
@@ -26,7 +31,8 @@ export default {
     name: 'payfailed',
     data() {
       return {
-       
+          seconds:5,
+          s:''
       };
     },
     methods:{
@@ -36,8 +42,19 @@ export default {
      
     },
     created(){
-      
+        var that=this;
+        this.s = setInterval(function(){that.seconds--},1000);
+
     },
+    watch:{
+        seconds:function(){
+            if(this.seconds==0){
+                clearInterval(this.s);
+                this.$router.push({path:"member/memberorder"});
+                 
+            }
+        }
+    }
 }
 </script>
 
@@ -48,7 +65,7 @@ export default {
   .payfailed{
     flex-direction:column;
     text-align:center;
-    height:650px!important;
+    height:100vh!important;
   }
 
   .payfaildimg{
@@ -58,8 +75,36 @@ export default {
   .firstpay,.failedpay{
       display:none;
   }
+  .businessNo{
+      position:relative;
+      left:-4px;
+  }
 }
 
+
+
+
+.businessNo{
+    margin-top:10px;
+    font-size:14px;
+    margin-bottom:10px;
+    span{
+        color: #2693d4;
+    }
+}
+.tiaozhuan{
+    font-size:16px;
+    .tiaozhuan1{
+        font-size:16px;
+        border-bottom:1px solid #2693d4;
+        color:#2693d4;
+        &:hover{
+            font-weight:800;
+            border-bottom:2px solid #2693d4;
+        }
+    }
+
+}
 
 
     .firstpay{
@@ -104,7 +149,7 @@ export default {
             }
             .tip{
                 font-size: 18px;
-                margin: 25px 0 10px;
+                margin: 10px 0 6px;
             }
             .button{
                 display:block;
