@@ -6,9 +6,15 @@ import router from './router'
 import store from './store'
 import qs from 'qs'
 import 'element-ui/lib/theme-chalk/display.css';
+import infiniteScroll from 'vue-infinite-scroll';
 
 
+<<<<<<< HEAD
+Vue.use(infiniteScroll)
+Vue.use(ElementUI);
+=======
 Vue.use(ELEMENT);
+>>>>>>> 17887f8b625746016b2507356e4501fba266b159
 Vue.config.productionTip = false
 
 Vue.prototype.ajax = axios;
