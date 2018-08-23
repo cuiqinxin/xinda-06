@@ -1,30 +1,27 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'         //var Vue = require('./Vue')
+// import Vue from 'Vue'         //var Vue = require('./Vue')
 import App from './App'
 import router from './router'
 import store from './store'
-import axios from 'axios'
 import qs from 'qs'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
 import infiniteScroll from 'vue-infinite-scroll';
 
 
+<<<<<<< HEAD
 Vue.use(infiniteScroll)
 Vue.use(ElementUI);
+=======
+Vue.use(ELEMENT);
+>>>>>>> 17887f8b625746016b2507356e4501fba266b159
 Vue.config.productionTip = false
 
 Vue.prototype.ajax = axios;
 Vue.prototype.qs = qs;
 
-// router.afterEach((to,from,next) => {
-//   window.scrollTo(0,0);
-// })
-
 /* eslint-disable no-new */
-new Vue({
+ new Vue({
   el: '#app',
   router,
   store,

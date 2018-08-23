@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- 开始公共头部 -->
-    <div class="top hidden-md-and-down">
+    <div class="top hidden-sm-and-down">   
       <el-row class="top-con" type="flex" justify="space-between">
         <el-col :span="12" class="top-left">
           <div class="topHover">
@@ -29,9 +29,30 @@
         <el-col :span="12" class="top-right">
           <router-link to="" class="shop-cart" v-if="userPhoneNumber">
             <span class="shop-img"></span>
-            <router-link to="/shoppingcart">购物车<a>{{cartNum}}</a>件</router-link>
+            <router-link to="/shoppingcart">购物车<a>{{cartnum}}</a>件</router-link>
+            <div class="showcart">
+                <h4 :class="[showlist==0 ? activeClass : '', errorClass]" v-html="showlist==0 ? '购物车是空的哦！':'最近加入的商品：'"></h4>    
+                <div class="xiangxi" v-for="(item,index) in showlist.slice(0,4)" :key="index">
+                  <router-link :to="{path:'/goodsdetail',query:{id:item.id}}">
+                    <img :src="'http://123.58.241.146:8088/xinda/pic/'+(item['simg'])"  class="imgsss">                    
+                  </router-link>
+                  <div class="cartmid">
+                    <h4><router-link :to="{path:'/goodsdetail',query:{id:item.id}}">{{item['sname']}}</router-link></h4>
+                    <p class="miaoshu">{{item['sinfo']}}</p>
+                  </div>
+                  <div class="cartright">
+                    <p class="cartzuizuo">￥<span>{{item['price']}}.00</span></p>
+                    <a href="javascript:void(0)" @click="deletecarts(item.id)">删除</a>
+                  </div>
+                </div>
+                <div :class="showlist==0 ? 'lookforcarts' : 'lookforcart'">
+                  <router-link to="/shoppingcart" class="lookforc">查看我的购物车</router-link>
+                </div>
+            </div>
           </router-link>
-          <router-link to="" class="service-enter">服务商入口</router-link>
+          <router-link to="" class="service-enter">服务商入口
+            <p class="red-p">暂未开放，敬请期待</p>
+          </router-link>
         </el-col>
       </el-row>
     </div>
@@ -40,21 +61,31 @@
     <router-view/>
 
     <!-- 开始公共底部 -->
-    <footer class="footer2 hidden-md-and-down">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
+    <footer class="footer2 hidden-sm-and-down">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
     <!-- 结束公共底部 -->
+
+    <!-- loading正在加载组件 -->
+    <Loading v-show="loading"></Loading>
   </div>
 </template>
 
 <script>
 import store from './store';
+import {mapState} from 'vuex'
+import Loading from './components/Loading.vue'
 export default {
     name: 'App',
     data() {
       return {
         status: 0,
         cartNum: 0,
-        // sta: true,
+        // sta: true,                        
         userPhoneNumber1:'',
+        activeClass:'cartzuiyou',
+        errorClass:'carttitsss',
+        showlist:[],
+        changebiao:0,         //第几次加到showlist
+        endqingqiu:2
       };
     },
     methods:{
@@ -84,27 +115,71 @@ export default {
             message: '已取消退出'
           });          
         });
-      }
+      },
+      errorImage(item){
+        item.productImg = "../../static/errorImg.png";
+      },
+      deletecarts(order){
+        this.ajax.post("/xinda-api/cart/del",this.qs.stringify(
+            {'id':order}
+        )).then(data=>{
+          if(data.data.status==1){
+            store.commit('cartNumreduce',order);
+          }
+        })
+      },
     },
     computed:{
       userPhoneNumber(){
         return store.state.userPhoneNumber;
-      }
+      },
+      cartid:function(){
+        return store.state.cartId;
+      },
+      cartnum:function(){
+        return store.state.cartNum;
+      },
+      showlist:function(){
+        return store.state.cartconcrete;   
+      },
+      ...mapState({
+        loading: state => state.loading
+      })
     },
     created(){
+      // var that = this;
+      // this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
+      //   this.cartNum = data.data.data.cartNum;
+      // })
+        // 购物车数据
+    
+      //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
       var that = this;
-      this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
-          this.cartNum = data.data.data.cartNum;
-      });
+      this.ajax
+      .post("/xinda-api/cart/list", that.qs.stringify({}))
+      .then(function(data) {
+        store.commit('gaincartNum',data.data.data.length);
+        for(var i=0;i<data.data.data.length;i++){
+          var obj={'id':data.data.data[i].serviceId,'price':data.data.data[i].unitPrice,'sname':data.data.data[i].serviceName,'sinfo':data.data.data[i].serviceInfo,'simg':data.data.data[i].providerImg}          
+          store.commit('gaincartId',obj);
+        }
+        that.showlist=store.state.cartconcrete;
+      })
+      //  console.log(this.cartid);
+        // over
       fun:{
-          this.ajax.post("/xinda-api/sso/login-info").then(data=>{
-            if(data.data.status === 0){
-              store.commit('loginStatus','')
-            }else if(data.data.status === 1){
-              store.commit('loginStatus',data.data.data.loginId);
-            }
+        this.ajax.post("/xinda-api/sso/login-info").then(data=>{
+          if(data.data.status === 0){
+            store.commit('loginStatus','')
+          }else if(data.data.status === 1){
+            store.commit('loginStatus',data.data.data.loginId);
+          }
         })
       }
+      // this.showlister();     
+    },
+    components:{
+      Loading,
     },
 }
 </script>
@@ -136,17 +211,22 @@ export default {
             margin: 0 12px;
           }
         }
-        // a{
-        //   position: relative;
-        //   color:#2693d4;
-        //   margin: 0 12px;
-        // }
       }
       .top-right{
+        display: flex;
+        justify-content: flex-end;
         text-align: right;
         .shop-cart{
           color: #000;
-          margin-right: 16px;
+          margin-right: 4px;
+          padding: 0 12px;
+          position: relative;
+          &:hover{background-color: #fff;}
+          &:hover .showcart{display: block;}
+          .showcart{text-align: left;font-size: 12px;line-height: 20px}
+          .cartzuiyou{text-align: right;}
+          .cartright a{float: right;} 
+          .lookforc{color: #fff;}         
           .shop-img{
             display: inline-block;
             width: 21px;
@@ -164,6 +244,9 @@ export default {
         }
         .service-enter{
           color: #2693d4;
+          &:hover .red-p{
+            display: block;
+          }
         }
       }
     }
@@ -188,6 +271,51 @@ export default {
       border: 2px solid red!important;
     }
   }
+  .showcart{
+    position: absolute;
+    display: none;
+    cursor: initial;
+    right: 0;
+    z-index: 9999;
+    padding: 8px 8px;
+    width: 310px;
+    min-height: 40px;
+    border: 1px solid #e6e6e6;
+    border-top: 0;
+    background-color: #fff;
+    .carttitsss{margin:9px 0;}
+    .xiangxi{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      .imgsss{
+        width: 40px;
+        height: 30px;
+        margin:5px 0;
+      }
+      .cartmid{
+        margin:0 20px 0 10px;
+        width: 59%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        .miaoshu{color:#9c9c9c;}
+      }
+      .cartzuizuo{
+        font-weight: bold;
+        span{color: #f22e00;}
+      }
+    }
+    .lookforc{
+      padding:0 10px;
+      background-color: #ff4400;
+      line-height: 25px;
+      margin:10px 0 0;
+      float: right;
+    }
+  }
+  .lookforcart{border-top: 1px solid #e6e6e6;}
+  .lookforcarts{border-top: 0;}
   .member{
     position: absolute;
     background-color: #fff;
@@ -250,6 +378,17 @@ export default {
       }
     }
   }
-
+  .red-p{
+    display: none;
+    color: red;
+    border: 1px solid red;
+    border-radius: 4px;
+    padding: 0 5px; 
+    margin-top: 8px;
+    position: absolute;
+    right: 0px;
+    top: 23px;
+    line-height: 25px;
+  }
   
 </style>

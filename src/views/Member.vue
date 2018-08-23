@@ -53,7 +53,7 @@ export default {
                         return;
                     }
                     store.commit('loginStatus',data.data.data.loginId)              
-            }).catch(function(){console.log('失败');})
+            })
         }
     },
     computed:{
@@ -146,6 +146,7 @@ export default {
                 font-size: 18px;
                 line-height: 50px;
                 white-space: nowrap;
+                color: #333;
             }
         }
         .liespe{background-color: #e9e9e9;}

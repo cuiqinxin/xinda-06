@@ -10,8 +10,8 @@
             </div>
             <div class="detail">
                 <p class="blue">支付失败！</p>
+                <p class="buttonouter"><a href="javascript:void(0)" class="button" @click="back">返回支付页</a></p>
                 <p class="tip">支付未成功：让我们再试一次吧！</p>
-                <p class="buttonouter"><a href="javascript:void(0)" class="button">返回支付首页</a></p>
                 <p class="contact">如有问题，请联系客服：<span>010-83421842</span></p>
             </div>
       </div>
@@ -29,7 +29,9 @@ export default {
       };
     },
     methods:{
-      
+      back(){
+          this.$router.go(-1);
+      },
     },
     computed:{
      
@@ -41,6 +43,27 @@ export default {
 </script>
 
 <style lang="less">
+@media screen and (max-width:769px){
+
+  .payfailed{
+    flex-direction:column;
+    text-align:center;
+    height:600px!important;
+  }
+
+  .payfaildimg{
+      margin:0 0 30px;
+      margin-right:20px!important;
+  }
+  .firstpay,.failedpay{
+      display:none;
+  }
+  .button{
+      margin:0 auto;
+      margin-right:88px;
+  }
+}
+
     .firstpay{
         font-size: 14px;
         line-height: 50px;
@@ -80,10 +103,11 @@ export default {
             .blue{
                 color: #2494d6;
                 font-size: 30px;
+                margin-bottom:18px;
             }
             .tip{
                 font-size: 18px;
-                margin: 25px 0 10px;
+                margin: 18px 0 10px;
             }
             .button{
                 display:block;

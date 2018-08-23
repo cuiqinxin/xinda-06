@@ -44,7 +44,7 @@
             </el-row>
             <div :class="noneorder">还没有订单！</div>
             <div class="allorder">
-                <el-row class="orderBody" v-for="(item,index1) in orderArr[pagei-1]" :key="index1">
+                <el-row class="orderBody" v-for="(item,index1) in orderArr.slice((pagei-1)*2,pagei*2)" :key="index1">
                     <el-col :span="24" class="orderhao">
                         <p class="ohaoma">订单号：{{item.businessNo}}</p>
                         <p class="hidden-xs-only">下单时间：{{item.createTime}}</p>
@@ -52,13 +52,14 @@
                     </el-col>
                     <el-col :span="24" class="wholeOrder">
                         <el-col :span="21" :xs="24">
-                            <el-col :span="24" v-for="(item,index) in orderArr1[pagei-1][index1]" :key="index" class="onceOrder">
+                            <el-col :span="24" v-for="(item,index) in orderArr1.slice((pagei-1)*2,pagei*2)[index1]" :key="index" class="onceOrder">
                                 <el-col :span="16" :xs="24" class="orderspe">
                                     <div class="havepho">
                                         <span class="imgss"></span>
                                         <p>
                                             <span class="hidden-xs-only">{{item['providerName']}}</span>
                                             <span class="phocom">{{item['serviceName']}}</span>
+                                            <span class="phocom">{{item['businessNo']}}</span>
                                             <span class="hidden-sm-and-up">下单时间：{{item['createTime']}}</span>
                                             <span class="hidden-sm-and-up yuanchen"><span class="moneyred">￥{{item['unitPrice']}}</span>元&nbsp;&nbsp;&nbsp;&nbsp;×{{item['buyNum']}}</span>
                                         </p>
@@ -87,7 +88,7 @@
                     <el-col :span="24" class="hidden-sm-and-up gekai"></el-col>
                 </el-row>
             </div>
-            <div class="page myorder">
+            <div class="page myorder hidden-xs-only">
                 <div>
                     <button :class="prevClick" @click="prevp">上一页</button>
                     <p class="shows">{{pagei}}</p>
@@ -99,24 +100,32 @@
 </template>
 
 <script>
+import store from '../store';
 export default {
     name: 'Memberorder',
     data () {
         return {
-            value1: '',
-            nextClick:'click',
+            value1: '',                   //日期选择框的值
+            nextClick:'click',            //分页的样式
             prevClick:'unclick',
-            orderArr:[], 
-            orderArr1:[],
-            lalala:[],
-            pagei:1,
-            fenye:0,
-            chushi:0,
-            callbackSign:0,
-            searchOrderNumber:'',
-            orderHint:'',
-            noneorder:'yincangorder',
-            lengthLimit:1
+            orderArr:[],                  //订单号
+            orderArr1:[],                 //详细订单
+            pagei:1,                      //页数
+            fenye:0,                      //总共分几页
+            chushi:[],                    //搜索订单号为空时渲染页面初始数组
+            chushi1:[],
+            chushifen:0,                  //初始总共分几页
+            delefen:0,
+            delezui:0,
+            delesign:0,
+            delelast:0,
+            biaoji:0,
+            callbackSign:0,               //搜索订单号为空标志
+            searchOrderNumber:'',         //搜索订单号
+            orderHint:'',                 //订单号错误提示
+            noneorder:'yincangorder',     //订单为空
+            lengthLimit:1,                 //点击下一页是否需要请求的标志
+            loading: true
         }
     },
     created(){
@@ -137,15 +146,21 @@ export default {
                             that.$router.push({path:'/outter/login',query:{pan:123}});
                         }
                     });
+                    that.fenye=0;that.noneorder='showorder noneorder';
                     return;
                 }
-                if(data.data.data.length==0){return;}
+                that.delefen=data.data.data.length;
+                that.delezui=data.data.data.length;
                 that.fenye=Math.ceil(data.data.data.length/2);
-                that.fenye=Math.ceil(data.data.data.length/2);
+                that.chushifen=Math.ceil(data.data.data.length/2);
+                if(that.fenye>1){
+                    that.nextClick='click';
+                }else{that.nextClick='unclick';}
         }).catch(function(){console.log('失败');})
-        this.orderChange(0,'','',2);      
+        this.orderChange(0,'','',4,1,2);      
     },
-    methods:{      //v-if="!(index1+1==delesign&&delepage==pagei)"
+    methods:{      
+        //删除订单
         deleOrder(value,dis){
             var that=this;
             that.$confirm('此操作将删除该订单，是否继续?', '提示', {
@@ -153,61 +168,98 @@ export default {
                     cancelButtonText: '取消',
                     type: 'warning'
             }).then(() => {
-                    that.ajax.post('/xinda-api/business-order/del',that.qs.stringify(
-                        {'id':value}
-                    )).then(
-                        function(data){
-                            if(data.data.status==1){
-                                that.$message({
-                                    type: 'success',
-                                    message: '删除成功!'
-                                });
+                that.ajax.post('/xinda-api/business-order/del',that.qs.stringify(
+                    {'id':value}
+                )).then(
+                    function(data){
+                        if(data.data.status==1){
+                            that.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                        }
+                        that.delesign++;
+                        var sign=that.pagei-1;
+                        that.orderArr.splice(sign*2+dis,1);
+                        that.orderArr1.splice(sign*2+dis,1);
+                        that.chushi.splice(sign*2+dis,1);
+                        that.chushi1.splice(sign*2+dis,1);
+                        if(that.value1==''){console.log(that.orderArr.length+that.delesign);
+                            if(that.orderArr.length+that.delesign-that.biaoji==that.delezui){
+                                that.nextClick='unclick';
+                                if(that.orderArr[(that.pagei-1)*2]==undefined){that.pagei=that.pagei-1;that.fenye=that.fenye-1;}
+                                if(that.pagei==1){that.prevClick='unclick';}else{that.prevClick='click';}                               
+                                if(that.delesign==that.delezui){that.noneorder='showorder noneorder';}
+                                that.fenye=Math.ceil((that.delefen-that.delesign)/2);console.log(2222222222);
+                                if(that.delesign==that.delefen){console.log(11111111111);that.noneorder='showorder noneorder';that.pagei=1;that.prevClick='unclick';return} 
+                                return;
                             }
-                            var sign=that.pagei-1;
-                            that.orderArr[sign].splice(dis,1);
-                            that.orderArr1[sign].splice(dis,1);
-                            if(that.orderArr[0].length==0){that.noneorder='showorder noneorder';that.fenye=0;return;}
-                            that.noneorder='yincangorder';
-                            while(sign<=that.fenye){
-                                if(that.orderArr[sign+1]!=undefined){
-                                    that.orderArr[sign].push(that.orderArr[sign+1][0]);
-                                    that.orderArr[sign+1].shift();
-                                    that.orderArr1[sign].push(that.orderArr1[sign+1][0]);
-                                    that.orderArr1[sign+1].shift();
-                                }
-                                sign++;
+                            that.nextClick='click';
+                            that.noneorder='yincangorder'; 
+                            if(that.delesign==that.delefen){console.log(11111111111);that.noneorder='showorder noneorder';that.pagei=1;that.prevClick='unclick';return}                                                                                   
+                            if(sign*2+dis>=that.orderArr.length-2){
+                                console.log(that.orderArr.length,'qi');
+                                that.orderChange(that.orderArr.length,'','',2,1);   
+                                console.log(sign*2+dis,'zui1')                                                           
                             }
-                            var bbb=that.orderArr.length;
-                            if(that.orderArr[that.pagei-1].length==0){that.pagei--;}                            
-                            if(that.orderArr[bbb-1].length==0){that.orderArr.pop();that.orderArr1.pop();}
-                            that.fenye=that.orderArr.length;
-                            // console.log(that.orderArr,that.orderArr1);
-                            
-                    })                         
+                            if(sign*2+1>=that.orderArr.length-1){
+                                that.nextClick='unclick';
+                                console.log(sign*2+dis,'zui2') 
+                            }else{that.nextClick='click';}
+                            if(that.orderArr[sign*2]==undefined||that.orderArr[sign*2]==null){
+                                console.log(that.orderArr,'ce');
+                                if(that.delesign==that.delefen){console.log(11111111111);that.noneorder='showorder noneorder';that.pagei=1;that.prevClick='unclick';return}
+                                that.pagei=that.pagei-1;that.fenye=that.fenye-1;that.noneorder='yincangorder';
+                            }
+                            console.log(that.pagei,'zui3',that.fenye) 
+                            if(that.pagei==1||that.pagei==0){that.prevClick='unclick';}else{that.prevClick='click';}
+                        }else{
+                            if(that.value1[0]==that.value1[1]||that.value1[0]==undefined||that.value1[1]==undefined||that.value1[0]==null||that.value1[1]==null){return;}
+                            var newDate = new Date();
+                            var newDate1 = new Date();
+                            newDate.setTime(this.value1[0].getTime());
+                            newDate1.setTime(this.value1[1].getTime());
+                            var startdate=newDate.toLocaleDateString().replace(/\//g,'-');
+                            var enddate=newDate1.toLocaleDateString().replace(/\//g,'-');
+                            if(startdate==enddate){return}
+                            if(sign*2+dis>=that.orderArr.length-2){
+                                that.orderChange(that.orderArr.length,startdate,enddate,2,0);
+                            }
+                        }
+                        that.fenye=Math.ceil((that.delefen-that.delesign)/2);                        
+                        console.log(that.fenye,that.orderArr); 
+                        if(that.fenye>that.pagei){that.nextClick='click'} 
+                })                         
             }).catch(() => { 
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });  
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });  
             }); 
         },
+        //下一页
         nextp(){
+            var that=this;
+            console.log(that.pagei,'zui4',that.fenye)
             if(this.pagei>=this.fenye){return;}
-            // if(this.pagei==this.fenye-1){
-            //     this.nextClick='unclick';
-            //     this.prevClick='click';
-            //     this.pagei++;
-            //     return;
-            // }
+            var chuchang=this.orderArr.length;
             this.nextClick='click';
             this.prevClick='click';
-            if(this.pagei==this.fenye-1){this.nextClick='unclick';}
-            if(this.lengthLimit>this.pagei){this.pagei++;return;}
+            if(this.pagei==this.fenye-1&&this.delesign==0){this.nextClick='unclick';}
+            if(this.lengthLimit>this.pagei){this.pagei++;console.log(this.lengthLimit);return;}
             this.pagei++;
             this.lengthLimit=this.pagei;
-            var chuan=(this.pagei-1)*2;
+            // var chuan=(this.pagei)*2;        //改变
+            if(this.delesign==0){
+                var chuan=this.orderArr.length+this.delesign;                
+            }else{
+                var chuan=this.orderArr.length;                
+            }
+            console.log(chuan,'lala');
+            if(this.pagei==this.fenye&&this.delesign==0){console.log('la',this.fenye);return;}
+            if(this.pagei==this.fenye&&this.delesign!=0){this.delelast=2;}
             if(this.value1==''){
-                this.orderChange(chuan,'','',2);
+                this.orderChange(chuan,'','',2,1);
             }else{
                 if(this.value1[0]==this.value1[1]||this.value1[0]==undefined||this.value1[1]==undefined||this.value1[0]==null||this.value1[1]==null){return;}
                 var newDate = new Date();
@@ -216,9 +268,17 @@ export default {
                 newDate1.setTime(this.value1[1].getTime());
                 var startdate=newDate.toLocaleDateString().replace(/\//g,'-');
                 var enddate=newDate1.toLocaleDateString().replace(/\//g,'-');
-                this.orderChange(chuan,startdate,enddate,2); 
+                if(startdate==enddate){return}
+                this.orderChange(chuan,startdate,enddate,2,0); 
             }
+            var lastchang=this.orderArr;
+            if(this.delesign==0){
+                this.biaoji=this.biaoji+(lastchang-chuchang);
+            }
+            if(that.fenye==that.pagei){that.nextClick='unclick'}
+            console.log(that.pagei,'zui6',that.fenye)
         },
+        //上一页
         prevp(){
             if(this.pagei<=1){return;}
             this.prevClick='click';
@@ -226,6 +286,7 @@ export default {
             if(this.pagei==2){this.prevClick='unclick';}
             this.pagei--;
         },
+        //日期选择订单
         datachoose(){
             if(this.value1[0]==undefined||this.value1[1]==undefined||this.value1[0]==null||this.value1[1]==null){return;}
             var newDate = new Date();
@@ -235,96 +296,67 @@ export default {
             var startdate=newDate.toLocaleDateString().replace(/\//g,'-');
             var enddate=newDate1.toLocaleDateString().replace(/\//g,'-');
             var that=this;
-            that.orderArr=[];that.orderArr1=[];that.pagei=1;that.lalala=[];
+            that.orderArr=[];that.orderArr1=[];that.pagei=1;
             if(enddate==startdate){
                 this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
                     {'startTime':startdate,'endTime':enddate,'start':0}
                 )).then(
-                    function(data){
-                        if(data.data.status=='-999'){return;}                    
-                        if(data.data.data.length==0){that.noneorder='showorder noneorder';return;}
+                    function(data){                 
+                        if(data.data.data.length==0||data.data.status=='-999'){that.noneorder='showorder noneorder';that.fenye=0;return;}
                         that.noneorder='yincangorder';
                         that.changeDate(data.data.data);
-                        var yu=[];
                         for(var i in data.data.data){
                             if(enddate==data.data.data[i].createTime.split(' ')[0]){
-                                yu.push(data.data.data[i]);
+                                that.orderArr.push(data.data.data[i]);
+                                that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
+                                    {'businessNo':data.data.data[i].businessNo}
+                                )).then(
+                                    function(data){
+                                        that.changeDate(data.data.data);
+                                        that.orderArr1.unshift(data.data.data);  
+                                })
                             }
                         }
-                        if(yu.length==0){that.noneorder='showorder noneorder';return;}
+                        that.fenye=Math.ceil(that.orderArr.length/2); 
+                        that.delefen=that.orderArr.length;
+                        if(that.fenye>1){
+                            that.nextClick='click';
+                        }else{that.nextClick='unclick';}                       
+                        if(that.orderArr.length==0){that.noneorder='showorder noneorder';return;}
                         that.noneorder='yincangorder';
-                        // for(var i in yu){
-                        //     that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
-                        //         {'businessNo':yu[i].businessNo}
-                        //     )).then(
-                        //         function(data){
-                        //             that.changeDate(data.data.data);
-                        //             that.lalala.push(data.data.data);
-                        //     })
-                        // }
-                        for(var i=0;i<yu.length;i=i+2){
-                            var b=[yu[i],yu[i+1]];
-                            if(b[1]==undefined){b.pop();};
-                            that.orderArr.push(b);
-                        } 
-                        that.fenye=that.orderArr.length;
-                        var xun=that.pagei-1;
-                        for(var i in that.orderArr){
-                            if(that.orderArr[i].length==2){
-                                that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
-                                    {'businessNo':that.orderArr[i][0].businessNo}
-                                )).then(
-                                    function(data){
-                                        that.changeDate(data.data.data);
-                                        that.lalala.push(data.data.data);  
-                                })
-                                that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
-                                    {'businessNo':that.orderArr[i][1].businessNo}
-                                )).then(
-                                    function(data){
-                                        that.changeDate(data.data.data);
-                                        that.lalala.push(data.data.data);
-                                        that.orderArr1.push(that.lalala); 
-                                        that.lalala=[];   
-                                })
-                            }else{
-                                that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
-                                    {'businessNo':that.orderArr[i][0].businessNo}
-                                )).then(
-                                    function(data){
-                                        that.changeDate(data.data.data);
-                                        that.lalala.push(data.data.data);
-                                        that.orderArr1.push(that.lalala); 
-                                        that.lalala=[]; 
-                                })
-                            }
-                        }
                         console.log(that.orderArr1);
                 }).catch(function(){console.log('失败');})
             }else{
+                that.delelast=0;
                 this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
                     {'startTime':startdate,'endTime':enddate,'start':0}
                 )).then(
                     function(data){
-                        if(data.data.status=='-999'){return;}
-                        if(data.data.data.length==0){return;}
+                        if(data.data.status=='-999'){that.fenye=0;return;}
                         that.fenye=Math.ceil(data.data.data.length/2);
+                        that.delefen=data.data.data.length;
+                        if(that.fenye>1){
+                            that.nextClick='click';
+                        }else{that.nextClick='unclick';}
                 }).catch(function(){console.log('失败');})
-                this.orderChange(0,startdate,enddate,2); 
+                this.orderChange(0,startdate,enddate,4,0); 
+                if(that.orderArr.length==0){that.noneorder='showorder noneorder';}else{that.noneorder='yincangorder';}
             }                 
         },
+        //搜索指定订单
         searchOrder(){
             var that=this;
             if(this.searchOrderNumber==''){
                 this.orderHint='';
                 if(this.callbackSign==1){
-                    this.fenye=this.chushi; 
-                    that.orderArr=[];
-                    that.orderArr1=[];
+                    this.fenye=Math.ceil((this.delezui-this.delesign)/2); 
+                    this.delefen=this.delezui;
+                    that.orderArr=that.chushi;
+                    that.orderArr1=that.chushi1;
                     that.pagei=1;
-                    that.lalala=[];
                     this.nextClick='unclick';
-                    this.orderChange(0,'','',2); 
+                    this.prevClick='unclick';
+                    if(this.fenye>1){this.nextClick='click';} 
                 }
             }else if(!/^S\d{19}$/.test(this.searchOrderNumber)){
                 this.orderHint='订单号格式错误'
@@ -334,33 +366,28 @@ export default {
                 that.orderArr=[];
                 that.orderArr1=[];
                 that.pagei=1;
-                that.lalala=[];
                 this.callbackSign=1;
                 this.nextClick='unclick';
                 this.prevClick='unclick';
                 that.ajax.post('/xinda-api/business-order/grid',that.qs.stringify(
                     {'businessNo':that.searchOrderNumber}
                 )).then(
-                    function(data){
-                        if(data.data.status=='-999'){return;}                    
-                        if(data.data.data.length==0){that.noneorder='showorder noneorder';return;}
+                    function(data){                   
+                        if(data.data.data.length==0||data.data.status=='-999'){that.noneorder='showorder noneorder';that.fenye=0;return;}
                         that.noneorder='yincangorder';
                         that.changeDate(data.data.data);
-                        // that.lalala.push(data.data.data);
-                        that.orderArr.push(data.data.data);  
-                        console.log(that.orderArr);
+                        that.orderArr=data.data.data; 
                         that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
                             {'businessNo':that.searchOrderNumber}
                         )).then(
                             function(data){
                                 that.changeDate(data.data.data);
-                                that.lalala.push(data.data.data);
-                                that.orderArr1.push(that.lalala); 
-                                that.lalala=[]; 
+                                that.orderArr1.push(data.data.data); 
                         })
                 })
             }
         },
+        //将时间戳转为日期格式
         changeDate(arr){
             for(var i in arr){   
                 var newDate = new Date();
@@ -371,66 +398,48 @@ export default {
                 arr[i].createTime=sss;
             }
         },
-        orderChange(page,startdate,enddate,limited){
+        //向后台请求订单
+        orderChange(page,startdate,enddate,limited,panchu,shou){
+            store.commit('loading',true)
             var that=this;
             this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
                 {'startTime':startdate,'endTime':enddate,'start':page,'limit':limited}
             )).then(
-                function(data){
-                    if(data.data.status=='-999'){return;}                    
-                    if(data.data.data.length==0){that.noneorder='showorder noneorder';return;}
+                function(data){  
+                    // console.log(data);            
+                    if((data.data.status=='-999'&&that.delelast==1)||(data.data.data.length==0&&that.delelast==1)){that.noneorder='showorder noneorder';that.fenye=0;store.commit('loading',false);return;}
+                    if(shou==2&&data.data.data.length==0){that.noneorder='showorder noneorder';that.fenye=0;store.commit('loading',false);return;}
                     that.noneorder='yincangorder';
                     that.changeDate(data.data.data);
-                    that.orderArr.push(data.data.data);
-                    var xun=that.pagei-1;
-                    // that.orderArr1[xun]=[]; 
-                    // console.log(that.orderArr);                   
-                    // for(let i in that.orderArr[xun]){
-                    //     // let ji=that.orderArr[xun][i].businessNo;
-                    //     (function(i){that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
-                    //         {'businessNo':that.orderArr[xun][i].businessNo}
-                    //     )).then(
-                    //         function(data){
-                    //             that.changeDate(data.data.data);
-                    //             // var bb=[];
-                    //             // if(data.data.data[0].businessNo==ji){
-                    //                 // var b=;
-                    //                 // console.log(xun);
-                    //                 // lalala.push(data.data.data);
-                    //                 that.orderArr1[xun].push(data.data.data);                                   
-                    //             // }
-                    //     })
-                    //     })(i)
-                    // }
-                    if(that.orderArr[xun].length==2){
-                        that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
-                            {'businessNo':that.orderArr[xun][0].businessNo}
-                        )).then(
-                            function(data){
-                                that.changeDate(data.data.data);
-                                that.lalala.push(data.data.data);  
-                        })
-                        that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
-                            {'businessNo':that.orderArr[xun][1].businessNo}
-                        )).then(
-                            function(data){
-                                that.changeDate(data.data.data);
-                                that.lalala.push(data.data.data);
-                                that.orderArr1.push(that.lalala); 
-                                that.lalala=[];   
-                        })
+                    if(panchu==1){
+                        for(var i in data.data.data){
+                            that.orderArr.push(data.data.data[i]);
+                            that.chushi.push(data.data.data[i]);
+                                (function(i){that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
+                                    {
+                                        'businessNo':data.data.data[i].businessNo
+                                    }
+                                )).then(
+                                    function(data){
+                                        that.changeDate(data.data.data);
+                                        that.orderArr1.push(data.data.data); 
+                                        that.chushi1.push(data.data.data); 
+                                })})(i)
+                        }
                     }else{
-                        that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
-                            {'businessNo':that.orderArr[xun][0].businessNo}
-                        )).then(
-                            function(data){
-                                that.changeDate(data.data.data);
-                                that.lalala.push(data.data.data);
-                                that.orderArr1.push(that.lalala); 
-                                that.lalala=[]; 
-                        })
+                        for(var i in data.data.data){
+                            that.orderArr.push(data.data.data[i]);
+                            that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify(
+                                {'businessNo':data.data.data[i].businessNo}
+                            )).then(
+                                function(data){
+                                    that.changeDate(data.data.data);
+                                    that.orderArr1.push(data.data.data); 
+                            })
+                        }
                     }
-                    console.log(that.orderArr);
+                    store.commit('loading',false)                    
+                    console.log(that.orderArr,that.orderArr1);
             }).catch(function(){console.log('失败');})
         }
     }

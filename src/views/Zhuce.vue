@@ -18,13 +18,20 @@
                         <p class="wrongTip">{{telTip}}</p>
                         <city @confirm="confirm" display="12345"></city>
                         <p class="wrongTip">{{cityTip}}</p>
-                        <el-popover placement="right" width="300" trigger="click">
+                        <el-popover placement="right" width="300" trigger="focus" class="hidden-xs-only">
                             <div><i :class="lengthLimit"></i>6-20个字符<br/><i :class="typeLimit"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType"></i>字母、数字和下划线至少包含2种</div>                 
                             <div class="pass" slot="reference">
                                 <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                                 <span :class="style" @click="show"></span>
                             </div>
                         </el-popover> 
+                        <el-popover placement="bottom" width="300" trigger="focus" class="hidden-sm-and-up">
+                            <div><i :class="lengthLimit"></i>6-20个字符<br/><i :class="typeLimit"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType"></i>字母、数字和下划线至少包含2种</div>                 
+                            <div class="pass" slot="reference">
+                                <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
+                                <span :class="style" @click="show"></span>
+                            </div>
+                        </el-popover>
                         <p class="wrongTip">{{passTip}}</p>
                         <a href="javascript:void(0)" class="log" @click="regisyan">立即注册</a>
                         <p class="zunshou hidden-xs-only">注册即同意遵守<a href="javascript:void(0)">《服务协议》</a></p>
@@ -42,15 +49,11 @@
         <el-row class="now hidden-sm-and-up">
             <el-col :span="20" :offset="2" id="spe"><p>已有账号？</p><router-link to="/outter/login" class="liji">立即登录</router-link></el-col>
         </el-row>
-        <!--  -->
-        <!-- <p>{{count}}</p> -->
     </div>
 </template>
 
 <script>
 import city from '../components/City'
-import password from '../components/Password'
-import photoyan from '../components/Photoyan'
 export default {
     name: 'Zhuce',
     created(){
@@ -156,7 +159,7 @@ export default {
                                     if(second==-1){clearInterval(jishi);that.phoneClick='点击获取';that.showyan='valid';}
                                 },1000);
                             }
-                    }).catch(function(){console.log('失败');});
+                    });
                 }else{
                     this.phoneTip='手机号不正确';
                 }
@@ -213,13 +216,11 @@ export default {
                             that.telTip=data.data.msg;
                             var data=(new Date()).getTime();
                             that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
-                        }
-                        if(data.data.status==-2){
+                        }else if(data.data.status==-2){
                             that.phoneTip=data.data.msg;
                             var data=(new Date()).getTime();
                             that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
-                        }
-                        if(data.data.status==1){
+                        }else if(data.data.status==1){
                             var md5=require('md5');
                             that.ajax.post('/xinda-api/register/register',that.qs.stringify(
                                 {'cellphone':that.phoneValue,'smsType':1,'validCode':that.phoneYan,'password':md5(that.passValue),'regionId':that.cityCode}
@@ -229,8 +230,7 @@ export default {
                                         that.phoneTip=data.data.msg;
                                         var data=(new Date()).getTime();
                                         that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
-                                    }
-                                    if(data.data.status==1){
+                                    }else if(data.data.status==1){
                                         that.$confirm('注册成功！是否跳转到登录页?', '提示', {
                                             confirmButtonText: '确定',
                                             cancelButtonText: '取消',
@@ -244,9 +244,9 @@ export default {
                                         }).catch(() => {   
                                         });
                                     }
-                            }).catch(function(){console.log('失败');});
+                            });
                         }
-                }).catch(function(){console.log('失败');});
+                });
             }
         },
         confirm(value){
@@ -272,10 +272,8 @@ export default {
         }
     },
     components:{
-        password,
         city,
-        photoyan
-    }
+    },
 }
 </script>
 

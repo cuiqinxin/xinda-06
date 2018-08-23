@@ -1,13 +1,16 @@
 <template>
   <div class="header">
-    <div class="grabble hidden-md-and-down">
+    <div class="grabble hidden-sm-and-down">   
       <div class="grabble-con">
         <div class="grabble-top">
           <div class="grabble-left" >
-            <router-link to="/header/index1" class="logo"></router-link>
+            <router-link to="/" class="logo"></router-link>
             <div class="address">
               <p>{{datavalue}}</p>
-              <p class="changeaddress">[切换城市]</p>
+              <p class="changeaddress">
+                [切换城市]
+                <a class="red">当前仅北京开放</a>
+              </p>
             </div>
           </div>
           <div class="grabble-input" :class="{color_red:color_red}">
@@ -23,7 +26,6 @@
                 :placeholder='placeholder'
                 @select="handleSelect"
                 @keyup.enter.native="search"
-                v-focus="focuss"
                 :value="state4"
               ></el-autocomplete><button 
                 @click="link1"
@@ -38,7 +40,7 @@
               <router-link :to="{path:'/list',query:{name:'公司工商',code:4,index:0}}" class="color1">公司注册</router-link>
             </p>
           </div>
-          <div class="grabble-right">
+          <div class="grabble-right hidden-md-and-down">
             <span></span>
             <a>010-83421842</a>
           </div>
@@ -46,7 +48,7 @@
         <div class="nav">
           <ul>
             <li class="hov">
-              <router-link to="/index1" :class="{active:nav}">全部产品</router-link>
+              <router-link to="/" :class="{active:nav}">全部产品</router-link>
               <ul class="nav-select" v-if="none" :class="{hover:hover}"> 
                 <li v-for="(item,key,index) in menuList" :key="index">
                   <span></span>
@@ -97,7 +99,7 @@
 
     <router-view/>
 
-    <footer class="footer1 hidden-md-and-down">
+    <footer class="footer1 hidden-sm-and-down">
       <el-row class="footer1-con">
         <h4>关于我们</h4>
         <ul>
@@ -107,8 +109,8 @@
         </ul>
       </el-row>
     </footer>
-    <footer  class="footer2-2 hidden-lg-and-up" style="height: 90px;width: 100%"></footer>
-    <footer class="footer1-2 hidden-lg-and-up">
+    <footer  class="footer2-2 hidden-md-and-up" style="height: 90px;width: 100%"></footer>
+    <footer class="footer1-2 hidden-md-and-up">
       <ul>
         <li>
           <router-link to="/header/index1">
@@ -123,16 +125,16 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/">
+          <router-link to="/shoppingcart">
           <p class="footer1-2-img"></p>
           <p>购物车</p>
           </router-link>
         </li>
         <li>
-          <router-link to="/">
+          <a href="javascript:void(0)" @click="phonelogin">
           <p class="footer1-2-img"></p>
           <p>我的</p>
-          </router-link>
+          </a>
         </li>
       </ul>
     </footer>
@@ -164,28 +166,8 @@ export default {
       placeholder:'搜索您需要的服务或服务商',
       none: true,
       hover: false,
-      focuss: false
     };
   },
-  directives: {
-
-    focus: {
-
-        inserted: function (el, {value}) {
-
-        console.log(el,{value})
-
-            if (value) {
-
-                el.querySelector('input').focus();
-                console.log(el);
-
-            }
-
-        }
-
-    }
- },
   created() {
     var navArr={};
     var that = this;
@@ -198,21 +180,26 @@ export default {
           navArr[navSelect[key].showOrder] = navSelect[key];
         }
       that.menuList = navArr;
-      console.log(that.menuList)
     });
+    var href=this.$route.path;
+    if(href=='/'){
+      this.hover = true;
+    }else{
+      this.hover = false;
+    }
+    if(href!='/index1'||href!='/list'||href!='/join'||href!='/shop'){
+      [this.nav,this.nav1,this.nav2,this.nav3,this.nav4] = [false,false,false,false,false]
+    }
+    if(href!='/list'){
+      this.state4 = '';
+    }
   },
   methods: {
     search(){
-      console.log('enter')
       if(this.style===true){
         this.link1();
-        this.focuss = true
-        console.log('12')
-        // console.log(this.focus)
       }else{
         this.link();
-        this.focuss = true
-        console.log('123')
       }
     },
     none1(){
@@ -290,7 +277,6 @@ export default {
           )
           .then(function(data) {
             var product = data.data.data;
-            // console.log(that.productstatus,that)
             that.productstatus = 200;
             for (let i = 0; i < product.length; i++) {
               production[i] = {
@@ -324,11 +310,37 @@ export default {
       };
     },
     handleSelect(item) {
-      console.log(item);
+      if(this.style===true){
+        this.link1();
+      }else{
+        this.link();
+      }
     },
+    phonelogin(){
+      this.ajax.post("/xinda-api/sso/login-info").then(data=>{
+        if(data.data.status==1){this.$router.push({path:'/memberindex'});}  
+        if(data.data.status!=1){this.$router.push({path:'/quit'});}
+      })
+    }
   },
   mounted() {
     this.restaurants = this.grabble();
+  },
+  watch:{
+    $route(){
+      var href=this.$route.path;
+      if(href=='/'){
+        this.hover = true;
+      }else{
+        this.hover = false;
+      }
+      if(href!='/index1'||href!='/list'||href!='/join'||href!='/shop'){
+        [this.nav,this.nav1,this.nav2,this.nav3,this.nav4] = [false,false,false,false,false]
+      }
+      if(href!='/list'){
+        this.state4 = '';
+      }
+    }
   }
 };
 </script>
@@ -344,7 +356,7 @@ export default {
     max-width: 1200px;
     margin: 0 auto;
     position: relative;
-    z-index: 999;
+    z-index: 998;
     .grabble-top {
       display: flex;
       justify-content: space-between;
@@ -361,6 +373,9 @@ export default {
         .address {
           .changeaddress {
             color: #2693d4;
+            &:hover .red{
+              display: block;
+            }
           }
         }
       }
@@ -428,7 +443,7 @@ export default {
       ul{
         display: flex;
         >li{
-          width: 199px;
+          width: 195px;
           >a{
             display: block;
             width: 80px;
@@ -456,7 +471,7 @@ export default {
             >li{
               display: flex;
               position: relative;
-              padding: 17px 0;
+              padding: 16px 0;
               &:hover{
                 background-color: rgba(38,147,211,1);
               }
@@ -465,6 +480,7 @@ export default {
               }
               >div{
                 .nav-span{
+                  height: 17px;
                   color: #fff;
                   font-size: 13px;
                   margin: 0 20px 5px 0;
@@ -473,6 +489,7 @@ export default {
                 }
               }
               .nav-h2{
+                height: 21px;
                 display: block;
                 cursor: pointer;
                 color: #fff;
@@ -490,7 +507,7 @@ export default {
               .nav-select1{
                 display: none;
                 position: absolute;
-                left: 199px;
+                left: 195px;
                 top: 0;
                 flex-direction: column;
                 background-color: rgb(150,170,194);
@@ -576,7 +593,7 @@ export default {
   height: 88px;
   border-top: 2px solid #f9f9f9;
   position: fixed;
-  z-index: 999;
+  z-index: 1000;
   bottom: 0;
   left: 0;
   background-color: #fff;
@@ -618,6 +635,20 @@ export default {
 }
 .color {
   color: #2693d4;
+}
+.red{
+  display: none;
+  color: red;
+  border: 1px solid red;
+  border-radius: 4px;
+  padding: 0 5px; 
+  margin-top: 8px;
+  position: absolute;
+}
+@media screen and (min-width: 768px) and (max-width: 1200px){
+  .nav-select :hover ul{
+    display : none!important;
+  }
 }
 </style>
  
