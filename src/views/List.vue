@@ -1468,10 +1468,9 @@ export default {
                 color: #909399;
                 line-height: 30px;
                 margin-bottom: 10px;
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
                 overflow: hidden;
-                -webkit-line-clamp: 1;
+                white-space: nowrap;
+                text-overflow: ellipsis;
             }
             .errorInfo{
                 font-size: 40px;
