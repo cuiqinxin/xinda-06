@@ -12,13 +12,14 @@
         <div class="sanjiao"></div>
     </div>
     <div class=" loadmore">
+        <div id="scroller-box" >
         <ul v-for="(pro,index) in provide" :key="index" class="main_1" @click="tiao(pro.id)">
              <!-- <router-link :to="{path:'/goodsdetail',query:{id:pro.id}}" > -->
             <li class="main-left">
-                 <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  onerror="this.onerror=''; src='../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg'"> 
+                 <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  :onerror="errorImage"> 
             </li>
             <li :span="16" class="main-right">
-            <h4>{{pro.serviceName}}{{index}}</h4>
+            <h4>{{pro.serviceName}}</h4>
             <p class="info">{{pro.serviceInfo}}</p>
             <ul class="bottom">
                 <span class="region_1"></span><span>{{pro.regionName}}</span>
@@ -27,6 +28,7 @@
             </li>           
                 <!-- </router-link> -->
         </ul>
+     </div> 
      </div> 
     <div class="loadmore-icon" @click=" getData()">{{more}}<i class="fa fa-cog fa-spin"></i></div>
     <div class="loading" v-show="showlaoding">
@@ -37,6 +39,7 @@
   </template> 
  
 <script>
+import scrollTop from '../components/ScrollTop' 
 export default{
  data () {
   return {
@@ -49,6 +52,8 @@ export default{
         more:'加载更多。。。',
         //监测屏幕宽度
         screenWidth:document.body.clientWidth,
+         errorImage: 'this.src="' + require('../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg') + '"'
+
   }
  },
    created(){
@@ -67,10 +72,21 @@ export default{
  var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
     start:0,
-    // limit:3,
+    limit:6,
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
-            that.length=(data.data.data.length )   
+            // that.length=(data.data.data.length )
+            that.provide=(data.data.data )    
+        }); 
+        var that = this;
+    this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
+    start:0,
+    // limit:6,
+    providerId: this.$route.query.id,
+    sort:2})).then(function(data){
+            that.length=(data.data.data.length )
+            console.log(that.length)
+            // that.provide=(data.data.data )    
         }); 
         },
  methods: {
@@ -104,11 +120,13 @@ export default{
             this.showlaoding = false
       },
     },
+     components: {
+        scrollTop
+     },
     mounted() {
         if(this.screenWidth>=992){
                   this.dianpu()
         }
-
         const that = this
          window.onresize = () => {
             return (() => {
@@ -131,12 +149,12 @@ export default{
             };
         };
         var context = this
-        this.getData(context.page);
+        this.getData(context.page);  //
         console.log(context.page);
         var myEfficientFn = debounce(function() {
         var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
         //判断是否滚动到底部
-        if (scrollTop + window.innerHeight + 0>= document.body.offsetHeight) { //0 表示距离底部多少的距离的开始触发loadmore效果
+        if (scrollTop + window.innerHeight + 0 >= document.body.offsetHeight) { //0 表示距离底部多少的距离的开始触发loadmore效果
           if (!context.showlaoding) { //防止多次加载
             context.getData(context.page+=1)
           }

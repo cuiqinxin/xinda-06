@@ -21,6 +21,7 @@
             </el-aside>
             <el-main>
                 <ul class="provide_list">
+                    <div class="el">
                     <el-tabs v-model="activeName" @tab-click="handleClick">
                      <el-tab-pane label="服务产品内容" name="first" @click="fuwuneir">  
                          <ul class="">
@@ -52,6 +53,7 @@
                          </ul>
                      </el-tab-pane>
                     </el-tabs>
+                    </div>
                 </ul>
                 </el-main>
         </el-container>
@@ -188,6 +190,9 @@ export default {
 </script>
 
 <style scoped lang="less">
+.el{
+    margin-left: 20px;
+}
 .paging{
     width:100%;
     text-align: center;

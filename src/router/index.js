@@ -56,11 +56,7 @@ const  router = new VueRouter({       //module.expotrs={}
       name: 'Datang',
       component: Datang
     },
-    {
-      path: '/aap',
-      name: 'aap',
-      component: aap
-    },
+    
     {
       path: '/page',
       name: 'Page',
@@ -100,6 +96,11 @@ const  router = new VueRouter({       //module.expotrs={}
       alias: '/',         //起一个别名
       component: Header,
       children: [
+        {
+        path: 'aap',
+        name: 'aap',
+        component: aap
+        },
         {
           path: 'p_all',
           name: 'p_all',

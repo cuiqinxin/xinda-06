@@ -68,14 +68,16 @@
                                 <a v-for="(valuec,itemc) in dp.productTypes.split(',')" :key="itemc"></a>
                                 </p> 
                     </li>
-                    <button class="enter"  @click="openFullScreen2"  >
+                    <button class="enter" >
                         <router-link :to="{path:'/dianpu',query:{id:dp.id}}" > 
                     进入店铺
                     </router-link>
                     </button>
                 </ul>
             </div>
-        
+            <div class="none" v-show="none">
+                <h1>抱歉！暂无此类商品</h1>
+            </div>
         </div>
     </div>
     <div class="page">
@@ -89,7 +91,7 @@
 
 <script>
 import city from '../components/City'
-// import store from '../store';
+import store from '../store';
 export default {
   name: 'Shop',
   data () {
@@ -122,6 +124,8 @@ export default {
     zonghe:'',
     dshow:'',
     allstyle:'',
+    none:true,
+    screenWidth:document.body.clientWidth,
     }
   },
   created(){
@@ -132,19 +136,20 @@ export default {
            that.dianpu1=data.data.data;
         if((!/\?/.test(location.href))){
            that.dianpu=data.data.data;
+           that.none=false;
         }
         });
         var that = this
+        store.commit('loading',true)
       this.ajax.post(
           '/xinda-api/provider/search-grid',this.qs.stringify({
-        //   start:0,
         searchName:this.$route.query.searchName,
         sort:1,
       }))
       .then(function(data){
-            console.log(data.data.data);
-            // console.log(searchName);
             that.dianpu=data.data.data  
+        store.commit('loading',false)
+
         });
           
   },
@@ -155,17 +160,12 @@ export default {
       }
     }, 
   methods:{
-       openFullScreen2() {
-        const loading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
-        setTimeout(() => {
-          loading.close();
-        }, 1000);
-      },
+        shopmobile(){
+        this.$router.push({
+            path:"/shopmobile",
+        //    query:{ id:this.$route.query.id}
+        })
+     },
       goodp(){
         this.haoping=this.lan
         this.jiedan=''
@@ -238,18 +238,47 @@ export default {
           console.log(this.areaCode)
       },
   },
+  mounted() {
+  if(this.screenWidth<=992){
+                  this.shopmobile()
+        }
+
+        const that = this
+         window.onresize = () => {
+            return (() => {
+                window.screenWidth = document.body.clientWidth
+                that.screenWidth = window.screenWidth
+            })()
+        }
+  },
 watch:{
-$route(newval,oldval){
-    var that = this;
-console.log(newval.query.searchName)
-      this.ajax.post(
-          '/xinda-api/provider/search-grid',this.qs.stringify({
-        searchName:this.$route.query.searchName,
-      }))
-      .then(function(data){
-            console.log(data.data.data);
-            that.dianpu=data.data.data  
-        });}
+    screenWidth (val) {
+            if (!this.timer) {
+                this.screenWidth = val
+                this.timer = true
+                let that = this
+                setTimeout(function () {
+                    // that.screenWidth = that.$store.state.canvasWidth
+                    console.log(that.screenWidth)
+                    if(that.screenWidth<=992){
+                that.shopmobile()
+        }
+                    // that.init()
+                    that.timer = false
+                }, 400)
+            }
+        },
+    $route(newval,oldval){
+        var that = this;
+    console.log(newval.query.searchName)
+        this.ajax.post(
+            '/xinda-api/provider/search-grid',this.qs.stringify({
+            searchName:this.$route.query.searchName,
+        }))
+        .then(function(data){
+                console.log(data.data.data);
+                that.dianpu=data.data.data  
+            });}
 },
   computed:{
       post:function(){
@@ -262,6 +291,14 @@ console.log(newval.query.searchName)
 </script>
 
 <style scoped lang="less">
+.none{
+    width:85%;
+    height:328px;
+    margin:0 auto;
+    text-align: center;
+    line-height: 328px;
+    color:#ccc;
+}
 .choose{
     width:267px;
     display:flex;
@@ -281,7 +318,7 @@ console.log(newval.query.searchName)
 }
 .Store{
     width:1200px;
-    margin: 0 auto;
+    margin: 20px auto;
 
     .list{
         border:1px solid #ccc;
@@ -439,6 +476,7 @@ console.log(newval.query.searchName)
             font-size: 12px;
             color: #ccc;
             display: inline-block;
+            outline: none;
         }
         p{
             display: inline-block;
