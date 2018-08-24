@@ -817,16 +817,9 @@ export default {
         },
         //加入购物车item
         cart(event,item){
-<<<<<<< HEAD
-            // console.log(item)
             var that = this
             var id = event.currentTarget.id
             var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
-=======
-            var that = this
-            var id = event.currentTarget.id       
-            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.providerImg}
->>>>>>> b22d250252168307a220fe7a46aa927b15785328
 
             // that.ajax.post(
             //     "/xinda-api/sso/login-info", 
