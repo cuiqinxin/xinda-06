@@ -1,19 +1,23 @@
+
 <template>
+
   <!--transition标签 按钮出现附带动画-->
   <transition name="el-fade-in">
     <!-- <transition name="el-fade-in"> -->
     <div class="page-component-up" @click="scrollToTop" v-show="toTopShow">
-      <!-- <i class="el-icon-caret-top"></i> -->
-      <img src="../../static/top.png" alt="" class="el-icon-caret-top">
+      <!-- <i class="el-icon-font el-icon-caret-top"></i> -->
+      <img :src='logoSrc' alt="" class="el-icon-caret-top">
     </div>
   <!-- </transition> -->
   </transition>
 </template>
 
 <script>
+// import logoSrc from '../../static/top.png'
   export default {
     data() {
       return {
+        logoSrc:  require('../../static/top.png'),
         toTopShow: false,
         scrollTop:0
       }
@@ -76,6 +80,7 @@
 </script>
 
 <style scoped lang="less">
+@import "../assets/icon/iconfont.css";
     .page-component-up{
     // background-color: #409eff;
     position: fixed;
