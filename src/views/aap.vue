@@ -100,7 +100,6 @@ export default{
         that.more='没有喽。。。'
       }
         });
-            console.log(that.provide)
             this.showlaoding = false
       },
     },
@@ -132,7 +131,6 @@ export default{
         };
         var context = this
         this.getData(context.page);
-        console.log(context.page);
         var myEfficientFn = debounce(function() {
         var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
         //判断是否滚动到底部
@@ -155,7 +153,6 @@ watch : {
                     let that = this
                     setTimeout(function () {
                         // that.screenWidth = that.$store.state.canvasWidth
-                        console.log(that.screenWidth)
                         if(that.screenWidth>=992){
                   that.dianpu()
           }

@@ -57,7 +57,7 @@
                             <el-row>
                                 <el-col :md="18"  :sm="16">
                                     <div class="list-left">
-                                        <el-col :md="4" :sm="5" :xs="5" v-if="item['productImg']"><img :src="item['productImg']" @error='errorImage(item)'  class="proImg"></el-col>
+                                        <el-col :md="4" :sm="5" :xs="5" v-if="item['productImg']"><img :src="item['productImg']" :onerror='errorImage'  class="proImg"></el-col>
                                         <el-col :md="20" :sm="19" :xs="19"><div class="proInfo">
                                             <p v-if="item['errorInfo']" class="errorInfo">{{item['errorInfo']}}</p>
                                             <h3  v-if="item['serviceName']"><router-link :to="{path:'/goodsdetail',query:{id:item.id}}">{{item['serviceName']}}</router-link></h3>
@@ -90,17 +90,19 @@
                             <scrollTop></scrollTop>
                         </div>
 
-                       <el-col :xs="24"><p v-show="isShow" class="moreload">{{loadText}}</p></el-col>
+                       <el-col :xs="24"><div class="moreload"><p v-show="isShow">{{loadText}}</p></div></el-col>
+
                     </div>
                     <div class="pagebox hidden-xs-only">
                          <page @change="pageChange" :parentCount="parentCount" ref="pagemore"></page>
                     </div>
 
                 </div>
+
             </el-col>
             <el-col :span="5">
                 <div>
-                    <img :src="url" alt="" class="rightImg hidden-xs-only" >
+                    <img src="../../static/u684.23c4d55.png" alt="" class="rightImg hidden-xs-only" >
                 </div>
             </el-col>
         </el-row>
@@ -187,7 +189,7 @@ export default {
             screenWidth: document.body.clientWidth,
             loginStatus:0,
             currentIndex :0,
-
+            errorImage: 'this.src="' + require('../../static/errorImg.png') + '"'
         };
     },
     created() {
@@ -386,9 +388,9 @@ export default {
 
 
         //图片报错
-        errorImage(item){
-            item.productImg = "../../static/errorImg.png";
-        },
+        // errorImage(item){
+        //     item.productImg = "../static/errorImg.png";
+        // },
         //滚动高度
         getScrollTop() {
             var scrollTop = 0;
@@ -446,10 +448,10 @@ export default {
                                     production['productImg'] = pro
                                     that.thisProduct.push(data.data.data[key])
                                     if(that.thisProduct.length == that.parentCount.all){
-                                        that.loadText = 'No more loading'
-                                        setInterval(function(){
-                                            that.isShow = false
-                                        },500)
+                                        that.loadText = '没有更多商品'
+                                        // setInterval(function(){
+                                        //     that.isShow = false
+                                        // },500)
                                     }
                                 }
                             });
@@ -836,7 +838,7 @@ export default {
         cart(event,item){
             var that = this
             var id = event.currentTarget.id
-            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.providerImg}
+            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
 
             // that.ajax.post(
             //     "/xinda-api/sso/login-info",
@@ -1509,6 +1511,7 @@ export default {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    width: 100%;
     div{
         padding: 5px 10px;
         border: 1px solid #5aa3dd;

@@ -18,7 +18,6 @@ import production from '@/views/production'
 import register from '@/views/register'
 import Outter from '@/views/Outter'
 import Datang from '@/views/datang'
-import Chanpinx from '@/views/chanpinx'
 import Shop from '@/views/shop'
 import Shopmobile from '@/views/shopmobile'
 import dianpumobile from '@/views/dianpumobile'
@@ -67,11 +66,6 @@ const  router = new VueRouter({       //module.expotrs={}
       path: '/page',
       name: 'Page',
       component: Page
-    },
-    {
-      path: '/chanpinx',
-      name: 'Chanpinx',
-      component: Chanpinx
     },
     {
       path: '/outter',

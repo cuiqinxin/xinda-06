@@ -34,12 +34,14 @@
                     </el-col>
                     <el-col :span="24" class="hidden-sm-and-up gekai"></el-col>
                 </el-row>
+                <scrollTop></scrollTop>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import scrollTop from '../components/ScrollTop'
 export default {
     name: 'orderphone',
     data () {
@@ -152,7 +154,10 @@ export default {
                 }
             }
         })
-    }
+    },
+    components: {
+        scrollTop
+    },
 }
 </script>
 
