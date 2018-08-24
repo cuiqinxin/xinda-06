@@ -417,16 +417,9 @@ export default {
         getScrollHeight() {
             return Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);
         },
-<<<<<<< HEAD
-        
-        scrollBottom(){ 
-            //到达底部
-            
-=======
 
         scrollBottom(){ //到达底部
 
->>>>>>> f02f1b3f60f1dfda66b0f8fded35bb5ca2f5c9e9
             var that = this
             this.isShow = false
             if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<768) {
@@ -450,15 +443,6 @@ export default {
                                     var production = data.data.data[key];
                                         var pro = production['productImg']
                                         pro = "http://123.58.241.146:8088/xinda/pic" + pro
-<<<<<<< HEAD
-                                    production['productImg'] = pro                          
-                                    that.thisProduct.push(data.data.data[key])                                   
-                                    if(that.thisProduct.length == that.parentCount.all){                               
-                                        that.loadText = '没有更多商品'
-                                        // setInterval(function(){
-                                        //     that.isShow = false
-                                        // },500)
-=======
                                     production['productImg'] = pro
                                     that.thisProduct.push(data.data.data[key])
                                     if(that.thisProduct.length == that.parentCount.all){
@@ -466,7 +450,6 @@ export default {
                                         setInterval(function(){
                                             that.isShow = false
                                         },500)
->>>>>>> f02f1b3f60f1dfda66b0f8fded35bb5ca2f5c9e9
                                     }
                                 }
                             });

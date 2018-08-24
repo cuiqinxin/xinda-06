@@ -596,6 +596,7 @@ that.$store.commit('cartNumreduce',removeindex);
   .hotservicecontant {
     margin: 35px 0 100px;
     padding: 0 15px;
+    margin-right:0!important;
     .serviceitem {
       overflow: hidden;
       white-space: nowrap;
