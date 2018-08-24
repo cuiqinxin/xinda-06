@@ -57,7 +57,7 @@
                             <el-row>
                                 <el-col :md="18"  :sm="16">
                                     <div class="list-left">
-                                        <el-col :md="4" :sm="5" :xs="5" v-if="item['productImg']"><img :src="item['productImg']" @error='errorImage(item)'  class="proImg"></el-col>
+                                        <el-col :md="4" :sm="5" :xs="5" v-if="item['productImg']"><img :src="item['productImg']" :onerror='errorImage'  class="proImg"></el-col>
                                         <el-col :md="20" :sm="19" :xs="19"><div class="proInfo">
                                             <p v-if="item['errorInfo']" class="errorInfo">{{item['errorInfo']}}</p>
                                             <h3  v-if="item['serviceName']"><router-link :to="{path:'/goodsdetail',query:{id:item.id}}">{{item['serviceName']}}</router-link></h3>
@@ -82,21 +82,25 @@
                                 <p class="error">当前选项无内容</p>
                             </el-row>
                         </div>
+                       
+
+                        
+
                         <div id="scroller-box" class="hidden-sm-and-up">
                             <scrollTop></scrollTop>
                         </div>
-                        
-                       <el-col :xs="24"><p v-show="isShow" class="moreload">{{loadText}}</p></el-col>
+
+                       <el-col :xs="24"><div class="moreload"><p v-show="isShow">{{loadText}}</p></div></el-col>
                     </div>
                     <div class="pagebox hidden-xs-only">
                          <page @change="pageChange" :parentCount="parentCount" ref="pagemore"></page>
                     </div>
-                    
+
                 </div>
             </el-col>
             <el-col :span="5">
                 <div>
-                    <img :src="url" alt="" class="rightImg hidden-xs-only" >
+                    <img src="../../static/u684.23c4d55.png" alt="" class="rightImg hidden-xs-only" >
                 </div>
             </el-col>
         </el-row>
@@ -108,11 +112,14 @@
 import scrollTop from '../components/ScrollTop'
 import city from '../components/City'
 import page from '../components/Page'
+
 export default {
-    
+
     name: "Outter",
     data() {
         return {
+            scrollShow:false,
+            scrollShow1:true,
             loadText:' loading...',
             isShow: false,
             homePage:this.$route.query.name,
@@ -180,9 +187,11 @@ export default {
             screenWidth: document.body.clientWidth,
             loginStatus:0,
             currentIndex :0,
+            errorImage: 'this.src="' + require('../../static/errorImg.png') + '"'
         };
     },
     created() {
+      
         var that = this
         that.ajax.post(
                     "/xinda-api/sso/login-info",
@@ -194,7 +203,7 @@ export default {
                     }else{
                         that.loginStatus = 1;
                     }
-                });            
+                });
         if(this.homePage=="财税服务"){
             [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,true,false,false,false]
         }else if(this.homePage=="公司工商"){
@@ -219,14 +228,14 @@ export default {
                 var classify1 = [];
                 that.Data = data.data.data
                 var newData = that.Data;
-                //服务分类渲染      
+                //服务分类渲染
                 for (let key in newData) {
                     var myData = newData[key];
                     if (myData["name"] == that.firstLevel) {
                         that.typeList = myData.itemList;
                         var secondlevel = myData.itemList;
                         for (let key in secondlevel) {
-                            that.items.push(secondlevel[key]["name"]); 
+                            that.items.push(secondlevel[key]["name"]);
                         }
                     }
                 }
@@ -250,12 +259,12 @@ export default {
                                 that.classify.push(thirdName.itemList[key]['name'])
                             }
                         }
-                    }       
+                    }
                 }
                 //点击二级 类型渲染
                 else if(that.id == undefined){
                     that.obj.productTypeCode = that.code
-                    that.obj.productId = '' 
+                    that.obj.productId = ''
                     for(let key in secondlevel){
                         if(that.code == secondlevel[key]['code']){
                             var storage = secondlevel[key].itemList
@@ -284,17 +293,19 @@ export default {
                     "/xinda-api/product/package/grid",
                     that.qs.stringify({
                         productTypeCode : that.obj.productTypeCode,
-                        productId : that.obj.productId 
+                        productId : that.obj.productId
                     })
                 )
                 .then(function(data) {
                     that.parentCount.all=data.data.data.length
+                    
                 })
                 that.ajax.post(
                     "/xinda-api/product/package/grid",
                     that.qs.stringify(that.obj)
                 )
                 .then(function(data) {
+                   
                     that.temporaryList = data.data.data;
                     that.thisProduct = that.temporaryList
                     if( that.thisProduct.length == 0){
@@ -306,9 +317,9 @@ export default {
                             pro = "http://123.58.241.146:8088/xinda/pic" + pro
                             production[key]['productImg'] = pro
                         }
-                    }        
+                    }
                 })
-                
+
             });
         }else{
             //搜索页面渲染
@@ -342,15 +353,19 @@ export default {
                         pro = "http://123.58.241.146:8088/xinda/pic" + pro
                         production[key]['productImg'] = pro
                     }
-                }                
+                }
             })
         }
     },
     mounted(){
-        console.log(document.body.scrollHeight)
+        
         //监听屏幕大小
         if(document.body.offsetWidth<768){
+            
+            
             window.addEventListener('scroll', this.scrollBottom)
+            
+    
         }
 
         const that = this
@@ -360,18 +375,22 @@ export default {
                     that.screenWidth = window.screenWidth
                 })()
             }
-       
+
     },
     components: {
         city,
         page,
-        scrollTop
+        scrollTop,
+        
     },
     methods: {
+
+    
+
         //图片报错
-        errorImage(item){
-            item.productImg = "../../static/errorImg.png";
-        },
+        // errorImage(item){
+        //     item.productImg = "../static/errorImg.png";
+        // },
         //滚动高度
         getScrollTop() {
             var scrollTop = 0;
@@ -382,7 +401,7 @@ export default {
             }
             return scrollTop;
         },
- 
+
         // 获取当前可视范围的高度
         getClientHeight() {
             var clientHeight = 0;
@@ -400,16 +419,16 @@ export default {
         getScrollHeight() {
             return Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);
         },
-        
+
         scrollBottom(){ //到达底部
-            
+
             var that = this
             this.isShow = false
             if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<768) {
                 //if(this.obj.sort == 2 || this.obj.sort == 3 || this.obj.sort == ''){
-                    if(this.searchAdd.searchName == '' || this.searchAdd.searchName == undefined){                     
+                    if(this.searchAdd.searchName == '' || this.searchAdd.searchName == undefined){
                         this.page++
-                        this.isShow = true 
+                        this.isShow = true
                         if(this.thisProduct.length<this.parentCount.all){
                             this.start++
                             that.loadText = 'loading...'
@@ -422,30 +441,30 @@ export default {
                                     sort :  that.obj.sort
                                 }
                             )).then(function(data){
-                                for(let key in data.data.data){                                    
+                                for(let key in data.data.data){
                                     var production = data.data.data[key];
                                         var pro = production['productImg']
                                         pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                                    production['productImg'] = pro                          
-                                    that.thisProduct.push(data.data.data[key])                                   
-                                    if(that.thisProduct.length == that.parentCount.all){                               
-                                        that.loadText = 'No more loading'
-                                        setInterval(function(){
-                                            that.isShow = false
-                                        },500)
+                                    production['productImg'] = pro
+                                    that.thisProduct.push(data.data.data[key])
+                                    if(that.thisProduct.length == that.parentCount.all){
+                                        that.loadText = '没有更多商品'
+                                        // setInterval(function(){
+                                        //     that.isShow = false
+                                        // },500)
                                     }
-                                }    
+                                }
                             });
                         }else{
-                            that.loadText = 'No more loading'
-                            setInterval(function(){
-                                            that.isShow = false
-                                        },500)
+                            that.loadText = '没有更多商品'
+                            // setInterval(function(){
+                            //                 that.isShow = false
+                            //             },500)
                         }
                     }else{
                         //搜索+排序
                         this.page++
-                        this.isShow = true 
+                        this.isShow = true
                         if(this.thisProduct.length<this.parentCount.all){
                             this.start++
                             that.loadText = 'loading...'
@@ -457,19 +476,19 @@ export default {
                                     sort :  that.obj.sort
                                 }
                             )).then(function(data){
-                                for(let key in data.data.data){                                    
+                                for(let key in data.data.data){
                                     var production = data.data.data[key];
                                         var pro = production['providerImg']
                                         pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                                    production['productImg'] = pro                          
-                                    that.thisProduct.push(data.data.data[key])                                   
-                                    if(that.thisProduct.length == that.parentCount.all){                               
+                                    production['productImg'] = pro
+                                    that.thisProduct.push(data.data.data[key])
+                                    if(that.thisProduct.length == that.parentCount.all){
                                         that.loadText = 'No more loading'
                                         setInterval(function(){
                                             that.isShow = false
                                         },500)
                                     }
-                                }    
+                                }
                             });
                         }else{
                             that.loadText = 'No more loading'
@@ -508,11 +527,11 @@ export default {
                     });
                 }
             }else{
-               
+
                 if(that.searchAdd.sort==2 || that.searchAdd.sort == 3){
                      this.thisProduct = this.temporaryList.slice((page-1)*5,(page-1)*5+5)
                 }else{
-                
+
                     that.ajax.post('/xinda-api/product/package/search-grid',that.qs.stringify(
                     {
                         start:(page-1)*5,
@@ -529,7 +548,7 @@ export default {
                     });
                 }
             }
-        }, 
+        },
         //点击服务分类渲染
         sort1(index1, event) {
             document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#000')
@@ -572,7 +591,7 @@ export default {
                 "/xinda-api/product/package/grid",
                 that.qs.stringify({
                     productTypeCode : that.obj.productTypeCode,
-                    productId : that.obj.productId 
+                    productId : that.obj.productId
                 })
             )
             .then(function(data) {
@@ -617,13 +636,13 @@ export default {
             this.$refs.notice_add.cityCode = ''
             this.$refs.notice_add.areaCode = ''
             this.page = 1;
-            var that = this; 
+            var that = this;
             that.current2 = index2;
             that.currentTarget1 = event.currentTarget.innerHTML;
             var productList = that.nowTestlist.itemList;
             for(let key in productList){
                 if(productList[key]['name'] == that.currentTarget1){
-                     
+
                     that.obj.productId = productList[key]['id'];
                     that.obj.productTypeCode = 0;
                 }
@@ -632,7 +651,7 @@ export default {
                 "/xinda-api/product/package/grid",
                 that.qs.stringify({
                     productTypeCode : that.obj.productTypeCode,
-                    productId : that.obj.productId 
+                    productId : that.obj.productId
                 })
             )
             .then(function(data) {
@@ -695,17 +714,17 @@ export default {
             var that = this
 
             if(this.searchAdd.searchName == '' || this.searchAdd.searchName == undefined){
-                
-                
+
+
                 if(this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<768){
                     this.start++
-                    
+
                 this.page++
                 this.isShow = true
-                
+
                 if(this.thisProduct.length<this.parentCount.all){
                     that.loadText = 'loading...'
-                   
+
                     this.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
                         {
                             start:that.start,
@@ -716,21 +735,21 @@ export default {
                         }
                     )).then(function(data){
                         for(let key in data.data.data){
-                            
+
                             var production = data.data.data[key];
                                 var pro = production['productImg']
                                 pro = "http://123.58.241.146:8088/xinda/pic" + pro
-                               production['productImg'] = pro                          
+                               production['productImg'] = pro
                             that.thisProduct.push(data.data.data[key])
-                            
+
                             if(that.thisProduct.length == that.parentCount.all){
-                               
+
                                 that.loadText = 'No more loading'
                                 setInterval(function(){
                                     that.isShow = false
                                 },500)
                             }
-                        }    
+                        }
                     });
                 }
                 }
@@ -812,17 +831,21 @@ export default {
                         ).then(function(data){
                         })
                     }
-                // });             
-            
+                // });
+
         },
         //加入购物车item
         cart(event,item){
             var that = this
             var id = event.currentTarget.id
+<<<<<<< HEAD
             var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
+=======
+            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.providerImg}
+>>>>>>> 773b5a0080ce6c08aac6b6dee4434b8251dbdbff
 
             // that.ajax.post(
-            //     "/xinda-api/sso/login-info", 
+            //     "/xinda-api/sso/login-info",
             //     that.qs.stringify({})
             // ).then(function(data){
             //     // 未登陆
@@ -846,17 +869,17 @@ export default {
                                     type: 'success',
                                     showClose: true,
                                     message: '已加入购物车'
-                                }); 
-                            })                 
+                                });
+                            })
                     }).catch(() => {
                         //取消
                         that.$message({
                             type: 'info',
                             message: '未加入购物车'
-                        });          
+                        });
                     });
                 }
-            // });       
+            // });
         },
         //服务区域
         confirm(value){
@@ -869,7 +892,7 @@ export default {
                 "/xinda-api/product/package/grid",
                 that.qs.stringify({
                     productTypeCode : that.obj.productTypeCode,
-                    productId : that.obj.productId 
+                    productId : that.obj.productId
                 })).then(function(data) {
                     that.parentCount.all=data.data.data.length
                     })
@@ -896,7 +919,7 @@ export default {
                     "/xinda-api/product/package/grid",
                     that.qs.stringify({
                         productTypeCode : that.obj.productTypeCode,
-                        productId : that.obj.productId 
+                        productId : that.obj.productId
                     })
                 )
                 .then(function(data) {
@@ -939,7 +962,7 @@ export default {
                     }
                 })
             }
-        }, 
+        },
         //未登录跳转
         open2() {
             var that=this;
@@ -953,7 +976,7 @@ export default {
                 this.$message({
                     type: 'info',
                     message: '已取消登陆'
-                });          
+                });
             });
         },
 
@@ -966,18 +989,28 @@ export default {
             if(val<768){
                 window.addEventListener('scroll', this.scrollBottom)
                 this.isShow = false;
+                 
             }
             if(oldval<768 && val>=768){
+                
+                
                 this.thisProduct = this.thisProduct.splice(0,5)
                 this.isShow = false;
                 // this.parentCount.currentPage = 1;
                 this.$refs.pagemore.go(1)
+                 
+
             }
             else if(oldval>=768 && val<768){
+                
+                
                 this.start = 4
                 if(this.currentIndex >= 2){
                     var that = this;
                     if(this.$route.query.searchName == '' || this.$route.query.searchName == undefined){
+
+                    
+                    
                     this.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
                         {
                             start:0,
@@ -1012,7 +1045,7 @@ export default {
                     }
                 }
             }
-                    
+
         },
 
 
@@ -1025,7 +1058,7 @@ export default {
             this.parentCount.all = ''
             this.homePage = this.$route.query.name
             this.current3 = 0;
-            this.firstLevel=this.$route.query.name;            
+            this.firstLevel=this.$route.query.name;
             this.code = val.query.code;
             this.id = val.query.id;
             this.searchAdd.searchName = val.query.searchName
@@ -1054,7 +1087,7 @@ export default {
             if(this.id == undefined && this.code == undefined){
                 this.current2=-1
                 this.firstLevel=val.query.name;
-                
+
             }else if(this.id == undefined && this.code != undefined ){
                 this.current2=-1
                 this.firstLevel=val.query.name;
@@ -1075,14 +1108,14 @@ export default {
                     var classify1 = [];
                     //that.Data = data.data.data
                     var newData = that.Data;
-                    //服务分类渲染      
+                    //服务分类渲染
                     for (let key in newData) {
                         var myData = newData[key];
                         if (myData["name"] == that.firstLevel) {
                             that.typeList = myData.itemList;
                             var secondlevel = myData.itemList;
                             for (let key in secondlevel) {
-                                that.items.push(secondlevel[key]["name"]); 
+                                that.items.push(secondlevel[key]["name"]);
                             }
                         }
                     }
@@ -1106,12 +1139,12 @@ export default {
                                     that.classify.push(thirdName.itemList[key]['name'])
                                 }
                             }
-                        }       
+                        }
                     }
                     //点击二级 类型渲染
                     else if(that.id == undefined){
                         that.obj.productTypeCode = that.code
-                        that.obj.productId = '' 
+                        that.obj.productId = ''
                         for(let key in secondlevel){
                             if(that.code == secondlevel[key]['code']){
                                 var storage = secondlevel[key].itemList
@@ -1140,7 +1173,7 @@ export default {
                         "/xinda-api/product/package/grid",
                         that.qs.stringify({
                             productTypeCode : that.obj.productTypeCode,
-                            productId : that.obj.productId 
+                            productId : that.obj.productId
                         })
                     )
                     .then(function(data) {
@@ -1162,9 +1195,9 @@ export default {
                                 pro = "http://123.58.241.146:8088/xinda/pic" + pro
                                 production[key]['productImg'] = pro
                             }
-                        }        
+                        }
                     })
-                    
+
                 //});
             }
             else{
@@ -1177,15 +1210,15 @@ export default {
                     var level2 = []
                     for (let key in this.typeList) {
                         level2.push(this.typeList[key].name)
-                        
+
                         if(this.typeList[key]["name"] == level2[0]){
                             this.nowTestlist = this.typeList[key]
                         }
-                        this.items.push(this.typeList[key]["name"]); 
+                        this.items.push(this.typeList[key]["name"]);
                         this.storageCode.push(this.typeList[key].code)
                         this.obj.productTypeCode = this.typeList[key].code
                         this.obj.productId = ''
-                    }          
+                    }
                 }
             }
             //类型渲染
@@ -1221,7 +1254,7 @@ export default {
                     "/xinda-api/product/package/grid",
                     that.qs.stringify({
                         productTypeCode : that.obj.productTypeCode,
-                        productId : that.obj.productId 
+                        productId : that.obj.productId
                     })
                 ).then(function(data) {
                     that.parentCount.all=data.data.data.length
@@ -1244,7 +1277,7 @@ export default {
                             production[key]['productImg'] = pro
                         }
                     }
-                    
+
                 })
             }
             else{
@@ -1261,7 +1294,7 @@ export default {
                         that.parentCount.all = 1
                     }
                 })
-                
+
                 this.ajax.post(
                     "/xinda-api/product/package/search-grid",
                     that.qs.stringify(that.searchAdd)
@@ -1278,12 +1311,12 @@ export default {
                             production[key]['productImg'] = pro
                         }
                     }
-                
+
                 })
             }
             }
         },
-        
+
     },
     computed: {}
 
@@ -1418,7 +1451,7 @@ export default {
                 a{
                     color: #000;
                 }
-                
+
             }
             p {
                 font-size: 14px;
@@ -1464,7 +1497,7 @@ export default {
         }
         .cart-count{
             position: absolute;
-            
+
         }
     }
     .error{
