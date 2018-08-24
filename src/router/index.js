@@ -44,9 +44,11 @@ import List from '@/views/List'
 import axios from 'axios'
 import qs from 'qs'
 
+import newVue from '../main'
+
 
 const  router = new VueRouter({       //module.expotrs={}
- 
+
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }
   },
@@ -125,7 +127,7 @@ const  router = new VueRouter({       //module.expotrs={}
           name: 'dianpumobile',
           component: dianpumobile,
         },
-       
+
         {
           path: 'dianpu',
           name: 'Dianpu',
@@ -161,7 +163,7 @@ const  router = new VueRouter({       //module.expotrs={}
           path: 'pay',
           name: 'pay',
           component: pay,
-        
+
         },
         {
           path: 'payfailed',
@@ -176,7 +178,7 @@ const  router = new VueRouter({       //module.expotrs={}
         {
           path: 'goodsdetail',
           name: 'goodsdetail',
-          component: goodsdetail 
+          component: goodsdetail
         },
         {
           path: 'member',
@@ -242,7 +244,7 @@ const  router = new VueRouter({       //module.expotrs={}
     //   name:Dianpu,
     //   // component:requre('../componnents/B')
     // }
-  
+
     // {
     //   path: '*',
     //   name: NotFoundComponent,
@@ -251,7 +253,6 @@ const  router = new VueRouter({       //module.expotrs={}
   ]
 })
 
-export default router;
 
 
 // 全局路由守卫
@@ -261,7 +262,6 @@ router.beforeEach((to, from, next) => {
   // next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。
   // console.log('navigation-guards');
 
-var that=this;  // 定义守卫路径
   const nextRoute = ['Header', 'shoppingcart', 'pay'];
 
    // 判断是否登陆
@@ -269,20 +269,18 @@ var that=this;  // 定义守卫路径
     "/xinda-api/sso/login-info",
     qs.stringify({})
     ).then(function(data){
-    // console.log(data.data.status);
+    console.log(data,to.name,nextRoute.indexOf(to.name) >= 0);
     // 未登录状态；当路由到nextRoute指定页时，跳转至login
     if(data.data.status!=1 && nextRoute.indexOf(to.name) >= 0){
-      // var num = 5
-        // open();
-        that.a.app.$alert('您还未登录,点击 确定 跳转到登录页', '提示', {
+        newVue.$alert('您还未登录,点击 确定 跳转到登录页', '提示', {
           confirmButtonText: '确定',
         }).then(()=>{
           router.push({name:'Login'});
-         
+
         }).catch(()=>{
           router.push({name:'Header'});
         });
-  
+
         // var s = setTimeout(function(){
         //   num--;
         //   if(num == 0){
@@ -290,8 +288,8 @@ var that=this;  // 定义守卫路径
         //     clearInterval()
         //   }
         // },1000);
-        
-    }else if(data.data.status==1&&to.name === 'Login'){ // 已登录状态；当路由到login时，跳转至home 
+
+    }else if(data.data.status==1&&to.name === 'Login'){ // 已登录状态；当路由到login时，跳转至home
         router.push({ name: 'Header' });
     }
 
@@ -304,7 +302,8 @@ var that=this;  // 定义守卫路径
 //   this.a.app.$alert('您还未登陆！', '提示', {
 //     confirmButtonText: '确定',
 //     callback: action => {
-    
+
 //     }
 //   });
 // }
+export default router;

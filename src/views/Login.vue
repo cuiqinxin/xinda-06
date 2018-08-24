@@ -110,7 +110,8 @@ export default {
                             .then(function(data) {
                                 store.commit('gaincartNum',data.data.data.length);           
                                 for(var i=0;i<data.data.data.length;i++){  
-                                    var obj={'id':data.data.data[i].serviceId,'price':data.data.data[i].unitPrice,'sname':data.data.data[i].serviceName,'sinfo':data.data.data[i].serviceInfo,'simg':data.data.data[i].providerImg}          
+                                    var imgurlcart='http://123.58.241.146:8088/xinda/pic/'+data.data.data[i].providerImg;                                              
+                                    var obj={'id':data.data.data[i].serviceId,'price':data.data.data[i].unitPrice,'sname':data.data.data[i].serviceName,'sinfo':data.data.data[i].serviceInfo,'simg':imgurlcart}          
                                     store.commit('gaincartId',obj);                            
                                 } 
                             })
@@ -272,10 +273,10 @@ export default {
     @media screen and (max-width: 768px){
         .pass{margin:32px 0 0;input{width: 58%;}}
         .yan{margin-top: 30px;}
-        .deng{margin-top: 77px;padding-top: 0;}
-        .left{margin-top:71px;}
+        .deng{margin-top: 77px;padding-top: 0;margin-bottom: 77px;}
+        .left{margin-top:31px;margin-bottom: 112px;}
         .log{
-            margin-top:213px;
+            margin-top:60px;
             color: #fff;
             background-color: #2693d4;
         }

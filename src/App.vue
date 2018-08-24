@@ -34,7 +34,7 @@
                 <h4 :class="[showlist==0 ? activeClass : '', errorClass]" v-html="showlist==0 ? '购物车是空的哦！':'最近加入的商品：'"></h4>    
                 <div class="xiangxi" v-for="(item,index) in showlist.slice(0,4)" :key="index">
                   <router-link :to="{path:'/goodsdetail',query:{id:item.id}}">
-                    <img :src="'http://123.58.241.146:8088/xinda/pic/'+(item['simg'])"  class="imgsss">                    
+                    <img :src="item['simg']"  class="imgsss">                    
                   </router-link>
                   <div class="cartmid">
                     <h4><router-link :to="{path:'/goodsdetail',query:{id:item.id}}">{{item['sname']}}</router-link></h4>
@@ -160,7 +160,8 @@ export default {
       .then(function(data) {
         store.commit('gaincartNum',data.data.data.length);
         for(var i=0;i<data.data.data.length;i++){
-          var obj={'id':data.data.data[i].serviceId,'price':data.data.data[i].unitPrice,'sname':data.data.data[i].serviceName,'sinfo':data.data.data[i].serviceInfo,'simg':data.data.data[i].providerImg}          
+          var imgurlcart='http://123.58.241.146:8088/xinda/pic/'+data.data.data[i].providerImg;          
+          var obj={'id':data.data.data[i].serviceId,'price':data.data.data[i].unitPrice,'sname':data.data.data[i].serviceName,'sinfo':data.data.data[i].serviceInfo,'simg':imgurlcart}          
           store.commit('gaincartId',obj);
         }
         that.showlist=store.state.cartconcrete;

@@ -16,7 +16,7 @@ Vue.prototype.ajax = axios;
 Vue.prototype.qs = qs;
 
 /* eslint-disable no-new */
- new Vue({
+export default new Vue({
   el: '#app',
   router,
   store,
