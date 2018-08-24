@@ -1181,6 +1181,9 @@ import store from '../store'
             height:100px;
         }
         .goosbottom{
+            width:100%;
+            position:fixed;
+            bottom:88px;
             height:60px;
             .lianxi{
                 height:100%;

@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="grabble hidden-sm-and-down">   
+    <div class="grabble hidden-sm-and-down">
       <div class="grabble-con">
         <div class="grabble-top">
           <div class="grabble-left" >
@@ -27,10 +27,10 @@
                 @select="handleSelect"
                 @keyup.enter.native="search"
                 :value="state4"
-              ></el-autocomplete><button 
+              ></el-autocomplete><button
                 @click="link1"
                 v-if="style"><span></span>
-              </button><button 
+              </button><button
                 @click="link"
                 v-if="!style"><span></span></button>
             </div>
@@ -49,20 +49,20 @@
           <ul>
             <li class="hov">
               <router-link to="/" :class="{active:nav}">全部产品</router-link>
-              <ul class="nav-select" v-if="none" :class="{hover:hover}"> 
+              <ul class="nav-select" v-if="none" :class="{hover:hover}">
                 <li v-for="(item,key,index) in menuList" :key="index">
                   <span></span>
                   <div>
-                    <router-link 
+                    <router-link
                       @click.native="none1"
-                      :to="{path:'/list',query:{name:item.name,index: 0}}" 
+                      :to="{path:'/list',query:{name:item.name,index: 0}}"
                       class="nav-h2">{{item.name}}
                     </router-link>
                     <p>
-                      <router-link 
+                      <router-link
                         @click.native="none1"
-                        :to="{path:'/list',query:{name:item.name,code:item1.code,index:index1}}" 
-                        v-for="(item1,key1,index1) in item.itemList" :key="index1" 
+                        :to="{path:'/list',query:{name:item.name,code:item1.code,index:index1}}"
+                        v-for="(item1,key1,index1) in item.itemList" :key="index1"
                         class="nav-span">{{item1.name}}
                       </router-link>
                     </p>
@@ -73,10 +73,10 @@
                       <div>
                         <p class="nav-select11">{{item2.name}}></p>
                         <p class="nav-select12">
-                          <router-link 
+                          <router-link
                             @click.native="none1"
-                            :to="{path:'/list',query:{name:item.name,code:item2.code,id:item3.id,index2:index2,index3:index3}}" 
-                            v-for="(item3,key3,index3) in item2.itemList" 
+                            :to="{path:'/list',query:{name:item.name,code:item2.code,id:item3.id,index2:index2,index3:index3}}"
+                            v-for="(item3,key3,index3) in item2.itemList"
                             :key="index3">{{item3.name}}
                           </router-link>
                         </p>
@@ -87,7 +87,7 @@
                 </li>
               </ul>
             </li>
-            
+
             <li><router-link :to="{path:'/list',query:{name:'财税服务',index:0}}" :class="{active:nav1}">财税服务</router-link></li>
             <li><router-link :to="{path:'/list',query:{name:'公司工商',index:0}}" :class="{active:nav2}">公司工商</router-link></li>
             <li><router-link to="/join" :class="{active:nav3}">加盟我们</router-link></li>
@@ -113,13 +113,13 @@
     <footer class="footer1-2 hidden-md-and-up">
       <ul>
         <li>
-          <router-link to="/header/index1">
+          <router-link to="/">
           <p class="footer1-2-img"></p>
           <p>首页</p>
           </router-link>
         </li>
         <li>
-          <router-link to="/">
+          <router-link to="/shop">
           <p class="footer1-2-img"></p>
           <p>店铺</p>
           </router-link>
@@ -162,7 +162,7 @@ export default {
       nav2:false,
       nav3: false,
       nav4: false,
-      color_red: false, 
+      color_red: false,
       placeholder:'搜索您需要的服务或服务商',
       none: true,
       hover: false,
@@ -218,7 +218,7 @@ export default {
         this.$router.push({
             path:'/shop',query:{searchName:this.state4}
         })
-      }  
+      }
     },
     link1(){
       if(this.state4 === ''){
@@ -318,7 +318,7 @@ export default {
     },
     phonelogin(){
       this.ajax.post("/xinda-api/sso/login-info").then(data=>{
-        if(data.data.status==1){this.$router.push({path:'/memberindex'});}  
+        if(data.data.status==1){this.$router.push({path:'/memberindex'});}
         if(data.data.status!=1){this.$router.push({path:'/quit'});}
       })
     }
@@ -611,26 +611,26 @@ export default {
       .footer1-2-img{
         background-image: url(../../static/f1.png);
       }
-      p{color: #2693d4};      
-    } 
+      p{color: #2693d4};
+    }
     li:nth-child(2){
       .footer1-2-img{
         background-image: url(../../static/dian1.png);
       }
-      p{color: #949496};      
-    } 
+      p{color: #949496};
+    }
     li:nth-child(3){
       .footer1-2-img{
         background-image: url(../../static/car.png);
       }
-      p{color: #949496};      
-    } 
+      p{color: #949496};
+    }
     li:nth-child(4){
       .footer1-2-img{
         background-image: url(../../static/my.png);
       }
-      p{color: #949496};      
-    } 
+      p{color: #949496};
+    }
   }
 }
 .color {
@@ -641,7 +641,7 @@ export default {
   color: red;
   border: 1px solid red;
   border-radius: 4px;
-  padding: 0 5px; 
+  padding: 0 5px;
   margin-top: 8px;
   position: absolute;
 }
@@ -651,4 +651,3 @@ export default {
   }
 }
 </style>
- 

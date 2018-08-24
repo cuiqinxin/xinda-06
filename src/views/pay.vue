@@ -794,7 +794,9 @@ export default {
     }
 
     .allmoney1{
-    margin-top:100px;
+     width:100%;
+    position:fixed;
+    bottom:88px;
     display:flex;
     background-color: #e5e5e5;
     display: flex;

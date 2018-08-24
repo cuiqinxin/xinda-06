@@ -85,7 +85,7 @@
     height: 60px;
     // transition: top 2s linear;
     // box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-    z-index: 100;
+    
     .el-icon-caret-top{
       // color: #fff;
       opacity:0.8;
@@ -94,6 +94,7 @@
       line-height: 40px;
       text-align: center;
       font-size: 18px;
+      z-index: 100;
       // box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
     }
     p{
