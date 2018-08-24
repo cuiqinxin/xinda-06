@@ -70,13 +70,6 @@ export default {
 
 <style lang="less">
     span{display: inline-block;}
-    .phone{
-            height: 72px; 
-            width: 100%;
-            position: absolute;
-            top:0; 
-            background-color: #fff; 
-        }
     @media screen and (max-width: 768px){
         .touxiang{
             width: 125px;
@@ -103,7 +96,7 @@ export default {
         .user{
             text-align: center;
             background-color: #fff;
-            margin:80px 0 80px;
+            margin:60px 0 40px;
             p{
                 font-size: 20px;
                 line-height: 34px;
@@ -120,7 +113,7 @@ export default {
             }
             .phozhu{margin-right: 25px;}
         }
-        .install{margin:35px 0 80px;}
+        .install{margin:25px 0 60px;}
         .choose{
             display: flex;
             justify-content: space-between;
@@ -148,7 +141,7 @@ export default {
             color:#fff;
             font-size: 18px;
         }
-        .phone{
+        .memberindex .phone{
             height: 72px; 
             width: 100%;
             position: absolute;

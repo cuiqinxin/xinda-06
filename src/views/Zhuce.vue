@@ -4,18 +4,7 @@
             <el-row>
                 <el-col :span="12" :xs="24" class="left">
                     <el-col :sm={span:11,offset:6} :xs={span:18,offset:3} class="shu">
-                        <input type="text" placeholder="请输入手机号码" v-model="phoneValue" @blur="phoneBlur" @keyup="phoneKey"> 
-                        <p class="wrongTip">{{phoneTip}}</p>                      
-                        <div class="yan">
-                            <input type="text" placeholder="请输入图片验证码" class="yanma" v-model="photoValue" @keyup="photoKey">
-                            <img :src="imgurl" @click="imgchange">
-                        </div>
-                        <p class="wrongTip">{{photoTip}}</p>
-                        <div class="phoyan">
-                            <input type="text" placeholder="请输入手机验证码" class="yanma" v-model="phoneYan" @keyup="telKey">
-                            <button @click="telget" :id="showyan">{{phoneClick}}</button>
-                        </div>
-                        <p class="wrongTip">{{telTip}}</p>
+                        <validate @inputaa="yanzheng" ref="msg" @confirmss="confirmss"></validate>
                         <city @confirm="confirm" display="12345"></city>
                         <p class="wrongTip">{{cityTip}}</p>
                         <el-popover placement="right" width="300" trigger="focus" class="hidden-xs-only">
@@ -54,6 +43,7 @@
 
 <script>
 import city from '../components/City'
+import validate from '../components/Validate'
 export default {
     name: 'Zhuce',
     created(){
@@ -68,7 +58,6 @@ export default {
     },
     data () {
         return {
-            imgurl:'/xinda-api/ajaxAuthcode',
             style:'bi',
             types:'password',
             passValue:'',
@@ -76,13 +65,9 @@ export default {
             phoneValue:'',
             phoneYan:'',
             passTip:'',
-            photoTip:'',
-            phoneTip:'',
-            telTip:'',
             cityTip:'',
             passSigns:'',
-            phoneClick:'点击获取',
-            showyan:'valid',
+            phoneClick:0,
             cityCode:'',
             lengthLimit:'el-icon-circle-close-outline colori',
             typeLimit:'el-icon-circle-close-outline colori',
@@ -90,18 +75,6 @@ export default {
         }
     },
     methods:{
-        phoneBlur(){
-            if(this.phoneValue==''){
-                this.phoneTip='手机号码不能为空';
-            }else if(!/^1[23456789]\d{9}$/.test(this.phoneValue)){
-                this.phoneTip='手机号码格式不正确';
-            }else{
-                this.phoneTip='';
-            }
-        },
-        phoneKey(){
-            this.phoneTip='';
-        },
         passSign(){
             if(this.passValue==''){
                 this.passSigns='1';
@@ -136,63 +109,29 @@ export default {
                 this.passTip='密码设置不符合要求';
             }
         },
-        telget(){
-            if(this.phoneClick=='点击获取'){
-                if(/^1[23456789]\d{9}$/.test(this.phoneValue)){
-                    var that=this;
-                    this.datavalue=this.ajax.post('/xinda-api/register/sendsms',this.qs.stringify(
-                        {'cellphone':this.phoneValue,'smsType':1,'imgCode':this.photoValue}
-                    )).then(
-                        function(data){
-                            if(data.data.status==-1){
-                                that.photoTip=data.data.msg;
-                                var data=(new Date()).getTime();
-                                that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
-                            }
-                            if(data.data.status==1){
-                                var second=60;
-                                that.phoneClick=second+'秒后获取';
-                                that.showyan='invalid';
-                                var jishi=setInterval(function(){
-                                    second--;
-                                    that.phoneClick=second+'秒后获取';
-                                    if(second==-1){clearInterval(jishi);that.phoneClick='点击获取';that.showyan='valid';}
-                                },1000);
-                            }
-                    });
-                }else{
-                    this.phoneTip='手机号不正确';
-                }
-            }else{
-                return;
-            }
-        },
-        telKey(){
-            this.telTip='';
-        },
-        photoKey(){
-            this.photoTip='';
-        },
         regisyan(){
             var lastzhu=0;
             if(this.phoneValue==''){
-                this.phoneTip='手机号码不能为空';
+                this.$refs.msg.getphone('手机号码不能为空');
             }else if(!/^1[23456789]\d{9}$/.test(this.phoneValue)){
-                this.phoneTip='手机号码格式不正确';
+                this.$refs.msg.getphone('手机号码格式不正确');
             }else{
-                this.phoneTip='';lastzhu++;
+                this.$refs.msg.getphone('');
+                lastzhu++;
             }
             if(this.photoValue==''){
-                this.photoTip='图片验证码不能为空';
+                this.$refs.msg.getphoto('图片验证码不能为空');
             }else{
-                this.photoTip='';lastzhu++;
+                this.$refs.msg.getphoto('');
+                lastzhu++;
             }
             if(this.phoneYan==''){
-                this.telTip='手机验证码不能为空';
-            }else if(this.phoneClick=='点击获取'){
-                this.telTip='请发送手机验证码';
+                this.$refs.msg.gettel('手机验证码不能为空');                
+            }else if(this.phoneClick!=2){
+                this.$refs.msg.gettel('请发送手机验证码');
             }else{
-                this.telTip='';lastzhu++;
+                this.$refs.msg.gettel('');
+                lastzhu++;
             }
             if(this.cityCode==''){
                 this.cityTip='地域信息不能为空';
@@ -213,13 +152,13 @@ export default {
                 )).then(
                     function(data){
                         if(data.data.status==-3){
-                            that.telTip=data.data.msg;
+                            that.$refs.msg.gettel(data.data.msg);
                             var data=(new Date()).getTime();
-                            that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
+                            that.$refs.msg.getimg(`/xinda-api/ajaxAuthcode?t=${data}`);
                         }else if(data.data.status==-2){
-                            that.phoneTip=data.data.msg;
+                            that.$refs.msg.getphone(data.data.msg);                            
                             var data=(new Date()).getTime();
-                            that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
+                            that.$refs.msg.getimg(`/xinda-api/ajaxAuthcode?t=${data}`);
                         }else if(data.data.status==1){
                             var md5=require('md5');
                             that.ajax.post('/xinda-api/register/register',that.qs.stringify(
@@ -227,9 +166,9 @@ export default {
                             )).then(
                                 function(data){
                                     if(data.data.status==-2){
-                                        that.phoneTip=data.data.msg;
+                                        that.$refs.msg.getphone(data.data.msg);                                        
                                         var data=(new Date()).getTime();
-                                        that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
+                                        that.$refs.msg.getimg(`/xinda-api/ajaxAuthcode?t=${data}`);
                                     }else if(data.data.status==1){
                                         that.$confirm('注册成功！是否跳转到登录页?', '提示', {
                                             confirmButtonText: '确定',
@@ -257,9 +196,8 @@ export default {
                 this.cityTip='';
             }
         },
-        imgchange(){
-            var data=(new Date()).getTime();
-            this.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
+        confirmss(value){
+            this.phoneClick=value;
         },
         show(){
             if(this.style=='zheng'){
@@ -269,17 +207,25 @@ export default {
                 this.style='zheng';
                 this.types='text';
             }
+        },
+        yanzheng(value,sign){
+            if(sign==3){
+                this.phoneYan=value;
+            }else if(sign==2){
+                this.photoValue=value;
+            }else{this.phoneValue=value}
         }
     },
     components:{
         city,
+        validate
     },
 }
 </script>
 
 <style lang="less">
     span{display: inline-block;}
-    a{color:#3f9cd9;}
+    .Zhuce a{color:#3f9cd9;}
     input{
         height: 34px;
         border:1px solid #cbcbcb;
@@ -375,9 +321,9 @@ export default {
         background: url(../../static/zheng.png) no-repeat;      
     }
     @media screen and (max-width: 768px){
-        .pass{margin:32px 0 0;}
+        .pass{margin:19px 0 0;}
         .deng{margin-top: 77px;padding-top: 0;}
-        .left{margin-top:71px;}
+        .left{margin-top:31px;}
         .log{
             margin-top:213px;
             color: #fff;
@@ -445,9 +391,11 @@ export default {
             .zhu{
                 margin-top: 77px;
                 padding-top: 0;
-                .yan{margin:32px 0 0;}
-                .left .shu select{margin:32px 0 0 0;}
-                .log{margin-top:115px;}
+                margin-bottom: 79px;
+                .yan{margin:19px 0 0;}
+                .left .shu select{margin:19px 0 0 0;}
+                .left{margin-bottom: 50px;}
+                .log{margin-top:40px;color:#fff;}
                 .pass input{width: 58%;}
             }
         }
