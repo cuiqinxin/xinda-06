@@ -57,7 +57,7 @@
                             <el-row>
                                 <el-col :md="18"  :sm="16">
                                     <div class="list-left">
-                                        <el-col :md="4" :sm="5" :xs="5" v-if="item['productImg']"><img :src="item['productImg']" @error='errorImage(item)'  class="proImg"></el-col>
+                                        <el-col :md="4" :sm="5" :xs="5" v-if="item['productImg']"><img :src="item['productImg']" @error='errorImage'  class="proImg"></el-col>
                                         <el-col :md="20" :sm="19" :xs="19"><div class="proInfo">
                                             <p v-if="item['errorInfo']" class="errorInfo">{{item['errorInfo']}}</p>
                                             <h3  v-if="item['serviceName']"><router-link :to="{path:'/goodsdetail',query:{id:item.id}}">{{item['serviceName']}}</router-link></h3>
@@ -187,7 +187,7 @@ export default {
             screenWidth: document.body.clientWidth,
             loginStatus:0,
             currentIndex :0,
-              
+            errorImage: 'this.src="' + require('../../static/errorImg.png') + '"'
         };
     },
     created() {
@@ -386,9 +386,9 @@ export default {
     
 
         //图片报错
-        errorImage(item){
-            item.productImg = "../static/errorImg.png";
-        },
+        // errorImage(item){
+        //     item.productImg = "../static/errorImg.png";
+        // },
         //滚动高度
         getScrollTop() {
             var scrollTop = 0;
@@ -446,17 +446,10 @@ export default {
                                     production['productImg'] = pro
                                     that.thisProduct.push(data.data.data[key])
                                     if(that.thisProduct.length == that.parentCount.all){
-<<<<<<< HEAD
                                         that.loadText = '没有更多商品'
                                         // setInterval(function(){
                                         //     that.isShow = false
                                         // },500)
-=======
-                                        that.loadText = 'No more loading'
-                                        setInterval(function(){
-                                            that.isShow = false
-                                        },500)
->>>>>>> 3132637ca7c86dd3b83f2080999ef65ea32d69e2
                                     }
                                 }
                             });

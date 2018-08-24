@@ -6,7 +6,7 @@
     <!-- <transition name="el-fade-in"> -->
     <div class="page-component-up" @click="scrollToTop" v-show="toTopShow">
       <!-- <i class="el-icon-font el-icon-caret-top"></i> -->
-      <img :src='logoSrc' alt="" class="el-icon-caret-top">
+      <img src='../../static/returntop.png' alt="" class="el-icon-caret-top">
     </div>
   <!-- </transition> -->
   </transition>
@@ -17,7 +17,7 @@
   export default {
     data() {
       return {
-        logoSrc:  require('../../static/top.png'),
+        // logoSrc:  require('../../static/returntop.png'),
         toTopShow: false,
         scrollTop:0
       }
@@ -92,7 +92,7 @@
     // box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
     
     .el-icon-caret-top{
-      // color: #fff;
+      position: absolute;
       opacity:0.8;
       display: block;
       width: 100%;
