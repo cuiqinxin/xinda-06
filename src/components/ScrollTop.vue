@@ -7,6 +7,7 @@
     <div class="page-component-up" @click="scrollToTop" v-show="toTopShow">
       <!-- <i class="el-icon-font el-icon-caret-top"></i> -->
       <img src='../../static/returntop.png' alt="" class="el-icon-caret-top">
+      <!-- <div class="el-icon-caret-top"></div> -->
     </div>
   <!-- </transition> -->
   </transition>
@@ -70,7 +71,7 @@
       }
     },
     mounted() {
-          window.addEventListener('scroll', this.handleScroll)
+          window.addEventListener('scroll', this.handleScroll,true)
     },
     destroyed() {
       let targetScroll = document.getElementById("scroller-box").children[0]

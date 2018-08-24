@@ -57,7 +57,7 @@
                             <el-row>
                                 <el-col :md="18"  :sm="16">
                                     <div class="list-left">
-                                        <el-col :md="4" :sm="5" :xs="5" v-if="item['productImg']"><img :src="item['productImg']" @error='errorImage'  class="proImg"></el-col>
+                                        <el-col :md="4" :sm="5" :xs="5" v-if="item['productImg']"><img :src="item['productImg']" :onerror='errorImage'  class="proImg"></el-col>
                                         <el-col :md="20" :sm="19" :xs="19"><div class="proInfo">
                                             <p v-if="item['errorInfo']" class="errorInfo">{{item['errorInfo']}}</p>
                                             <h3  v-if="item['serviceName']"><router-link :to="{path:'/goodsdetail',query:{id:item.id}}">{{item['serviceName']}}</router-link></h3>
