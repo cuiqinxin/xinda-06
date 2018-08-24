@@ -82,6 +82,10 @@
                                 <p class="error">当前选项无内容</p>
                             </el-row>
                         </div>
+                       
+
+                        
+
                         <div id="scroller-box" class="hidden-sm-and-up">
                             <scrollTop></scrollTop>
                         </div>
@@ -108,11 +112,14 @@
 import scrollTop from '../components/ScrollTop'
 import city from '../components/City'
 import page from '../components/Page'
+
 export default {
 
     name: "Outter",
     data() {
         return {
+            scrollShow:false,
+            scrollShow1:true,
             loadText:' loading...',
             isShow: false,
             homePage:this.$route.query.name,
@@ -180,9 +187,11 @@ export default {
             screenWidth: document.body.clientWidth,
             loginStatus:0,
             currentIndex :0,
+              
         };
     },
     created() {
+      
         var that = this
         that.ajax.post(
                     "/xinda-api/sso/login-info",
@@ -289,12 +298,14 @@ export default {
                 )
                 .then(function(data) {
                     that.parentCount.all=data.data.data.length
+                    
                 })
                 that.ajax.post(
                     "/xinda-api/product/package/grid",
                     that.qs.stringify(that.obj)
                 )
                 .then(function(data) {
+                   
                     that.temporaryList = data.data.data;
                     that.thisProduct = that.temporaryList
                     if( that.thisProduct.length == 0){
@@ -347,10 +358,12 @@ export default {
         }
     },
     mounted(){
-        console.log(document.body.scrollHeight)
+        
         //监听屏幕大小
         if(document.body.offsetWidth<768){
+            
             window.addEventListener('scroll', this.scrollBottom)
+    
         }
 
         const that = this
@@ -365,9 +378,13 @@ export default {
     components: {
         city,
         page,
-        scrollTop
+        scrollTop,
+        
     },
     methods: {
+
+    
+
         //图片报错
         errorImage(item){
             item.productImg = "../../static/errorImg.png";
@@ -400,9 +417,16 @@ export default {
         getScrollHeight() {
             return Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);
         },
+<<<<<<< HEAD
+        
+        scrollBottom(){ 
+            //到达底部
+            
+=======
 
         scrollBottom(){ //到达底部
 
+>>>>>>> f02f1b3f60f1dfda66b0f8fded35bb5ca2f5c9e9
             var that = this
             this.isShow = false
             if (this.getScrollTop()+ this.getClientHeight() == this.getScrollHeight() && document.body.offsetWidth<768) {
@@ -426,6 +450,15 @@ export default {
                                     var production = data.data.data[key];
                                         var pro = production['productImg']
                                         pro = "http://123.58.241.146:8088/xinda/pic" + pro
+<<<<<<< HEAD
+                                    production['productImg'] = pro                          
+                                    that.thisProduct.push(data.data.data[key])                                   
+                                    if(that.thisProduct.length == that.parentCount.all){                               
+                                        that.loadText = '没有更多商品'
+                                        // setInterval(function(){
+                                        //     that.isShow = false
+                                        // },500)
+=======
                                     production['productImg'] = pro
                                     that.thisProduct.push(data.data.data[key])
                                     if(that.thisProduct.length == that.parentCount.all){
@@ -433,14 +466,15 @@ export default {
                                         setInterval(function(){
                                             that.isShow = false
                                         },500)
+>>>>>>> f02f1b3f60f1dfda66b0f8fded35bb5ca2f5c9e9
                                     }
                                 }
                             });
                         }else{
-                            that.loadText = 'No more loading'
-                            setInterval(function(){
-                                            that.isShow = false
-                                        },500)
+                            that.loadText = '没有更多商品'
+                            // setInterval(function(){
+                            //                 that.isShow = false
+                            //             },500)
                         }
                     }else{
                         //搜索+排序
@@ -966,18 +1000,28 @@ export default {
             if(val<768){
                 window.addEventListener('scroll', this.scrollBottom)
                 this.isShow = false;
+                 
             }
             if(oldval<768 && val>=768){
+                
+                
                 this.thisProduct = this.thisProduct.splice(0,5)
                 this.isShow = false;
                 // this.parentCount.currentPage = 1;
                 this.$refs.pagemore.go(1)
+                 
+
             }
             else if(oldval>=768 && val<768){
+                
+                
                 this.start = 4
                 if(this.currentIndex >= 2){
                     var that = this;
                     if(this.$route.query.searchName == '' || this.$route.query.searchName == undefined){
+
+                    
+                    
                     this.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
                         {
                             start:0,

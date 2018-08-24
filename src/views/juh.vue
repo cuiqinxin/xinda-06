@@ -79,7 +79,7 @@ export default{
         },
  methods: {
   async queryDate (page) {
-   await timeout(1000)
+//    await timeout(1000)
    console.log(page)
     // this.j.showlaoding = true
     var that = this;
