@@ -96,7 +96,7 @@ export default {
         .user{
             text-align: center;
             background-color: #fff;
-            margin:80px 0 80px;
+            margin:60px 0 40px;
             p{
                 font-size: 20px;
                 line-height: 34px;
@@ -113,7 +113,7 @@ export default {
             }
             .phozhu{margin-right: 25px;}
         }
-        .install{margin:35px 0 80px;}
+        .install{margin:25px 0 60px;}
         .choose{
             display: flex;
             justify-content: space-between;

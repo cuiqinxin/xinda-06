@@ -420,7 +420,8 @@ import store from '../store'
                         that.open2();
                     }else{
                         that.open3();
-                        var obj={'id':that.detailproviderProduct.id,'price':that.detailproviderProduct.price,'sname':that.detailproviderProduct.serviceName,'sinfo':that.detailproviderProduct.serviceInfo,'simg':that.detailproduct.img}
+                        var imgurlcart='http://123.58.241.146:8088/xinda/pic/'+that.detailproduct.img;
+                        var obj={'id':that.detailproviderProduct.id,'price':that.detailproviderProduct.price,'sname':that.detailproviderProduct.serviceName,'sinfo':that.detailproviderProduct.serviceInfo,'simg':imgurlcart}
                         that.$store.commit('cartNumber',obj)
                          // 成功则进行添加购物车请求
                         that.ajax.post(
@@ -440,7 +441,8 @@ import store from '../store'
                     if(that.loginstate==0){
                         that.open2();
                     }else{
-                        that.$store.commit('cartNumber',{'id':that.detailproviderProduct.id,'price':that.detailproviderProduct.price,'sname':that.detailproviderProduct.serviceName,'sinfo':that.detailproviderProduct.serviceInfo,'simg':that.detailproduct.img})
+                        var imgurlcart='http://123.58.241.146:8088/xinda/pic/'+that.detailproduct.img;                        
+                        that.$store.commit('cartNumber',{'id':that.detailproviderProduct.id,'price':that.detailproviderProduct.price,'sname':that.detailproviderProduct.serviceName,'sinfo':that.detailproviderProduct.serviceInfo,'simg':imgurlcart})
                          // 成功则进行添加购物车请求
                         that.ajax.post(
                         "/xinda-api/cart/add",

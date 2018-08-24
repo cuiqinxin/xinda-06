@@ -839,7 +839,7 @@ export default {
         buy(event,item){
             var that = this
             that.buyAdd.id = event.currentTarget.id
-            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.img}
+            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
             // 登录判断
             // that.ajax.post(
             //         "/xinda-api/sso/login-info",
@@ -863,10 +863,10 @@ export default {
         },
         //加入购物车item
         cart(event,item){
-            console.log(item)
+            // console.log(item)
             var that = this
             var id = event.currentTarget.id
-            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.img}
+            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
 
             // that.ajax.post(
             //     "/xinda-api/sso/login-info", 
