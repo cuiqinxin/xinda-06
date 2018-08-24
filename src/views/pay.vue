@@ -17,9 +17,9 @@
                     </div></el-col>
                     <el-col :span="7"><div class="createTime">创建时间：<span>{{ businessOrder.createTime}}</span> </div></el-col>
                     <el-col :span="5"><div class="totalPrice">订单金额：<span style="color:#62a8dc;">￥{{businessOrder.totalPrice}}元</span></div></el-col>
-                    
-                    <el-col :span="3" class="orderclickouter"><a  href="javascript:void(0)" class="orderclick" @click="xiangqing">订单详情 <div class="tubiao"><img :src="xiangqingsrc" alt="#"></div></a></el-col> 
-                
+
+                    <el-col :span="3" class="orderclickouter"><a  href="javascript:void(0)" class="orderclick" @click="xiangqing">订单详情 <div class="tubiao"><img :src="xiangqingsrc" alt="#"></div></a></el-col>
+
                 </div>
                 <div class="ordersouter">
                         <transition name="bounce" class="orders">
@@ -31,26 +31,20 @@
                         <el-col :span="6" class="totalPrice">服务总额：<span>￥{{item.totalPrice}}元</span></el-col>
                     </div>
                     </div>
-                
-
-
                 </transition>
                 </div>
-            
-
-
             </div>
             <!-- 订单详情 结束-->
             <!-- 支付方式 -->
             <p class="tabledetail" style="margin-top:45px">支付方式</p>
-            
-                
+
+
                 <p class="paystyle">平台支付</p>
                 <div class="yinlian">
                     <input type="radio" name="paystyle" value="yinlian" v-model="paystyle">
                     <div class="img"></div>
                 </div>
-            
+
                 <p class="paystyle">非网银支付</p>
                 <div class="feiwangyin">
                     <div class="weixin">
@@ -75,9 +69,9 @@
                     </div>
                 </div>
                 <p class="tip">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p>
-            
+
                 <!-- <p>{{paystyle}}</p> -->
-            
+
                 <div class="bottomtotal">
                     <p class="bottomtotalprice">
                         金额总计：<span>￥{{businessOrder.totalPrice}}.00元</span>
@@ -88,7 +82,7 @@
            <a href="javascript:void(0)" class="jiesuan" @click="gopay">去结算</a>
              </div>
 
-           
+
         </div>
 
         <!-- 手机端 -->
@@ -108,10 +102,10 @@
                     <el-col :span="6"><div class="demo">
                         数量
                     </div></el-col>
-                    
+
                     <el-col :span="5" class="demo">
-                        总额 
-                    </el-col> 
+                        总额
+                    </el-col>
             </div>
             <div class="orderlist" v-for="(item,index) in serviceOrderList" :key="index">
                         <el-col :span="8" class="serviceName demo1"><span>{{item.serviceName}}</span>   </el-col>
@@ -122,14 +116,14 @@
                  <!-- 支付方式 -->
             <div class="paysty">
                  <p class="tabledetail" style="margin-top:45px">支付方式</p>
-            
-                
+
+
                 <p class="paystyle">平台支付</p>
                 <div class="yinlian">
                     <input type="radio" name="paystyle" value="yinlian" v-model="paystyle">
                     <div class="img"></div>
                 </div>
-            
+
                 <p class="paystyle">非网银支付</p>
                 <div class="feiwangyin">
                     <div class="weixin">
@@ -154,13 +148,13 @@
                     </div>
                 </div>
                 <p class="tip">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p>
-            
+
             </div>
-           
+
                 <!-- <p>{{paystyle}}</p> -->
             <div class="allmoney1"><p class="bottom_left">
               合计:<span>￥{{businessOrder.totalPrice}}.00元</span>
-              
+
               </p>
                 <a href="javascript:void(0)" class="jiesuan" @click="gopay">去支付</a>
             </div>
@@ -176,7 +170,7 @@
                 <div class="erweimastate" v-if="erweimastate">
                     <div class="erweima">
                         <img :src="paysrc" alt="暂未开放，敬请期待"  >
-                       
+
                         </div>
                         <p class="saoyisao">请使用扫一扫进行扫码支付</p>
                         <div class="payboxbottom">
@@ -186,15 +180,15 @@
                     </div>
                 </div>
                  <p v-else style="line-height:275px;">暂未开放，敬请期待</p>
-              
+
                 <a href="javascript:void(0)" class="goback"  @click="xclick">返回重新选择支付方式</a>
 
              </div>
-            
+
     </div>
 
 
-   
+
 </template>
 
 <script>
@@ -221,18 +215,18 @@ export default {
          that.serviceOrderList=data.data.data.serviceOrderList;
         //  将时间戳格式化
           var date = new Date(that.businessOrder.createTime);
-            var y = date.getFullYear();  
-            var m = date.getMonth() + 1;  
-            m = m < 10 ? ('0' + m) : m;  
-            var d = date.getDate();  
-            d = d < 10 ? ('0' + d) : d;  
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
             var h = date.getHours();
             h = h < 10 ? ('0' + h) : h;
             var minute = date.getMinutes();
             var second = date.getSeconds();
-            minute = minute < 10 ? ('0' + minute) : minute;  
-            second = second < 10 ? ('0' + second) : second; 
-            that.businessOrder.createTime=y + '-' + m + '-' + d+' '+h+':'+minute+':'+second; 
+            minute = minute < 10 ? ('0' + minute) : minute;
+            second = second < 10 ? ('0' + second) : second;
+            that.businessOrder.createTime=y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
         })
   },
   data() {
@@ -252,10 +246,10 @@ export default {
         //图片切换
         xiangqing(){
            this.show=!this.show 
-           if(this.xiangqingsrc=="../../static/xiala.png"){
-               this.xiangqingsrc="../../static/shouqi.png";
+           if(this.xiangqingsrc=="../static/xiala.png"){
+               this.xiangqingsrc="../static/shouqi.png";
            }else{
-              this.xiangqingsrc="../../static/xiala.png"; 
+              this.xiangqingsrc="../static/xiala.png"; 
            }
         },
         //支付方式
@@ -273,20 +267,20 @@ export default {
     //     console.log(data);
                 this.payboxstate=true;
                 this.erweimastate=false;
-      
+
     //     })
             }else if(this.paystyle=='weixin'){
                 // 微信的接口请求
                 this.erweimastate=true;
                 this.payboxstate=true;
-                this.paysrc="../../static/微信支付二维码.jpg";
+                this.paysrc="../static/weixinzhifu.jpg";
 
 
 
             }else if(this.paystyle=='zhifubao'){
                 this.erweimastate=true;
                  this.payboxstate=true;
-                this.paysrc="../../static/支付宝支付二维码.jpg";
+                this.paysrc="../static/zhifubaozhifu.jpg";
 
             }else if(this.paystyle=='zizhu'){
                 this.payboxstate=true;
@@ -303,7 +297,7 @@ export default {
             var that=this;
             this.$router.push({
                 path:"/header/paysuccess",
-                query: { 
+                query: {
                     businessNo: that.businessOrder.businessNo
                 }
             });
@@ -312,8 +306,8 @@ export default {
         payquestion(){
             this.$router.push({
                 path:"/header/payfailed",
-                 // params: { 
-                // name: 'name', 
+                 // params: {
+                // name: 'name',
                 // dataObj: this.msg
                 // }
                 });
@@ -410,7 +404,7 @@ export default {
                 color:#2693d4;
             }
         }
-      }  
+      }
   }
 
   //支付方式样式
@@ -418,7 +412,7 @@ export default {
       font-size:14px;
       line-height:65px;
       span{
-        font-size:12px; 
+        font-size:12px;
         margin-left:20px;
       }
   }
@@ -492,13 +486,13 @@ export default {
             display:flex;
             align-items: center;
             overflow: hidden;
-            margin-right:10px; 
+            margin-right:10px;
             .img{
                 width:110px;
                 height:59px;
                 margin-left:15px;
                 background:url(../../static/招商银行.jpg) no-repeat;
-                background-size:100% 100%; 
+                background-size:100% 100%;
             }
             .contain{
                 font-size:12px;
@@ -521,7 +515,7 @@ export default {
       width:18px;
       height:18px;
   }
-//支付方式样式jieshu  
+//支付方式样式jieshu
   .bottomtotal{
         display: flex;
         justify-content: flex-end;
@@ -560,8 +554,8 @@ export default {
                 width: 105px;
                 margin-left: 10px;
                 font-size: 16px;
-        }     
-      } 
+        }
+      }
 }
 .ordersouter{
     min-height:20px;
@@ -575,7 +569,7 @@ export default {
 }
 .bounce-enter, .bounce-leave-to{
   transform: translateY(-30px);
-  opacity: 0; 
+  opacity: 0;
 }
 // 支付弹窗box
 .paybox{
@@ -634,7 +628,7 @@ export default {
         color:#fff;
         width:200px;
         margin:0 auto;
-        background:#4eb5ba; 
+        background:#4eb5ba;
          margin-top:7px;
          text-align:center;
     }
@@ -691,7 +685,7 @@ export default {
             font-size:14px;
             line-height:65px;
             span{
-                font-size:12px; 
+                font-size:12px;
                 margin-left:20px;
             }
         }
@@ -767,13 +761,13 @@ export default {
                     display:flex;
                     align-items: center;
                     overflow: hidden;
-                    margin-right:0; 
+                    margin-right:0;
                     .img{
                         max-width:110px;
                         // height:59px;
                         margin-left:0;
                         background:url(../../static/招商银行.jpg) no-repeat;
-                        background-size:100% 100%; 
+                        background-size:100% 100%;
                     }
                     .contain{
                         font-size:12px;
@@ -796,11 +790,13 @@ export default {
             width:18px;
             height:18px;
         }
-        //支付方式样式jieshu  
+        //支付方式样式jieshu
     }
 
     .allmoney1{
-    margin-top:100px;
+     width:100%;
+    position:fixed;
+    bottom:88px;
     display:flex;
     background-color: #e5e5e5;
     display: flex;
@@ -827,7 +823,7 @@ export default {
   }
 }
  .zhezhao{
-     
+
      background:black;
      opacity: 0.4;
      z-index:5000;

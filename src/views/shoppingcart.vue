@@ -429,7 +429,7 @@ that.$store.commit('cartNumreduce',removeindex);
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="less">
+<style  lang="less">
 @media screen and (max-width:769px){
 
   .failcontain{
@@ -596,6 +596,7 @@ that.$store.commit('cartNumreduce',removeindex);
   .hotservicecontant {
     margin: 35px 0 100px;
     padding: 0 15px;
+    margin-right:0!important;
     .serviceitem {
       overflow: hidden;
       white-space: nowrap;
@@ -717,6 +718,7 @@ that.$store.commit('cartNumreduce',removeindex);
         align-items: center;
         height:100%;
         max-width:280px;
+        margin:0 !important;
         float:left;
         .img{
           max-width:170px;
@@ -775,6 +777,7 @@ that.$store.commit('cartNumreduce',removeindex);
                   // top:-2px;
                   outline: none;
                   text-align: center;
+                      border-radius: 0;
                 }
             }
           // jieshu 
@@ -793,7 +796,9 @@ that.$store.commit('cartNumreduce',removeindex);
     }
   }
   .allmoney1{
-    margin-top:100px;
+    width:100%;
+    position:fixed;
+    bottom:88px;
     display:flex;
     background-color: #e5e5e5;
     display: flex;

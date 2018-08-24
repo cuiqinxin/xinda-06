@@ -14,7 +14,6 @@
                     <div>
                         <span></span>
                         <p class="cholink">我的订单</p>
-                        <!-- <router-link to="/member/memberorder" class="cholink">我的订单</router-link> -->
                     </div>
                     <p class="hidden-sm-and-up">></p>
                 </div>
@@ -22,7 +21,6 @@
                     <div>
                         <span></span>
                         <p class="cholink">账户设置</p>
-                        <!-- <router-link to="/member/memberorder" class="cholink">账户设置</router-link> -->
                     </div>
                     <p class="hidden-sm-and-up">></p>
                 </div>
@@ -52,7 +50,6 @@ export default {
 <style lang="less" scoped>
     span{display: inline-block;}
     .Quit{font-size: 0;}
-    // .el-popup-parent--hidden .el-message-box{width: 300px !important;}
     .Quit .phone{
             height: 72px; 
             width: 100%;
@@ -87,7 +84,7 @@ export default {
         .user{
             text-align: center;
             background-color: #fff;
-            margin:80px 0 80px;
+            margin:60px 0;
             p{
                 font-size: 20px;
                 line-height: 34px;
@@ -104,7 +101,7 @@ export default {
             }
             .phozhu{margin-right: 25px;}
         }
-        .install{margin:35px 0 100px;}
+        .install{margin:25px 0 70px;}
         .choose{
             display: flex;
             justify-content: space-between;

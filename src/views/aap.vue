@@ -2,11 +2,11 @@
   <div class="datang">
     <div class="datang_title1">
         <img :src="'http://123.58.241.146:8088/xinda/pic/'+(name.providerImg)" >
-        <h1>{{name.name}}</h1>  
+        <h1>{{name.name}}</h1>
     </div>
     <div class="introduce">
         <p>{{name.providerInfo}}</p>
-    </div>     
+    </div>
     <div class="all">
         <p>所有服务</p>
         <div class="sanjiao"></div>
@@ -25,8 +25,7 @@
                 <span class="region_1"></span><span>{{pro.regionName}}</span>
                 <span class="mprice">￥：{{pro.price}}<span class="yuan">元</span></span>
             </ul>
-            </li>           
-                <!-- </router-link> -->
+            </li>
         </ul>
      </div> 
      </div> 
@@ -35,9 +34,9 @@
       <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i>
     </div>
     <router-view/>
-  </div> 
-  </template> 
- 
+  </div>
+  </template>
+
 <script>
 import scrollTop from '../components/ScrollTop' 
 export default{
@@ -111,11 +110,11 @@ export default{
     providerId:  this.$route.query.id,
     sort:2})).then(function(data){
       if(that.length>=that.provide.length){
-            that.provide=that.provide.concat(data.data.data )   
+            that.provide=that.provide.concat(data.data.data )
       }else{
         that.more='没有喽。。。'
       }
-        }); 
+        });
             console.log(that.provide)
             this.showlaoding = false
       },
@@ -158,7 +157,7 @@ export default{
           if (!context.showlaoding) { //防止多次加载
             context.getData(context.page+=1)
           }
-        }   
+        }
     // 滚动中的真正想要执行的代码
 }, 500);
              // 注册scroll事件并监听
@@ -186,7 +185,7 @@ watch : {
 }
 }
 </script>
- 
+
 <style lang="less" scoped>
   .loadmore-icon {
     display: flex;
@@ -273,7 +272,7 @@ watch : {
         h4{
             margin:2% 0;
             overflow: hidden;
-            white-space: nowrap; 
+            white-space: nowrap;
             text-overflow:ellipsis;
         }
         .bottom{
@@ -305,9 +304,9 @@ watch : {
         margin:2%;
         .info{
             overflow: hidden;
-            // white-space: nowrap; 
+            // white-space: nowrap;
             text-overflow:ellipsis;
-            
+
         }
     }
 }
@@ -321,7 +320,7 @@ watch : {
                 font-size: 22px;
             }
         }
-        
+
     }
 }
 @media screen and (max-width:420px){
