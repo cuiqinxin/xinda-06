@@ -446,10 +446,17 @@ export default {
                                     production['productImg'] = pro
                                     that.thisProduct.push(data.data.data[key])
                                     if(that.thisProduct.length == that.parentCount.all){
+<<<<<<< HEAD
                                         that.loadText = '没有更多商品'
                                         // setInterval(function(){
                                         //     that.isShow = false
                                         // },500)
+=======
+                                        that.loadText = 'No more loading'
+                                        setInterval(function(){
+                                            that.isShow = false
+                                        },500)
+>>>>>>> 3132637ca7c86dd3b83f2080999ef65ea32d69e2
                                     }
                                 }
                             });
