@@ -28,7 +28,7 @@
         // document.getElementsByClassName('page-component-up')[0].style.bottom = 100 +'px'
         // this.scrollTop = document.documentElement.scrollTop
         this.scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        
+        console.log(window.pageYOffset,document.documentElement.scrollTop,document.body.scrollTop)
 
         if(this.toTopShow == false && this.scrollTop > 100){
           document.getElementsByClassName('page-component-up')[0].style.bottom = 100 +'px'
@@ -58,7 +58,7 @@
               count += 1
             }
             // document.documentElement.scrollTop -= 20
-            document.body.clientHeight -=20;
+            window.scrollTo(0,0);
             if(document.getElementsByClassName('page-component-up')[0].style.bottom < (high + 20)+ "px"){
             bottom1 += 30
             opacity1 -= 0.06
