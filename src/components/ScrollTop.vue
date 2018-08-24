@@ -25,8 +25,6 @@
     },
     methods: {
       handleScroll() {
-        // document.getElementsByClassName('page-component-up')[0].style.bottom = 100 +'px'
-        // this.scrollTop = document.documentElement.scrollTop
         this.scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
         console.log(window.pageYOffset,document.documentElement.scrollTop,document.body.scrollTop)
 

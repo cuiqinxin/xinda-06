@@ -90,7 +90,7 @@
                             <scrollTop></scrollTop>
                         </div>
 
-                       <el-col :xs="24"><p v-show="isShow" class="moreload">{{loadText}}</p></el-col>
+                       <el-col :xs="24"><div class="moreload"><p v-show="isShow">{{loadText}}</p></div></el-col>
                     </div>
                     <div class="pagebox hidden-xs-only">
                          <page @change="pageChange" :parentCount="parentCount" ref="pagemore"></page>
@@ -362,7 +362,9 @@ export default {
         //监听屏幕大小
         if(document.body.offsetWidth<768){
             
+            
             window.addEventListener('scroll', this.scrollBottom)
+            
     
         }
 
