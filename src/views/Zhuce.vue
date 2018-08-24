@@ -225,7 +225,7 @@ export default {
 
 <style lang="less">
     span{display: inline-block;}
-    a{color:#3f9cd9;}
+    .Zhuce a{color:#3f9cd9;}
     input{
         height: 34px;
         border:1px solid #cbcbcb;
@@ -321,9 +321,9 @@ export default {
         background: url(../../static/zheng.png) no-repeat;      
     }
     @media screen and (max-width: 768px){
-        .pass{margin:32px 0 0;}
+        .pass{margin:19px 0 0;}
         .deng{margin-top: 77px;padding-top: 0;}
-        .left{margin-top:71px;}
+        .left{margin-top:31px;}
         .log{
             margin-top:213px;
             color: #fff;
@@ -391,9 +391,11 @@ export default {
             .zhu{
                 margin-top: 77px;
                 padding-top: 0;
-                .yan{margin:32px 0 0;}
-                .left .shu select{margin:32px 0 0 0;}
-                .log{margin-top:115px;}
+                margin-bottom: 79px;
+                .yan{margin:19px 0 0;}
+                .left .shu select{margin:19px 0 0 0;}
+                .left{margin-bottom: 50px;}
+                .log{margin-top:40px;color:#fff;}
                 .pass input{width: 58%;}
             }
         }

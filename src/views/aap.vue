@@ -1,20 +1,21 @@
 <template>
   <div class="datang">
-    <div class="datang_title">
+    <div class="datang_title1">
         <img :src="'http://123.58.241.146:8088/xinda/pic/'+(name.providerImg)" >
-        <h1>{{name.name}}</h1>  
+        <h1>{{name.name}}</h1>
     </div>
     <div class="introduce">
         <p>{{name.providerInfo}}</p>
-    </div>     
+    </div>
     <div class="all">
         <p>所有服务</p>
         <div class="sanjiao"></div>
     </div>
     <div class=" loadmore">
-        <ul v-for="(pro,index) in provide" :key="index" class="main_1">
+        <ul v-for="(pro,index) in provide" :key="index" class="main_1" @click="tiao(pro.id)">
+             <!-- <router-link :to="{path:'/goodsdetail',query:{id:pro.id}}" > -->
             <li class="main-left">
-                 <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  onerror="this.onerror=''; src='../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg'"> 
+                 <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  onerror="this.onerror=''; src='../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg'">
             </li>
             <li :span="16" class="main-right">
             <h4>{{pro.serviceName}}{{index}}</h4>
@@ -23,18 +24,18 @@
                 <span class="region_1"></span><span>{{pro.regionName}}</span>
                 <span class="mprice">￥：{{pro.price}}<span class="yuan">元</span></span>
             </ul>
-            </li>           
+            </li>
         </ul>
-     </div> 
+     </div>
 
     <div class="loadmore-icon" @click=" getData()">{{more}}<i class="fa fa-cog fa-spin"></i></div>
     <div class="loading" v-show="showlaoding">
       <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i>
     </div>
     <router-view/>
-  </div> 
-  </template> 
- 
+  </div>
+  </template>
+
 <script>
 export default{
  data () {
@@ -46,7 +47,8 @@ export default{
         provide:[],
         length:0,
         more:'加载更多。。。',
-        screenWidth:document.body.clientWidth
+        //监测屏幕宽度
+        screenWidth:document.body.clientWidth,
   }
  },
    created(){
@@ -56,7 +58,7 @@ export default{
       var that = this;
       this.ajax.post(
           '/xinda-api/provider/detail',
-      this.qs.stringify({id: "9080f0c120a64eb3831d50ba93c33e78",
+      this.qs.stringify({id:this.$route.query.id,
       sort:1
       }))
       .then(function(data){
@@ -66,53 +68,47 @@ export default{
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
     start:0,
     // limit:3,
-    providerId: "9080f0c120a64eb3831d50ba93c33e78",
+    providerId: this.$route.query.id,
     sort:2})).then(function(data){
-            that.length=(data.data.data.length )   
-        }); 
+            that.length=(data.data.data.length )
+        });
         },
  methods: {
-     dianpu(){
-            console.log("a")
-            console.log(this.$route)
-            // var routes = {
-            //     localhost:8080
-            // }
-        // this.$router.replace('/dianpu')
-        this.$router.push({
-            path:"/dianpu",
-           query:{ id:'9080f0c120a64eb3831d50ba93c33e78'}
+     tiao(proid){
+            this.$router.push({
+            path:"/goodsdetail",
+           query:{ id:proid}
         })
      },
-    // dianpumobile(){
-    //     this.$router.replace('/aap')
-    // },
-    //dianpu?id=9080f0c120a64eb3831d50ba93c33e78
-    //dianpu?id=9080f0c120a64eb3831d50ba93c33e78
+     dianpu(){
+        this.$router.push({
+            path:"/dianpu",
+           query:{ id:this.$route.query.id}
+        })
+     },
       getData(page) {
          this.showlaoding = true
       var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
     start:that.page,
     limit:3,
-    providerId: "9080f0c120a64eb3831d50ba93c33e78",
+    providerId:  this.$route.query.id,
     sort:2})).then(function(data){
       if(that.length>=that.provide.length){
-            that.provide=that.provide.concat(data.data.data )   
+            that.provide=that.provide.concat(data.data.data )
       }else{
         that.more='没有喽。。。'
       }
-        }); 
+        });
             console.log(that.provide)
             this.showlaoding = false
       },
     },
     mounted() {
-        if(this.screenWidth>=768){
+        if(this.screenWidth>=992){
                   this.dianpu()
         }
-    //    var width=window.innerwidth|| document.documentElement.clientWidth || document.body.clientWidth;
-        // console.log(width)
+
         const that = this
          window.onresize = () => {
             return (() => {
@@ -144,7 +140,7 @@ export default{
           if (!context.showlaoding) { //防止多次加载
             context.getData(context.page+=1)
           }
-        }   
+        }
     // 滚动中的真正想要执行的代码
 }, 500);
              // 注册scroll事件并监听
@@ -160,7 +156,7 @@ watch : {
                     setTimeout(function () {
                         // that.screenWidth = that.$store.state.canvasWidth
                         console.log(that.screenWidth)
-                        if(that.screenWidth>=768){
+                        if(that.screenWidth>=992){
                   that.dianpu()
           }
                         // that.init()
@@ -172,21 +168,8 @@ watch : {
 }
 }
 </script>
- 
-<style lang="less">
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: green;
-    color: #ffffff;
-    font-size: 16px;
-  }
+
+<style lang="less" scoped>
   .loadmore-icon {
     display: flex;
     align-items: center;
@@ -217,7 +200,7 @@ watch : {
 .index{
     height:100vh;
 }
-.datang_title{
+.datang_title1{
     margin-top: 30px;
     text-align: center;
     img{
@@ -272,7 +255,7 @@ watch : {
         h4{
             margin:2% 0;
             overflow: hidden;
-            white-space: nowrap; 
+            white-space: nowrap;
             text-overflow:ellipsis;
         }
         .bottom{
@@ -304,13 +287,13 @@ watch : {
         margin:2%;
         .info{
             overflow: hidden;
-            // white-space: nowrap; 
+            // white-space: nowrap;
             text-overflow:ellipsis;
-            
+
         }
     }
 }
-@media screen and (min-width:420px) and (max-width:768px){
+@media screen and (min-width:420px) and (max-width:992px){
     .main-right{
         .info{
             height:42px;
@@ -320,7 +303,7 @@ watch : {
                 font-size: 22px;
             }
         }
-        
+
     }
 }
 @media screen and (max-width:420px){

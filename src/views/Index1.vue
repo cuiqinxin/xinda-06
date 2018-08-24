@@ -440,7 +440,7 @@ export default {
     }
     .star{
         .star-con{
-            >div{ 
+            >div{
                 cursor: pointer;
                 >div{
                     width: 254px;
@@ -697,7 +697,7 @@ export default {
                 }
             }
         }
-        
+
     }
     .he{
         margin-bottom: 100px;
@@ -735,7 +735,7 @@ export default {
                    border-right: 1px solid #ececec;
                }
            }
-       } 
+       }
     }
     .index1-2{
         .lunbo1{
@@ -799,9 +799,9 @@ export default {
                 h5{
                     font-size: 16px;
                     width: 140px;
-                    white-space: nowrap; 
-                    overflow: hidden; 
-                    text-overflow: ellipsis; 
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                     margin-bottom: 8px;
                     cursor: pointer;
                 }
@@ -811,7 +811,7 @@ export default {
                 font-size: 14px;
                 overflow: hidden;			/*多行溢出变点*/
                 text-overflow: ellipsis;
-                display:-webkit-box; 
+                display:-webkit-box;
                 -webkit-box-orient:vertical;
                 -webkit-line-clamp:2;
             }

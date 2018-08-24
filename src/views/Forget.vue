@@ -153,6 +153,7 @@ export default {
             if(lastzhu==5){
                 var that=this;
                 var md5=require('md5');
+                console.log(this.phoneValue,this.phoneYan);
                 this.ajax.post('/xinda-api/register/findpas',this.qs.stringify(
                     {'cellphone':this.phoneValue,'smsType':2,'validCode':this.phoneYan,'password':md5(that.passValue)}
                 )).then(
@@ -221,7 +222,7 @@ export default {
 
 <style lang="less"> 
     span{display: inline-block;}
-    a{color:#3f9cd9;}
+    .Forget a{color:#3f9cd9;}
     input{
         height: 34px;
         border:1px solid #cbcbcb;
