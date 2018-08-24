@@ -429,7 +429,7 @@ that.$store.commit('cartNumreduce',removeindex);
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="less">
+<style  lang="less">
 @media screen and (max-width:769px){
 
   .failcontain{
@@ -717,6 +717,7 @@ that.$store.commit('cartNumreduce',removeindex);
         align-items: center;
         height:100%;
         max-width:280px;
+        margin:0 !important;
         float:left;
         .img{
           max-width:170px;
@@ -775,6 +776,7 @@ that.$store.commit('cartNumreduce',removeindex);
                   // top:-2px;
                   outline: none;
                   text-align: center;
+                      border-radius: 0;
                 }
             }
           // jieshu 
