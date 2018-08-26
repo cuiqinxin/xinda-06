@@ -82,23 +82,23 @@
                                 <p class="error">当前选项无内容</p>
                             </el-row>
                         </div>
-                       
 
-                        
+
+
 
                         <div id="scroller-box" class="hidden-sm-and-up">
                             <scrollTop></scrollTop>
                         </div>
 
                        <el-col :xs="24"><div class="moreload"><p v-show="isShow">{{loadText}}</p></div></el-col>
-                       
+
                     </div>
                     <div class="pagebox hidden-xs-only">
                          <page @change="pageChange" :parentCount="parentCount" ref="pagemore"></page>
                     </div>
 
                 </div>
-                
+
             </el-col>
             <el-col :span="5">
                 <div>
@@ -194,7 +194,7 @@ export default {
         };
     },
     created() {
-      
+
         var that = this
         store.commit('loading',true)
         that.ajax.post(
@@ -304,14 +304,14 @@ export default {
                 )
                 .then(function(data) {
                     that.parentCount.all=data.data.data.length
-                    
+
                 })
                 that.ajax.post(
                     "/xinda-api/product/package/grid",
                     that.qs.stringify(that.obj)
                 )
                 .then(function(data) {
-                   
+
                     that.temporaryList = data.data.data;
                     that.thisProduct = that.temporaryList
                     if( that.thisProduct.length == 0){
@@ -364,14 +364,12 @@ export default {
         }
     },
     mounted(){
-        
+
         //监听屏幕大小
         if(document.body.offsetWidth<768){
-            
-            
+
             window.addEventListener('scroll', this.scrollBottom)
-            
-    
+
         }
 
         const that = this
@@ -387,11 +385,11 @@ export default {
         city,
         page,
         scrollTop,
-        
+
     },
     methods: {
 
-    
+
 
         //图片报错
         // errorImage(item){
@@ -991,28 +989,28 @@ export default {
             if(val<768){
                 window.addEventListener('scroll', this.scrollBottom)
                 this.isShow = false;
-                 
+
             }
             if(oldval<768 && val>=768){
-                
-                
+
+
                 this.thisProduct = this.thisProduct.splice(0,5)
                 this.isShow = false;
                 // this.parentCount.currentPage = 1;
                 this.$refs.pagemore.go(1)
-                 
+
 
             }
             else if(oldval>=768 && val<768){
-                
-                
+
+
                 this.start = 4
                 if(this.currentIndex >= 2){
                     var that = this;
                     if(this.$route.query.searchName == '' || this.$route.query.searchName == undefined){
 
-                    
-                    
+
+
                     this.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
                         {
                             start:0,

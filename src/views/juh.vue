@@ -2,11 +2,11 @@
 <div class="datang">
    <div class="datang_title">
         <img :src="'http://123.58.241.146:8088/xinda/pic/'+(name.providerImg)" >
-        <h1>{{name.name}}</h1>  
+        <h1>{{name.name}}</h1>
         </div>
         <div class="introduce">
             <p>{{name.providerInfo}}</p>
-        </div>     
+        </div>
 <div class="all">
     <p>所有服务</p>
     <div class="sanjiao"></div>
@@ -15,7 +15,7 @@
   <r-scroll ref="scroll" @loadmore="queryDate" :scrollCount="j">
     <ul v-for="(pro,index) in provide" :key="index" class="main_1">
             <li class="main-left">
-                 <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  onerror="this.onerror=''; src='../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg'"> 
+                 <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  onerror="this.onerror=''; src='../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg'">
             </li>
             <li :span="16" class="main-right">
             <h4>{{pro.serviceName}}</h4>
@@ -24,13 +24,13 @@
                 <span class="region_1"></span><span>{{pro.regionName}}</span>
                 <span class="mprice">￥：{{pro.price}}<span class="yuan">元</span></span>
             </ul>
-            </li>    
+            </li>
         </ul>
   </r-scroll>
  </div>
  </div>
 </template>
- 
+
 <script>
 import rScroll from '../components/rscroll'
 function timeout (ms) {
@@ -38,10 +38,10 @@ function timeout (ms) {
   setTimeout(resolve, ms, 'done')
  })
 }
- 
+
 export default{
     name: 'juh',
-    
+
  components: {rScroll},
  data () {
   return {
@@ -54,8 +54,8 @@ export default{
       scrolltop:0,
       showlaoding : true,
       isComplate:false
-      },     
-    } 
+      },
+    }
  },
  created(){
       var obj={
@@ -76,7 +76,7 @@ export default{
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
            that.j.scrolltop=data.data.data.length;
-            console.log(that.j.scrolltop)
+            // console.log(that.j.scrolltop)
         });
             var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
@@ -84,19 +84,19 @@ export default{
         limit:5,
     providerId: "9080f0c120a64eb3831d50ba93c33e78",
     sort:2})).then(function(data){
-        console.log(data.data.data.length)
-        console.log(that.j.scrolltop)
+        // console.log(data.data.data.length)
+        // console.log(that.j.scrolltop)
         // if(that.j.scrolltop>that.provide.length){
-            that.provide=that.provide.concat(data.data.data )  
-            console.log(that.provide)
-            // console.log(page) 
-        // }  
-        }); 
+            that.provide=that.provide.concat(data.data.data )
+            // console.log(that.provide)
+            // console.log(page)
+        // }
+        });
         },
  methods: {
   async queryDate (page) {
 //    await timeout(1000)
-   console.log(page)
+  //  console.log(page)
     // this.j.showlaoding = true
     var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
@@ -104,19 +104,19 @@ export default{
         limit:3,
     providerId: "9080f0c120a64eb3831d50ba93c33e78",
     sort:2})).then(function(data){
-        console.log(data.data.data.length)
-        console.log(that.j.scrolltop)
+        // console.log(data.data.data.length)
+        // console.log(that.j.scrolltop)
         if(that.j.scrolltop>that.provide.length){
-            that.provide=that.provide.concat(data.data.data )  
-            console.log(that.provide)
-            console.log(page) 
+            that.provide=that.provide.concat(data.data.data )
+            // console.log(that.provide)
+            // console.log(page)
         }else{
             that.j.isComplate=true
             that.isLoading=false
-            console.log(2323)
-        }   
-        }); 
-   // this.j.showlaoding = false   
+            // console.log(2323)
+        }
+        });
+   // this.j.showlaoding = false
    // 调用组件中的loaded函数，如果数据加载完成后记得调用组件的compleate函数
     // this.$refs.scroll.loaded()
   }
@@ -127,7 +127,7 @@ export default{
  }
 }
 </script>
- 
+
 <style lang="less" scoped>
 // .index{
 //     height:100vh;
@@ -187,7 +187,7 @@ export default{
         h4{
             margin:2% 0;
             overflow: hidden;
-            white-space: nowrap; 
+            white-space: nowrap;
             text-overflow:ellipsis;
         }
         .bottom{
@@ -219,9 +219,9 @@ export default{
         margin:2%;
         .info{
             overflow: hidden;
-            // white-space: nowrap; 
+            // white-space: nowrap;
             text-overflow:ellipsis;
-            
+
         }
     }
 }
@@ -235,7 +235,7 @@ export default{
                 font-size: 22px;
             }
         }
-        
+
     }
 }
 @media screen and (max-width:420px){

@@ -19,12 +19,12 @@
             <li class="pro_list">
             <p @click="alll" :style="allstyle">所有</p>
             <template v-for="dp in dianpu1"   >
-                 <p v-for="(item,key,index) in dp.productTypes.split(',')" :key="index" @click="typeChoose(item,dp.productTypeCodes)" :class="{active:item==indexp}" :codes="dp.productTypeCodes">{{item}}  
-                  </p>                
+                 <p v-for="(item,key,index) in dp.productTypes.split(',')" :key="index" @click="typeChoose(item,dp.productTypeCodes)" :class="{active:item==indexp}" :codes="dp.productTypeCodes">{{item}}
+                  </p>
             </template>
-            </li> 
-        </ul>        
-    </div> 
+            </li>
+        </ul>
+    </div>
     <div class="shop_li">
         <div class="shop_sort">
             <div>{{post}}</div>
@@ -35,9 +35,9 @@
             </ul>
         </div>
         <div class="shop_shop">
-            
-            <div 
-            v-for="(dp,index) in dianpu" :key="index" 
+
+            <div
+            v-for="(dp,index) in dianpu" :key="index"
             class="shop_1"
             v-if="areaCode==dp.regionId||areaCode==''"
             :codes="dp.productTypeCodes"
@@ -68,9 +68,9 @@
                     <li class="type">
                         <p v-for="(value,item) in dp.productTypes.split(',')" :key="item">{{value}}
                             <a v-for="(valuec,itemc) in dp.productTypes.split(',')" :key="itemc"></a>
-                        </p> 
+                        </p>
                     </li>
-                    <router-link :to="{path:'/dianpu',query:{id:dp.id}}" > 
+                    <router-link :to="{path:'/dianpu',query:{id:dp.id}}" >
                 <div class="enter" >
                     进入店铺
                 </div>
@@ -91,7 +91,7 @@
     </div>
     <div class="paging">
     <page @change="pageChange" :parentCount="j"></page>
-    </div>  
+    </div>
     <router-view/>
   </div>
 </template>
@@ -152,13 +152,13 @@ export default {
     }
   },
   created(){
-      [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = 
+      [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] =
       [false,false,false,false,true]
            var that = this;
            this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({start:0,limit:6,sort:1})).then(function(data){
            that.dianpu1=data.data.data;
         if((!/\?/.test(location.href))){
-           that.j.all=data.data.data.length; 
+           that.j.all=data.data.data.length;
            that.dianpu=data.data.data;
            that.none=false;
         }
@@ -171,11 +171,11 @@ export default {
         sort:1,
       }))
       .then(function(data){
-            that.dianpu=data.data.data  
+            that.dianpu=data.data.data
         store.commit('loading',false)
 
         });
-          
+
   },
   components:{
       page,
@@ -183,7 +183,7 @@ export default {
       'my-computed':{
           template:'<div><p class="foo bar">1221</p></div>'
       }
-    }, 
+    },
   methods:{
        pageChange (page) {
             this.currentPage = page
@@ -212,30 +212,30 @@ export default {
         sort:2,
         }))
         .then(function(data){
-                console.log(data.data.data);
-                that.dianpu=data.data.data  
+                // console.log(data.data.data);
+                that.dianpu=data.data.data
             });
       },
         danshu(){
         this.haoping=''
         this.jiedan=this.lan
         this.zonghe=''
-        console.log('sss')
+        // console.log('sss')
         var that = this
         this.ajax.post(
         '/xinda-api/provider/search-grid',this.qs.stringify({
         sort:3,
         }))
         .then(function(data){
-                console.log(data.data.data);
-                that.dianpu=data.data.data  
+                // console.log(data.data.data);
+                that.dianpu=data.data.data
             });
       },
         zongxu(){
         this.haoping=''
         this.jiedan=''
         this.zonghe=this.lan
-        console.log('sss')
+        // console.log('sss')
         var that = this
         this.ajax.post(
         '/xinda-api/provider/search-grid',this.qs.stringify({
@@ -243,7 +243,7 @@ export default {
         sort:1,
         }))
         .then(function(data){
-                that.dianpu=data.data.data  
+                that.dianpu=data.data.data
             });
       },
       link(){
@@ -253,7 +253,7 @@ export default {
         this.indexp=aaa;
         this.dshow=code;
         this.allstyle='';
-    },   
+    },
   alll(){
       this.dshow='';
       this.allstyle=this.lan;
@@ -262,7 +262,7 @@ export default {
       choose1:function(val){
         alert(this.$children.productTypes)
     },
-      
+
     confirm(value){
         this.areaCode=value
       },
@@ -301,8 +301,8 @@ watch:{
             searchName:this.$route.query.searchName,
         }))
         .then(function(data){
-                console.log(data.data.data);
-                that.dianpu=data.data.data  
+                // console.log(data.data.data);
+                that.dianpu=data.data.data
             });}
 },
   computed:{
@@ -362,17 +362,17 @@ watch:{
             border-bottom: 1px solid #ccc;
             border-right: 1px solid #ccc;
             font-size: 16px;
-            font-weight: 700;            
+            font-weight: 700;
             width:10%;
             line-height: 48px;
             text-align: center;
         }
-        
+
     }
     .pro_kind{
             height:48px;
             display:flex;
-        
+
         .production{
             border-right: 1px solid #ccc;
             font-size: 16px;
@@ -404,7 +404,7 @@ watch:{
             active{
                 background-color: #2393d3;
                 color:white;
-                
+
             }
         }
     }
@@ -421,11 +421,11 @@ watch:{
                     border-radius: 0;
                 // }
             }
-            
-            
+
+
         }
     }
-   
+
     .shop_shop{
         overflow: hidden;
         justify-content: space-around;
@@ -436,7 +436,7 @@ watch:{
             display:flex;
             width:47%;
              .shop_1_left{
-                margin-top: 15px;                 
+                margin-top: 15px;
                 width:38%;
                 text-align:center;
                 .logo{
@@ -477,7 +477,7 @@ watch:{
                         border-radius: 3px;
                         margin:3px;
                         font-size: 13px;
-                        
+
                     }
                 }
                 .enter{

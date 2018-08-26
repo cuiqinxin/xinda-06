@@ -379,12 +379,13 @@ export default {
         }
     }
     @media screen and (max-width: 1200px){ 
-        .Zhuce .zhu .left .shu select{width: 31%;}     
+        .Zhuce .zhu .left .shu select{width: 31%;} 
+        .phoyan button{font-size: 12px;}    
     } 
     @media screen and (min-width: 768px) and (max-width: 992px){
         .pass input{width: 52%;}
-        .yanma{width:44%;} 
-        .phoyan button{font-size: 14px;width: 29%;}      
+        .yanma{width:41%;} 
+        .phoyan button{width: 33%;}      
     } 
     @media screen and (max-width: 768px){
         .Zhuce{

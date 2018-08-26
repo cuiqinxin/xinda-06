@@ -47,7 +47,7 @@
 
             <div class="allmoney"><p style="width:220px;text-align:center">
               金额总计:<span>￥{{newtotalprice}}</span>
-              
+
               </p></div>
 
             <div class="total">
@@ -68,7 +68,7 @@
                 <div class="price">
                   <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right" @click='goshopdetail'>查看详情>>></a>
                 </div>
-              
+
               </div></el-col>
               <!-- 第二个 -->
               <el-col :xs="24" :sm="6" ><div class="serviceitem">
@@ -80,7 +80,7 @@
                 <div class="price">
                   <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right" @click='goshopdetail'>查看详情>>></a>
                 </div>
-              
+
               </div></el-col>
 
               <!-- 第三个 -->
@@ -93,7 +93,7 @@
                 <div class="price">
                   <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right"  @click='goshopdetail'>查看详情>>></a>
                 </div>
-              
+
               </div></el-col>
 
               <!-- 第四个 -->
@@ -106,12 +106,12 @@
                 <div class="price">
                   <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right"  @click='goshopdetail'>查看详情>>></a>
                 </div>
-              
+
               </div></el-col>
 
-      
-      
-              </el-row> 
+
+
+              </el-row>
 
         </div>
         <div v-else class="fail">
@@ -125,13 +125,13 @@
             </div>
 
           </div>
-          
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
+
         </div>
   </div>
   <div class="shouji hidden-sm-and-up">
@@ -148,7 +148,7 @@
               <div class="img">
                 <img :src="'http://123.58.241.146:8088/xinda/pic/'+(item.providerImg)" alt="#" :onerror="logo"  :id="index" @click="goshopdetail">
               </div>
-              
+
               <div class="word">
                 <p class="servicename">{{item.serviceName}}</p>
                 <p class="price"><span>￥{{item.totalPrice}}</span>元</p>
@@ -177,7 +177,7 @@
 
         <div class="allmoney1"><p class="bottom_left">
               合计:<span>￥{{newtotalprice}}</span>
-              
+
               </p>
                 <a href="javascript:void(0)" class="shopnext" @click="commitcart">去结算</a>
         </div>
@@ -195,19 +195,19 @@
             </div>
 
           </div>
-          
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
+
         </div>
   </div>
 
 </div>
 
-    
+
 </template>
 
 <script>
@@ -225,7 +225,7 @@ export default {
       logo:'this.src="' + require('../../static/errorImg.png') + '"',
     };
   },
-  
+
 
   created() {
 
@@ -237,12 +237,12 @@ export default {
       .post("/xinda-api/cart/list", that.qs.stringify({}))
       .then(function(data) {
         //如果购物车为空，则显示购物车为空页面
-        console.log(data.data.data);
+        // console.log(data.data.data);
         if (data.data.data.length == 0) {
           that.seen=false;
         //如果购物车部不为空，则渲染页面；
         } else {
-          
+
           that.shoppingdata = data.data.data;
         }
       })
@@ -301,9 +301,9 @@ export default {
       });
       })
       .catch(function(data) {
-        console.log("请求失败/您的购物车中没有该产品，请刷新页面"); 
+        console.log("请求失败/您的购物车中没有该产品，请刷新页面");
       });
-      
+
   },
     //提交购物车
   commitcart:function(){
@@ -314,13 +314,13 @@ export default {
       .then(function(data) {
         that.ordernum=data.data.data;
         // console.log(that.ordernum);
-      // kaishi 
+      // kaishi
       that.$router.push({
-            path: '/header/pay', 
-            query: { 
+            path: '/header/pay',
+            query: {
                 businessNo: that.ordernum
             }})
-      // jieshu 
+      // jieshu
 
 
         })
@@ -329,7 +329,7 @@ export default {
  reducenum:function(e){
    var goodsindex=e.target.id;
       var that = this;
-      
+
     if(that.shoppingdata[goodsindex].buyNum==1){
       //当购买数量为时，提示删除
       //当购买数量为时，提示删除
@@ -357,10 +357,10 @@ export default {
           });
       })
       .catch(function(data) {
-        console.log("请求失败/您的购物车中没有该产品，请刷新页面"); 
+        console.log("请求失败/您的购物车中没有该产品，请刷新页面");
       });
     }
-      
+
   },
 
   //删除产品服务函数
@@ -368,7 +368,7 @@ export default {
    open2(e) {
      var removeindex=e.target.id;
     //  console.log(e.target.id);
-    
+
      var that=this;
      console.log(removeindex),
         this.$confirm('此操作将从购物车删除该商品, 是否继续?', '提示', {
@@ -403,7 +403,7 @@ that.$store.commit('cartNumreduce',removeindex);
               });
               })
               .catch(function(data) {
-                console.log("请求失败/您的购物车中没有该产品，请刷新页面"); 
+                console.log("请求失败/您的购物车中没有该产品，请刷新页面");
               });
 
 
@@ -417,10 +417,10 @@ that.$store.commit('cartNumreduce',removeindex);
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       }
-    
+
    },
 
 
@@ -547,8 +547,8 @@ that.$store.commit('cartNumreduce',removeindex);
         p{
           line-height:20px;
         }
-        
-       
+
+
       }
     }
   }
@@ -644,24 +644,24 @@ that.$store.commit('cartNumreduce',removeindex);
     width:100%;
     height:600px;
     background:#f5f5f5;
-    
-    
+
+
     .failcontain{
       margin:0 auto;
-     
+
       max-width:1200px;
       height:100%;
       display:flex;
       justify-content: center;
       align-items:center;
-     
+
 
 
         .img{
           max-width:430px;
           min-width:320px;
           max-height:320px;
-      
+
           img{
             width:100%;
             // height:100%;
@@ -685,13 +685,13 @@ that.$store.commit('cartNumreduce',removeindex);
           color:#b0b0b0;
         }
     }
-   
-    
+
+
   }
 }
 
 .shouji{
-  
+
   .title{
     line-height: 40px;
     background-color: #e5e5e5;
@@ -726,14 +726,14 @@ that.$store.commit('cartNumreduce',removeindex);
           border:2px solid #e3e3e3;
           display:flex;
           align-items: center;
-          img{  
+          img{
             width:100%;
             min-width:135px;
             // height:170px;
             // border:1px solid;
           }
         }
-        
+
         .word{
           .servicename{
             font-size: 14px;
@@ -780,7 +780,7 @@ that.$store.commit('cartNumreduce',removeindex);
                       border-radius: 0;
                 }
             }
-          // jieshu 
+          // jieshu
         }
       }
       .right{

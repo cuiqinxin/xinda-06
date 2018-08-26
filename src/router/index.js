@@ -18,7 +18,6 @@ import production from '@/views/production'
 import register from '@/views/register'
 import Outter from '@/views/Outter'
 import Datang from '@/views/datang'
-import Chanpinx from '@/views/chanpinx'
 import Shop from '@/views/shop'
 import Shopmobile from '@/views/shopmobile'
 import dianpumobile from '@/views/dianpumobile'
@@ -58,16 +57,11 @@ const  router = new VueRouter({       //module.expotrs={}
       name: 'Datang',
       component: Datang
     },
-    
+
     {
       path: '/page',
       name: 'Page',
       component: Page
-    },
-    {
-      path: '/chanpinx',
-      name: 'Chanpinx',
-      component: Chanpinx
     },
     {
       path: '/outter',
@@ -270,7 +264,7 @@ router.beforeEach((to, from, next) => {
     "/xinda-api/sso/login-info",
     qs.stringify({})
     ).then(function(data){
-    console.log(data,to.name,nextRoute.indexOf(to.name) >= 0);
+    // console.log(data,to.name,nextRoute.indexOf(to.name) >= 0);
     // 未登录状态；当路由到nextRoute指定页时，跳转至login
     if(data.data.status!=1 && nextRoute.indexOf(to.name) >= 0){
         newVue.$alert('您还未登录,点击 确定 跳转到登录页', '提示', {

@@ -6,9 +6,9 @@
       <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i>
     </div>
 
-  </div> 
-  </template> 
- 
+  </div>
+  </template>
+
 <script>
 export default {
     name: 'testSlot',
@@ -35,15 +35,15 @@ init(){
  methods: {
       getData(page) {
          this.$emit('getdata',this.page);
-         console.log('sj')
-    // //   if(length>=that.provide.length){
-             
+        //  console.log('sj')
+    //   if(length>=that.provide.length){
+
     // //   }else{
     // //     that.more='没有喽。。。'
     // //   }
-        
+
     // //         this.showlaoding = false
-      
+
     },
  },
     mounted() {
@@ -63,7 +63,7 @@ function debounce(func, wait, immediate) {
 };
 var context = this
         this.getData(context.page);
-        console.log(context.page);
+        // console.log(context.page);
         var myEfficientFn = debounce(function() {
         var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
         //判断是否滚动到底部
@@ -71,9 +71,9 @@ var context = this
           if (!context.scrollCount.showlaoding) { //防止多次加载
         //  this.$emit('getdata', context.page+=1)
             context.getData(context.page+=1);
-            console.log(1233123)
+            // console.log(1233123)
           }
-        }   
+        }
     // 滚动中的真正想要执行的代码
 }, 500);
              // 注册scroll事件并监听
@@ -81,7 +81,7 @@ var context = this
 }
 }
 </script>
- 
+
 <style lang="less">
 
   .loadmore-icon {
@@ -143,7 +143,7 @@ var context = this
         h4{
             margin:2% 0;
             overflow: hidden;
-            white-space: nowrap; 
+            white-space: nowrap;
             text-overflow:ellipsis;
         }
         .bottom{
@@ -175,9 +175,9 @@ var context = this
         margin:2%;
         .info{
             overflow: hidden;
-            // white-space: nowrap; 
+            // white-space: nowrap;
             text-overflow:ellipsis;
-            
+
         }
     }
 }
@@ -191,7 +191,7 @@ var context = this
                 font-size: 22px;
             }
         }
-        
+
     }
 }
 @media screen and (max-width:420px){

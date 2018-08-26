@@ -6,7 +6,7 @@
                 <h2>{{name.name}}</h2>
                 <p class="region">{{name.regionName}}</p>
             </ul>
-            
+
     </div>
     <div class="main">
         <el-container>
@@ -43,8 +43,8 @@
                     </el-tab-pane >
                          <el-tab-pane label="客服" name="second" class="second" @click.native="nofenye">
                          <ul class="kefu">
-                         <span>工作时间：{{name.workTime}}</span> 
-                         <span>QQ客服：{{name.qq}}</span> 
+                         <span>工作时间：{{name.workTime}}</span>
+                         <span>QQ客服：{{name.qq}}</span>
                          </ul>
                          </el-tab-pane>
                      <el-tab-pane label="资格证书" name="third" class="third" @click.native="nofenye">
@@ -64,7 +64,7 @@
 
     <router-view/>
   </div>
-</template> 
+</template>
 
 <script>
  import page from '../components/Page'
@@ -89,9 +89,9 @@ export default {
             count : 0, //总记录数
             limit:5,
             pageIndex:1,
-            all:1,
-            perPages:1  //页面中显示的页码数只能为单数
-         } 
+            all:'',
+            perPages:3  //页面中显示的页码数只能为单数
+         }
     }
   },
   methods:{
@@ -101,7 +101,7 @@ export default {
            query:{ id:this.$route.query.id}
         })
      },
-      nofenye(){this.fenye=false;console.log(123456)},
+      nofenye(){this.fenye=false;},
       fuwuneir(){this.fenye=true},
       handleClick(tab, event) {
           this.fenye=tab.name
@@ -116,7 +116,7 @@ export default {
             sort:2})).then(function(data){
                     that.provide=data.data.data
         });
-        },   
+        },
         },
         mounted()  {
         if(this.screenWidth<=992){
@@ -177,7 +177,7 @@ export default {
         });
         },
   computed:{
-    
+
   },
 }
 </script>
@@ -216,7 +216,7 @@ export default {
       ul{
           display: inline-block;
         margin-left: 30px;
-          
+
           .region{
               margin-top:16px;
               color:#676767;
@@ -277,7 +277,7 @@ export default {
                 padding:10px;
                 h4{
                     overflow: hidden;
-                    white-space: nowrap; 
+                    white-space: nowrap;
                     text-overflow:ellipsis;
                     margin-top: 10px;
                 }
@@ -286,7 +286,7 @@ export default {
                     color:#676767;
                     margin:10px 0;
                      overflow: hidden;
-                    white-space: nowrap; 
+                    white-space: nowrap;
                     text-overflow:ellipsis;
                 }
                 .buynum{
@@ -334,6 +334,6 @@ export default {
 #tab-first{
     padding: 0 40px;
 }
-  
+
   }
 </style>

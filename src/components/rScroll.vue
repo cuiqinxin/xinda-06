@@ -1,5 +1,5 @@
 <template>
- 
+
 <div ref="scroll" class="r-scroll">
  <div class="r-scroll-wrap">
   <slot>1</slot>
@@ -13,7 +13,7 @@
   <div v-show="isComplate" class="r-scroll-loading">{{complateText}}</div>
  </slot>
 </div>
-</template> 
+</template>
 
 <script>
 export default {
@@ -72,7 +72,7 @@ export default {
   compleate () {
    this.isLoading = false
    this.isComplate = true
-   console.log(over)
+  //  console.log(over)
    this.scroll.removeEventListener('scroll', this.scrollEvent)
   //  console.log(this.scrollEvent)
   }
@@ -82,13 +82,13 @@ export default {
   isLoading:function() {
    if (this.isLoading) {
     this.$emit('loadmore',this.page)
-    console.log(this.page)
-    console.log(this.isComplate)
+    // console.log(this.page)
+    // console.log(this.isComplate)
    }
   }
   },
   created(){
- 
+
         },
  mounted () {
       this.scroll = this.$refs.scroll
@@ -117,8 +117,8 @@ var context = this
     // context.$emit('loadmore',context.page)
    var hhh=debounce(function(){
    // 如果数据全部加载完成了，则再也不触发loadmore事件
-   console.log(context.isComplate)
-   console.log(context.isLoading)
+  //  console.log(context.isComplate)
+  //  console.log(context.isLoading)
    if (context.isComplate){ return}
    var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
     // let scrollTop = context.scroll.scrollTop
@@ -130,13 +130,13 @@ var context = this
    // 组件容器滚的距离 + 组件容器本身距离大于或者等于正文容器高度 - 指定数值 则触发loadmore事件
   //  if (scrollTop + scrollH >= scrollWrapH - context.bottomDistance) {
   if (scrollTop + window.innerHeight + 0>= document.body.offsetHeight) {
-    //0 表示距离底部多少的距离的开始触发loadmore效果    
+    //0 表示距离底部多少的距离的开始触发loadmore效果
     context.isLoading = true;
-    console.log(scrollTop)
+    // console.log(scrollTop)
     // console.log(scrollH)
     // console.log(scrollWraop)
     // ++context.page
-    console.log(context.page)
+    // console.log(context.page)
     context.$emit('loadmore',context.page+=1)
    }
   }
@@ -144,7 +144,7 @@ var context = this
    window.addEventListener('scroll',  hhh)
   // this.$emit('loadmore',this.page)
   // this.page+=1;
-  console.log(context.page)
+  // console.log(context.page)
  }
 }
 </script>
@@ -171,12 +171,11 @@ var context = this
   color: #656565;
   line-height: 20px;
   .r-scroll-loading-text{
-   color: #2393d3;
    display: inline-block;
    vertical-align: middle;
   }
 
  }
 }
-  
+
 </style>

@@ -16,7 +16,7 @@
         <ul v-for="(pro,index) in provide" :key="index" class="main_1" @click="tiao(pro.id)">
              <!-- <router-link :to="{path:'/goodsdetail',query:{id:pro.id}}" > -->
             <li class="main-left">
-                 <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  :onerror="errorImage"> 
+                 <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  :onerror="errorImage">
             </li>
             <li :span="16" class="main-right">
             <h4>{{pro.serviceName}}</h4>
@@ -27,8 +27,8 @@
             </ul>
             </li>
         </ul>
-     </div> 
-     </div> 
+     </div>
+     </div>
     <div class="loadmore-icon" @click=" getData()">{{more}}<i class="fa fa-cog fa-spin"></i></div>
     <div id="scroller-box" >
         <scrollTop></scrollTop>
@@ -41,7 +41,7 @@
   </template>
 
 <script>
-import scrollTop from '../components/ScrollTop' 
+import scrollTop from '../components/ScrollTop'
 export default{
  data () {
   return {
@@ -78,8 +78,8 @@ export default{
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
             // that.length=(data.data.data.length )
-            that.provide=(data.data.data )    
-        }); 
+            that.provide=(data.data.data )
+        });
         var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
     start:0,
@@ -87,9 +87,9 @@ export default{
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
             that.length=(data.data.data.length )
-            console.log(that.length)
-            // that.provide=(data.data.data )    
-        }); 
+            // console.log(that.length)
+            // that.provide=(data.data.data )
+        });
         },
  methods: {
      tiao(proid){
@@ -119,7 +119,6 @@ export default{
         that.more='没有喽。。。'
       }
         });
-            console.log(that.provide)
             this.showlaoding = false
       },
     },
@@ -152,8 +151,7 @@ export default{
             };
         };
         var context = this
-        this.getData(context.page);  //
-        console.log(context.page);
+        this.getData(context.page);
         var myEfficientFn = debounce(function() {
         var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
         //判断是否滚动到底部
@@ -176,7 +174,6 @@ watch : {
                     let that = this
                     setTimeout(function () {
                         // that.screenWidth = that.$store.state.canvasWidth
-                        console.log(that.screenWidth)
                         if(that.screenWidth>=992){
                   that.dianpu()
           }

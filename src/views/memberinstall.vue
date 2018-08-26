@@ -23,7 +23,7 @@
                     <div class="zhang areas">
                         <p class="z_spe">所在地区：</p>
                         <div>
-                            <city @confirm="confirm"></city>
+                            <city @confirm="confirm" ref="msg"></city>
                             <button class="baocun zhang_bao" @click="updateUser">保存</button>
                         </div>
                     </div>
@@ -37,9 +37,9 @@
                     <div class="zhang newpassword xiu">
                         <p class="z_spe">新密码：</p>
                         <el-popover placement="bottom" width="300" trigger="focus">
-                            <div><i :class="lengthLimit1"></i>6-20个字符<br/><i :class="typeLimit1"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType1"></i>字母、数字和下划线至少包含2种</div>                                                                     
+                            <div><i :class="lengthLimit1"></i>6-20个字符<br/><i :class="typeLimit1"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType1"></i>字母、数字和下划线至少包含2种</div>
                             <input type="text" v-model="passValue" slot="reference" @keyup="passKey" @keydown="passSign" @blur="passBlur">
-                        </el-popover> 
+                        </el-popover>
                         <p class="wrongTip">{{newpassTip}}</p>
                     </div>
                     <div class="zhang xiu againxiu">
@@ -47,17 +47,17 @@
                         <div>
                             <input type="text" v-model="agapassValue" @keyup="agapassKey">
                             <button class="baocun xiu_bao" @click="updatePass">保存</button>
-                        </div> 
-                        <p class="wrongTip">{{agapassTip}}</p>                               
+                        </div>
+                        <p class="wrongTip">{{agapassTip}}</p>
                     </div>
                 </el-tab-pane>
             </el-tabs>
-            <div id="tits" class="hidden-sm-and-up"> 
+            <div id="tits" class="hidden-sm-and-up">
                 <p class="phone"><router-link to="/memberindex" class="jian">&lt;</router-link>账户设置</p>
-                <p class="shezhiuser hidden">账户设置</p>                                               
+                <p class="shezhiuser hidden">账户设置</p>
                 <div class="zhang dangqian">
                     <p class="z_spe">当前头像：</p>
-                    <span class="touxiang"></span>                                        
+                    <span class="touxiang"></span>
                 </div>
                 <div class="zhang mingzi">
                     <p class="z_spe">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</p>
@@ -75,7 +75,7 @@
                 <div class="zhang areas">
                     <p class="z_spe">所在地区：</p>
                     <div>
-                        <city @confirm="confirm"></city>
+                        <city @confirm="confirm" ref="msgs"></city>
                         <button class="baocun zhang_bao" @click="updateUser">保存</button>
                     </div>
                 </div>
@@ -88,16 +88,16 @@
                 <p class="wrongTip">{{oldpassTip}}</p>
                 <div class="zhang newpassword xiu">
                     <p class="z_spe">新密码：</p>
-                    <input type="text" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur"> 
+                    <input type="text" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                 </div>
                 <p class="wrongTip">{{newpassTip}}</p>
                 <div class="zhang xiu againxiu">
-                    <p class="z_spe">再次输入新密码：</p> 
+                    <p class="z_spe">再次输入新密码：</p>
                     <div>
                         <input type="text" v-model="agapassValue" @keyup="agapassKey">
                         <p class="wrongTip wrongspe">{{agapassTip}}</p>
                         <button class="baocun xiu_bao" @click="updatePass">保存</button>
-                    </div>                                      
+                    </div>
                 </div>
                 <div class="bghui"></div>
             </div>
@@ -107,6 +107,7 @@
 
 <script>
 import city from '../components/City'
+import store from '../store';
 export default {
     name: 'Memberinstall',
     data () {
@@ -128,6 +129,7 @@ export default {
         }
     },
     created(){
+        store.commit('loading',true)
         this.$parent.orderRight='choose order';
         this.$parent.assessRight='choose assess hidden-xs-only';
         this.$parent.installRight='choose install liespe';
@@ -144,12 +146,18 @@ export default {
                             that.$router.push({path:'/outter/login',query:{pan:123}});
                         }
                     });
+                    store.commit('loading',false)  
                     return;
                 }
                 that.emailValue=data.data.data.email;
                 that.userName=data.data.data.name;
                 that.radio=data.data.data.gender+'';
-                that.cityCode=data.data.data.regionId;                
+                that.cityCode=data.data.data.regionId; 
+                var a=that.cityCode.substr(0,2)+'0000';
+                var b=that.cityCode.substr(0,4)+'00';            
+                that.$refs.msg.getcity(a,b,that.cityCode); 
+                that.$refs.msgs.getcity(a,b,that.cityCode);   
+                store.commit('loading',false)            
         })
     },
     methods:{
@@ -166,13 +174,12 @@ export default {
                     {headImg:'/2016/10/28/152843b6d9a04abe83a396d2ba03675f',name:that.userName,gender:that.radio,email:that.emailValue,regionId:that.cityCode}
                 )).then(
                     function(data){
-                        console.log(data);
                 })
                 this.$message({
                     type: 'success',
                     message: '修改成功!'
                 });
-            }).catch(() => {   
+            }).catch(() => {
                 this.$message({
                     type: 'info',
                     message: '已取消修改'
@@ -192,7 +199,6 @@ export default {
                     {oldPwd:md5(that.oldpassValue),newPwd:md5(that.newpassValue)}
                     )).then(
                         function(data){
-                            // console.log(data);
                             if(data.data.status==-1){
                                 that.oldpassTip=data.data.msg;
                             }
@@ -203,12 +209,12 @@ export default {
                                 });
                             }
                     })
-            }).catch(() => { 
+            }).catch(() => {
                     this.$message({
                         type: 'info',
                         message: '已取消修改'
-                    });  
-            }); 
+                    });
+            });
             if(this.oldpassValue==''){
                 this.oldpassTip='请输入登录密码';
             }else{
@@ -231,8 +237,8 @@ export default {
                 this.agapassTip='';lastzhu++;
             }
             if(lastzhu==3){
-                
-                                   
+
+
             }
         },
         agapassKey(){
@@ -253,9 +259,7 @@ export default {
                 this.newpassTip='';
             }
             if(this.passValue.length>5&&this.passValue.length<21){
-                console.log(111);
                 this.lengthLimit1='el-icon-circle-check-outline righti';
-                console.log(this.passValue,this.lengthLimit1);
             }else{
                 this.lengthLimit1='el-icon-circle-close-outline colori';
             }
@@ -279,6 +283,10 @@ export default {
         },
         confirm(value){
             this.cityCode=value;
+            var aa=this.cityCode.substr(0,2)+'0000';
+            var bb=this.cityCode.substr(0,4)+'00';            
+            this.$refs.msg.getcity(aa,bb,this.cityCode); 
+            this.$refs.msgs.getcity(aa,bb,this.cityCode);
         },
     },
     components:{
@@ -293,12 +301,12 @@ export default {
     .intro{
         font-size: 14px;
         margin:23px 0 10px;
-    } 
+    }
     .Memberinstall{
         display: inline-block;
         vertical-align: top;
         width: 75%;
-        .wrongTip{color:red;line-height: 28px;font-size: 14px;margin-left: 15px;} 
+        .wrongTip{color:red;line-height: 28px;font-size: 14px;margin-left: 15px;}
     }
     .installNei{
         input{border:1px solid #b0b0b0;border-radius: 0;height:23px;padding: 0 20px;}
@@ -365,8 +373,8 @@ export default {
         .Memberinstall{
             width: 100%;
             display: block;
-            .wrongTip{margin-left: 151px;}  
-            .wrongspe{margin-left: 0;}           
+            .wrongTip{margin-left: 151px;}
+            .wrongspe{margin-left: 0;}
         }
         .installNei{
             margin-left: 0;
@@ -394,7 +402,7 @@ export default {
         .phone{
             text-align: center;
             font-size: 18px;
-            line-height: 72px; 
+            line-height: 72px;
             background-color: #e5e5e5;
             position: absolute;top:-3px;width:100%;
             .jian{
@@ -402,7 +410,7 @@ export default {
                 left: 14px;
                 font-size: 32px;
                 position: absolute;
-            }    
+            }
         }
     }
 </style>
