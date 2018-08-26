@@ -19,12 +19,12 @@
             <li class="pro_list">
             <p @click="alll" :style="allstyle">所有</p>
             <template v-for="dp in dianpu1"   >
-                 <p v-for="(item,key,index) in dp.productTypes.split(',')" :key="index" @click="kkk(item,dp.productTypeCodes)" :class="{active:item==indexp}" :codes="dp.productTypeCodes">{{item}}  
-                  </p>                
+                 <p v-for="(item,key,index) in dp.productTypes.split(',')" :key="index" @click="kkk(item,dp.productTypeCodes)" :class="{active:item==indexp}" :codes="dp.productTypeCodes">{{item}}
+                  </p>
             </template>
-            </li> 
-        </ul>        
-    </div> 
+            </li>
+        </ul>
+    </div>
     <div class="shop_li">
         <div class="shop_sort">
             <div>{{post}}</div>
@@ -35,9 +35,9 @@
             </ul>
         </div>
         <div class="shop_shop">
-            
-            <div 
-            v-for="(dp,index) in dianpu" :key="index" 
+
+            <div
+            v-for="(dp,index) in dianpu" :key="index"
             class="shop_1"
             v-if="areaCode==dp.regionId||areaCode=='-----区-----'"
             :codes="dp.productTypeCodes"
@@ -66,16 +66,18 @@
                     <li class="type">
                             <p v-for="(value,item) in dp.productTypes.split(',')" :key="item">{{value}}
                                 <a v-for="(valuec,itemc) in dp.productTypes.split(',')" :key="itemc"></a>
-                                </p> 
+                                </p>
                     </li>
-                    <button class="enter"  @click="openFullScreen2"  >
-                        <router-link :to="{path:'/dianpu',query:{id:dp.id}}" > 
+                    <button class="enter" >
+                        <router-link :to="{path:'/dianpu',query:{id:dp.id}}" >
                     进入店铺
                     </router-link>
                     </button>
                 </ul>
             </div>
-        
+            <div class="none" v-show="none">
+                <h1>抱歉！暂无此类商品</h1>
+            </div>
         </div>
     </div>
     <div class="page">
@@ -89,7 +91,7 @@
 
 <script>
 import city from '../components/City'
-// import store from '../store';
+import store from '../store';
 export default {
   name: 'Shop',
   data () {
@@ -122,50 +124,48 @@ export default {
     zonghe:'',
     dshow:'',
     allstyle:'',
+    none:true,
+    screenWidth:document.body.clientWidth,
     }
   },
   created(){
-      [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = 
+      [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] =
       [false,false,false,false,true]
            var that = this;
            this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({start:0,limit:6,sort:1})).then(function(data){
            that.dianpu1=data.data.data;
         if((!/\?/.test(location.href))){
            that.dianpu=data.data.data;
+           that.none=false;
         }
         });
         var that = this
+        store.commit('loading',true)
       this.ajax.post(
           '/xinda-api/provider/search-grid',this.qs.stringify({
-        //   start:0,
         searchName:this.$route.query.searchName,
         sort:1,
       }))
       .then(function(data){
-            console.log(data.data.data);
-            // console.log(searchName);
-            that.dianpu=data.data.data  
+            that.dianpu=data.data.data
+        store.commit('loading',false)
+
         });
-          
+
   },
   components:{
       city,
       'my-computed':{
           template:'<div><p class="foo bar">1221</p></div>'
       }
-    }, 
+    },
   methods:{
-       openFullScreen2() {
-        const loading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
-        setTimeout(() => {
-          loading.close();
-        }, 1000);
-      },
+        shopmobile(){
+        this.$router.push({
+            path:"/shopmobile",
+        //    query:{ id:this.$route.query.id}
+        })
+     },
       goodp(){
         this.haoping=this.lan
         this.jiedan=''
@@ -176,15 +176,15 @@ export default {
         sort:2,
         }))
         .then(function(data){
-                console.log(data.data.data);
-                that.dianpu=data.data.data  
+                // console.log(data.data.data);
+                that.dianpu=data.data.data
             });
       },
         danshu(){
         this.haoping=''
         this.jiedan=this.lan
         this.zonghe=''
-        console.log('sss')
+        // console.log('sss')
         var that = this
         this.ajax.post(
         '/xinda-api/provider/search-grid',this.qs.stringify({
@@ -192,15 +192,15 @@ export default {
         sort:3,
         }))
         .then(function(data){
-                console.log(data.data.data);
-                that.dianpu=data.data.data  
+                // console.log(data.data.data);
+                that.dianpu=data.data.data
             });
       },
         zongxu(){
         this.haoping=''
         this.jiedan=''
         this.zonghe=this.lan
-        console.log('sss')
+        // console.log('sss')
         var that = this
         this.ajax.post(
         '/xinda-api/provider/search-grid',this.qs.stringify({
@@ -209,21 +209,21 @@ export default {
         sort:1,
         }))
         .then(function(data){
-                console.log(data.data.data);
-                that.dianpu=data.data.data  
+                // console.log(data.data.data);
+                that.dianpu=data.data.data
             });
       },
       link(){
         this.providerId = dp.providerId;
-        console.log(this.providerId);
+        // console.log(this.providerId);
       },
     kkk(aaa,bbb){
-        console.log(aaa);
+        // console.log(aaa);
         this.indexp=aaa;
         this.dshow=bbb;
-        console.log(bbb);
+        // console.log(bbb);
         this.allstyle='';
-    },   
+    },
   alll(){
       this.dshow='';
       this.allstyle=this.lan;
@@ -232,24 +232,53 @@ export default {
       choose1:function(val){
         alert(this.$children.productTypes)
     },
-      
+
     confirm(value){
         this.areaCode=value
-          console.log(this.areaCode)
+          // console.log(this.areaCode)
       },
   },
+  mounted() {
+  if(this.screenWidth<=992){
+                  this.shopmobile()
+        }
+
+        const that = this
+         window.onresize = () => {
+            return (() => {
+                window.screenWidth = document.body.clientWidth
+                that.screenWidth = window.screenWidth
+            })()
+        }
+  },
 watch:{
-$route(newval,oldval){
-    var that = this;
-console.log(newval.query.searchName)
-      this.ajax.post(
-          '/xinda-api/provider/search-grid',this.qs.stringify({
-        searchName:this.$route.query.searchName,
-      }))
-      .then(function(data){
-            console.log(data.data.data);
-            that.dianpu=data.data.data  
-        });}
+    screenWidth (val) {
+            if (!this.timer) {
+                this.screenWidth = val
+                this.timer = true
+                let that = this
+                setTimeout(function () {
+                    // that.screenWidth = that.$store.state.canvasWidth
+                    // console.log(that.screenWidth)
+                    if(that.screenWidth<=992){
+                that.shopmobile()
+        }
+                    // that.init()
+                    that.timer = false
+                }, 400)
+            }
+        },
+    $route(newval,oldval){
+        var that = this;
+    // console.log(newval.query.searchName)
+        this.ajax.post(
+            '/xinda-api/provider/search-grid',this.qs.stringify({
+            searchName:this.$route.query.searchName,
+        }))
+        .then(function(data){
+                // console.log(data.data.data);
+                that.dianpu=data.data.data
+            });}
 },
   computed:{
       post:function(){
@@ -262,6 +291,14 @@ console.log(newval.query.searchName)
 </script>
 
 <style scoped lang="less">
+.none{
+    width:85%;
+    height:328px;
+    margin:0 auto;
+    text-align: center;
+    line-height: 328px;
+    color:#ccc;
+}
 .choose{
     width:267px;
     display:flex;
@@ -281,7 +318,7 @@ console.log(newval.query.searchName)
 }
 .Store{
     width:1200px;
-    margin: 0 auto;
+    margin: 20px auto;
 
     .list{
         border:1px solid #ccc;
@@ -294,17 +331,17 @@ console.log(newval.query.searchName)
             border-bottom: 1px solid #ccc;
             border-right: 1px solid #ccc;
             font-size: 16px;
-            font-weight: 700;            
+            font-weight: 700;
             width:10%;
             line-height: 48px;
             text-align: center;
         }
-        
+
     }
     .pro_kind{
             height:48px;
             display:flex;
-        
+
         .production{
             border-right: 1px solid #ccc;
             font-size: 16px;
@@ -336,7 +373,7 @@ console.log(newval.query.searchName)
             active{
                 background-color: #2393d3;
                 color:white;
-                
+
             }
         }
     }
@@ -353,11 +390,11 @@ console.log(newval.query.searchName)
                     border-radius: 0;
                 // }
             }
-            
-            
+
+
         }
     }
-   
+
     .shop_shop{
         overflow: hidden;
         justify-content: space-around;
@@ -368,7 +405,7 @@ console.log(newval.query.searchName)
             display:flex;
             width:47%;
              .shop_1_left{
-                margin-top: 15px;                 
+                margin-top: 15px;
                 width:38%;
                 text-align:center;
                 .logo{
@@ -409,7 +446,7 @@ console.log(newval.query.searchName)
                         border-radius: 3px;
                         margin:3px;
                         font-size: 13px;
-                        
+
                     }
                 }
                 .enter{
@@ -439,6 +476,7 @@ console.log(newval.query.searchName)
             font-size: 12px;
             color: #ccc;
             display: inline-block;
+            outline: none;
         }
         p{
             display: inline-block;

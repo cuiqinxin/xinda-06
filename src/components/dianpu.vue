@@ -6,7 +6,7 @@
                 <h2>{{name.name}}</h2>
                 <p class="region">{{name.regionName}}</p>
             </ul>
-            
+
     </div>
     <div class="main">
         <el-container>
@@ -21,8 +21,9 @@
             </el-aside>
             <el-main>
                 <ul class="provide_list">
+                    <div class="el">
                     <el-tabs v-model="activeName" @tab-click="handleClick">
-                     <el-tab-pane label="服务产品内容" name="first" @click="fuwuneir">  
+                     <el-tab-pane label="服务产品内容" name="first" @click="fuwuneir">
                          <ul class="">
                             <h3>服务内容</h3>
                            <el-row class="service_product">
@@ -42,8 +43,8 @@
                     </el-tab-pane>
                      <el-tab-pane label="客服" name="second" class="second" @click="nofenye">
                          <ul class="kefu">
-                         <span>工作时间：{{name.workTime}}</span> 
-                         <span>QQ客服：{{name.qq}}</span> 
+                         <span>工作时间：{{name.workTime}}</span>
+                         <span>QQ客服：{{name.qq}}</span>
                          </ul>
                          </el-tab-pane>
                      <el-tab-pane label="资格证书" name="third" class="third" @click="nofenye">
@@ -52,17 +53,18 @@
                          </ul>
                      </el-tab-pane>
                     </el-tabs>
+                    </div>
                 </ul>
                 </el-main>
         </el-container>
     </div>
 <div class="paging">
     <page @change="pageChange" :parentCount="j" v-show="fenye"></page>
-</div>   
+</div>
 
     <router-view/>
   </div>
-</template> 
+</template>
 
 <script>
  import page from '../components/Page'
@@ -89,7 +91,7 @@ export default {
             pageIndex:1,
             all:'',
             perPages:3  //页面中显示的页码数只能为单数
-         } 
+         }
     }
   },
   methods:{
@@ -99,8 +101,10 @@ export default {
            query:{ id:this.$route.query.id}
         })
      },
-      nofenye(){this.fenye=false,
-      console.log(123)},
+      nofenye(){
+        this.fenye=false
+        // console.log(123)
+      },
       fuwuneir(){this.fenye=true},
       handleClick(tab, event) {
         // console.log(tab);
@@ -114,9 +118,9 @@ export default {
             providerId: this.$route.query.id,
             sort:2})).then(function(data){
                     that.provide=data.data.data
-            console.log(data.data.data);
+            // console.log(data.data.data);
         });
-        },   
+        },
         },
         mounted()  {
         if(this.screenWidth<=992){
@@ -139,7 +143,7 @@ export default {
                     let that = this
                     setTimeout(function () {
                         // that.screenWidth = that.$store.state.canvasWidth
-                        console.log(that.screenWidth)
+                        // console.log(that.screenWidth)
                         if(that.screenWidth<=992){
                   that.dianpumobile()
           }
@@ -166,7 +170,7 @@ export default {
 
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
-            that.j.all=data.data.data.length; 
+            that.j.all=data.data.data.length;
         });
         var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
@@ -176,18 +180,21 @@ export default {
     // productTypeCode: "1",
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
-            that.provide=data.data.data  
-            console.log(data.data.data);
+            that.provide=data.data.data
+            // console.log(data.data.data);
 
         });
         },
   computed:{
-    
+
   },
 }
 </script>
 
 <style scoped lang="less">
+.el{
+    margin-left: 20px;
+}
 .paging{
     width:100%;
     text-align: center;
@@ -215,7 +222,7 @@ export default {
       ul{
           display: inline-block;
         margin-left: 30px;
-          
+
           .region{
               margin-top:16px;
               color:#676767;
@@ -278,7 +285,7 @@ export default {
                 padding:10px;
                 h4{
                     overflow: hidden;
-                    white-space: nowrap; 
+                    white-space: nowrap;
                     text-overflow:ellipsis;
                     margin-top: 10px;
                 }
@@ -287,7 +294,7 @@ export default {
                     color:#676767;
                     margin:10px 0;
                      overflow: hidden;
-                    white-space: nowrap; 
+                    white-space: nowrap;
                     text-overflow:ellipsis;
                 }
                 .buynum{
@@ -335,6 +342,6 @@ export default {
 #tab-first{
     padding: 0 40px;
 }
-  
+
   }
 </style>

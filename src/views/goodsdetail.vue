@@ -49,7 +49,7 @@
                                 <span>购买数量：</span>
                                 <a href="javascript:void(0)"  class="reduce" @click="inputvalue==1?open4():reduce()">-</a>
                                 <input type="text" class="input" :value="inputvalue" readOnly="true">
-                                <a href="javascript:void(0)"  class="add" @click="add" >+</a> 
+                                <a href="javascript:void(0)"  class="add" @click="add" >+</a>
                         </div>
                         <!-- 最底部button -->
                         <div class="bottom">
@@ -57,32 +57,32 @@
                                 <a href="javascript:void(0)"  class="addcart"  @click="addcart">加入购物车</a>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <!-- 供应商 -->
                 <div class="provider">
                     <p class="title">
                         顶级服务商
                     </p>
-                    <div class="providername">  
+                    <div class="providername">
                         <p >
                         {{detailprovider.name}}
                     </p>
                     </div>
-                    
+
                     <a href="javascript:void(0)" class="question" @click="dialogVisible = true">马上咨询</a>
                     <div class="aboutprovider">
                         <router-link
                         :to="{
-                            path: '/dianpu', 
-                            query: { 
-                                
+                            path: '/dianpu',
+                            query: {
+
                                 id:detailprovider.id
                             },
                         }" class="providerlink">查看服务商</router-link>
                     </div>
-                </div> 
+                </div>
             </div>
-         
+
             <!-- 具体商品描述盒子over -->
             <div class="banner">
                 <img src="../../static/goodsdetailbanner.png" alt="#">
@@ -100,7 +100,7 @@
                         <!-- 评价统计-->
                         <div class="total">
                             <div class="biggoodnum">
-                            <span>0%</span> <p>好评</p>    
+                            <span>0%</span> <p>好评</p>
                             </div>
                             <div class="percent">
                                 <div class="up demo">
@@ -173,13 +173,13 @@
                         </div>
                         <!-- 价格 -->
                         <div class="price">
-                            
+
                                 <p >
                                     价格：
                                 </p>
                                 <span class="middle">￥{{detailproviderProduct.price}}.00</span>
                                  <span class="right">￥{{detailproduct.marketPrice}}</span>
-                           
+
                         </div>
                           <!-- 供应商 -->
                           <p class="providerp">
@@ -195,24 +195,24 @@
                                   <div class="xinyu">
                                          信誉<img src="../../static/信誉.png" alt="#">
                                   </div>
-                               
+
                                   <p>{{detailregion}}</p>
                                   <p>累计服务客户次数：<span>{{serviceNum}}</span></p>
                                    <div class="aboutprovider">
                                 <router-link
                                 :to="{
-                                    path: '/dianpu', 
-                                    query: { 
-                                        
+                                    path: '/dianpu',
+                                    query: {
+
                                         id:detailprovider.id
                                     },
                                 }" class="providerlink">查看服务商</router-link>
                             </div>
-                           
+
                               </div>
                              <img class="jinpai" src="../../static/金牌服务商.png" alt="#">
                           </div>
-                     <!-- 供应商jieshu --> 
+                     <!-- 供应商jieshu -->
                       <p class="providerp">
                               服务介绍
                           </p>
@@ -223,28 +223,28 @@
                           <div class="pingjia">
 
                           </div>
-                     
+
                     </div>
                     <div class="goosbottom">
                        <el-col :span="8" class="lianxi"  >
                            <div @click="dialogVisible = true">
 
-                           
+
                            <p><img src="../../static/联系商家.png" alt="#"></p>
                            <a href="javascript:void(0)" class="lianxishangjai" >联系商家</a>
                          </div>
                        </el-col>
-                       
+
                        <el-col :span="8" class="gouwuche"><a href="javascript:void(0)" class="addcart" @click="addcart">加入购物车</a></el-col>
 
                        <el-col :span="8" class="goumai">
                            <a href="javascript:void(0)" class="gobuy" @click="gobuy">立即购买</a></el-col>
                     </div>
-                </div> 
-              
+                </div>
+
             </div>
         </div>
-       
+
        <!-- 马上咨询 -->
             <el-dialog  class="zixunzixun"  title="免费电话咨询" :visible.sync="dialogVisible"  >
                 <div class="zixunyemian" v-if='zixunyemianstate'>
@@ -264,12 +264,12 @@
 
                             <p class="phoneerro" v-if="phoneerro"> {{phoneerrocontain}}</p>
                         </div>
-                    
+
 
                         <!-- 中部 -->
                         <div class="mid">
 
-                            <el-input v-model="picinput" placeholder="请输入图形验证码" @blur="imgblur"></el-input> 
+                            <el-input v-model="picinput" placeholder="请输入图形验证码" @blur="imgblur"></el-input>
 
                             <div class="tuxing">
                                 <img :src="imgurl" alt="11" @click="imgchange" :onerror="provideralt">
@@ -290,9 +290,9 @@
 
                             <el-button class="tijiao"  @click='questioncommit'>开始免费咨询</el-button>
                     </div>
-                    
+
                     <p style="text-align:center">本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
-                   
+
                 </div>
                 <div class="commitsuccess" v-else>
                     <p class='commitup'>本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
@@ -303,13 +303,13 @@
                  </span>
             </el-dialog>
        <!-- 马上咨询 结束-->
-   
-    </div> 
 
-     
-   
-</template> 
-<script>  
+    </div>
+
+
+
+</template>
+<script>
 import store from '../store'
  export default {
       name: "goodsdetail",
@@ -330,8 +330,8 @@ import store from '../store'
             that.serviceNum=that.detaildata.providerBusiness.serviceNum
             // console.log(that.detaildata);
             }).catch(function(data) {
-                // console.log("请求失败");
-            });  
+                console.log("请求失败");
+            });
         //登录判断
            that.ajax.post(
                     "/xinda-api/sso/login-info",
@@ -347,14 +347,14 @@ import store from '../store'
                 ).then(function(data){
                     // console.log(data);
                     that.pic_href=data.data;
-                    
+
             });
 
     // 购物车数量判断
 //   this.$store.dispatch('gaincartdata',store);
 
     },
-    data () { 
+    data () {
         return {
              detaildata:'',
              detailproduct:"",
@@ -375,13 +375,13 @@ import store from '../store'
              picinput: '',
              codeinput: '',
              loginstate:'',
-            
+
              imgurl:`/xinda-api/ajaxAuthcode`,
 
              phoneerro:false,
              picerro:false,
              msgerro:false,
-            
+
             phoneerrocontain:'图片验证码不正确！',
             picerrocontain:'图片验证码不正确！',
             msgerrocontain:'图片验证码不正确！',
@@ -389,17 +389,17 @@ import store from '../store'
             picstatus:"",
             zixunyemianstate:true,
 
-            
-            } 
-    }, 
+
+            }
+    },
     computed:{
         newsrc:function(){
             return 'http://123.58.241.146:8088/xinda/pic'+this.detailproduct.img
         },
-      
+
     },
 //   watch:{
-//         
+//
 
 
 //   },
@@ -408,7 +408,7 @@ import store from '../store'
                 this.inputvalue--;
         },
         add:function(){
-            this.inputvalue++; 
+            this.inputvalue++;
         },
         open4() {
             this.$message.error('购买数量不能为 0');
@@ -430,10 +430,10 @@ import store from '../store'
                             ).then(function(){
                                 // console.log(data);
                                 // that.$router.push({path:"/header/shoppingcart"})
-                            });  
+                            });
                         // 添加购物车请求结束
                     }
-                // });             
+                // });
         },
         //立即购买
         gobuy(){
@@ -441,7 +441,7 @@ import store from '../store'
                     if(that.loginstate==0){
                         that.open2();
                     }else{
-                        var imgurlcart='http://123.58.241.146:8088/xinda/pic/'+that.detailproduct.img;                        
+                        var imgurlcart='http://123.58.241.146:8088/xinda/pic/'+that.detailproduct.img;
                         that.$store.commit('cartNumber',{'id':that.detailproviderProduct.id,'price':that.detailproviderProduct.price,'sname':that.detailproviderProduct.serviceName,'sinfo':that.detailproviderProduct.serviceInfo,'simg':imgurlcart})
                          // 成功则进行添加购物车请求
                         that.ajax.post(
@@ -450,7 +450,7 @@ import store from '../store'
                             ).then(function(){
                                 // console.log(data);
                                 that.$router.push({path:"/header/shoppingcart"})
-                            });  
+                            });
                         // 添加购物车请求结束
                     }
         },
@@ -459,15 +459,15 @@ import store from '../store'
       // 手机号验证
         phonetest(){
                 if( this.phoneinput=='' ){
-                    this.phoneerrocontain='请输入手机号'; 
+                    this.phoneerrocontain='请输入手机号';
                     this.phoneerro=true;
                     return;
                 }else{
                     if(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(this.phoneinput)){
-                        this.phoneerrocontain='请输入手机号'; 
+                        this.phoneerrocontain='请输入手机号';
                         this.phoneerro=false;
                     }else{
-                        this.phoneerrocontain='手机号错误'; 
+                        this.phoneerrocontain='手机号错误';
                         this.phoneerro=true;
                         return;
                     }
@@ -481,13 +481,13 @@ import store from '../store'
         //图片验证码失焦判断
         imgblur(){
              if( this.picinput=='' ){
-                    this.picerrocontain='请输入图片验证码'; 
+                    this.picerrocontain='请输入图片验证码';
                     this.picerro=true;
                     this.imgchange();
                     return;}else{
-                        this.picerrocontain='请输入图片验证码'; 
+                        this.picerrocontain='请输入图片验证码';
                         this.picerro=false;
-                        
+
                     }
 
         },
@@ -499,20 +499,20 @@ import store from '../store'
             this.phonetest();
             // 先验证手机号
             //  if( this.phoneinput=='' ){
-            //         this.phoneerrocontain='请输入手机号'; 
+            //         this.phoneerrocontain='请输入手机号';
             //         this.phoneerro=true;
             //         return;
             //     }else if(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(this.phoneinput)){
-            //             this.phoneerrocontain=''; 
+            //             this.phoneerrocontain='';
             //             this.phoneerro=false;
             //     }else{
-            //             this.phoneerrocontain='手机号错误'; 
+            //             this.phoneerrocontain='手机号错误';
             //             this.phoneerro=true;
             //             return;
             //     }
-            //手机号正确后，进行图片验证码判断 
+            //手机号正确后，进行图片验证码判断
             if( this.picinput=='' ){
-                    this.picerrocontain='请输入图片验证码'; 
+                    this.picerrocontain='请输入图片验证码';
                     this.picerro=true;
                     this.imgchange();
                     return;
@@ -521,41 +521,41 @@ import store from '../store'
                         that.ajax.post(
                             "/xinda-api/register/sendsms",
                             that.qs.stringify({
-                            cellphone: that.phoneinput,					
-                            smsType:1,							
-                            imgCode:that.picinput	
+                            cellphone: that.phoneinput,
+                            smsType:1,
+                            imgCode:that.picinput
                             })
                             ).then(function(data){
                                 console.log(data.data);
                                 if(data.data.status==-1){
-                                    that.picerrocontain='图片验证码不正确'; 
+                                    that.picerrocontain='图片验证码不正确';
                                     that.picerro=true;
                                     that.picinput='';
                                     that.imgchange();
                                 }else{
-                                    that.picerro=false;  
+                                    that.picerro=false;
                                     that.picstatus=data.data.status;
                                 }
-                            });  
+                            });
                 }
 
 
-           
+
 
         },
         // msg验证码
         msgblur(){
              if( this.codeinput=='' ){
-                    this.msgerrocontain='请输入短信验证码'; 
+                    this.msgerrocontain='请输入短信验证码';
                     this.msgerro=true;
                     // this.imgchange();
                     return;
                     }else if(/^888888$/.test(this.codeinput)==false){
-                        this.msgerrocontain='短信验证码错误'; 
+                        this.msgerrocontain='短信验证码错误';
                         this.msgerro=true;
                         return;
                     }else{
-                        this.msgerrocontain=''; 
+                        this.msgerrocontain='';
                         this.msgerro=false;
                     }
 
@@ -570,20 +570,20 @@ import store from '../store'
                 that.picerrocontain='图片验证码不正确';
                 that.picerro=true;
             }else if(that.picstatus==''){
-                this.msgerrocontain='短信验证码错误'; 
+                this.msgerrocontain='短信验证码错误';
                 this.msgerro=true;
             }else{
                  if( this.codeinput=='' ){
-                    this.msgerrocontain='请输入短信验证码'; 
+                    this.msgerrocontain='请输入短信验证码';
                     this.msgerro=true;
                     // this.imgchange();
                     return;
                     }else if(/^888888$/.test(this.codeinput)==false){
-                        this.msgerrocontain='短信验证码错误'; 
+                        this.msgerrocontain='短信验证码错误';
                         this.msgerro=true;
                         return;
                     }else{
-                        this.msgerrocontain=''; 
+                        this.msgerrocontain='';
                         this.msgerro=false;
                         this.zixunyemianstate=false;
                     }
@@ -613,7 +613,7 @@ import store from '../store'
             this.$message({
                 type: 'info',
                 message: '已取消登陆'
-            });          
+            });
             });
         },
            // 提示框函数
@@ -665,17 +665,17 @@ import store from '../store'
             this.servicestyle="";
             this.ok=false;
         },
-        //样式操控方法jieshu 
-        
+        //样式操控方法jieshu
+
     },
 
-    } 
+    }
 </script>
 
-<style  lang="less" > 
+<style  lang="less" >
 @media screen and (min-width:769px){
 
-  
+
     .xsblock{
         display:none;
     }
@@ -712,7 +712,7 @@ import store from '../store'
                     width:100%;
                 }
             }
-        } 
+        }
         // 商品参数
         .parameterouter{
             display:flex;
@@ -789,7 +789,7 @@ import store from '../store'
                         font-weight: 700
                     }
                 }
-            }  
+            }
             // 类型
             .type{
                 display:flex;
@@ -801,11 +801,11 @@ import store from '../store'
                     line-height:19px;
                     padding:3px;
                 }
-            } 
+            }
             .area{
                 margin-top:15px;
-            } 
-            // 购买数量 
+            }
+            // 购买数量
             .buynum{
                 margin-top:15px;
                 display:flex;
@@ -819,7 +819,7 @@ import store from '../store'
                     border: 0;
                     background: #bcbdbd;
                     text-align: center;
-                    line-height: 20px;  
+                    line-height: 20px;
                 }
                 .input {
                     height: 18px;
@@ -830,7 +830,7 @@ import store from '../store'
                     text-align: center;
                     padding:0;
                 }
-            } 
+            }
             // 最底部button
             .bottom{
                 margin-top:20px;
@@ -850,7 +850,7 @@ import store from '../store'
                     color: #2693d4;
                     padding:5px 10px 5px 10px;
                 }
-            }     
+            }
          }
         }
         // 服务商
@@ -924,8 +924,8 @@ import store from '../store'
                     text-align:center;
                     width:135px;
                     color:#000;
-                } 
-            }  
+                }
+            }
             .servicecontain,.evaluatecontain{
                 min-height:200px;
                 border:1px solid #cccccc;
@@ -943,7 +943,7 @@ import store from '../store'
         }
     }
     .goodsbottomservice{
-        
+
         background:#2693d4;
         color:#fff !important;
     }
@@ -1047,9 +1047,9 @@ import store from '../store'
         width:300px;
     }
     .xsblock{
-        display:block; 
+        display:block;
     }
-    
+
     .block{
         display:none;
     }
@@ -1065,7 +1065,7 @@ import store from '../store'
         .xuanfu{
             width:100%;
             height:90px;
-           
+
             // border:1px solid;
             display: -webkit-box;
             -webkit-box-orient: vertical;
@@ -1077,7 +1077,7 @@ import store from '../store'
             right:0;
             background:rgba(0, 0, 0, 0.4);
             color:white;
-            
+
             // display:flex;
             // align-items: center;
             .servicename{
@@ -1103,7 +1103,7 @@ import store from '../store'
             border-bottom: 5px solid #ebebeb;
             font-size:15px;
             display:flex;
-            
+
             .middle{
                 color: red;
                 font-size: 22px;
@@ -1134,7 +1134,7 @@ import store from '../store'
                    width:90px;
                    position: relative;
                    top:3px;;
-               } 
+               }
             }
             .img{
                 width:150px;
@@ -1161,15 +1161,15 @@ import store from '../store'
                         margin-top: 10px;
                         text-align:center;
                     }
-                    
-                
+
+
             }
             .jinpai{
                 width:100px;
                 position:absolute;
                 bottom:25px;
                 left:30px;
-                
+
             }
         }
         .servicecontain{
@@ -1212,7 +1212,7 @@ import store from '../store'
                 background:#fc4145;
                 text-align:center;
                 .gobuy{
-                   color:white; 
+                   color:white;
                 }
 
             }
@@ -1231,28 +1231,28 @@ import store from '../store'
     //     min-width:340px;
     // }
     .zixunzixun{
-        
-        
+
+
         .steptitle{
             flex-basis: 30% !important;
         }
         .el-step__title{
             font-size:13px;
             line-height:20px;
-            
+
             // font-weight:300;
         }
         .el-dialog__body{
             padding-top:15px;
             padding-bottom:0;
-          
+
         }
        .el-steps{
            width:100%;
            margin:0 auto;
        }
        .inputarea{
-          max-width:338px; 
+          max-width:338px;
           margin:0 auto;
        }
        .up,.mid,.down{
@@ -1319,5 +1319,5 @@ import store from '../store'
     // .commitsuccess{
     //     min-height:400px;
     // }
-         
+
 </style>

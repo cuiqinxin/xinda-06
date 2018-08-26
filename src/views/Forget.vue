@@ -4,14 +4,14 @@
             <el-row>
                 <el-col :span="12" :xs="24" class="left">
                     <el-col :sm={span:11,offset:6} :xs={span:18,offset:3} class="shu">
-                        <validate @inputaa="yanzheng" ref="msg" @confirmss="confirmss"></validate>                        
+                        <validate @inputaa="yanzheng" ref="msg" @confirmss="confirmss"></validate>
                         <el-popover placement="right" width="300" trigger="focus" class="hidden-xs-only">
-                            <div><i :class="lengthLimit"></i>6-20个字符<br/><i :class="typeLimit"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType"></i>字母、数字和下划线至少包含2种</div>                 
+                            <div><i :class="lengthLimit"></i>6-20个字符<br/><i :class="typeLimit"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType"></i>字母、数字和下划线至少包含2种</div>
                             <div class="pass" slot="reference">
                                 <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                                 <span :class="style" @click="show(1)"></span>
                             </div>
-                        </el-popover> 
+                        </el-popover>
                         <div class="pass hidden-sm-and-up">
                             <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                             <span :class="style" @click="show(1)"></span>
@@ -43,7 +43,7 @@
 <script>
 import validate from '../components/Validate'
 export default {
-    name: 'Forget',     
+    name: 'Forget',
     created(){
         this.$parent.info = '忘记密码';
         this.$parent.infoWeb = '忘记密码';
@@ -129,7 +129,7 @@ export default {
                 lastzhu++;
             }
             if(this.phoneYan==''){
-                this.$refs.msg.gettel('手机验证码不能为空');                
+                this.$refs.msg.gettel('手机验证码不能为空');
             }else if(this.phoneClick!=2){
                 this.$refs.msg.gettel('请发送手机验证码');
             }else{
@@ -164,7 +164,7 @@ export default {
                             var data=(new Date()).getTime();
                             that.$refs.msg.getimg(`/xinda-api/ajaxAuthcode?t=${data}`);
                         }else if(data.data.status==-2){
-                            that.$refs.msg.getphone(data.data.msg);                            
+                            that.$refs.msg.getphone(data.data.msg);
                             var data=(new Date()).getTime();
                             that.$refs.msg.getimg(`/xinda-api/ajaxAuthcode?t=${data}`);
                         }else if(data.data.status==1){
@@ -178,7 +178,7 @@ export default {
                                     type: 'success',
                                     message: '跳转成功!'
                                 });
-                            }).catch(() => {   
+                            }).catch(() => {
                             });
                         }
                 });
@@ -220,7 +220,7 @@ export default {
 }
 </script>
 
-<style lang="less"> 
+<style lang="less">
     span{display: inline-block;}
     .Forget a{color:#3f9cd9;}
     input{
@@ -271,7 +271,7 @@ export default {
             line-height: 78px;
         }
         .liji{
-            color: #fff; 
+            color: #fff;
             line-height: 49px;
             height: 49px;
             width: 27.4%;
@@ -303,21 +303,21 @@ export default {
             width: 62%;
         }
         span{
-            width: 23px;  
+            width: 23px;
             vertical-align: top;
             float: right;
             cursor: pointer;
         }
     }
     .bi{
-        margin:12px 8px 11px;        
+        margin:12px 8px 11px;
         height: 11px;
-        background: url(../../static/bi.png) no-repeat;      
+        background: url(../../static/bi.png) no-repeat;
     }
     .zheng{
-        margin:9px 8px 8px;        
+        margin:9px 8px 8px;
         height: 17px;
-        background: url(../../static/zheng.png) no-repeat;      
+        background: url(../../static/zheng.png) no-repeat;
     }
     @media screen and (max-width: 768px){
         .Forget .log{ margin-top:145px;}
@@ -330,8 +330,8 @@ export default {
             background-color: #2693d4;
         }
     }
-    .colori{&::before{color: red;margin-right: 5px}} 
-    .righti{&::before{color: rgb(36, 228, 78);margin-right: 5px}}     
+    .colori{&::before{color: red;margin-right: 5px}}
+    .righti{&::before{color: rgb(36, 228, 78);margin-right: 5px}}
     .phoyan{
         margin-top: 19px;
         button{
@@ -352,7 +352,7 @@ export default {
     #invalid{
         color: #ccc;
         border:1px solid #ccc;
-        background-color: #fff;        
+        background-color: #fff;
     }
     .Forget{
         background-color: #f5f5f5;
@@ -372,9 +372,9 @@ export default {
     }
     @media screen and (min-width: 768px) and (max-width: 992px){
         .pass input{width: 52%;}
-        .yanma{width:44%;} 
-        .phoyan button{font-size: 14px;width: 29%;}      
-    } 
+        .yanma{width:44%;}
+        .phoyan button{font-size: 14px;width: 29%;}
+    }
     @media screen and (max-width: 768px){
         .phoyan button{
             font-size: 14px;

@@ -57,11 +57,7 @@ const  router = new VueRouter({       //module.expotrs={}
       name: 'Datang',
       component: Datang
     },
-    {
-      path: '/aap',
-      name: 'aap',
-      component: aap
-    },
+
     {
       path: '/page',
       name: 'Page',
@@ -96,6 +92,11 @@ const  router = new VueRouter({       //module.expotrs={}
       alias: '/',         //起一个别名
       component: Header,
       children: [
+        {
+        path: 'aap',
+        name: 'aap',
+        component: aap
+        },
         {
           path: 'p_all',
           name: 'p_all',
@@ -263,7 +264,7 @@ router.beforeEach((to, from, next) => {
     "/xinda-api/sso/login-info",
     qs.stringify({})
     ).then(function(data){
-    console.log(data,to.name,nextRoute.indexOf(to.name) >= 0);
+    // console.log(data,to.name,nextRoute.indexOf(to.name) >= 0);
     // 未登录状态；当路由到nextRoute指定页时，跳转至login
     if(data.data.status!=1 && nextRoute.indexOf(to.name) >= 0){
         newVue.$alert('您还未登录,点击 确定 跳转到登录页', '提示', {
