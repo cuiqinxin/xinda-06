@@ -91,12 +91,14 @@
                         </div>
 
                        <el-col :xs="24"><div class="moreload"><p v-show="isShow">{{loadText}}</p></div></el-col>
+                       
                     </div>
                     <div class="pagebox hidden-xs-only">
                          <page @change="pageChange" :parentCount="parentCount" ref="pagemore"></page>
                     </div>
 
                 </div>
+                
             </el-col>
             <el-col :span="5">
                 <div>
@@ -839,6 +841,10 @@ export default {
             var that = this
             var id = event.currentTarget.id
             var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4e68a9b0f9ff28757ecce3188b8f90942dcad0d5
 
             // that.ajax.post(
             //     "/xinda-api/sso/login-info",
@@ -1511,6 +1517,7 @@ export default {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    width: 100%;
     div{
         padding: 5px 10px;
         border: 1px solid #5aa3dd;

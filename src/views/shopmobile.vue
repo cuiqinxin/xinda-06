@@ -2,8 +2,8 @@
   <div class="Store">
        <div class="sort">
            <ul clsss="sort_top">
-               <li :class="{active:sort1==sort2}" @click="defaultsort">默认排序</li>
-               <li :class="{active:sort1==sort3}" @click="valume">销量</li>
+               <li :class="{active:sort1==sort2}" @click="defaultsort"><p>默认排序</p></li>
+               <li :class="{active:sort1==sort3}" @click="valume"><p>销量</p></li>
            </ul>
        </div>
         <div class="shop_shop">
@@ -18,7 +18,7 @@
                        <!-- <img :src="dp.providerImg" alt="">  -->
                 </ul>
                 <ul class="shop_1_right">
-                    <h5 :class="title">{{dp.providerName}}</h5>                  
+                    <h5 :class="title"><router-link :to="{path:'/aap',query:{id:dp.id}}" > {{dp.providerName}}</router-link></h5>                  
                     <li class="region">{{dp.regionName}}</li>
                     <li class="num">
                         <p class="num_1">累计客户服务次数:<a>{{dp.orderNum}}</a></p>
@@ -44,8 +44,10 @@ export default {
     dianpu1:'',
     providerId:'',
     sort1:1,
-    sort2:2,
+    sort2:1,
     sort3:2,
+    screenWidth:document.body.clientWidth,
+
     }
   },
   created(){
@@ -73,7 +75,26 @@ export default {
   components:{
       
     }, 
+    mounted() {
+        if(this.screenWidth>=992){
+                  this.shop()
+        }
+
+        const that = this
+         window.onresize = () => {
+            return (() => {
+                window.screenWidth = document.body.clientWidth
+                that.screenWidth = window.screenWidth
+            })()
+        }
+    },
   methods:{
+         shop(){
+        this.$router.push({
+            path:"/shop",
+        //    query:{ id:this.$route.query.id}
+        })
+     },
  defaultsort(){
      this.sort2=1,
      this.sort3=2;
@@ -98,6 +119,22 @@ export default {
  },
   },
 watch:{
+screenWidth (val) {
+        if (!this.timer) {
+            this.screenWidth = val
+            this.timer = true
+            let that = this
+            setTimeout(function () {
+                // that.screenWidth = that.$store.state.canvasWidth
+                console.log(that.screenWidth)
+                if(that.screenWidth>=992){
+            that.shop()
+    }
+                // that.init()
+                that.timer = false
+            }, 400)
+        }
+    },
 $route(newval,oldval){
     var that = this;
 console.log(newval.query.searchName)
@@ -122,23 +159,23 @@ console.log(newval.query.searchName)
     background-color: #2693d4;
     color:white;
 }
-     .sort{
-        width:100%;
-        text-align: center;
-        ul{
-            width:40%;
-            height: 40px;
-            line-height: 40px;
-            margin: 0 auto;
-            border: 1px solid #2693d4;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-around;
-            li{
-                width:50%;
-            }
-        }
+.sort{
+width:100%;
+text-align: center;
+ul{
+    width:40%;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 auto;
+    border: 1px solid #2693d4;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    li{
+        width:50%;
     }
+}
+}
  
 .Store{
     width:100%;
@@ -171,7 +208,6 @@ console.log(newval.query.searchName)
         justify-content: space-around;
         .shop_1{
             margin:0 auto;
-            float:left;
             border-bottom:1px solid #ccc;
             display:flex;
             width:96%;
@@ -191,7 +227,9 @@ console.log(newval.query.searchName)
             .shop_1_right{
                 margin: 15px 0 15px 15px;
                 width:62%;
-               
+               h5{
+                   a{color:black}
+               }
                 .num{
                     margin:5px 0;
                     p{
@@ -218,7 +256,38 @@ console.log(newval.query.searchName)
             }
         }
     }
-
-
+@media screen and (min-width:500px) and (max-width:992px){
+    .shop_1_right{
+        h5{
+            font-size: 20px;
+            margin: 10px 0;
+        }
+    }
+}
+@media screen and (max-width:499px){
+    .shop_shop{
+        .shop_1_right{
+            margin-left: 0!important;
+            width:75%!important;
+            h5{
+                margin:8px 0
+            }
+            .num{
+                p{
+                    font-size: 12px!important;
+                }
+            }
+        }
+    }
+    .sort{
+        ul{
+            li{
+                p{
+                    font-size: 14px!important;
+                }
+            }
+        }
+    }
+}
 </style>
 

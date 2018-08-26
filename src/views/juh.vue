@@ -47,11 +47,13 @@ export default{
   return {
       name:'',
       dianpu:'',
+      isComplate:'',
+      isLoading:false,
       provide:[],
       j:{
       scrolltop:0,
       showlaoding : true,
-
+      isComplate:false
       },     
     } 
  },
@@ -76,6 +78,20 @@ export default{
            that.j.scrolltop=data.data.data.length;
             console.log(that.j.scrolltop)
         });
+            var that = this;
+    this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
+        start:0,
+        limit:5,
+    providerId: "9080f0c120a64eb3831d50ba93c33e78",
+    sort:2})).then(function(data){
+        console.log(data.data.data.length)
+        console.log(that.j.scrolltop)
+        // if(that.j.scrolltop>that.provide.length){
+            that.provide=that.provide.concat(data.data.data )  
+            console.log(that.provide)
+            // console.log(page) 
+        // }  
+        }); 
         },
  methods: {
   async queryDate (page) {
@@ -84,16 +100,20 @@ export default{
     // this.j.showlaoding = true
     var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
-        start:page*3,
+        start:5+page*3,
         limit:3,
     providerId: "9080f0c120a64eb3831d50ba93c33e78",
     sort:2})).then(function(data){
         console.log(data.data.data.length)
         console.log(that.j.scrolltop)
-        if(that.j.scrolltop>=that.provide.length){
+        if(that.j.scrolltop>that.provide.length){
             that.provide=that.provide.concat(data.data.data )  
             console.log(that.provide)
             console.log(page) 
+        }else{
+            that.j.isComplate=true
+            that.isLoading=false
+            console.log(2323)
         }   
         }); 
    // this.j.showlaoding = false   
@@ -103,38 +123,12 @@ export default{
  },
  mounted () {
 
-// function queryDate (page) {
-// //    await timeout(1000)
-   
-//     // this.j.showlaoding = true
-//     var that = this;
-//     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
-//         start:page,
-//         limit:3,
-//     providerId: "9080f0c120a64eb3831d50ba93c33e78",
-//     sort:2})).then(function(data){
-//         if(that.j.scrolltop<=data.data.data.length){
-//             that.provide=that.provide.concat(data.data.data ) 
-//              console.log(that.provide)
-//             console.log(page)
-//             console.log(data.data.data)  
-//         }else{
 
-//         }
-//         }); 
-           
-//             // this.j.showlaoding = false
-      
-//    // 调用组件中的loaded函数，如果数据加载完成后记得调用组件的compleate函数
-//    this.$refs.scroll.loaded()
-// //   this.queryDate(this.page)
-
-//   }
  }
 }
 </script>
  
-<style lang="less">
+<style lang="less" scoped>
 // .index{
 //     height:100vh;
 // }
