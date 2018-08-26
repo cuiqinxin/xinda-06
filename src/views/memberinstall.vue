@@ -1,7 +1,7 @@
 <template>
     <div class="Memberinstall">
         <div class="installNei">
-            <el-tabs v-model="activeName2" @tab-click="handleClick" id="tit" class="hidden-xs-only">
+            <el-tabs v-model="activeName2" @tab-click="handleClick" id="tit" class="hidden-sm-and-down">
                 <el-tab-pane label="账户设置" name="first">
                     <div class="zhang dangqian">
                         <p class="z_spe">当前头像：</p>
@@ -31,28 +31,28 @@
                 <el-tab-pane label="修改密码" name="second">
                     <div class="zhang xiu oldpassword">
                         <p class="z_spe">旧密码：</p>
-                        <input type="text" v-model="oldpassValue" @keyup="oldpassKey">
+                        <input type="password" v-model="oldpassValue" @keyup="oldpassKey">
                         <p class="wrongTip">{{oldpassTip}}</p>
                     </div>
                     <div class="zhang newpassword xiu">
                         <p class="z_spe">新密码：</p>
                         <el-popover placement="bottom" width="300" trigger="focus">
                             <div><i :class="lengthLimit1"></i>6-20个字符<br/><i :class="typeLimit1"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType1"></i>字母、数字和下划线至少包含2种</div>
-                            <input type="text" v-model="passValue" slot="reference" @keyup="passKey" @keydown="passSign" @blur="passBlur">
+                            <input type="password" v-model="passValue" slot="reference" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                         </el-popover>
                         <p class="wrongTip">{{newpassTip}}</p>
                     </div>
                     <div class="zhang xiu againxiu">
                         <p class="z_spe">再次输入新密码：</p>
                         <div>
-                            <input type="text" v-model="agapassValue" @keyup="agapassKey">
+                            <input type="password" v-model="agapassValue" @keyup="agapassKey">
                             <button class="baocun xiu_bao" @click="updatePass">保存</button>
                         </div>
                         <p class="wrongTip">{{agapassTip}}</p>
                     </div>
                 </el-tab-pane>
             </el-tabs>
-            <div id="tits" class="hidden-sm-and-up">
+            <div id="tits" class="hidden-md-and-up">
                 <p class="phone"><router-link to="/memberindex" class="jian">&lt;</router-link>账户设置</p>
                 <p class="shezhiuser hidden">账户设置</p>
                 <div class="zhang dangqian">
@@ -83,18 +83,18 @@
                 <p class="gaipass">修改密码</p>
                 <div class="zhang xiu oldpassword">
                     <p class="z_spe">旧密码：</p>
-                    <input type="text" v-model="oldpassValue" @keyup="oldpassKey">
+                    <input type="password" v-model="oldpassValue" @keyup="oldpassKey">
                 </div>
                 <p class="wrongTip">{{oldpassTip}}</p>
                 <div class="zhang newpassword xiu">
                     <p class="z_spe">新密码：</p>
-                    <input type="text" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
+                    <input type="password" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                 </div>
                 <p class="wrongTip">{{newpassTip}}</p>
                 <div class="zhang xiu againxiu">
                     <p class="z_spe">再次输入新密码：</p>
                     <div>
-                        <input type="text" v-model="agapassValue" @keyup="agapassKey">
+                        <input type="password" v-model="agapassValue" @keyup="agapassKey">
                         <p class="wrongTip wrongspe">{{agapassTip}}</p>
                         <button class="baocun xiu_bao" @click="updatePass">保存</button>
                     </div>
@@ -131,7 +131,7 @@ export default {
     created(){
         store.commit('loading',true)
         this.$parent.orderRight='choose order';
-        this.$parent.assessRight='choose assess hidden-xs-only';
+        this.$parent.assessRight='choose assess hidden-sm-and-down';
         this.$parent.installRight='choose install liespe';
         var that=this;
         this.ajax.post('/xinda-api/member/info',this.qs.stringify(
@@ -369,7 +369,7 @@ export default {
             }
         }
     }
-    @media screen and (max-width: 768px){
+    @media screen and (max-width: 992px){
         .Memberinstall{
             width: 100%;
             display: block;

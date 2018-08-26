@@ -1,14 +1,14 @@
 <template>
     <div class="Memberorder">
         <div class="orderNei">
-            <p class="tit hidden-xs-only">我的订单<span></span></p>
-            <div class="orderNumber hidden-xs-only">
+            <p class="tit hidden-sm-and-down">我的订单<span></span></p>
+            <div class="orderNumber hidden-sm-and-down">
                 <p>订单号：</p>
                 <input type="text" placeholder="请输入订单号搜索" v-model="searchOrderNumber">
                 <button @click="searchOrder">搜索</button>
                 <p class="orderHint">{{orderHint}}</p>
             </div>
-            <div id="createTime" class="hidden-xs-only">
+            <div id="createTime" class="hidden-sm-and-down">
                 <p>创建时间：</p>
                 <el-date-picker
                     @blur="datachoose"
@@ -21,74 +21,74 @@
                     end-placeholder="结束日期">
                 </el-date-picker>
             </div>
-            <p class="phone hidden-sm-and-up"><router-link to="/memberindex" class="jian">&lt;</router-link>我的订单</p>            
-            <el-row class="orderHead hidden-xs-only">
-                <el-col :span="21">
-                    <el-col :span="16" class="orderspe">
+            <p class="phone hidden-md-and-up"><router-link to="/memberindex" class="jian">&lt;</router-link>我的订单</p>            
+            <el-row class="orderHead hidden-sm-and-down">
+                <el-col :sm="21" :xs="21">
+                    <el-col :sm="16" :xs="16" class="orderspe">
                         <h4 class="ofirst">商品名称</h4>
                         <div class="nopho">
                             <h4 class="orderdan">单价</h4>
                             <h4 class="ordernums">数量</h4>
                         </div> 
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :sm="4" :xs="4">
                         <h4>总金额</h4>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :sm="4" :xs="4">
                         <h4>订单状态</h4>
                     </el-col>
                 </el-col>
-                <el-col :span="3">
+                <el-col :sm="3" :xs="3">
                     <h4>订单操作</h4>                  
                 </el-col>
             </el-row>
             <div :class="noneorder">还没有订单！</div>
             <div class="allorder">
                 <el-row class="orderBody" v-for="(item,index1) in orderArr.slice((pagei-1)*2,pagei*2)" :key="index1">
-                    <el-col :span="24" class="orderhao">
+                    <el-col :sm="24" :xs="24" class="orderhao">
                         <p class="ohaoma">订单号：{{item.businessNo}}</p>
-                        <p class="hidden-xs-only">下单时间：{{item.createTime}}</p>
-                        <p class="hidden-sm-and-up">等待买家付款</p>
+                        <p class="hidden-sm-and-down">下单时间：{{item.createTime}}</p>
+                        <p class="hidden-md-and-up">等待买家付款</p>
                     </el-col>
-                    <el-col :span="24" class="wholeOrder">
-                        <el-col :span="21" :xs="24">
-                            <el-col :span="24" v-for="(item,index) in orderArr1.slice((pagei-1)*2,pagei*2)[index1]" :key="index" class="onceOrder">
-                                <el-col :span="16" :xs="24" class="orderspe">
+                    <el-col :sm="24" :xs="24" class="wholeOrder">
+                        <el-col :md="21" :sm="24" :xs="24">
+                            <el-col :sm="24" :xs="24" v-for="(item,index) in orderArr1.slice((pagei-1)*2,pagei*2)[index1]" :key="index" class="onceOrder">
+                                <el-col :md="16" :sm="24" :xs="24" class="orderspe">
                                     <div class="havepho">
                                         <span class="imgss"></span>
                                         <p>
-                                            <span class="hidden-xs-only">{{item['providerName']}}</span>
+                                            <span class="hidden-sm-and-down">{{item['providerName']}}</span>
                                             <span class="phocom">{{item['serviceName']}}</span>
                                             <span class="phocom">{{item['businessNo']}}</span>
-                                            <span class="hidden-sm-and-up">下单时间：{{item['createTime']}}</span>
-                                            <span class="hidden-sm-and-up yuanchen"><span class="moneyred">￥{{item['unitPrice']}}</span>元&nbsp;&nbsp;&nbsp;&nbsp;×{{item['buyNum']}}</span>
+                                            <span class="hidden-md-and-up">下单时间：{{item['createTime']}}</span>
+                                            <span class="hidden-md-and-up yuanchen"><span class="moneyred">￥{{item['unitPrice']}}</span>元&nbsp;&nbsp;&nbsp;&nbsp;×{{item['buyNum']}}</span>
                                         </p>
                                     </div>
-                                    <div class="nopho hidden-xs-only">
+                                    <div class="nopho hidden-sm-and-down">
                                         <p class="orderdan">￥{{item['unitPrice']}}.00</p>
                                         <p class="ordernums">{{item['buyNum']}}</p>
                                     </div>
                                 </el-col>
-                                <el-col :span="4" class="orderblue hidden-xs-only">
+                                <el-col :sm="4" :xs="4" class="orderblue hidden-sm-and-down">
                                     <p>￥{{item['totalPrice']}}.00</p>
                                 </el-col>
-                                <el-col :span="4" class="orderblue hidden-xs-only">
+                                <el-col :sm="4" :xs="4" class="orderblue hidden-sm-and-down">
                                     <p>等待买家付款</p>
                                 </el-col>
                             </el-col>
                         </el-col>
-                        <el-col :span="3" :xs="24" class="orderoper">   
-                            <p class="heji hidden-sm-and-up">合计：<span class="moneyred">￥{{item.totalPrice}}</span></p>
+                        <el-col :md="3" :sm="24" :xs="24" class="orderoper">   
+                            <p class="heji hidden-md-and-up">合计：<span class="moneyred">￥{{item.totalPrice}}</span></p>
                             <div class="fushan">         
                                 <router-link :to="{path:'/pay',query:{businessNo:item.businessNo,total:item.totalPrice}}" class="paymoney">付款</router-link>  
                                 <a href="javascript:void(0)" @click="deleOrder(item.id,index1)">删除订单</a> 
                             </div>                 
                         </el-col>
                     </el-col>
-                    <el-col :span="24" class="hidden-sm-and-up gekai"></el-col>
+                    <el-col :sm="24" :xs="24" class="hidden-md-and-up gekai"></el-col>
                 </el-row>
             </div>
-            <div class="page myorder hidden-xs-only">
+            <div class="page myorder hidden-sm-and-down">
                 <div>
                     <button :class="prevClick" @click="prevp">上一页</button>
                     <p class="shows">{{pagei}}</p>
@@ -130,7 +130,7 @@ export default {
     },
     created(){
         this.$parent.orderRight='choose order liespe';
-        this.$parent.assessRight='choose assess hidden-xs-only';
+        this.$parent.assessRight='choose assess hidden-sm-and-down';
         this.$parent.installRight='choose install';
         var that=this;
         this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
@@ -573,7 +573,7 @@ export default {
             .el-input__inner{height: 25px;width: 40%;margin-left: 4px;}
             .el-date-editor .el-range__close-icon,.el-date-editor .el-range-separator,.el-date-editor .el-range__icon{margin-top: -15px;}
         }
-@media screen and (max-width: 768px){
+@media screen and (max-width: 992px){
     .Memberorder{display: block;width: 100%;}
     .orderNei{margin-left: 0;}
     .wholeOrder{flex-direction: column;}

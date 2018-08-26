@@ -2,17 +2,17 @@
     <div class="Forget">
         <div class="zhu">
             <el-row>
-                <el-col :span="12" :xs="24" class="left">
-                    <el-col :sm={span:11,offset:6} :xs={span:18,offset:3} class="shu">
+                <el-col :md="12" :xs="24" :sm="24" class="left">
+                    <el-col :md={span:11,offset:6} :xs={span:18,offset:3} :sm={span:18,offset:3} class="shu">
                         <validate @inputaa="yanzheng" ref="msg" @confirmss="confirmss"></validate>
-                        <el-popover placement="right" width="300" trigger="focus" class="hidden-xs-only">
+                        <el-popover placement="right" width="300" trigger="focus" class="hidden-sm-and-down">
                             <div><i :class="lengthLimit"></i>6-20个字符<br/><i :class="typeLimit"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType"></i>字母、数字和下划线至少包含2种</div>
                             <div class="pass" slot="reference">
                                 <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                                 <span :class="style" @click="show(1)"></span>
                             </div>
                         </el-popover>
-                        <div class="pass hidden-sm-and-up">
+                        <div class="pass hidden-md-and-up">
                             <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                             <span :class="style" @click="show(1)"></span>
                         </div>
@@ -25,7 +25,7 @@
                         <a href="javascript:void(0)" class="log" @click="forgetyan">确认修改</a>
                     </el-col>
                 </el-col>
-                <el-col :span="12" class="hidden-xs-only">
+                <el-col :span="12" class="hidden-sm-and-down">
                     <el-col :span="9" :offset="6" class="shu">
                         <p class="size">想起密码来了？</p>
                         <router-link to="/outter/login" class="size">立即登录&gt;&gt;</router-link>
@@ -34,7 +34,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-row class="now hidden-sm-and-up">
+        <el-row class="now hidden-md-and-up">
             <el-col :span="20" :offset="2" id="spe"><p>想起密码来了？</p><router-link to="/outter/login" class="liji">立即登录</router-link></el-col>
         </el-row>
     </div>
@@ -47,6 +47,12 @@ export default {
     created(){
         this.$parent.info = '忘记密码';
         this.$parent.infoWeb = '忘记密码';
+        // this.ajax.post('/xinda-api/register/findpas',this.qs.stringify(
+        //             {cellphone:'13245678900',smsType:2,validCode:'111111',password:'123456qq'}
+        //         )).then(
+        //             function(data){
+        //                 console.log(data);
+        //         });
         document.onkeyup=(e)=>{
             var key=window.event.keyCode;
             if(key==13){
@@ -229,38 +235,37 @@ export default {
         padding: 0 20px;
         border-radius: 5px;
     }
-    .wrongTip{color:red;line-height: 28px;font-size: 14px;}
-    .deng{
+    .Forget .wrongTip{color:red;line-height: 28px;font-size: 14px;}
+    .Forget .deng{
         max-width: 1200px;
         margin:52px auto 180px;
         background-color: #fff;
         padding-top: 32px;
     }
-    .left{
+    .Forget .left{
         border-right: 1px solid #dadada;
         margin: 13px 0 124px;
     }
-    .shu{
+    .Forget .shu{
         display: flex;
         flex-direction: column;
     }
-    .log{
+    .Forget .log{
         line-height: 36px;
         font-size: 18px;
         text-align: center;
         border:1px solid #3f9cd9;
         border-radius: 5px;
     }
-    .size{
+    .Forget .size{
         font-size: 18px;
         margin-left: 32px;
         line-height: 40px;
     }
-    .now{
+    .Forget .now{
         background-color: #4d4d4d;
         font-size: 18px;
-        position: absolute;
-        bottom: 0;
+        bottom: 90px;
         width: 100%;
         #spe{
             display: flex;
@@ -268,20 +273,20 @@ export default {
         }
         p{
             color: #fff;
-            line-height: 78px;
+            line-height: 46px;
         }
         .liji{
             color: #fff;
-            line-height: 49px;
-            height: 49px;
+            line-height: 36px;
+            height: 36px;
             width: 27.4%;
             text-align: center;
             border-radius: 5px;
             background-color: #2693d4;
-            margin:14px 0 15px;
+            margin:5px 0;
         }
     }
-    .yan{
+    .Forget .yan{
         font-size: 0;
         img{
             width:30%;
@@ -291,10 +296,10 @@ export default {
             height: 36px;
         }
     }
-    .yanma{
+    .Forget .yanma{
         width:48.484%;
     }
-    .pass{
+    .Forget .pass{
         margin:24px 0 0;
         border: 1px solid #cbcbcb;
         border-radius: 5px;
@@ -319,12 +324,12 @@ export default {
         height: 17px;
         background: url(../../static/zheng.png) no-repeat;
     }
-    @media screen and (max-width: 768px){
+    @media screen and (max-width: 992px){
         .Forget .log{ margin-top:145px;}
-        .pass{margin:32px 0 0;input{width: 58%;}}
-        .deng{margin-top: 77px;padding-top: 0;}
-        .left{margin-top:71px;}
-        .log{
+        .Forget .pass{margin:19px 0 0;input{width: 58%;}}
+        .Forget .deng{margin-top: 0;padding-top: 0;margin-bottom: 0;}
+        .Forget .left{margin-top:0;margin-bottom:0;}
+        .Forget .log{
             margin-top:213px;
             color: #fff;
             background-color: #2693d4;
@@ -332,7 +337,7 @@ export default {
     }
     .colori{&::before{color: red;margin-right: 5px}}
     .righti{&::before{color: rgb(36, 228, 78);margin-right: 5px}}
-    .phoyan{
+    .Forget .phoyan{
         margin-top: 19px;
         button{
             height: 36px;
@@ -371,25 +376,21 @@ export default {
         }
     }
     @media screen and (max-width: 1200px){ 
-        .phoyan button{font-size: 12px;}    
+        .Forget .phoyan button{font-size: 12px;}    
     } 
-    @media screen and (min-width: 768px) and (max-width: 992px){
-        .pass input{width: 52%;}
-<<<<<<< HEAD
-        .yanma{width:41%;} 
-        .phoyan button{width: 33%;}      
-    } 
-=======
-        .yanma{width:44%;}
-        .phoyan button{font-size: 14px;width: 29%;}
-    }
->>>>>>> 695a371fd063dd0e03f703145c4c55849f7a3674
-    @media screen and (max-width: 768px){
-        .phoyan button{
+    @media screen and (max-width: 992px){
+        .Forget .phoyan button{
             font-size: 14px;
             width: 30%;
             color: #fff;
             background-color: #2693d4;
         }
+        .Forget .zhu{
+            margin-bottom: 70px;
+            margin-top: 0;
+            padding-top: 19px;
+        }
+        .Forget .log{color:#fff;margin: 19px 0;}
+        .Forget .again{margin-top: 19px;}
     }
 </style>

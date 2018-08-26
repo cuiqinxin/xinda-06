@@ -2,7 +2,7 @@
     <div class="Quit">
         <p class="phone hidden-md-and-up"></p>         
         <el-row class="hidden-md-and-up">
-            <el-col :sm="5" :xs={span:20,offset:2}>
+            <el-col :md="5" :xs={span:20,offset:2} :sm={span:20,offset:2}>
                 <div class="user">
                     <span class="touxiang"></span>
                     <div><div class="king">
@@ -15,14 +15,14 @@
                         <span></span>
                         <p class="cholink">我的订单</p>
                     </div>
-                    <p class="hidden-sm-and-up">></p>
+                    <p class="hidden-md-and-up">></p>
                 </div>
                 <div class="choose install" @click="unlogin">
                     <div>
                         <span></span>
                         <p class="cholink">账户设置</p>
                     </div>
-                    <p class="hidden-sm-and-up">></p>
+                    <p class="hidden-md-and-up">></p>
                 </div>
             </el-col>
         </el-row>
@@ -57,7 +57,7 @@ export default {
             top:0; 
             background-color: #fff; 
         }
-    @media screen and (max-width: 768px){
+    @media screen and (max-width: 992px){
         .Quit{font-size: 16px;}
         .touxiang{
             width: 125px;
