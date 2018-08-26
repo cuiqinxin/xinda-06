@@ -27,7 +27,7 @@ export default {
         cityCode:'',
         area:'',
         areaCode:'',
-        que:'-----区----'
+        que:'-----区-----'
     }
   },
   props:{
@@ -38,15 +38,15 @@ export default {
           this.city = citydata[this.provinceCode];
           this.cityCode = ''
           this.areaCode = ''
+          this.areaChange()
       },
       cityChange(){
           this.area = citydata[this.cityCode];
            this.areaCode = ''
+          this.areaChange()
       },
       areaChange(){
-        //   this.area = citydata[this.data]
         this.$emit('confirm',this.areaCode);
-        // console.log(this.areaCode);
       },
       getcity(a,b,c){
           this.provinceCode=a;
