@@ -35,7 +35,7 @@ export default {
   // 加载中的文字
   loadingText: {
    type: String,
-   default: '加载中...'
+   default: 'Loading。。。'
   },
   // 数据加载完成的文字
    isComplate: {
@@ -171,7 +171,6 @@ var context = this
   color: #656565;
   line-height: 20px;
   .r-scroll-loading-text{
-
    display: inline-block;
    vertical-align: middle;
   }

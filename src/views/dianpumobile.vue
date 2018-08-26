@@ -27,16 +27,19 @@
 
         </ul>
     </div>
+    <div id="scroller-box" >
+        <scrollTop></scrollTop>
+    </div>
     <router-view/>
   </div>
 </template>
 
 <script>
-
-
+import scrollTop from '../components/ScrollTop'
 export default {
   name: 'dianpumobile',
  components : {
+     scrollTop
         },
   data () {
     return {

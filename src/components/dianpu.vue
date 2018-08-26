@@ -41,7 +41,7 @@
                             </el-row>
                         </ul>
                     </el-tab-pane>
-                     <el-tab-pane label="客服" name="second" class="second" @click="nofenye">
+                         <el-tab-pane label="客服" name="second" class="second" >
                          <ul class="kefu">
                          <span>工作时间：{{name.workTime}}</span>
                          <span>QQ客服：{{name.qq}}</span>
