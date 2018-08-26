@@ -23,7 +23,7 @@
                 <ul class="provide_list">
                     <div class="el">
                     <el-tabs v-model="activeName" @tab-click="handleClick">
-                     <el-tab-pane label="服务产品内容" name="first" @click="fuwuneir">  
+                     <el-tab-pane label="服务产品内容" name="first" @click.native="fuwuneir">  
                          <ul class="">
                             <h3>服务内容</h3>
                            <el-row class="service_product">
@@ -40,14 +40,14 @@
                                 </el-col>
                             </el-row>
                         </ul>
-                    </el-tab-pane>
-                         <el-tab-pane label="客服" name="second" class="second" >
+                    </el-tab-pane >
+                         <el-tab-pane label="客服" name="second" class="second" @click.native="nofenye">
                          <ul class="kefu">
                          <span>工作时间：{{name.workTime}}</span> 
                          <span>QQ客服：{{name.qq}}</span> 
                          </ul>
                          </el-tab-pane>
-                     <el-tab-pane label="资格证书" name="third" class="third" @click="nofenye">
+                     <el-tab-pane label="资格证书" name="third" class="third" @click.native="nofenye">
                          <ul class="zhengshu">
                          <img src="../../static/u4652.36247c6.png" alt="">
                          </ul>
@@ -59,7 +59,7 @@
         </el-container>
     </div>
 <div class="paging">
-    <page @change="pageChange" :parentCount="j" v-show="fenye"></page>
+    <page @change="pageChange" :parentCount="j" v-show="fenye=='first'"></page>
 </div>   
 
     <router-view/>
@@ -81,7 +81,7 @@ export default {
       name:'',
       dianpu:'',
       provide:'',
-      fenye:'ture',
+      fenye:'first',
       screenWidth:document.body.clientWidth,
       j:{
             pageSize : 5 , //每页显示6条数据
@@ -101,11 +101,10 @@ export default {
            query:{ id:this.$route.query.id}
         })
      },
-      nofenye(){this.fenye=false,
-      console.log(123)},
+      nofenye(){this.fenye=false;console.log(123456)},
       fuwuneir(){this.fenye=true},
       handleClick(tab, event) {
-        // console.log(tab);
+          this.fenye=tab.name
       },
        pageChange (page) {
             this.currentPage = page
@@ -116,7 +115,6 @@ export default {
             providerId: this.$route.query.id,
             sort:2})).then(function(data){
                     that.provide=data.data.data
-            console.log(data.data.data);
         });
         },   
         },
@@ -134,18 +132,16 @@ export default {
         }
         },
   watch : {
+      //监测屏幕宽度变化
       screenWidth (val) {
                 if (!this.timer) {
                     this.screenWidth = val
                     this.timer = true
                     let that = this
                     setTimeout(function () {
-                        // that.screenWidth = that.$store.state.canvasWidth
-                        console.log(that.screenWidth)
                         if(that.screenWidth<=992){
                   that.dianpumobile()
           }
-                        // that.init()
                         that.timer = false
                     }, 400)
                 }
@@ -168,19 +164,16 @@ export default {
 
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
-            that.j.all=data.data.data.length; 
+            that.j.all=data.data.data.length; //获得数据总长度
         });
         var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
     start:0,
-    // start:that.page,
     limit:6,
-    // productTypeCode: "1",
+
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
             that.provide=data.data.data  
-            console.log(data.data.data);
-
         });
         },
   computed:{
@@ -192,10 +185,13 @@ export default {
 <style scoped lang="less">
 .el{
     margin-left: 20px;
+    width:100%;
 }
+//分页器
 .paging{
     width:100%;
     text-align: center;
+    margin-bottom: 50px;
 }
 .page{
    margin: 0 auto;
@@ -207,7 +203,7 @@ export default {
       overflow: hidden;
   .datang_title{
       height:200px;
-    //   width:100%;
+
       border:1px solid #ccc;
       align-items: center;
       display: flex;
@@ -227,8 +223,6 @@ export default {
               font-size: 14px;
           }
       }
-// 9080f0c120a64eb3831d50ba93c33e78
-// a7304eecbd7246b4b424874e0359eab0
   }
   .main{
       margin:20px 0;

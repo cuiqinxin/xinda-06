@@ -8,7 +8,7 @@
             </li>
             <li class="eara">
                 <div>
-                    <city  @confirm="confirm" display="12345"></city>
+                    <city  @confirm="confirm" display="12345" ></city>
                 </div>
             </li>
         </ul>
@@ -39,9 +39,11 @@
             <div 
             v-for="(dp,index) in dianpu" :key="index" 
             class="shop_1"
-            v-if="areaCode==dp.regionId||areaCode=='-----区-----'"
+            v-if="areaCode==dp.regionId||areaCode==''"
             :codes="dp.productTypeCodes"
             v-show="dshow==''||dshow==dp.productTypeCodes"
+            ref="element"
+            id = "header-nav"
             >
                 <ul class="shop_1_left">
                     <li class="logo">
@@ -76,11 +78,16 @@
                 </ul>
             </div>
             <div class="none"
+            v-if="areaCode!=''&&areaCode!='110109'&&areaCode!='110105'"
              >
-             <!-- <p class="h1">抱歉！暂无此类商品</p> -->
                 <h1>抱歉！暂无此类商品</h1>
             </div>
         </div>
+        <!-- <div class="none"
+            v-if="height==0"
+             >
+            <h1>抱歉！暂无此类商品</h1>
+        </div> -->
     </div>
     <div class="paging">
     <page @change="pageChange" :parentCount="j"></page>
@@ -90,13 +97,14 @@
 </template>
 
 <script>
- import page from '../components/Page'
-import city from '../components/City'
+ import page from '../components/Page';
+import city from '../components/City';
 import store from '../store';
 export default {
   name: 'Shop',
   data () {
     return {
+        height:'',
     title:'',
     credit:'',
     region:'',
@@ -111,7 +119,7 @@ export default {
     providerId:'',
     perPages:3,
     radio3:'',
-    areaCode:'-----区-----',
+    areaCode:'',
     p:'0',
     indexp:'11',
     bao:true,
@@ -124,7 +132,12 @@ export default {
     jiedan:'',
     zonghe:'',
     dshow:'',
-    allstyle:'',
+    allstyle:{
+         backgroundColor: "#2393d3",
+         color:"white",
+        borderRadius: "5px",
+
+    },
     none:true,
      j:{
             pageSize : 5 , //每页显示6条数据
@@ -226,8 +239,7 @@ export default {
         var that = this
         this.ajax.post(
         '/xinda-api/provider/search-grid',this.qs.stringify({
-        //   start:0,
-        // searchName:this.$route.query.searchName,
+     
         sort:1,
         }))
         .then(function(data){
@@ -307,7 +319,7 @@ watch:{
     text-align: center;
 }
 .none{
-    width:85%;
+    width:100%;
     height:328px;
     margin:0 auto;
     text-align: center;
