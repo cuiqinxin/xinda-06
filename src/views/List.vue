@@ -114,6 +114,7 @@
 import scrollTop from '../components/ScrollTop'
 import city from '../components/City'
 import page from '../components/Page'
+import store from '../store';
 
 export default {
 
@@ -195,11 +196,14 @@ export default {
     created() {
       
         var that = this
+        store.commit('loading',true)
         that.ajax.post(
                     "/xinda-api/sso/login-info",
                     that.qs.stringify({})
                 ).then(function(data){
                     // 未登陆
+                    store.commit('loading',false)
+
                     if(data.data.status==0){
                         that.loginStatus = 0;
                     }else{
@@ -597,7 +601,7 @@ export default {
                 })
             )
             .then(function(data) {
-                 that.parentCount.all=data.data.data.length
+                 that.parentCount.all=data.data.data.length+1
                  if(that.parentCount.all == 0){
                     that.parentCount.all = 1
                 }
@@ -632,7 +636,7 @@ export default {
             this.show = true
             this.$refs.pagemore.go(1)
             // this.parentCount.currentPage = 1;
-            this.parentCount.all = ''
+            this.parentCount.all = 1
             this.current3 = 0;
             this.$refs.notice_add.provinceCode = ''
             this.$refs.notice_add.cityCode = ''

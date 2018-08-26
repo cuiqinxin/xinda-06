@@ -30,6 +30,9 @@
      </div> 
      </div> 
     <div class="loadmore-icon" @click=" getData()">{{more}}<i class="fa fa-cog fa-spin"></i></div>
+    <div id="scroller-box" >
+        <scrollTop></scrollTop>
+    </div>
     <div class="loading" v-show="showlaoding">
       <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i>
     </div>
@@ -48,7 +51,7 @@ export default{
         name:'',
         provide:[],
         length:0,
-        more:'加载更多。。。',
+        more:'上滑加载更多。。。',
         //监测屏幕宽度
         screenWidth:document.body.clientWidth,
          errorImage: 'this.src="' + require('../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg') + '"'
@@ -102,16 +105,17 @@ export default{
         })
      },
       getData(page) {
-         this.showlaoding = true
-      var that = this;
+        this.showlaoding = true
+        var that = this;
     this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
     start:that.page,
     limit:3,
     providerId:  this.$route.query.id,
     sort:2})).then(function(data){
       if(that.length>=that.provide.length){
-            that.provide=that.provide.concat(data.data.data )
-      }else{
+        that.more='Loading。。。'
+        that.provide=that.provide.concat(data.data.data )
+      }if(that.length<that.provide.length){
         that.more='没有喽。。。'
       }
         });
@@ -193,6 +197,7 @@ watch : {
     justify-content: center;
     background-color: #f8f8f8;
     padding: 0.2rem 0;
+    color: #2393d3;
   }
 
   .loading {

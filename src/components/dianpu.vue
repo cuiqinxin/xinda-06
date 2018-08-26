@@ -41,7 +41,7 @@
                             </el-row>
                         </ul>
                     </el-tab-pane>
-                     <el-tab-pane label="客服" name="second" class="second" @click="nofenye">
+                         <el-tab-pane label="客服" name="second" class="second" >
                          <ul class="kefu">
                          <span>工作时间：{{name.workTime}}</span> 
                          <span>QQ客服：{{name.qq}}</span> 
@@ -89,8 +89,8 @@ export default {
             count : 0, //总记录数
             limit:5,
             pageIndex:1,
-            all:'',
-            perPages:3  //页面中显示的页码数只能为单数
+            all:1,
+            perPages:1  //页面中显示的页码数只能为单数
          } 
     }
   },

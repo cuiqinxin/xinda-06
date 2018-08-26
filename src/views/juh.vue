@@ -18,7 +18,7 @@
                  <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  onerror="this.onerror=''; src='../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg'"> 
             </li>
             <li :span="16" class="main-right">
-            <h4>{{pro.serviceName}}{{index}}</h4>
+            <h4>{{pro.serviceName}}</h4>
             <p class="info">{{pro.serviceInfo}}</p>
             <ul class="bottom">
                 <span class="region_1"></span><span>{{pro.regionName}}</span>
