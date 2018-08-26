@@ -845,7 +845,10 @@ export default {
             var that = this
             var id = event.currentTarget.id
             var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
+<<<<<<< HEAD
+=======
 
+>>>>>>> 4e68a9b0f9ff28757ecce3188b8f90942dcad0d5
 
             // that.ajax.post(
             //     "/xinda-api/sso/login-info",
