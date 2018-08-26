@@ -838,11 +838,7 @@ export default {
         cart(event,item){
             var that = this
             var id = event.currentTarget.id
-<<<<<<< HEAD
             var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
-=======
-            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.providerImg}
->>>>>>> 773b5a0080ce6c08aac6b6dee4434b8251dbdbff
 
             // that.ajax.post(
             //     "/xinda-api/sso/login-info",
