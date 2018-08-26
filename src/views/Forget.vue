@@ -153,9 +153,9 @@ export default {
             if(lastzhu==5){
                 var that=this;
                 var md5=require('md5');
-                console.log(this.phoneValue,this.phoneYan);
+                console.log(this.phoneYan);
                 this.ajax.post('/xinda-api/register/findpas',this.qs.stringify(
-                    {'cellphone':this.phoneValue,'smsType':2,'validCode':this.phoneYan,'password':md5(that.passValue)}
+                    {'cellphone':that.phoneValue,'smsType':2,'validCode':that.phoneYan,'password':md5(that.passValue)}
                 )).then(
                     function(data){
                         console.log(data);
@@ -370,10 +370,13 @@ export default {
             .left{margin-bottom: 22px;}
         }
     }
+    @media screen and (max-width: 1200px){ 
+        .phoyan button{font-size: 12px;}    
+    } 
     @media screen and (min-width: 768px) and (max-width: 992px){
         .pass input{width: 52%;}
-        .yanma{width:44%;} 
-        .phoyan button{font-size: 14px;width: 29%;}      
+        .yanma{width:41%;} 
+        .phoyan button{width: 33%;}      
     } 
     @media screen and (max-width: 768px){
         .phoyan button{

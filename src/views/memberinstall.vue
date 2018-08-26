@@ -23,7 +23,7 @@
                     <div class="zhang areas">
                         <p class="z_spe">所在地区：</p>
                         <div>
-                            <city @confirm="confirm"></city>
+                            <city @confirm="confirm" ref="msg"></city>
                             <button class="baocun zhang_bao" @click="updateUser">保存</button>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                 <div class="zhang areas">
                     <p class="z_spe">所在地区：</p>
                     <div>
-                        <city @confirm="confirm"></city>
+                        <city @confirm="confirm" ref="msgs"></city>
                         <button class="baocun zhang_bao" @click="updateUser">保存</button>
                     </div>
                 </div>
@@ -107,6 +107,7 @@
 
 <script>
 import city from '../components/City'
+import store from '../store';
 export default {
     name: 'Memberinstall',
     data () {
@@ -128,6 +129,7 @@ export default {
         }
     },
     created(){
+        store.commit('loading',true)
         this.$parent.orderRight='choose order';
         this.$parent.assessRight='choose assess hidden-xs-only';
         this.$parent.installRight='choose install liespe';
@@ -144,12 +146,18 @@ export default {
                             that.$router.push({path:'/outter/login',query:{pan:123}});
                         }
                     });
+                    store.commit('loading',false)  
                     return;
                 }
                 that.emailValue=data.data.data.email;
                 that.userName=data.data.data.name;
                 that.radio=data.data.data.gender+'';
-                that.cityCode=data.data.data.regionId;                
+                that.cityCode=data.data.data.regionId; 
+                var a=that.cityCode.substr(0,2)+'0000';
+                var b=that.cityCode.substr(0,4)+'00';            
+                that.$refs.msg.getcity(a,b,that.cityCode); 
+                that.$refs.msgs.getcity(a,b,that.cityCode);   
+                store.commit('loading',false)            
         })
     },
     methods:{
@@ -166,7 +174,6 @@ export default {
                     {headImg:'/2016/10/28/152843b6d9a04abe83a396d2ba03675f',name:that.userName,gender:that.radio,email:that.emailValue,regionId:that.cityCode}
                 )).then(
                     function(data){
-                        console.log(data);
                 })
                 this.$message({
                     type: 'success',
@@ -192,7 +199,6 @@ export default {
                     {oldPwd:md5(that.oldpassValue),newPwd:md5(that.newpassValue)}
                     )).then(
                         function(data){
-                            // console.log(data);
                             if(data.data.status==-1){
                                 that.oldpassTip=data.data.msg;
                             }
@@ -253,9 +259,7 @@ export default {
                 this.newpassTip='';
             }
             if(this.passValue.length>5&&this.passValue.length<21){
-                console.log(111);
                 this.lengthLimit1='el-icon-circle-check-outline righti';
-                console.log(this.passValue,this.lengthLimit1);
             }else{
                 this.lengthLimit1='el-icon-circle-close-outline colori';
             }
@@ -279,6 +283,10 @@ export default {
         },
         confirm(value){
             this.cityCode=value;
+            var aa=this.cityCode.substr(0,2)+'0000';
+            var bb=this.cityCode.substr(0,4)+'00';            
+            this.$refs.msg.getcity(aa,bb,this.cityCode); 
+            this.$refs.msgs.getcity(aa,bb,this.cityCode);
         },
     },
     components:{

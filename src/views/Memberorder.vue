@@ -156,7 +156,7 @@ export default {
                 if(that.fenye>1){
                     that.nextClick='click';
                 }else{that.nextClick='unclick';}
-        }).catch(function(){console.log('失败');})
+        }).catch(function(){})
         this.orderChange(0,'','',4,1,2);      
     },
     methods:{      
@@ -184,34 +184,29 @@ export default {
                         that.orderArr1.splice(sign*2+dis,1);
                         that.chushi.splice(sign*2+dis,1);
                         that.chushi1.splice(sign*2+dis,1);
-                        if(that.value1==''){console.log(that.orderArr.length+that.delesign);
+                        if(that.value1==''){
                             if(that.orderArr.length+that.delesign-that.biaoji==that.delezui){
                                 that.nextClick='unclick';
                                 if(that.orderArr[(that.pagei-1)*2]==undefined){that.pagei=that.pagei-1;that.fenye=that.fenye-1;}
                                 if(that.pagei==1){that.prevClick='unclick';}else{that.prevClick='click';}                               
                                 if(that.delesign==that.delezui){that.noneorder='showorder noneorder';}
-                                that.fenye=Math.ceil((that.delefen-that.delesign)/2);console.log(2222222222);
-                                if(that.delesign==that.delefen){console.log(11111111111);that.noneorder='showorder noneorder';that.pagei=1;that.prevClick='unclick';return} 
+                                that.fenye=Math.ceil((that.delefen-that.delesign)/2);
+                                if(that.delesign==that.delefen){that.noneorder='showorder noneorder';that.pagei=1;that.prevClick='unclick';return} 
                                 return;
                             }
                             that.nextClick='click';
                             that.noneorder='yincangorder'; 
-                            if(that.delesign==that.delefen){console.log(11111111111);that.noneorder='showorder noneorder';that.pagei=1;that.prevClick='unclick';return}                                                                                   
+                            if(that.delesign==that.delefen){that.noneorder='showorder noneorder';that.pagei=1;that.prevClick='unclick';return}                                                                                   
                             if(sign*2+dis>=that.orderArr.length-2){
-                                console.log(that.orderArr.length,'qi');
-                                that.orderChange(that.orderArr.length,'','',2,1);   
-                                console.log(sign*2+dis,'zui1')                                                           
+                                that.orderChange(that.orderArr.length,'','',2,1);                                                   
                             }
                             if(sign*2+1>=that.orderArr.length-1){
                                 that.nextClick='unclick';
-                                console.log(sign*2+dis,'zui2') 
                             }else{that.nextClick='click';}
                             if(that.orderArr[sign*2]==undefined||that.orderArr[sign*2]==null){
-                                console.log(that.orderArr,'ce');
-                                if(that.delesign==that.delefen){console.log(11111111111);that.noneorder='showorder noneorder';that.pagei=1;that.prevClick='unclick';return}
+                                if(that.delesign==that.delefen){that.noneorder='showorder noneorder';that.pagei=1;that.prevClick='unclick';return}
                                 that.pagei=that.pagei-1;that.fenye=that.fenye-1;that.noneorder='yincangorder';
-                            }
-                            console.log(that.pagei,'zui3',that.fenye) 
+                            } 
                             if(that.pagei==1||that.pagei==0){that.prevClick='unclick';}else{that.prevClick='click';}
                         }else{
                             if(that.value1[0]==that.value1[1]||that.value1[0]==undefined||that.value1[1]==undefined||that.value1[0]==null||that.value1[1]==null){return;}
@@ -226,8 +221,7 @@ export default {
                                 that.orderChange(that.orderArr.length,startdate,enddate,2,0);
                             }
                         }
-                        that.fenye=Math.ceil((that.delefen-that.delesign)/2);                        
-                        console.log(that.fenye,that.orderArr); 
+                        that.fenye=Math.ceil((that.delefen-that.delesign)/2);
                         if(that.fenye>that.pagei){that.nextClick='click'} 
                 })                         
             }).catch(() => { 
@@ -240,13 +234,12 @@ export default {
         //下一页
         nextp(){
             var that=this;
-            console.log(that.pagei,'zui4',that.fenye)
             if(this.pagei>=this.fenye){return;}
             var chuchang=this.orderArr.length;
             this.nextClick='click';
             this.prevClick='click';
             if(this.pagei==this.fenye-1&&this.delesign==0){this.nextClick='unclick';}
-            if(this.lengthLimit>this.pagei){this.pagei++;console.log(this.lengthLimit);return;}
+            if(this.lengthLimit>this.pagei){this.pagei++;return;}
             this.pagei++;
             this.lengthLimit=this.pagei;
             // var chuan=(this.pagei)*2;        //改变
@@ -255,8 +248,7 @@ export default {
             }else{
                 var chuan=this.orderArr.length;                
             }
-            console.log(chuan,'lala');
-            if(this.pagei==this.fenye&&this.delesign==0){console.log('la',this.fenye);return;}
+            if(this.pagei==this.fenye&&this.delesign==0){return;}
             if(this.pagei==this.fenye&&this.delesign!=0){this.delelast=2;}
             if(this.value1==''){
                 this.orderChange(chuan,'','',2,1);
@@ -276,7 +268,6 @@ export default {
                 this.biaoji=this.biaoji+(lastchang-chuchang);
             }
             if(that.fenye==that.pagei){that.nextClick='unclick'}
-            console.log(that.pagei,'zui6',that.fenye)
         },
         //上一页
         prevp(){
@@ -324,8 +315,7 @@ export default {
                         }else{that.nextClick='unclick';}                       
                         if(that.orderArr.length==0){that.noneorder='showorder noneorder';return;}
                         that.noneorder='yincangorder';
-                        console.log(that.orderArr1);
-                }).catch(function(){console.log('失败');})
+                }).catch(function(){})
             }else{
                 that.delelast=0;
                 this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
@@ -338,7 +328,7 @@ export default {
                         if(that.fenye>1){
                             that.nextClick='click';
                         }else{that.nextClick='unclick';}
-                }).catch(function(){console.log('失败');})
+                }).catch(function(){})
                 this.orderChange(0,startdate,enddate,4,0); 
                 if(that.orderArr.length==0){that.noneorder='showorder noneorder';}else{that.noneorder='yincangorder';}
             }                 
@@ -405,8 +395,7 @@ export default {
             this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
                 {'startTime':startdate,'endTime':enddate,'start':page,'limit':limited}
             )).then(
-                function(data){  
-                    // console.log(data);            
+                function(data){              
                     if((data.data.status=='-999'&&that.delelast==1)||(data.data.data.length==0&&that.delelast==1)){that.noneorder='showorder noneorder';that.fenye=0;store.commit('loading',false);return;}
                     if(shou==2&&data.data.data.length==0){that.noneorder='showorder noneorder';that.fenye=0;store.commit('loading',false);return;}
                     that.noneorder='yincangorder';
@@ -438,9 +427,8 @@ export default {
                             })
                         }
                     }
-                    store.commit('loading',false)                    
-                    console.log(that.orderArr,that.orderArr1);
-            }).catch(function(){console.log('失败');})
+                    store.commit('loading',false)               
+            }).catch(function(){})
         }
     }
 }

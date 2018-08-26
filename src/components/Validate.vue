@@ -75,8 +75,7 @@ export default {
                                 that.photoTip=data.data.msg;
                                 var data=(new Date()).getTime();
                                 that.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
-                            }
-                            if(data.data.status==1){
+                            }else if(data.data.status==1){
                                 that.$emit('confirmss',2);
                                 var second=60;
                                 that.phoneClick=second+'秒后获取';
@@ -111,40 +110,6 @@ export default {
             var data=(new Date()).getTime();
             this.imgurl=`/xinda-api/ajaxAuthcode?t=${data}`;
         },
-        // passSign(){
-        //     if(this.passValue==''){
-        //         this.passSigns='1';
-        //     }else{this.passSigns='2';}
-        // },
-        // passKey(){
-        //     if(this.passSigns=='2'&&this.passValue==''){
-        //         this.passTip='请输入密码';
-        //     }else if(this.passSigns=='2'&&this.passValue!=''){
-        //         this.passTip='';
-        //     }
-        //     if(this.passValue.length>5&&this.passValue.length<21){
-        //         this.lengthLimit='el-icon-circle-check-outline righti';
-        //     }else{
-        //         this.lengthLimit='el-icon-circle-close-outline colori';
-        //     }
-        //     if(!/\W/.test(this.passValue)){
-        //         this.typeLimit='el-icon-circle-check-outline righti';
-        //     }else{
-        //         this.typeLimit='el-icon-circle-close-outline colori';
-        //     }
-        //     if((/[A-Za-z]/.test(this.passValue)&&/\d/.test(this.passValue)&&(!/\W/.test(this.passValue)))||(/[A-Za-z]/.test(this.passValue)&&/\_/.test(this.passValue)&&(!/\W/.test(this.passValue)))||(/\_/.test(this.passValue)&&/\d/.test(this.passValue)&&(!/\W/.test(this.passValue)))){
-        //         this.twiceType='el-icon-circle-check-outline righti';
-        //     }else{
-        //         this.twiceType='el-icon-circle-close-outline colori';
-        //     }
-        // },
-        // passBlur(){            
-        //     if(this.passValue==''){
-        //         this.passTip='';
-        //     }else if(this.passValue.length<6||this.passValue.length>20||/\W/.test(this.passValue)||/^[A-Za-z]{6,20}$/.test(this.passValue)||/^\d{6,20}$/.test(this.passValue)||/^\_{6,20}$/.test(this.passValue)){
-        //         this.passTip='密码设置不符合要求';
-        //     }
-        // },
     }
 }
 </script>

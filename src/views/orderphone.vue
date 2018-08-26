@@ -134,8 +134,7 @@ export default {
                                 that.orderArr1.push(data.data.data); 
                         })
                     }  
-                    that.showloading = false;    
-                    console.log(that.orderArr,that.orderArr1);            
+                    that.showloading = false;               
             })
         }
     },
@@ -150,7 +149,6 @@ export default {
                     this.pagei+=1;
                     var chuanru=(this.pagei-1)*4-this.delesign;                            
                     this.orderChange(chuanru,4);
-                    console.log(this.showloading);
                 }
             }
         })

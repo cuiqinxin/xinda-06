@@ -48,6 +48,13 @@ export default {
         this.$emit('confirm',this.areaCode);
         // console.log(this.areaCode);
       },
+      getcity(a,b,c){
+          this.provinceCode=a;
+          this.city = citydata[this.provinceCode];
+          this.cityCode=b;
+          this.area = citydata[this.cityCode];
+        this.areaCode=c;
+      },
   }
 }
 </script>

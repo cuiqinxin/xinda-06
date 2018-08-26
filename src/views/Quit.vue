@@ -1,7 +1,7 @@
 <template>
     <div class="Quit">
-        <p class="phone hidden-sm-and-up"></p>         
-        <el-row>
+        <p class="phone hidden-md-and-up"></p>         
+        <el-row class="hidden-md-and-up">
             <el-col :sm="5" :xs={span:20,offset:2}>
                 <div class="user">
                     <span class="touxiang"></span>

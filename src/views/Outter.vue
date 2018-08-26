@@ -2,19 +2,8 @@
   <div class="Outter">
     <div class="useruser">
         <el-row>
-            <el-col :span="24">
-                <!-- <el-pagination
-                    background
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    @prev-click=""
-                    @next-click=""
-                    :current-page.sync="currentPage3"
-                    :page-size="5"
-                    layout="prev, pager, next, jumper"
-                    :total="50">
-                </el-pagination> -->
-                <span class="xinda hidden-xs-only"></span><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
+            <el-col :span="24">     
+                <router-link to="/"><span class="xinda hidden-xs-only"></span></router-link><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
                 <p class="hidden-sm-and-up phone"><router-link to="/quit" class="jian">&lt;</router-link>{{infoWeb}}</p>
             </el-col>
         </el-row>
@@ -32,15 +21,7 @@ export default {
             infoWeb:'登录',
             currentPage3: 1,
         }
-    },
-    methods: {
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      }
-    },
+    }
 }
 </script>
 
