@@ -19,12 +19,12 @@
             <li class="pro_list">
             <p @click="alll" :style="allstyle">所有</p>
             <template v-for="dp in dianpu1"   >
-                 <p v-for="(item,key,index) in dp.productTypes.split(',')" :key="index" @click="kkk(item,dp.productTypeCodes)" :class="{active:item==indexp}" :codes="dp.productTypeCodes">{{item}}  
-                  </p>                
+                 <p v-for="(item,key,index) in dp.productTypes.split(',')" :key="index" @click="typeChoose(item,dp.productTypeCodes)" :class="{active:item==indexp}" :codes="dp.productTypeCodes">{{item}}
+                  </p>
             </template>
-            </li> 
-        </ul>        
-    </div> 
+            </li>
+        </ul>
+    </div>
     <div class="shop_li">
         <div class="shop_sort">
             <div>{{post}}</div>
@@ -35,9 +35,9 @@
             </ul>
         </div>
         <div class="shop_shop">
-            
-            <div 
-            v-for="(dp,index) in dianpu" :key="index" 
+
+            <div
+            v-for="(dp,index) in dianpu" :key="index"
             class="shop_1"
             v-if="areaCode==dp.regionId||areaCode=='-----区-----'"
             :codes="dp.productTypeCodes"
@@ -64,32 +64,33 @@
                         <p class="num_2">好评率:{{dp.goodJudge == 0?0 :dp.goodJudge/dp.totalJudge*100}}%</p>
                         </li>
                     <li class="type">
-                            <p v-for="(value,item) in dp.productTypes.split(',')" :key="item">{{value}}
-                                <a v-for="(valuec,itemc) in dp.productTypes.split(',')" :key="itemc"></a>
-                                </p> 
+                        <p v-for="(value,item) in dp.productTypes.split(',')" :key="item">{{value}}
+                            <a v-for="(valuec,itemc) in dp.productTypes.split(',')" :key="itemc"></a>
+                        </p>
                     </li>
-                    <button class="enter" >
-                        <router-link :to="{path:'/dianpu',query:{id:dp.id}}" > 
+                    <router-link :to="{path:'/dianpu',query:{id:dp.id}}" >
+                <div class="enter" >
                     进入店铺
+                </div>
                     </router-link>
-                    </button>
                 </ul>
             </div>
-            <div class="none" v-show="none">
+            <div class="none"
+             >
+             <!-- <p class="h1">抱歉！暂无此类商品</p> -->
                 <h1>抱歉！暂无此类商品</h1>
             </div>
         </div>
     </div>
-    <div class="page">
-        <button>上一页</button>
-        <p class="one">1</p>
-        <button>下一页</button>
+    <div class="paging">
+    <page @change="pageChange" :parentCount="j"></page>
     </div>
     <router-view/>
   </div>
 </template>
 
 <script>
+ import page from '../components/Page'
 import city from '../components/City'
 import store from '../store';
 export default {
@@ -125,16 +126,26 @@ export default {
     dshow:'',
     allstyle:'',
     none:true,
+     j:{
+            pageSize : 5 , //每页显示6条数据
+            currentPage : 1, //当前页码
+            count : 0, //总记录数
+            limit:5,
+            pageIndex:1,
+            all:1,
+            perPages:1  //页面中显示的页码数只能为单数
+         },
     screenWidth:document.body.clientWidth,
     }
   },
   created(){
-      [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = 
+      [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] =
       [false,false,false,false,true]
            var that = this;
            this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({start:0,limit:6,sort:1})).then(function(data){
            that.dianpu1=data.data.data;
         if((!/\?/.test(location.href))){
+           that.j.all=data.data.data.length;
            that.dianpu=data.data.data;
            that.none=false;
         }
@@ -147,19 +158,31 @@ export default {
         sort:1,
       }))
       .then(function(data){
-            that.dianpu=data.data.data  
+            that.dianpu=data.data.data
         store.commit('loading',false)
 
         });
-          
+
   },
   components:{
+      page,
       city,
       'my-computed':{
           template:'<div><p class="foo bar">1221</p></div>'
       }
-    }, 
+    },
   methods:{
+       pageChange (page) {
+            this.currentPage = page
+            var that = this;
+            this.ajax.post('/xinda-api/provider/grid',that.qs.stringify({
+            start:(page-1)*6,
+            limit:6,
+            sort:2})).then(function(data){
+                    that.dianpu=data.data.data
+            console.log(data.data.data);
+        });
+        },
         shopmobile(){
         this.$router.push({
             path:"/shopmobile",
@@ -176,31 +199,30 @@ export default {
         sort:2,
         }))
         .then(function(data){
-                console.log(data.data.data);
-                that.dianpu=data.data.data  
+                // console.log(data.data.data);
+                that.dianpu=data.data.data
             });
       },
         danshu(){
         this.haoping=''
         this.jiedan=this.lan
         this.zonghe=''
-        console.log('sss')
+        // console.log('sss')
         var that = this
         this.ajax.post(
         '/xinda-api/provider/search-grid',this.qs.stringify({
-
         sort:3,
         }))
         .then(function(data){
-                console.log(data.data.data);
-                that.dianpu=data.data.data  
+                // console.log(data.data.data);
+                that.dianpu=data.data.data
             });
       },
         zongxu(){
         this.haoping=''
         this.jiedan=''
         this.zonghe=this.lan
-        console.log('sss')
+        // console.log('sss')
         var that = this
         this.ajax.post(
         '/xinda-api/provider/search-grid',this.qs.stringify({
@@ -209,21 +231,17 @@ export default {
         sort:1,
         }))
         .then(function(data){
-                console.log(data.data.data);
-                that.dianpu=data.data.data  
+                that.dianpu=data.data.data
             });
       },
       link(){
         this.providerId = dp.providerId;
-        console.log(this.providerId);
       },
-    kkk(aaa,bbb){
-        console.log(aaa);
+    typeChoose(aaa,code){
         this.indexp=aaa;
-        this.dshow=bbb;
-        console.log(bbb);
+        this.dshow=code;
         this.allstyle='';
-    },   
+    },
   alll(){
       this.dshow='';
       this.allstyle=this.lan;
@@ -232,10 +250,9 @@ export default {
       choose1:function(val){
         alert(this.$children.productTypes)
     },
-      
+
     confirm(value){
         this.areaCode=value
-          console.log(this.areaCode)
       },
   },
   mounted() {
@@ -258,26 +275,22 @@ watch:{
                 this.timer = true
                 let that = this
                 setTimeout(function () {
-                    // that.screenWidth = that.$store.state.canvasWidth
-                    console.log(that.screenWidth)
                     if(that.screenWidth<=992){
                 that.shopmobile()
         }
-                    // that.init()
                     that.timer = false
                 }, 400)
             }
         },
     $route(newval,oldval){
         var that = this;
-    console.log(newval.query.searchName)
         this.ajax.post(
             '/xinda-api/provider/search-grid',this.qs.stringify({
             searchName:this.$route.query.searchName,
         }))
         .then(function(data){
-                console.log(data.data.data);
-                that.dianpu=data.data.data  
+                // console.log(data.data.data);
+                that.dianpu=data.data.data
             });}
 },
   computed:{
@@ -285,12 +298,14 @@ watch:{
 
       },
   }
-//   filters:{
-//   }
 }
 </script>
 
 <style scoped lang="less">
+.paging{
+    width:100%;
+    text-align: center;
+}
 .none{
     width:85%;
     height:328px;
@@ -298,6 +313,10 @@ watch:{
     text-align: center;
     line-height: 328px;
     color:#ccc;
+   z-index: -1;
+   .h1{
+       width:100%;
+   }
 }
 .choose{
     width:267px;
@@ -331,17 +350,17 @@ watch:{
             border-bottom: 1px solid #ccc;
             border-right: 1px solid #ccc;
             font-size: 16px;
-            font-weight: 700;            
+            font-weight: 700;
             width:10%;
             line-height: 48px;
             text-align: center;
         }
-        
+
     }
     .pro_kind{
             height:48px;
             display:flex;
-        
+
         .production{
             border-right: 1px solid #ccc;
             font-size: 16px;
@@ -373,7 +392,7 @@ watch:{
             active{
                 background-color: #2393d3;
                 color:white;
-                
+
             }
         }
     }
@@ -390,11 +409,11 @@ watch:{
                     border-radius: 0;
                 // }
             }
-            
-            
+
+
         }
     }
-   
+
     .shop_shop{
         overflow: hidden;
         justify-content: space-around;
@@ -405,7 +424,7 @@ watch:{
             display:flex;
             width:47%;
              .shop_1_left{
-                margin-top: 15px;                 
+                margin-top: 15px;
                 width:38%;
                 text-align:center;
                 .logo{
@@ -446,10 +465,11 @@ watch:{
                         border-radius: 3px;
                         margin:3px;
                         font-size: 13px;
-                        
+
                     }
                 }
                 .enter{
+                    width:54px;
                     border:none;
                     background-color: #ff591b;
                     padding:10px 20px;

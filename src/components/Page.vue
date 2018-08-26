@@ -4,12 +4,12 @@
         <li
         :class="['paging-item', 'paging-item--first', {'paging-item--disabled' : index === 1}]"
         @click="first">首页</li>
-        
+
         <!-- prev -->
         <li
         :class="['paging-item', 'paging-item--prev', {'paging-item--disabled' : index === 1}]"
         @click="prev">上一页</li>
-        
+
         <li
         :class="['paging-item', 'paging-item--more']"
         v-if="showPrevMore">...</li>
@@ -22,8 +22,8 @@
         <li
         :class="['paging-item', 'paging-item--more']"
         v-if="showNextMore">...</li>
-        
-    
+
+
         <!-- next -->
         <li
         :class="['paging-item', 'paging-item--next', {'paging-item--disabled' : index === pages}]"
@@ -47,7 +47,7 @@
             type : Number,
         },
         //页面中的可见页码，其他的以...替代, 必须是奇数
-        perPages : { 
+        perPages : {
             type : Number,
         },
         //当前页码
@@ -88,7 +88,7 @@
         last(){
             if (this.index != this.pages) {
                 this.go(this.pages)
-                console.log(this.pages)
+                // console.log(this.pages)
             }
         },
         go (page) {
@@ -106,7 +106,7 @@
         //计算总页码
         pages(){
             return Math.ceil(this.parentCount.all/this.parentCount.pageSize)
-         
+
         },
         //计算页码，当count等变化时自动计算
         pagers () {           //在数组里循环当前页面显示的页码  (为了得到当前页面显示的页码)
@@ -114,7 +114,7 @@
             const perPages = this.parentCount.perPages    //页面中显示的页码数
             const pageCount = this.pages    //总页码
             let current = this.index        //当前页码
-            const _offset = (perPages - 1) / 2            
+            const _offset = (perPages - 1) / 2
             const offset = {
                 start : current - _offset,
                 end   : current + _offset
@@ -128,7 +128,7 @@
                 offset.start = offset.start - (offset.end - pageCount)
                 offset.end = pageCount
             }
-            
+
             this.showPrevMore = (offset.start > 1)&&(this.pages>=10)
             this.showNextMore = (offset.end < pageCount)&&(this.pages>=10)
             // }

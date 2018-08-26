@@ -1,7 +1,7 @@
 <template>
     <div class="Memberorder">
         <div class="orderNei hidden-sm-and-up">
-            <p class="phone hidden-sm-and-up"><router-link to="/memberindex" class="jian">&lt;</router-link>我的订单</p>            
+            <p class="phone hidden-sm-and-up"><router-link to="/memberindex" class="jian">&lt;</router-link>我的订单</p>
             <div :class="noneorder">还没有订单！</div>
             <div class="allorder">
                 <el-row class="orderBody" v-for="(item,index1) in orderArr" :key="index1">
@@ -24,12 +24,12 @@
                                 </el-col>
                             </el-col>
                         </el-col>
-                        <el-col :span="3" :xs="24" class="orderoper">   
+                        <el-col :span="3" :xs="24" class="orderoper">
                             <p class="heji hidden-sm-and-up">合计：<span class="moneyred">￥{{item.totalPrice}}</span></p>
-                            <div class="fushan">         
-                                <router-link :to="{path:'/pay',query:{businessNo:item.businessNo,total:item.totalPrice}}" class="paymoney">付款</router-link>  
-                                <a href="javascript:void(0)" @click="deleOrder(item.id,index1)">删除订单</a> 
-                            </div>                 
+                            <div class="fushan">
+                                <router-link :to="{path:'/pay',query:{businessNo:item.businessNo,total:item.totalPrice}}" class="paymoney">付款</router-link>
+                                <a href="javascript:void(0)" @click="deleOrder(item.id,index1)">删除订单</a>
+                            </div>
                         </el-col>
                     </el-col>
                     <el-col :span="24" class="hidden-sm-and-up gekai"></el-col>
@@ -55,7 +55,7 @@ export default {
 
         }
     },
-    methods:{     
+    methods:{
         //删除订单
         deleOrder(value,dis){
             var that=this;
@@ -82,17 +82,17 @@ export default {
                             // var chuanru=(that.pagei-1)*3+2;
                             that.orderChange(chuanru,1);
                         }
-                })                         
-            }).catch(() => { 
+                })
+            }).catch(() => {
                 this.$message({
                     type: 'info',
                     message: '已取消删除'
-                });  
-            }); 
+                });
+            });
         },
         //将时间戳转为日期格式
         changeDate(arr){
-            for(var i in arr){   
+            for(var i in arr){
                 var newDate = new Date();
                 newDate.setTime(arr[i].createTime);
                 var nianfen=newDate.toLocaleDateString().replace(/\//g,'-');
@@ -108,7 +108,7 @@ export default {
             this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
                 {'start':page,'limit':limited}
             )).then(
-                function(data){ 
+                function(data){
                     if(data.data.status=='-999'){
                         that.noneorder='showorder noneorder';
                         that.$alert('请先登录', '提示', {
@@ -131,15 +131,21 @@ export default {
                         )).then(
                             function(data){
                                 that.changeDate(data.data.data);
-                                that.orderArr1.push(data.data.data); 
+                                that.orderArr1.push(data.data.data);
                         })
+<<<<<<< HEAD
                     }  
                     that.showloading = false;               
+=======
+                    }
+                    that.showloading = false;
+                    // console.log(that.orderArr,that.orderArr1);
+>>>>>>> 695a371fd063dd0e03f703145c4c55849f7a3674
             })
         }
     },
-    mounted(){   
-        var chuanru=(this.pagei-1)*4;        
+    mounted(){
+        var chuanru=(this.pagei-1)*4;
         this.orderChange(chuanru,4);
         window.addEventListener('scroll',()=>{
             var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
@@ -147,8 +153,12 @@ export default {
             if (scrollTop + window.innerHeight + 0>= document.body.offsetHeight) { //0 表示距离底部多少的距离的开始触发loadmore效果
                 if (!this.showloading) { //防止多次加载
                     this.pagei+=1;
-                    var chuanru=(this.pagei-1)*4-this.delesign;                            
+                    var chuanru=(this.pagei-1)*4-this.delesign;
                     this.orderChange(chuanru,4);
+<<<<<<< HEAD
+=======
+                    // console.log(this.showloading);
+>>>>>>> 695a371fd063dd0e03f703145c4c55849f7a3674
                 }
             }
         })
@@ -224,7 +234,7 @@ export default {
     .orderspe{
         display: flex;
         justify-content: space-between;
-        background-color: #f8f8f8; 
+        background-color: #f8f8f8;
         .havepho{
             width: 100%;
             display: flex;
@@ -242,11 +252,11 @@ export default {
     .onceOrder{border-bottom:5px solid #fff;}
     .wholeOrder{display: flex;flex-direction: column;}
     .orderNei{margin-left: 0;overflow: hidden;}
-    .allorder,.noneorder{margin-top: 72px;} 
+    .allorder,.noneorder{margin-top: 72px;}
     .phone{
         text-align: center;
         font-size: 18px;
-        line-height: 72px; 
+        line-height: 72px;
         background-color: #e5e5e5;
         position: absolute;top:0;width:100%;
         .jian{
@@ -254,6 +264,6 @@ export default {
             left: 14px;
             font-size: 32px;
             position: absolute;
-        }    
+        }
     }
 </style>

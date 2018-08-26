@@ -7,18 +7,18 @@
            </ul>
        </div>
         <div class="shop_shop">
-            
-            <div 
-            v-for="(dp,index) in dianpu" :key="index" 
+
+            <div
+            v-for="(dp,index) in dianpu" :key="index"
             class="shop_1"
             :codes="dp.productTypeCodes"
             >
-                <ul class="shop_1_left">           
+                <ul class="shop_1_left">
                        <img :src="'http://123.58.241.146:8088/xinda/pic/'+(dp.providerImg)">
                        <!-- <img :src="dp.providerImg" alt="">  -->
                 </ul>
                 <ul class="shop_1_right">
-                    <h5 :class="title"><router-link :to="{path:'/aap',query:{id:dp.id}}" > {{dp.providerName}}</router-link></h5>                  
+                    <h5 :class="title"><router-link :to="{path:'/aap',query:{id:dp.id}}" > {{dp.providerName}}</router-link></h5>
                     <li class="region">{{dp.regionName}}</li>
                     <li class="num">
                         <p class="num_1">累计客户服务次数:<a>{{dp.orderNum}}</a></p>
@@ -26,7 +26,7 @@
                     </li>
                 </ul>
             </div>
-        
+
         </div>
     <router-view/>
   </div>
@@ -66,15 +66,15 @@ export default {
         // sort:2,
       }))
       .then(function(data){
-            console.log(data.data.data);
+            // console.log(data.data.data);
             // console.log(searchName);
-            that.dianpu=data.data.data  
+            that.dianpu=data.data.data
         });
-          
+
   },
   components:{
-      
-    }, 
+
+    },
     mounted() {
         if(this.screenWidth>=992){
                   this.shop()
@@ -126,7 +126,7 @@ screenWidth (val) {
             let that = this
             setTimeout(function () {
                 // that.screenWidth = that.$store.state.canvasWidth
-                console.log(that.screenWidth)
+                // console.log(that.screenWidth)
                 if(that.screenWidth>=992){
             that.shop()
     }
@@ -137,18 +137,18 @@ screenWidth (val) {
     },
 $route(newval,oldval){
     var that = this;
-console.log(newval.query.searchName)
+// console.log(newval.query.searchName)
       this.ajax.post(
           '/xinda-api/provider/search-grid',this.qs.stringify({
         searchName:this.$route.query.searchName,
       }))
       .then(function(data){
-            console.log(data.data.data);
-            that.dianpu=data.data.data  
+            // console.log(data.data.data);
+            that.dianpu=data.data.data
         });}
 },
   computed:{
-   
+
   }
 
 }
@@ -176,7 +176,7 @@ ul{
     }
 }
 }
- 
+
 .Store{
     width:100%;
 
@@ -191,7 +191,7 @@ ul{
             border-bottom: 1px solid #ccc;
             border-right: 1px solid #ccc;
             font-size: 16px;
-            font-weight: 700;            
+            font-weight: 700;
             width:10%;
             line-height: 48px;
             text-align: center;
@@ -213,7 +213,7 @@ ul{
             width:96%;
             height:135px;
              .shop_1_left{
-                margin: 15px;                 
+                margin: 15px;
                 width:20%;
                 text-align:center;
                 border:1px solid #ccc;
@@ -222,7 +222,7 @@ ul{
                     display: inline-block;
                     width:90%;
                 }
-               
+
             }
             .shop_1_right{
                 margin: 15px 0 15px 15px;

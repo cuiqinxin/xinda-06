@@ -6,7 +6,7 @@
                 <h2>{{name.name}}</h2>
                 <p class="region">{{name.regionName}}</p>
             </ul>
-            
+
     </div>
     <div class="main">
         <el-container>
@@ -22,7 +22,7 @@
             <el-main>
                 <ul class="provide_list">
                     <el-tabs v-model="activeName" @tab-click="handleClick">
-                     <el-tab-pane label="服务产品内容" name="first">  
+                     <el-tab-pane label="服务产品内容" name="first">
                          <ul class="">
                             <h3>服务内容</h3>
                            <el-row class="service_product">
@@ -42,8 +42,8 @@
                     </el-tab-pane>
                      <el-tab-pane label="客服" name="second" class="second">
                          <ul class="kefu">
-                         <span>工作时间：{{name.workTime}}</span> 
-                         <span>QQ客服：{{name.qq}}</span> 
+                         <span>工作时间：{{name.workTime}}</span>
+                         <span>QQ客服：{{name.qq}}</span>
                          </ul>
                          </el-tab-pane>
                      <el-tab-pane label="资格证书" name="third" class="third">
@@ -70,16 +70,16 @@
                 <li v-for="(item,index) in items" :key="index">...</li>
             </ul>
             <page
-            :page-index="currentPage" 
-            :totla="count" 
-            :page-size="pageSize" 
+            :page-index="currentPage"
+            :totla="count"
+            :page-size="pageSize"
             @change="pageChange">
             </page> -->
         <!-- </template> -->
     <!-- </div> -->
     <router-view/>
   </div>
-</template> 
+</template>
 
 <script>
  import page from '../components/Page'
@@ -122,12 +122,12 @@ export default {
           '/xinda-api/provider/detail',
       this.qs.stringify(obj))
   .then(function(data){
-            console.log(data.data.data);
+            // console.log(data.data.data);
             that.name=data.data.data
             that.count=data.data.data.length
             that.items = data.data.data.list
         });
-           }     
+           }
         },
 
   watch : {
@@ -141,7 +141,7 @@ export default {
           '/xinda-api/provider/detail',
       this.qs.stringify(obj))
   .then(function(data){
-            console.log(data.data.data);
+            // console.log(data.data.data);
             that.name=data.data.data
             that.count=data.data.data.length
         });
@@ -156,9 +156,9 @@ providerId: this.$route.query.id,
 sort:2})).then(function(data){
             that.provide=data.data.data
             that.count=data.data.data.length
-            console.log(data.data.data);
-            console.log(that.provide.length);
-           
+            // console.log(data.data.data);
+            // console.log(that.provide.length);
+
         });
          var that = this;
       this.ajax.post('/xinda-api/product/package/grid',this.qs.stringify({
@@ -172,7 +172,7 @@ sort:2})).then(function(data){
         });
   },
   computed:{
-    
+
   },
 //   mounted(){
 //        this.getList()
@@ -200,7 +200,7 @@ sort:2})).then(function(data){
       ul{
           display: inline-block;
         margin-left: 30px;
-          
+
           .region{
               margin-top:16px;
               color:#676767;
@@ -263,7 +263,7 @@ sort:2})).then(function(data){
                 padding:10px;
                 h4{
                     overflow: hidden;
-                    white-space: nowrap; 
+                    white-space: nowrap;
                     text-overflow:ellipsis;
                     margin-top: 10px;
                 }
@@ -272,7 +272,7 @@ sort:2})).then(function(data){
                     color:#676767;
                     margin:10px 0;
                      overflow: hidden;
-                    white-space: nowrap; 
+                    white-space: nowrap;
                     text-overflow:ellipsis;
                 }
                 .buynum{
@@ -320,6 +320,6 @@ sort:2})).then(function(data){
 #tab-first{
     padding: 0 40px;
 }
-  
+
   }
 </style>

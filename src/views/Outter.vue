@@ -2,8 +2,24 @@
   <div class="Outter">
     <div class="useruser">
         <el-row>
+<<<<<<< HEAD
             <el-col :span="24">     
                 <router-link to="/"><span class="xinda hidden-xs-only"></span></router-link><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
+=======
+            <el-col :span="24">
+                <!-- <el-pagination
+                    background
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    @prev-click=""
+                    @next-click=""
+                    :current-page.sync="currentPage3"
+                    :page-size="5"
+                    layout="prev, pager, next, jumper"
+                    :total="50">
+                </el-pagination> -->
+                <span class="xinda hidden-xs-only" @click="router"></span><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
+>>>>>>> 695a371fd063dd0e03f703145c4c55849f7a3674
                 <p class="hidden-sm-and-up phone"><router-link to="/quit" class="jian">&lt;</router-link>{{infoWeb}}</p>
             </el-col>
         </el-row>
@@ -21,7 +37,24 @@ export default {
             infoWeb:'登录',
             currentPage3: 1,
         }
+<<<<<<< HEAD
     }
+=======
+    },
+    methods: {
+      router(){
+        this.$router.push({
+            path:'/'
+        })
+      },
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+      }
+    },
+>>>>>>> 695a371fd063dd0e03f703145c4c55849f7a3674
 }
 </script>
 
@@ -32,11 +65,12 @@ export default {
         margin:0 auto;
         height:97px;
     }
-    .xinda{     
+    .xinda{
         width: 124px;
         height: 56px;
         background: url(../../static/data_image_jpeg;bas….jpg) no-repeat;
         margin-top:21px;
+        cursor: pointer;
     }
     .line{
         width:1px;
@@ -53,14 +87,14 @@ export default {
     .phone{
         text-align: center;
         font-size: 18px;
-        line-height: 77px; 
+        line-height: 77px;
         position: relative;
         .jian{
             float: left;
             left: 20px;
             font-size: 32px;
             position: absolute;
-        }    
+        }
     }
     @media screen and (max-width: 768px){
         .useruser{
