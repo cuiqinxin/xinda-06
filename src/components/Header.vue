@@ -112,25 +112,25 @@
     <footer  class="footer2-2 hidden-md-and-up" style="height: 90px;width: 100%"></footer>
     <footer class="footer1-2 hidden-md-and-up">
       <ul>
-        <li>
+        <li class="footer2-img1" :class="{footer2_img21:footer2}">
           <router-link to="/">
           <p class="footer1-2-img"></p>
           <p>首页</p>
           </router-link>
         </li>
-        <li>
+        <li class="footer2-img2" :class="{footer2_img22:footer3}">
           <router-link to="/shop">
           <p class="footer1-2-img"></p>
           <p>店铺</p>
           </router-link>
         </li>
-        <li>
+        <li class="footer2-img3" :class="{footer2_img23:footer4}">
           <router-link to="/shoppingcart">
           <p class="footer1-2-img"></p>
           <p>购物车</p>
           </router-link>
         </li>
-        <li>
+        <li class="footer2-img4" :class="{footer2_img24:footer5}">
           <a href="javascript:void(0)" @click="phonelogin">
           <p class="footer1-2-img"></p>
           <p>我的</p>
@@ -166,6 +166,10 @@ export default {
       placeholder:'搜索您需要的服务或服务商',
       none: true,
       hover: false,
+      footer2: false,
+      footer3: false,
+      footer4: false,
+      footer5: false,
     };
   },
   created() {
@@ -182,8 +186,10 @@ export default {
       that.menuList = navArr;
     });
     var href=this.$route.path;
+
     if(href=='/'){
       this.hover = true;
+      [this.footer2,this.footer3,this.footer4,this.footer5] = [false,false,false,false];
     }else{
       this.hover = false;
     }
@@ -192,6 +198,15 @@ export default {
     }
     if(href!='/list'){
       this.state4 = '';
+    }
+    if(href=='/shopmobile'){
+      [this.footer2,this.footer3,this.footer4,this.footer5] = [true,true,false,false];
+    }
+    if(href=='/shoppingcart'){
+      [this.footer2,this.footer3,this.footer4,this.footer5] = [true,false,true,false];
+    }
+    if(href=='/quit'){
+      [this.footer2,this.footer3,this.footer4,this.footer5] = [true,false,false,true];
     }
   },
   methods: {
@@ -331,6 +346,7 @@ export default {
       var href=this.$route.path;
       if(href=='/'){
         this.hover = true;
+        [this.footer2,this.footer3,this.footer4,this.footer5] = [false,false,false,false];
       }else{
         this.hover = false;
       }
@@ -339,6 +355,15 @@ export default {
       }
       if(href!='/list'){
         this.state4 = '';
+      }
+      if(href=='/shopmobile'){
+        [this.footer2,this.footer3,this.footer4,this.footer5] = [true,true,false,false];
+      }
+      if(href=='/shoppingcart'){
+        [this.footer2,this.footer3,this.footer4,this.footer5] = [true,false,true,false];
+      }
+      if(href=='/quit'){
+        [this.footer2,this.footer3,this.footer4,this.footer5] = [true,false,false,true];
       }
     }
   }
@@ -607,29 +632,54 @@ export default {
       height: 35px;
       background-repeat: no-repeat;
     }
-    li:nth-child(1){
+    .footer2-img1{
       .footer1-2-img{
         background-image: url(../../static/f1.png);
       }
       p{color: #2693d4};
     }
-    li:nth-child(2){
+    .footer2-img2{
       .footer1-2-img{
         background-image: url(../../static/dian1.png);
       }
       p{color: #949496};
     }
-    li:nth-child(3){
+    .footer2-img3{
       .footer1-2-img{
         background-image: url(../../static/car.png);
       }
       p{color: #949496};
     }
-    li:nth-child(4){
+    .footer2-img4{
       .footer1-2-img{
         background-image: url(../../static/my.png);
       }
       p{color: #949496};
+    }
+
+    .footer2_img21{
+      .footer1-2-img{
+        background-image: url(../../static/f.png)!important;
+      }
+      p{color: #949496!important};
+    }
+    .footer2_img22{
+      .footer1-2-img{
+        background-image: url(../../static/dian.png)!important;
+      }
+      p{color: #2693d4!important};
+    }
+    .footer2_img23{
+      .footer1-2-img{
+        background-image: url(../../static/car1.png)!important;
+      }
+      p{color: #2693d4!important};
+    }
+    .footer2_img24{
+      .footer1-2-img{
+        background-image: url(../../static/my1.png)!important;
+      }
+      p{color: #2693d4!important};
     }
   }
 }
