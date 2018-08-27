@@ -375,15 +375,9 @@ export default {
     } 
     @media screen and (min-width: 768px) and (max-width: 992px){
         .pass input{width: 52%;}
-<<<<<<< HEAD
         .yanma{width:41%;} 
         .phoyan button{width: 33%;}      
     } 
-=======
-        .yanma{width:44%;}
-        .phoyan button{font-size: 14px;width: 29%;}
-    }
->>>>>>> 695a371fd063dd0e03f703145c4c55849f7a3674
     @media screen and (max-width: 768px){
         .phoyan button{
             font-size: 14px;

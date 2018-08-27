@@ -133,14 +133,8 @@ export default {
                                 that.changeDate(data.data.data);
                                 that.orderArr1.push(data.data.data);
                         })
-<<<<<<< HEAD
                     }  
                     that.showloading = false;               
-=======
-                    }
-                    that.showloading = false;
-                    // console.log(that.orderArr,that.orderArr1);
->>>>>>> 695a371fd063dd0e03f703145c4c55849f7a3674
             })
         }
     },
@@ -155,10 +149,6 @@ export default {
                     this.pagei+=1;
                     var chuanru=(this.pagei-1)*4-this.delesign;
                     this.orderChange(chuanru,4);
-<<<<<<< HEAD
-=======
-                    // console.log(this.showloading);
->>>>>>> 695a371fd063dd0e03f703145c4c55849f7a3674
                 }
             }
         })

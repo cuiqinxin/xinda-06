@@ -214,7 +214,7 @@ export default {
 .service_n{
     display:flex;
     justify-content: space-between;
-    width:1100px;
+    // width:1100px;
     margin:30px auto;
     .service_1{
         text-align: center;

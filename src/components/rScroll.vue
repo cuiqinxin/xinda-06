@@ -72,9 +72,7 @@ export default {
   compleate () {
    this.isLoading = false
    this.isComplate = true
-  //  console.log(over)
    this.scroll.removeEventListener('scroll', this.scrollEvent)
-  //  console.log(this.scrollEvent)
   }
         },
   watch : {
@@ -82,8 +80,6 @@ export default {
   isLoading:function() {
    if (this.isLoading) {
     this.$emit('loadmore',this.page)
-    // console.log(this.page)
-    // console.log(this.isComplate)
    }
   }
   },
@@ -107,44 +103,24 @@ export default {
         if (callNow) func.apply(context, args);
     };
 };
-  //  this.$emit('loadmore',this.page)
-  //  console.log(this.$refs.scroll.offsetHeight)
-  //  console.log(this.$refs.scroll.childNodes[0])
-  //  window.addEventListener('scroll', this.scrollEvent)
-  //  this.$emit('init', this.scroll)
-  //  console.log(this.isComplate)
+
 var context = this
-    // context.$emit('loadmore',context.page)
+
    var hhh=debounce(function(){
    // 如果数据全部加载完成了，则再也不触发loadmore事件
-  //  console.log(context.isComplate)
-  //  console.log(context.isLoading)
    if (context.isComplate){ return}
    var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-    // let scrollTop = context.scroll.scrollTop
-    // let scrollH = context.scroll.offsetHeight
-    // let scrollWrapH = context.scrollWrap.offsetHeight
-    //  console.log(scrollTop);
-    //  console.log(scrollH);
-    //  console.log(scrollWrapH);
    // 组件容器滚的距离 + 组件容器本身距离大于或者等于正文容器高度 - 指定数值 则触发loadmore事件
-  //  if (scrollTop + scrollH >= scrollWrapH - context.bottomDistance) {
   if (scrollTop + window.innerHeight + 0>= document.body.offsetHeight) {
     //0 表示距离底部多少的距离的开始触发loadmore效果
     context.isLoading = true;
-    // console.log(scrollTop)
-    // console.log(scrollH)
-    // console.log(scrollWraop)
-    // ++context.page
-    // console.log(context.page)
+  
     context.$emit('loadmore',context.page+=1)
    }
   }
   ,500);
    window.addEventListener('scroll',  hhh)
-  // this.$emit('loadmore',this.page)
-  // this.page+=1;
-  // console.log(context.page)
+
  }
 }
 </script>
