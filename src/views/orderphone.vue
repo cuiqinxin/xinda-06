@@ -111,15 +111,9 @@ export default {
                 function(data){
                     if(data.data.status=='-999'){
                         that.noneorder='showorder noneorder';
-                        that.$alert('请先登录', '提示', {
-                            confirmButtonText: '确定',
-                            type: 'warning',
-                            callback: action => {
-                                that.showloading = false; 
-                                that.$router.push({path:'/outter/login',query:{pan:123}});
-                                that.showloading = false; 
-                            }
-                        });
+                        that.showloading = false; 
+                        // that.$router.push({path:'/outter/login',query:{pan:123}});
+                        // that.showloading = false;
                         return;
                     }
                     if(data.data.data.length==0&&that.pagei==1){that.noneorder='showorder noneorder';return;}

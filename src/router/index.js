@@ -257,7 +257,7 @@ router.beforeEach((to, from, next) => {
   // next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。
   // console.log('navigation-guards');
 
-  const nextRoute = ['Header', 'shoppingcart', 'pay'];
+  const nextRoute = ['Header', 'shoppingcart', 'pay','Memberorder','Memberinstall','Memberindex','Memberassess','orderphone'];
 
    // 判断是否登陆
    axios.post(
