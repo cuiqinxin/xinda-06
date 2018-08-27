@@ -37,7 +37,7 @@ import Dianpu from '@/components/dianpu'
 // import paysuccess from '@/views/paysuccess'
 // import Index1 from '@/views/Index1'
 
-import List from '@/views/List'
+// import List from '@/views/List'
 // Vue.use(Router)
 import axios from 'axios'
 import qs from 'qs'
