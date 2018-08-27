@@ -143,7 +143,9 @@ export default {
                         confirmButtonText: '确定',
                         type: 'warning',
                         callback: action => {
+                            store.commit('loading',false) 
                             that.$router.push({path:'/outter/login',query:{pan:123}});
+                            store.commit('loading',false) 
                         }
                     });
                     that.fenye=0;that.noneorder='showorder noneorder';
@@ -442,7 +444,7 @@ export default {
         color: #999;
         font-size: 38px;
         text-align: center;
-        line-height: 270px;
+        line-height: 242px;
     }
     .yincangorder{
         display: none;
@@ -564,7 +566,7 @@ export default {
         }
         #createTime{
             display: flex;
-            margin: 34px 0;
+            margin: 32px 0 31px;
             p{
                 font-size: 14px;
                 margin-left: 1px;

@@ -5,7 +5,7 @@
     <p>只做有价值的平台</p>
 </div>
 <div class="to_join">
-    <img src="../../static/jiameng_03.jpg" alt=""> 
+    <img src="../../static/jiameng_03.jpg" alt="">
     <h3>信达提供线上精准营销方案、帮助服务商快捷、低成本的获取有效客户，为传统优质服务商插上互联连网的翅膀，助力企业的腾飞。</h3>
     <img src="../../static/12_01.jpg" alt="">
 </div>
@@ -16,7 +16,7 @@
             <ul>
             <img src="../../static/huode_03.jpg" alt="">
             <a>精准的线上曝光机会</a>
-            </ul>          
+            </ul>
         </el-col>
            <el-col :span=12>
            <ul>
@@ -28,7 +28,7 @@
                <ul>
                     <img src="../../static/huode_09.jpg" alt="">
                     <a href="">系统化的营销解决方案</a>
-               </ul>            
+               </ul>
         </el-col>
            <el-col :span=12>
                <ul>
@@ -67,7 +67,7 @@
         </ul>
         <div class="weneed">
             <h3>我们需要什么样的服务商？</h3>
-        </div> 
+        </div>
         <el-row class="serve_n">
             <li v-if="registred" class="serve_1">在公司注册、公司变更、资质审批等领域深耕多年，在业内享有一定的知名度，可以提供优质优价的服务；与时俱进，视野立足未来，了解创业者的需求，并乐于为创业者服务</li>
             <li v-else-if="service" class="serve_2">在代理记账、审计验资等领域深耕多年，可以提供涉足各个行业优秀的财会人员；与时俱进，视野立足未来，了解创业者的需求，并乐于为创业者服务。</li>
@@ -122,7 +122,7 @@ export default {
 //       'my-computed':{
 //           template:'<div><p class="foo bar">1221</p></div>'
 //       }
-//     }, 
+//     },
   methods:{
     //   link(){
     //       var that = this;
@@ -131,7 +131,7 @@ export default {
     //           path:'/shop/dianpu',
     //           query:{id:123}
     //       })
-        
+
     //   },
      green1:function(){
          [this.registred,this.service,this.property,this.hr] = [true,false,false,false]
@@ -141,22 +141,22 @@ export default {
              [this.registred,this.service,this.property,this.hr] = [false,true,false,false]
 
         },
-        
+
     green3:function(){
         [this.registred,this.service,this.property,this.hr] = [false,false,true,false]
 
     },
-    
+
     green4:function(){
         [this.registred,this.service,this.property,this.hr] = [false,false,false,true]
     },
-    },     
+    },
 }
 </script>
 
-<style scoped lang="less"> 
+<style scoped lang="less">
 
- 
+
     .top{
         width:100%;
         min-height: 300px;
@@ -196,7 +196,7 @@ export default {
        justify-content: space-around;
        ul{
        display: flex;
-       
+
        a{
            color:#2693d4;
            margin-left: 20px;
@@ -229,13 +229,13 @@ export default {
     // width:1100px;
     margin:0 auto;
     .ser_1{
-        margin-left:42px; 
+        margin-left:42px;
     }
       .ser_2{
-        margin-left:80px; 
+        margin-left:80px;
     }
      .ser_3{
-        margin-left:26px; 
+        margin-left:26px;
     }
 }
 .weneed{

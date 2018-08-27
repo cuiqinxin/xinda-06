@@ -66,7 +66,7 @@
                 <p class="xiaoliang">销量:</p>
                 <div class="money">￥1400.00</div>
                 <div class="price">
-                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right" @click='goshopdetail'>查看详情>>></a>
+                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right" @click='goshopdetail1' id="0cb85ec6b63b41fc8aa07133b6144ea3">查看详情>>></a>
                 </div>
 
               </div></el-col>
@@ -78,7 +78,7 @@
                 <p class="xiaoliang">销量:</p>
                 <div class="money">￥1400.00</div>
                 <div class="price">
-                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right" @click='goshopdetail'>查看详情>>></a>
+                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right" @click='goshopdetail1' id="0cb85ec6b63b41fc8aa07133b6144ea3">查看详情>>></a>
                 </div>
 
               </div></el-col>
@@ -91,7 +91,7 @@
                 <p class="xiaoliang">销量:</p>
                 <div class="money">￥1400.00</div>
                 <div class="price">
-                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right"  @click='goshopdetail'>查看详情>>></a>
+                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right"  @click='goshopdetail1' id="0cb85ec6b63b41fc8aa07133b6144ea3">查看详情>>></a>
                 </div>
 
               </div></el-col>
@@ -104,7 +104,7 @@
                 <p class="xiaoliang">销量:</p>
                 <div class="money">￥1400.00</div>
                 <div class="price">
-                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right"  @click='goshopdetail'>查看详情>>></a>
+                  <p class="left">原价：￥2000.00 </p><a href="javascript:void(0)" class="right"  @click='goshopdetail1' id="0cb85ec6b63b41fc8aa07133b6144ea3">查看详情>>></a>
                 </div>
 
               </div></el-col>
@@ -271,6 +271,14 @@ export default {
        var goodid=that.shoppingdata[goodsindex].serviceId;
        this.$router.push({path:'/header/goodsdetail',query:{id:goodid}});
     },
+       // 跳转商品详情页
+    goshopdetail1(e){
+      var goodid=e.target.id;
+   
+       this.$router.push({path:'/header/goodsdetail',query:{id:goodid}});
+    },
+    
+    
 
     // 跳转商品详情页
     //添加/减少商品数量
@@ -628,6 +636,8 @@ that.$store.commit('cartNumreduce',removeindex);
           float: left;
           // color: #2694d3;
           text-decoration: line-through;
+          border-right: 0!important;
+          margin: 0!important;
         }
         .right {
           float: right;
@@ -642,7 +652,7 @@ that.$store.commit('cartNumreduce',removeindex);
     // display:none;
     // max-width:1200px;
     width:100%;
-    height:600px;
+    height:100vh;
     background:#f5f5f5;
 
 
@@ -705,6 +715,7 @@ that.$store.commit('cartNumreduce',removeindex);
   .demo{
     padding-bottom:10px;
     border-bottom:1px solid #cfcfcf;
+    min-width:320px;
     .name{
       font-size: 18px;
       margin: 13px 0 0 18px;
@@ -719,6 +730,7 @@ that.$store.commit('cartNumreduce',removeindex);
         height:100%;
         max-width:280px;
         margin:0 !important;
+        border:0 !important;
         float:left;
         .img{
           max-width:170px;

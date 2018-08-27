@@ -68,7 +68,7 @@ export default {
     span{display: inline-block;}
     .cheng{
         background-color: #f7f7f7;
-        height: 171px;
+        height: 138px;
         margin-bottom: 30px;
     }
     .Member{

@@ -115,7 +115,9 @@ export default {
                             confirmButtonText: '确定',
                             type: 'warning',
                             callback: action => {
+                                that.showloading = false; 
                                 that.$router.push({path:'/outter/login',query:{pan:123}});
+                                that.showloading = false; 
                             }
                         });
                         return;
