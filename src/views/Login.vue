@@ -1,5 +1,5 @@
 <template>
-    <div class="Login">       
+    <div class="Login">
         <div class="deng">
             <el-row>
                 <el-col :md="12" :xs="24" :sm="24" class="left">
@@ -108,12 +108,12 @@ export default {
                             that.ajax
                             .post("/xinda-api/cart/list", that.qs.stringify({}))
                             .then(function(data) {
-                                store.commit('gaincartNum',data.data.data.length);           
-                                for(var i=0;i<data.data.data.length;i++){  
-                                    var imgurlcart='http://123.58.241.146:8088/xinda/pic/'+data.data.data[i].providerImg;                                              
-                                    var obj={'id':data.data.data[i].serviceId,'price':data.data.data[i].unitPrice,'sname':data.data.data[i].serviceName,'sinfo':data.data.data[i].serviceInfo,'simg':imgurlcart}          
-                                    store.commit('gaincartId',obj);                            
-                                } 
+                                store.commit('gaincartNum',data.data.data.length);
+                                for(var i=0;i<data.data.data.length;i++){
+                                    var imgurlcart='http://123.58.241.146:8088/xinda/pic/'+data.data.data[i].providerImg;
+                                    var obj={'id':data.data.data[i].serviceId,'price':data.data.data[i].unitPrice,'sname':data.data.data[i].serviceName,'sinfo':data.data.data[i].serviceInfo,'simg':imgurlcart}
+                                    store.commit('gaincartId',obj);
+                                }
                             })
                             if(that.panduan=='123'){
                                 that.$router.go(-1);
@@ -134,7 +134,7 @@ export default {
             }
         },
         phoneKey(){
-           this.phoneTip=''; 
+           this.phoneTip='';
         },
         passKey(){
             this.passTip='';
@@ -190,7 +190,7 @@ export default {
     .forget{
         font-size: 14px;
         margin:27px 0 20px;
-        text-align: right; 
+        text-align: right;
     }
     .log{
         line-height: 36px;
@@ -218,7 +218,7 @@ export default {
             line-height: 46px;
         }
         .liji{
-            color: #fff; 
+            color: #fff;
             line-height: 36px;
             height: 36px;
             width: 27.4%;
@@ -249,21 +249,21 @@ export default {
             width: 62%;
         }
         span{
-            width: 23px;  
+            width: 23px;
             vertical-align: top;
             float: right;
             cursor: pointer;
         }
     }
     .bi{
-        margin:12px 8px 11px;        
+        margin:12px 8px 11px;
         height: 11px;
-        background: url(../../static/bi.png) no-repeat;      
+        background: url(../../static/bi.png) no-repeat;
     }
     .zheng{
-        margin:9px 8px 8px;        
+        margin:9px 8px 8px;
         height: 17px;
-        background: url(../../static/zheng.png) no-repeat;      
+        background: url(../../static/zheng.png) no-repeat;
     }
     @media screen and (max-width: 992px){
         .pass{margin:32px 0 0;input{width: 58%;}}

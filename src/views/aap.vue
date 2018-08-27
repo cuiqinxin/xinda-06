@@ -12,7 +12,7 @@
         <div class="sanjiao"></div>
     </div>
     <div class=" loadmore">
-        <div id="scroller-box" >
+        <div>
         <ul v-for="(pro,index) in provide" :key="index" class="main_1" @click="tiao(pro.id)">
              <!-- <router-link :to="{path:'/goodsdetail',query:{id:pro.id}}" > -->
             <li class="main-left">

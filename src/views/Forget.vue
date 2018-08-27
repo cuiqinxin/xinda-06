@@ -161,7 +161,7 @@ export default {
                 var md5=require('md5');
                 console.log(this.phoneYan);
                 this.ajax.post('/xinda-api/register/findpas',this.qs.stringify(
-                    {'cellphone':that.phoneValue,'smsType':2,'validCode':that.phoneYan,'password':md5(that.passValue)}
+                    {'cellphone':that.phoneValue,'smsType':1,'validCode':that.phoneYan,'password':md5(that.passValue)}
                 )).then(
                     function(data){
                         console.log(data);
@@ -375,9 +375,9 @@ export default {
             .left{margin-bottom: 22px;}
         }
     }
-    @media screen and (max-width: 1200px){ 
-        .Forget .phoyan button{font-size: 12px;}    
-    } 
+    @media screen and (max-width: 1200px){
+        .Forget .phoyan button{font-size: 12px;}
+    }
     @media screen and (max-width: 992px){
         .Forget .phoyan button{
             font-size: 14px;
