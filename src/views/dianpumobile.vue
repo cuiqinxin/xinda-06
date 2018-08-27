@@ -125,7 +125,7 @@ export default {
         float: left;
         width: 30%;
         border: 1px solid #ccc;
-        margin:2% 0;
+        margin:2px 0;
         img{
             width:100%;
         }

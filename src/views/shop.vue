@@ -19,7 +19,7 @@
             <li class="pro_list">
             <p @click="alll" :style="allstyle">所有</p>
             <template v-for="dp in dianpu1"   >
-                 <p v-for="(item,key,index) in dp.productTypes.split(',')" :key="index" @click="typeChoose(item,dp.productTypeCodes)" :class="{active:item==indexp}" :codes="dp.productTypeCodes">{{item}}
+                 <p v-for="(item,key,index) in dp.productTypes.split(',')" :key="index" @click="typeChoose(item,dp.productTypeCodes)" :class="{active:item==indexp}" :codes="dp.productTypeCodes" :id="dp.regionId">{{item}}
                   </p>
             </template>
             </li>
@@ -78,13 +78,13 @@
                 </ul>
             </div>
             <div class="none"
-            v-if="areaCode!=''&&areaCode!='110109'&&areaCode!='110105'"
+            v-if="arr.indexOf(areaCode)==-1||height==0"
              >
                 <h1>抱歉！暂无此类商品</h1>
             </div>
         </div>
         <!-- <div class="none"
-            v-if="height==0"
+            v-if="height!=254"
              >
             <h1>抱歉！暂无此类商品</h1>
         </div> -->
@@ -104,7 +104,7 @@ export default {
   name: 'Shop',
   data () {
     return {
-        height:'',
+    height:10,
     title:'',
     credit:'',
     region:'',
@@ -130,7 +130,10 @@ export default {
          color:"white",
     },
     jiedan:'',
-    zonghe:'',
+    zonghe:{
+         backgroundColor: "#2393d3",
+         color:"white",
+    },
     dshow:'',
     allstyle:{
          backgroundColor: "#2393d3",
@@ -139,6 +142,7 @@ export default {
 
     },
     none:true,
+    arr:[],
      j:{
             pageSize : 5 , //每页显示6条数据
             currentPage : 1, //当前页码
@@ -161,6 +165,15 @@ export default {
            that.j.all=data.data.data.length;
            that.dianpu=data.data.data;
            that.none=false;
+           for(var i=0;i<=data.data.data.length;i++){
+               that.arr.push(data.data.data[i].regionId)
+               console.log(that.arr)
+                    //  console.log(this.$refs.element.style.height)
+    //   console.log(this.$refs.element.height)
+      console.log(document.getElementById("header-nav").clientHeight);
+      that.height=document.getElementById("header-nav").clientHeight;
+    //   console.log($('#header-nav').height())
+           }
         }
         });
         var that = this
@@ -253,6 +266,8 @@ export default {
         this.indexp=aaa;
         this.dshow=code;
         this.allstyle='';
+        console.log(document.getElementById("header-nav").clientHeight);
+        console.log(this.arr.indexOf(this.areaCode))
     },
   alll(){
       this.dshow='';
@@ -265,9 +280,15 @@ export default {
 
     confirm(value){
         this.areaCode=value
+      console.log(document.getElementById("header-nav").clientHeight);
+      console.log(this.arr.indexOf(value))
       },
   },
   mounted() {
+    //   console.log(this.$refs.element.style.height)
+    //   console.log(this.$refs.element.height)
+    //   console.log(document.getElementById("header-nav").clientHeight);
+    //   console.log($('#header-nav').height())
   if(this.screenWidth<=992){
                   this.shopmobile()
         }
@@ -314,6 +335,7 @@ watch:{
 </script>
 
 <style scoped lang="less">
+
 .paging{
     width:100%;
     text-align: center;
