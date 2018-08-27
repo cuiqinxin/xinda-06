@@ -234,7 +234,7 @@ export default {
         businessOrder:'',
         serviceOrderList:'',
         show:true,
-        xiangqingsrc:"../../static/shouqi.png",
+        xiangqingsrc:"./static/shouqi.png",
         paystyle:'',
         payboxstate:false,
         paysrc:"",
@@ -246,10 +246,10 @@ export default {
         //图片切换
         xiangqing(){
            this.show=!this.show
-           if(this.xiangqingsrc=="../static/xiala.png"){
-               this.xiangqingsrc="../static/shouqi.png";
+           if(this.xiangqingsrc=="./static/xiala.png"){
+               this.xiangqingsrc="./static/shouqi.png";
            }else{
-              this.xiangqingsrc="../static/xiala.png";
+              this.xiangqingsrc="./static/xiala.png";
            }
         },
         //支付方式
