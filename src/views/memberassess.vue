@@ -80,8 +80,8 @@ export default {
     data () {
         return {
             activeName: 'first',
-            assessWan:'assessNei hidden-xs-only showassess',
-            assessGo:'gopingjia hidden-xs-only noneassess',
+            assessWan:'assessNei hidden-sm-and-down showassess',
+            assessGo:'gopingjia hidden-sm-and-down noneassess',
             starone:'el-icon-star-on iconred',
             startwo:'el-icon-star-on iconred',
             starthree:'el-icon-star-on iconred',
@@ -96,7 +96,7 @@ export default {
     },
     created(){
         this.$parent.orderRight='choose order';
-        this.$parent.assessRight='choose assess hidden-xs-only liespe';
+        this.$parent.assessRight='choose assess hidden-sm-and-down liespe';
         this.$parent.installRight='choose install';
         var that=this;
         this.ajax.post('/xinda-api/service/judge/grid',this.qs.stringify(
@@ -119,13 +119,13 @@ export default {
         handleClick(tab, event) {
         },
         tijiaoasse(){
-            this.assessWan='assessNei hidden-xs-only showassess';
+            this.assessWan='assessNei hidden-sm-and-down showassess';
             this.activeName='second';
-            this.assessGo='gopingjia hidden-xs-only noneassess';
+            this.assessGo='gopingjia hidden-sm-and-down noneassess';
         },
         goassess(){
-            this.assessWan='assessNei hidden-xs-only noneassess';
-            this.assessGo='gopingjia hidden-xs-only showassess';
+            this.assessWan='assessNei hidden-sm-and-down noneassess';
+            this.assessGo='gopingjia hidden-sm-and-down showassess';
         },
         stars(value){
             switch(value){

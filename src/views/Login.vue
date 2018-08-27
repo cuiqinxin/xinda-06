@@ -2,8 +2,8 @@
     <div class="Login">       
         <div class="deng">
             <el-row>
-                <el-col :span="12" :xs="24" class="left">
-                    <el-col :sm={span:11,offset:6} :xs={span:18,offset:3} class="shu">
+                <el-col :md="12" :xs="24" :sm="24" class="left">
+                    <el-col :md={span:11,offset:6} :xs={span:18,offset:3} :sm={span:18,offset:3} class="shu">
                         <input type="text" placeholder="请输入手机号码" v-model="phoneValue" @keyup="phoneKey" @blur="phoneBlur">
                         <p class="wrongTip">{{phoneTip}}</p>
                         <div class="pass">
@@ -20,7 +20,7 @@
                         <a href="javascript:void(0)" class="log" @click="logyan">立即登录</a>
                     </el-col>
                 </el-col>
-                <el-col :span="12" class="hidden-xs-only">
+                <el-col :span="12" class="hidden-sm-and-down">
                     <el-col :span="9" :offset="6" class="shu">
                         <p class="size">还没有账号？</p>
                         <router-link to="/outter/zhuce" class="size">立即注册&gt;&gt;</router-link>
@@ -29,7 +29,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-row class="now hidden-sm-and-up">
+        <el-row class="now hidden-md-and-up">
             <el-col :span="20" :offset="2" id="spe"><p>还没有信达账号？</p><router-link to="/outter/zhuce" class="liji">立即注册</router-link></el-col>
         </el-row>
     </div>
@@ -207,8 +207,7 @@ export default {
     .now{
         background-color: #4d4d4d;
         font-size: 18px;
-        position: absolute;
-        bottom: 0;
+        margin-bottom: 90px;
         width: 100%;
         #spe{
             display: flex;
@@ -216,17 +215,17 @@ export default {
         }
         p{
             color: #fff;
-            line-height: 78px;
+            line-height: 46px;
         }
         .liji{
             color: #fff; 
-            line-height: 49px;
-            height: 49px;
+            line-height: 36px;
+            height: 36px;
             width: 27.4%;
             text-align: center;
             border-radius: 5px;
             background-color: #2693d4;
-            margin:14px 0 15px;
+            margin:5px 0;
         }
     }
     .yan{
@@ -266,17 +265,13 @@ export default {
         height: 17px;
         background: url(../../static/zheng.png) no-repeat;      
     }
-    @media screen and (min-width: 768px) and (max-width: 992px){
-        .pass input{width: 52%;}
-        .yanma{width:44%;}       
-    }
-    @media screen and (max-width: 768px){
+    @media screen and (max-width: 992px){
         .pass{margin:32px 0 0;input{width: 58%;}}
         .yan{margin-top: 30px;}
-        .deng{margin-top: 77px;padding-top: 0;margin-bottom: 77px;}
-        .left{margin-top:31px;margin-bottom: 112px;}
+        .deng{margin-top: 0;padding-top: 0;margin-bottom: 0;}
+        .left{margin-top:31px;margin-bottom: 74px;}
         .log{
-            margin-top:60px;
+            margin-top:40px;
             color: #fff;
             background-color: #2693d4;
         }
