@@ -90,7 +90,7 @@ export default {
             limit:5,
             pageIndex:1,
             all:'',
-            perPages:3  //页面中显示的页码数只能为单数
+            perPages:1  //页面中显示的页码数只能为单数
          }
     }
   },

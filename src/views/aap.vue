@@ -12,7 +12,7 @@
         <div class="sanjiao"></div>
     </div>
     <div class=" loadmore">
-        <div id="scroller-box" >
+        <div id="scroller-box1" >
         <ul v-for="(pro,index) in provide" :key="index" class="main_1" @click="tiao(pro.id)">
              <!-- <router-link :to="{path:'/goodsdetail',query:{id:pro.id}}" > -->
             <li class="main-left">
@@ -51,11 +51,10 @@ export default{
         name:'',
         provide:[],
         length:0,
-        more:'上滑加载更多。。。',
+        more:'Loading。。。',
         //监测屏幕宽度
         screenWidth:document.body.clientWidth,
          errorImage: 'this.src="' + require('../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg') + '"'
-
   }
  },
    created(){
@@ -115,7 +114,7 @@ export default{
       if(that.length>=that.provide.length){
         that.more='Loading。。。'
         that.provide=that.provide.concat(data.data.data )
-      }if(that.length<that.provide.length){
+      }if(that.length<that.provide.length&&that.length!=0){
         that.more='没有喽。。。'
       }
         });
@@ -269,7 +268,7 @@ watch : {
         position:relative;
         width: 66%;
         p{
-            margin:2% 0;
+            margin:2px 0;
         }
         h4{
             margin:2% 0;
