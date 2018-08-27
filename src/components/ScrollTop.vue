@@ -29,8 +29,8 @@
         // console.log(window.pageYOffset,document.documentElement.scrollTop,document.body.scrollTop)
 
         if(this.toTopShow == false && this.scrollTop > 100){
-          document.getElementsByClassName('.page-component-up')[0].style.bottom = 100 +'px'
-          document.getElementsByClassName('.el-icon-caret-top')[0].style.opacity = 0.8
+          document.getElementsByClassName('page-component-up')[0].style.bottom = 100 +'px'
+          document.getElementsByClassName('el-icon-caret-top')[0].style.opacity = 0.8
         }
         if (this.scrollTop > 100) {
           this.toTopShow = true
@@ -52,16 +52,16 @@
 
             if(count == 0){
               bottom1 -= 20
-              document.getElementsByClassName('.page-component-up')[0].style.bottom = bottom1 + "px"
+              document.getElementsByClassName('page-component-up')[0].style.bottom = bottom1 + "px"
               count += 1
             }
             // document.documentElement.scrollTop -= 20
             window.scrollTo(0,0);
-            if(document.getElementsByClassName('.page-component-up')[0].style.bottom < (high + 20)+ "px"){
+            if(document.getElementsByClassName('page-component-up')[0].style.bottom < (high + 20)+ "px"){
             bottom1 += 30
             opacity1 -= 0.06
-            document.getElementsByClassName('.page-component-up')[0].style.bottom = bottom1 + "px"
-            document.getElementsByClassName('.el-icon-caret-top')[0].style.opacity = opacity1
+            document.getElementsByClassName('page-component-up')[0].style.bottom = bottom1 + "px"
+            document.getElementsByClassName('el-icon-caret-top')[0].style.opacity = opacity1
             }
 
             else{
@@ -77,7 +77,7 @@
           window.addEventListener('scroll', this.handleScroll,true)
     },
     destroyed() {
-      let targetScroll = document.getElementById("#scroller-box").children[0]
+      let targetScroll = document.getElementById("scroller-box").children[0]
       targetScroll.removeEventListener('scroll', this.handleScroll)
     }
   }
