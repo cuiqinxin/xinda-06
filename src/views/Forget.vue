@@ -266,6 +266,7 @@ export default {
         background-color: #4d4d4d;
         font-size: 18px;
         bottom: 90px;
+        position: fixed;
         width: 100%;
         #spe{
             display: flex;
@@ -386,11 +387,11 @@ export default {
             background-color: #2693d4;
         }
         .Forget .zhu{
-            margin-bottom: 70px;
+            margin-bottom: 40%;
             margin-top: 0;
-            padding-top: 19px;
+            padding-top: 12%;
         }
-        .Forget .log{color:#fff;margin: 19px 0;}
+        .Forget .log{color:#fff;margin: 20% 0 0;}
         .Forget .again{margin-top: 19px;}
     }
 </style>

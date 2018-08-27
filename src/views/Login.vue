@@ -207,7 +207,8 @@ export default {
     .now{
         background-color: #4d4d4d;
         font-size: 18px;
-        margin-bottom: 90px;
+        bottom: 90px;
+        position: fixed;
         width: 100%;
         #spe{
             display: flex;
@@ -268,10 +269,10 @@ export default {
     @media screen and (max-width: 992px){
         .pass{margin:32px 0 0;input{width: 58%;}}
         .yan{margin-top: 30px;}
-        .deng{margin-top: 0;padding-top: 0;margin-bottom: 0;}
-        .left{margin-top:31px;margin-bottom: 74px;}
+        .deng{margin-top: 0;padding-top: 0;margin-bottom: 34px;}
+        .left{margin-top:20%;margin-bottom: 44%;}
         .log{
-            margin-top:40px;
+            margin-top:30%;
             color: #fff;
             background-color: #2693d4;
         }

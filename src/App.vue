@@ -88,6 +88,12 @@ export default {
         endqingqiu:2
       };
     },
+    destroyed(){          //关闭页面后退出登录
+      this.ajax.post("/xinda-api/sso/logout").then(data=>{
+        store.commit('loginStatus','');
+        alert(store.state.userPhoneNumber);        
+      });
+    },
     methods:{
         // link(){
         //     this.$router.push({

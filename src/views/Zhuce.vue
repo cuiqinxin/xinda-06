@@ -262,7 +262,8 @@ export default {
     .now{
         background-color: #4d4d4d;
         font-size: 18px;
-        margin-bottom: 90px;
+        position: fixed;
+        bottom: 90px;
         width: 100%;
         #spe{
             display: flex;
@@ -389,8 +390,8 @@ export default {
                 margin-bottom: 0;
                 .yan{margin:19px 0 0;}
                 .left .shu select{margin:19px 0 0 0;}
-                .left{margin-bottom: 20px;margin-top: 19px;}
-                .log{margin-top:20px;color:#fff;}
+                .left{margin-bottom: 22%;margin-top: 12%;}
+                .log{margin-top:30%;color:#fff;background-color: #2693d4;}
                 .pass input{width: 58%;}
             }
         }
