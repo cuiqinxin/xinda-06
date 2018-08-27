@@ -672,7 +672,7 @@ import store from '../store'
     }
 </script>
 
-<style  lang="less" >
+<style  scoped lang="less" >
 @media screen and (min-width:769px){
 
 
@@ -753,6 +753,7 @@ import store from '../store'
                     margin-top:14px;
                     height:20px;
                     .left{
+                        border:0!important;
                         width: 52px;
                         margin: 0 5px 0 0;
                         height: 18px;
@@ -773,6 +774,7 @@ import store from '../store'
                     .left{
                         width: 52px;
                         margin: 0 5px 0 0;
+                         border:0!important;
                         height: 18px;
                         justify-content: space-between;
                         .distance{
@@ -856,7 +858,7 @@ import store from '../store'
         // 服务商
         .provider{
             width:200px;
-            min-width:150px;
+            min-width:155px;
             height:235px;
             border:1px solid #2693d4;
             margin-left:50px;
@@ -1067,9 +1069,9 @@ import store from '../store'
             height:90px;
 
             // border:1px solid;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
+            // display: -webkit-box;
+            // -webkit-box-orient: vertical;
+            // -webkit-line-clamp: 1;
             overflow: hidden;
             white-space:nowrap;
             position:absolute;
@@ -1149,6 +1151,9 @@ import store from '../store'
                 font-size:12px;
                 line-height:22px;
                 margin-bottom:20px;
+                .left{
+                    border:0!important;
+                }
                     .providerlink{
                         display:block;
                         width: 90px;
@@ -1218,6 +1223,11 @@ import store from '../store'
             }
 
         }
+    }
+}
+@media screen and (max-width:768px){
+    .left{
+        border:0!important;
     }
 }
 
