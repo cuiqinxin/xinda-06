@@ -36,7 +36,7 @@
                     </div>
                     <div class="zhang newpassword xiu">
                         <p class="z_spe">新密码：</p>
-                        <el-popover placement="bottom" width="300" trigger="focus">
+                        <el-popover placement="right" width="300" trigger="focus">
                             <div><i :class="lengthLimit1"></i>6-20个字符<br/><i :class="typeLimit1"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType1"></i>字母、数字和下划线至少包含2种</div>
                             <input type="password" v-model="passValue" slot="reference" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                         </el-popover>
@@ -189,57 +189,55 @@ export default {
         updatePass(){
             var that=this;
             var md5=require('md5');
-            var lastzhu=0;
             that.$confirm('是否修改当前密码?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
             }).then(() => {
-                    that.ajax.post('/xinda-api/sso/change-pwd',that.qs.stringify(
-                    {oldPwd:md5(that.oldpassValue),newPwd:md5(that.newpassValue)}
-                    )).then(
-                        function(data){
-                            if(data.data.status==-1){
-                                that.oldpassTip=data.data.msg;
-                            }
-                            if(data.data.status==1){
-                                this.$message({
-                                    type: 'success',
-                                    message: '修改成功!'
-                                });
-                            }
-                    })
+                var lastzhu=0;
+                if(that.oldpassValue==''){
+                    that.oldpassTip='请输入登录密码';
+                }else{
+                    that.oldpassTip='';lastzhu++;
+                }
+                if(that.passValue==''){
+                    that.newpassTip='请设置新密码';
+                }else if(that.passValue.length<6||that.passValue.length>20||/\W/.test(that.passValue)||/^[A-Za-z]{6,20}$/.test(that.passValue)||/^\d{6,20}$/.test(that.passValue)||/^\_{6,20}$/.test(that.passValue)){
+                    that.newpassTip='密码设置不符合要求';
+                }else if(that.passValue==that.oldpassValue){
+                    that.newpassTip='新密码不能与旧密码相同';
+                }else{
+                    that.newpassTip='';lastzhu++;
+                }
+                if(that.agapassValue==''){
+                    that.agapassTip='请再次填写新密码';
+                }else if(that.agapassValue!=that.passValue){
+                    that.agapassTip='两次密码不一致';
+                }else{
+                    that.agapassTip='';lastzhu++;
+                }
+                if(lastzhu==3){
+                     that.ajax.post('/xinda-api/sso/change-pwd',that.qs.stringify(
+                        {oldPwd:md5(that.oldpassValue),newPwd:md5(that.passValue)}
+                        )).then(
+                            function(data){                                
+                                if(data.data.status==-1){
+                                    that.oldpassTip=data.data.msg;
+                                }
+                                if(data.data.status==1){
+                                    that.$message({
+                                        type: 'success',
+                                        message: '修改成功!'
+                                    });
+                                }
+                        }).catch()
+                }
             }).catch(() => {
                     this.$message({
                         type: 'info',
                         message: '已取消修改'
                     });
             });
-            if(this.oldpassValue==''){
-                this.oldpassTip='请输入登录密码';
-            }else{
-                this.oldpassTip='';lastzhu++;
-            }
-            if(this.passValue==''){
-                this.newpassTip='请设置新密码';
-            }else if(this.passValue.length<6||this.passValue.length>20||/\W/.test(this.passValue)||/^[A-Za-z]{6,20}$/.test(this.passValue)||/^\d{6,20}$/.test(this.passValue)||/^\_{6,20}$/.test(this.passValue)){
-                this.newpassTip='密码设置不符合要求';
-            }else if(this.passValue==this.oldpassValue){
-                this.newpassTip='新密码不能与旧密码相同';
-            }else{
-                this.newpassTip='';lastzhu++;
-            }
-            if(this.agapassValue==''){
-                this.agapassTip='请再次填写新密码';
-            }else if(this.agapassValue!=this.passValue){
-                this.agapassTip='两次密码不一致';
-            }else{
-                this.agapassTip='';lastzhu++;
-            }
-            if(lastzhu==3){
-
-
-            }
         },
         agapassKey(){
             this.agapassTip='';
@@ -283,10 +281,6 @@ export default {
         },
         confirm(value){
             this.cityCode=value;
-            var aa=this.cityCode.substr(0,2)+'0000';
-            var bb=this.cityCode.substr(0,4)+'00';            
-            this.$refs.msg.getcity(aa,bb,this.cityCode); 
-            this.$refs.msgs.getcity(aa,bb,this.cityCode);
         },
     },
     components:{

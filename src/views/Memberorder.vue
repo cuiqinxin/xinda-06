@@ -442,7 +442,7 @@ export default {
         color: #999;
         font-size: 38px;
         text-align: center;
-        line-height: 270px;
+        line-height: 242px;
     }
     .yincangorder{
         display: none;
@@ -564,7 +564,7 @@ export default {
         }
         #createTime{
             display: flex;
-            margin: 34px 0;
+            margin: 32px 0 31px;
             p{
                 font-size: 14px;
                 margin-left: 1px;
