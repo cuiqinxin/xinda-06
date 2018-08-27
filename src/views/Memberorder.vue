@@ -143,7 +143,9 @@ export default {
                         confirmButtonText: '确定',
                         type: 'warning',
                         callback: action => {
+                            store.commit('loading',false) 
                             that.$router.push({path:'/outter/login',query:{pan:123}});
+                            store.commit('loading',false) 
                         }
                     });
                     that.fenye=0;that.noneorder='showorder noneorder';
