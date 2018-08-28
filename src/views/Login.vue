@@ -50,7 +50,7 @@ export default {
             phoneTip:'',         //手机号提示
             passTip:'',          //密码提示
             photoTip:'',         //图片验证码提示
-            panduan:''           //判断登陆后跳转的标记
+            panduan:'',          //判断登陆后跳转的标记
         }
     },
     created(){
@@ -115,14 +115,13 @@ export default {
                                     store.commit('gaincartId',obj);
                                 }
                             })
-                            // if(that.panduan==''){
+                            if(that.panduan==''||that.panduan==undefined){
                                 that.$router.push({path:'/'});
-                            // }else if(/\./.test(that.panduan)==true||that.panduan.length==1){
-                            //     that.$router.go(-1);
-                            // }else if(that.panduan.length>3){
-                            //     that.$router.push({path:'/goodsdetail',query:{id:that.panduan}});
-                            // }
-
+                            }else if(that.panduan=='123'){
+                                that.$router.go(-1);
+                            }else if(that.panduan.length>3){
+                                that.$router.push({path:'/goodsdetail',query:{id:that.panduan}});
+                            }
                         }
                 })
             }

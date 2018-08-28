@@ -26,7 +26,6 @@
     methods: {
       handleScroll() {
         this.scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        // console.log(window.pageYOffset,document.documentElement.scrollTop,document.body.scrollTop)
 
         if(this.toTopShow == false && this.scrollTop > 100){
           document.getElementsByClassName('page-component-up')[0].style.bottom = 100 +'px'
