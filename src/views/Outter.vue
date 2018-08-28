@@ -3,7 +3,7 @@
     <div class="useruser hidden-sm-and-down">
         <el-row>
             <el-col :span="24">
-                <router-link to="/"><span class="xinda hidden-xs-only"></span></router-link><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
+                <router-link to="/header/index1"><span class="xinda hidden-xs-only"></span></router-link><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
                 <p class="hidden-sm-and-up phone"><router-link to="/quit" class="jian">&lt;</router-link>{{infoWeb}}</p>
             </el-col>
         </el-row>
@@ -54,11 +54,7 @@ export default {
             footer5: false,
         }
     },
-<<<<<<< HEAD
-       methods:{
-=======
     methods:{
->>>>>>> 8d16a9f84e7355b07926550f2321fbf47b046b72
         phonelogin(){
             this.ajax.post("/xinda-api/sso/login-info").then(data=>{
                 if(data.data.status==1){this.$router.push({path:'/memberindex'});}

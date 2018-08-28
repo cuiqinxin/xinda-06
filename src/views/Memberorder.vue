@@ -222,16 +222,18 @@ export default {
         //日期选择订单
         datachoose(){
             if(this.value1[0]==undefined||this.value1[1]==undefined||this.value1[0]==null||this.value1[1]==null){
-                this.totalpage=Math.ceil((this.single-this.delesign)/2);
-                that.orderArr=[];
-                that.orderArr1=[]; 
-                that.nodate=0;
-                // this.delefen=this.delezui;
-                for(var i in that.chushi){
-                    that.orderArr.push(that.chushi[i]);
-                    that.orderArr1.push(that.chushi1[i]);                       
-                }
-                that.pagei=1;this.currentPage3=1;
+                // this.single=this.single-this.delesign-this.delesign1-this.delesign2;
+                // this.totalpage=Math.ceil(this.single/2); 
+                // that.orderArr=[];
+                // that.orderArr1=[]; 
+                // that.nodate=0;
+                // // this.delefen=this.delezui;
+                // for(var i in that.chushi){
+                //     that.orderArr.push(that.chushi[i]);
+                //     that.orderArr1.push(that.chushi1[i]);                       
+                // }
+                // that.pagei=1;this.currentPage3=1;
+                console.log(789);
                 return;
             }
             var newDate = new Date();
@@ -270,7 +272,7 @@ export default {
                 }).catch(function(){})
             }else{
                 // that.delelast=0;
-                that.nodate=1;
+                that.nodate=1;that.requstnol=0;
                 this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
                     {'startTime':startdate,'endTime':enddate,'start':0}
                 )).then(
@@ -278,6 +280,7 @@ export default {
                         if(data.data.status=='-999'){that.totalpage=1;return;}
                         that.totalpage=Math.ceil(data.data.data.length/2);
                         that.singlenol=data.data.data.length;
+                        if(that.singlenol==0){that.pagei=1;}
                 }).catch(function(){})
                 this.orderChange(0,startdate,enddate,8,0); 
                 // if(that.orderArr.length==0){that.noneorder='showorder noneorder';}else{that.noneorder='yincangorder';}
@@ -289,8 +292,8 @@ export default {
             if(this.searchOrderNumber==''){
                 this.orderHint='';
                 if(this.callbackSign==1){
-                    this.totalpage=Math.ceil((that.chushi.length)/2);
-                    this.single=that.chushi.length;
+                    this.single=this.single-this.delesign-this.delesign1-this.delesign2;
+                    this.totalpage=Math.ceil(this.single/2);                    
                     that.orderArr=[];
                     that.orderArr1=[]; 
                     that.nodate=0;
@@ -351,7 +354,7 @@ export default {
             )).then(
                 function(data){     
                     // console.log(data)         
-                    if((data.data.status=='-999')||(data.data.data.length==0)){that.noneorder='showorder noneorder';that.currentPage3=1;that.totalpage=1;store.commit('loading',false);return;}
+                    if((data.data.status=='-999')||(data.data.data.length==0)){that.noneorder='showorder noneorder';that.pagei=1;that.totalpage=1;store.commit('loading',false);return;}
                     // if(shou==2&&data.data.data.length==0){that.noneorder='showorder noneorder';that.fenye=0;store.commit('loading',false);return;}
                     that.noneorder='yincangorder';
                     that.changeDate(data.data.data);
@@ -406,6 +409,7 @@ export default {
                 console.log(999999);
                 var start=this.requstnol*8;
                 var jici=Math.floor(this.pagei*2/8+1-this.requstnol)*8;
+                console.log(start,'lulu',jici);
                 this.orderChange(start,'','',jici,0);
             }
         }
