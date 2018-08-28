@@ -36,14 +36,15 @@ export default {
   methods:{
       provinceChange(){
           this.city = citydata[this.provinceCode];
+          this.area=[];
           this.cityCode = ''
           this.areaCode = ''
-          this.areaChange();
+        //   this.areaChange();
       },
       cityChange(){
           this.area = citydata[this.cityCode];
            this.areaCode = ''
-          this.areaChange()
+        //   this.areaChange()
       },
       areaChange(){
         this.$emit('confirm',this.areaCode);
