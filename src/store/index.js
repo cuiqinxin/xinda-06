@@ -4,9 +4,6 @@
 // Vue.use(vuex)
 
 
-
-
-
 export default new Vuex.Store({
     //设置全局变量  所有组件都能用
     state:{
@@ -54,12 +51,12 @@ export default new Vuex.Store({
             }else{
                 var weizhi=state.cartId.indexOf(obj.id);
                 state.cartId.splice(weizhi,1);
-                state.cartId.unshift(obj.id);                
+                state.cartId.unshift(obj.id);
                 state.cartconcrete.splice(weizhi,1);
                 state.cartconcrete.unshift(obj);
                 return;
             }},
-           
+
         // cartNum2(){
         //     this.state.count--;
         // },
@@ -70,5 +67,5 @@ export default new Vuex.Store({
 
 
 
-   
+
 });

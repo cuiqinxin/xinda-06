@@ -84,7 +84,7 @@
 </script>
 
 <style scoped lang="less">
-@import "../assets/icon/iconfont.css";
+// @import "../assets/icon/iconfont.css";
     .page-component-up{
     // background-color: #409eff;
     position: fixed;
