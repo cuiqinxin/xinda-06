@@ -82,23 +82,23 @@
                                 <p class="error">当前选项无内容</p>
                             </el-row>
                         </div>
-                       
 
-                        
+
+
 
                         <div id="scroller-box" class="hidden-sm-and-up">
                             <scrollTop></scrollTop>
                         </div>
 
                        <el-col :xs="24"><div class="moreload"><p v-show="isShow">{{loadText}}</p></div></el-col>
-                       
+
                     </div>
                     <div class="pagebox hidden-xs-only">
                          <page @change="pageChange" :parentCount="parentCount" ref="pagemore"></page>
                     </div>
 
                 </div>
-                
+
             </el-col>
             <el-col :span="5">
                 <div>
@@ -114,6 +114,7 @@
 import scrollTop from '../components/ScrollTop'
 import city from '../components/City'
 import page from '../components/Page'
+import store from '../store';
 
 export default {
 
@@ -194,13 +195,16 @@ export default {
         };
     },
     created() {
-      
+
         var that = this
+        store.commit('loading',true)
         that.ajax.post(
                     "/xinda-api/sso/login-info",
                     that.qs.stringify({})
                 ).then(function(data){
                     // 未登陆
+                    store.commit('loading',false)
+
                     if(data.data.status==0){
                         that.loginStatus = 0;
                     }else{
@@ -301,14 +305,14 @@ export default {
                 )
                 .then(function(data) {
                     that.parentCount.all=data.data.data.length
-                    
+
                 })
                 that.ajax.post(
                     "/xinda-api/product/package/grid",
                     that.qs.stringify(that.obj)
                 )
                 .then(function(data) {
-                   
+
                     that.temporaryList = data.data.data;
                     that.thisProduct = that.temporaryList
                     if( that.thisProduct.length == 0){
@@ -361,14 +365,12 @@ export default {
         }
     },
     mounted(){
-        
+
         //监听屏幕大小
         if(document.body.offsetWidth<768){
-            
-            
+
             window.addEventListener('scroll', this.scrollBottom)
-            
-    
+
         }
 
         const that = this
@@ -384,11 +386,11 @@ export default {
         city,
         page,
         scrollTop,
-        
+
     },
     methods: {
 
-    
+
 
         //图片报错
         // errorImage(item){
@@ -599,7 +601,7 @@ export default {
                 })
             )
             .then(function(data) {
-                 that.parentCount.all=data.data.data.length
+                 that.parentCount.all=data.data.data.length+1
                  if(that.parentCount.all == 0){
                     that.parentCount.all = 1
                 }
@@ -635,7 +637,7 @@ export default {
             this.show = true
             this.$refs.pagemore.go(1)
             // this.parentCount.currentPage = 1;
-            this.parentCount.all = ''
+            this.parentCount.all = 1
             this.current3 = 0;
             this.$refs.notice_add.provinceCode = ''
             this.$refs.notice_add.cityCode = ''
@@ -853,10 +855,14 @@ export default {
         cart(event,item){
             var that = this
             var id = event.currentTarget.id
+<<<<<<< HEAD
 
             var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
 
 
+=======
+            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
+>>>>>>> 8cc75ef7dcfdf8644d38ef6b70c2987e8cd2f2cb
             // that.ajax.post(
             //     "/xinda-api/sso/login-info",
             //     that.qs.stringify({})
@@ -1006,28 +1012,28 @@ export default {
             if(val<768){
                 window.addEventListener('scroll', this.scrollBottom)
                 this.isShow = false;
-                 
+
             }
             if(oldval<768 && val>=768){
-                
-                
+
+
                 this.thisProduct = this.thisProduct.splice(0,5)
                 this.isShow = false;
                 // this.parentCount.currentPage = 1;
                 this.$refs.pagemore.go(1)
-                 
+
 
             }
             else if(oldval>=768 && val<768){
-                
-                
+
+
                 this.start = 4
                 if(this.currentIndex >= 2){
                     var that = this;
                     if(this.$route.query.searchName == '' || this.$route.query.searchName == undefined){
 
-                    
-                    
+
+
                     this.ajax.post('/xinda-api/product/package/grid',that.qs.stringify(
                         {
                             start:0,

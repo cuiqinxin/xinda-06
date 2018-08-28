@@ -234,7 +234,7 @@ export default {
         businessOrder:'',
         serviceOrderList:'',
         show:true,
-        xiangqingsrc:"../../static/shouqi.png",
+        xiangqingsrc:"./static/shouqi.png",
         paystyle:'',
         payboxstate:false,
         paysrc:"",
@@ -245,11 +245,11 @@ export default {
     methods:{
         //图片切换
         xiangqing(){
-           this.show=!this.show 
-           if(this.xiangqingsrc=="../static/xiala.png"){
-               this.xiangqingsrc="../static/shouqi.png";
+           this.show=!this.show
+           if(this.xiangqingsrc=="./static/xiala.png"){
+               this.xiangqingsrc="./static/shouqi.png";
            }else{
-              this.xiangqingsrc="../static/xiala.png"; 
+              this.xiangqingsrc="./static/xiala.png";
            }
         },
         //支付方式
@@ -273,14 +273,14 @@ export default {
                 // 微信的接口请求
                 this.erweimastate=true;
                 this.payboxstate=true;
-                this.paysrc="../static/weixinzhifu.jpg";
+                this.paysrc="./static/weixinzhifu.jpg";
 
 
 
             }else if(this.paystyle=='zhifubao'){
                 this.erweimastate=true;
                  this.payboxstate=true;
-                this.paysrc="../static/zhifubaozhifu.jpg";
+                this.paysrc="./static/zhifubaozhifu.jpg";
 
             }else if(this.paystyle=='zizhu'){
                 this.payboxstate=true;
@@ -306,10 +306,6 @@ export default {
         payquestion(){
             this.$router.push({
                 path:"/header/payfailed",
-                 // params: {
-                // name: 'name',
-                // dataObj: this.msg
-                // }
                 });
         },
 

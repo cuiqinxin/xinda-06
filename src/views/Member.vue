@@ -1,7 +1,7 @@
 <template>
     <div class="Member">
-        <p class="intro hidden-xs-only">首页 / 个人主页</p>
-            <div class="dings hidden-xs-only">   
+        <p class="intro hidden-sm-and-down">首页 / 个人主页</p>
+            <div class="dings hidden-sm-and-down">   
                 <div class="user">
                     <span class="touxiang"></span>
                     <p>{{userPhoneNumber}}</p>
@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="cheng"></div>
-                <router-link to="/quit" class="photui hidden-sm-and-up">退出登录</router-link>
+                <router-link to="/quit" class="photui hidden-md-and-up">退出登录</router-link>
             </div>
         <router-view/>
     </div>
@@ -38,7 +38,7 @@ export default {
     data () {
         return {
             orderRight:'choose order liespe',
-            assessRight:'choose assess hidden-xs-only',
+            assessRight:'choose assess hidden-sm-and-down',
             installRight:'choose install'
         }
     },
@@ -68,7 +68,7 @@ export default {
     span{display: inline-block;}
     .cheng{
         background-color: #f7f7f7;
-        height: 171px;
+        height: 138px;
         margin-bottom: 30px;
     }
     .Member{
@@ -168,7 +168,7 @@ export default {
             background: url(../../static/u5102.png) no-repeat;
             margin:15px 12px 14px 0;
         }
-    @media screen and (max-width: 768px){
+    @media screen and (max-width: 992px){
             .user{background-color: #fff;margin:140px 0 80px;}
             .liespe{background-color: #f7f7f7;}
             .install{margin:35px 0 100px;}

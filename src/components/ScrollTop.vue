@@ -26,7 +26,7 @@
     methods: {
       handleScroll() {
         this.scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        console.log(window.pageYOffset,document.documentElement.scrollTop,document.body.scrollTop)
+        // console.log(window.pageYOffset,document.documentElement.scrollTop,document.body.scrollTop)
 
         if(this.toTopShow == false && this.scrollTop > 100){
           document.getElementsByClassName('page-component-up')[0].style.bottom = 100 +'px'
@@ -48,8 +48,8 @@
         cancelAnimationFrame(timer)
         timer = requestAnimationFrame(function fn() {
           if (_that.scrollTop > 0) {
-            
-            
+
+
             if(count == 0){
               bottom1 -= 20
               document.getElementsByClassName('page-component-up')[0].style.bottom = bottom1 + "px"
@@ -63,17 +63,17 @@
             document.getElementsByClassName('page-component-up')[0].style.bottom = bottom1 + "px"
             document.getElementsByClassName('el-icon-caret-top')[0].style.opacity = opacity1
             }
-            
+
             else{
               _that.toTopShow = false
             }
             timer = requestAnimationFrame(fn)
-          } 
+          }
         })
       }
     },
     mounted() {
-        
+
           window.addEventListener('scroll', this.handleScroll,true)
     },
     destroyed() {
@@ -94,7 +94,7 @@
     height: 60px;
     // transition: top 2s linear;
     // box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-    
+
     .el-icon-caret-top{
       position: absolute;
       opacity:0.8;

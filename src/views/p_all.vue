@@ -23,7 +23,7 @@
         data() {
             return {
                 menuList:{},
-                change: 1,
+                change: 0,
                 isActive:0,
             }
         },

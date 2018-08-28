@@ -2,11 +2,11 @@
   <div class="datang">
     <div class="datang_title">
         <img :src="'http://123.58.241.146:8088/xinda/pic/'+(name.providerImg)" >
-        <h1>{{name.name}}</h1>  
+        <h1>{{name.name}}</h1>
         </div>
         <div class="introduce">
             <p>{{name.providerInfo}}</p>
-        </div>     
+        </div>
 <div class="all">
     <p>所有服务</p>
     <div class="sanjiao"></div>
@@ -14,7 +14,7 @@
     <div class="main">
         <ul v-for="(pro,index) in provide" :key="index" class="main_1">
             <li class="main-left">
-                 <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  onerror="this.onerror=''; src='../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg'"> 
+                 <img :src="'http://123.58.241.146:8088/xinda/pic/'+(pro.productImg)"  onerror="this.onerror=''; src='../../static/b48f193ddc2547fd92a4a86b01cb2e51.jpg'">
             </li>
             <li :span="16" class="main-right">
             <h4>{{pro.serviceName}}</h4>
@@ -24,19 +24,22 @@
                 <span class="mprice">￥：{{pro.price}}<span class="yuan">元</span></span>
             </ul>
             </li>
-            
+
         </ul>
+    </div>
+    <div id="scroller-box" >
+        <scrollTop></scrollTop>
     </div>
     <router-view/>
   </div>
-</template> 
+</template>
 
 <script>
-
-
+import scrollTop from '../components/ScrollTop'
 export default {
   name: 'dianpumobile',
  components : {
+     scrollTop
         },
   data () {
     return {
@@ -60,7 +63,7 @@ export default {
       sort:1
       }))
       .then(function(data){
-            console.log(data.data.data);
+            // console.log(data.data.data);
             that.name=data.data.data
         });
         var that = this;
@@ -71,13 +74,13 @@ export default {
     // productTypeCode: "1",
     providerId: this.$route.query.id,
     sort:2})).then(function(data){
-            that.provide=data.data.data  
-            console.log(data.data.data);
+            that.provide=data.data.data
+            // console.log(data.data.data);
 
         });
         },
   computed:{
-    
+
   },
 }
 </script>
@@ -87,7 +90,7 @@ export default {
 .datang_title{
     margin-top: 30px;
     text-align: center;
-    
+
     img{
         width:100px;
     }
@@ -122,7 +125,7 @@ export default {
         float: left;
         width: 30%;
         border: 1px solid #ccc;
-        margin:2% 0;
+        margin:2px 0;
         img{
             width:100%;
         }
@@ -136,7 +139,7 @@ export default {
         h4{
             margin:2% 0;
             overflow: hidden;
-            white-space: nowrap; 
+            white-space: nowrap;
             text-overflow:ellipsis;
         }
         .bottom{
@@ -168,9 +171,9 @@ export default {
         margin:2%;
         .info{
             overflow: hidden;
-            // white-space: nowrap; 
+            // white-space: nowrap;
             text-overflow:ellipsis;
-            
+
         }
     }
 }
@@ -185,7 +188,7 @@ export default {
                 font-size: 22px;
             }
         }
-        
+
     }
 }
 @media screen and (max-width:420px){

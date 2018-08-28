@@ -2,19 +2,19 @@
     <div class="Zhuce">
         <div class="zhu">
             <el-row>
-                <el-col :span="12" :xs="24" class="left">
-                    <el-col :sm={span:11,offset:6} :xs={span:18,offset:3} class="shu">
+                <el-col :md="12" :xs="24" :sm="24" class="left">
+                    <el-col :md={span:11,offset:6} :xs={span:18,offset:3} :sm={span:18,offset:3} class="shu">
                         <validate @inputaa="yanzheng" ref="msg" @confirmss="confirmss"></validate>
                         <city @confirm="confirm" display="12345"></city>
                         <p class="wrongTip">{{cityTip}}</p>
-                        <el-popover placement="right" width="300" trigger="focus" class="hidden-xs-only">
+                        <el-popover placement="right" width="300" trigger="focus" class="hidden-sm-and-down">
                             <div><i :class="lengthLimit"></i>6-20个字符<br/><i :class="typeLimit"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType"></i>字母、数字和下划线至少包含2种</div>                 
                             <div class="pass" slot="reference">
                                 <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
                                 <span :class="style" @click="show"></span>
                             </div>
                         </el-popover> 
-                        <el-popover placement="bottom" width="300" trigger="focus" class="hidden-sm-and-up">
+                        <el-popover placement="bottom" width="300" trigger="focus" class="hidden-md-and-up">
                             <div><i :class="lengthLimit"></i>6-20个字符<br/><i :class="typeLimit"></i>只能包含字母、数字以及下划线<br/><i :class="twiceType"></i>字母、数字和下划线至少包含2种</div>                 
                             <div class="pass" slot="reference">
                                 <input :type="types" placeholder="请输入密码" v-model="passValue" @keyup="passKey" @keydown="passSign" @blur="passBlur">
@@ -26,7 +26,7 @@
                         <p class="zunshou hidden-xs-only">注册即同意遵守<a href="javascript:void(0)">《服务协议》</a></p>
                     </el-col>
                 </el-col>
-                <el-col :span="12" class="hidden-xs-only">
+                <el-col :span="12" class="hidden-sm-and-down">
                     <el-col :span="9" :offset="6" class="shu">
                         <p class="size">已有账号？</p>
                         <router-link to="/outter/login" class="size">立即登录&gt;&gt;</router-link>
@@ -35,7 +35,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-row class="now hidden-sm-and-up">
+        <el-row class="now hidden-md-and-up">
             <el-col :span="20" :offset="2" id="spe"><p>已有账号？</p><router-link to="/outter/login" class="liji">立即登录</router-link></el-col>
         </el-row>
     </div>
@@ -262,8 +262,8 @@ export default {
     .now{
         background-color: #4d4d4d;
         font-size: 18px;
-        position: absolute;
-        bottom: 0;
+        position: fixed;
+        bottom: 90px;
         width: 100%;
         #spe{
             display: flex;
@@ -271,17 +271,17 @@ export default {
         }
         p{
             color: #fff;
-            line-height: 78px;
+            line-height: 46px;
         }
         .liji{
             color: #fff; 
-            line-height: 49px;
-            height: 49px;
+            line-height: 36px;
+            height: 36px;
             width: 27.4%;
             text-align: center;
             border-radius: 5px;
             background-color: #2693d4;
-            margin:14px 0 15px;
+            margin:5px 0;
         }
     }
     .yan{
@@ -379,23 +379,19 @@ export default {
         }
     }
     @media screen and (max-width: 1200px){ 
-        .Zhuce .zhu .left .shu select{width: 31%;}     
-    } 
-    @media screen and (min-width: 768px) and (max-width: 992px){
-        .pass input{width: 52%;}
-        .yanma{width:44%;} 
-        .phoyan button{font-size: 14px;width: 29%;}      
-    } 
-    @media screen and (max-width: 768px){
+        .Zhuce .zhu .left .shu select{width: 31%;} 
+        .phoyan button{font-size: 12px;}    
+    }  
+    @media screen and (max-width: 992px){
         .Zhuce{
             .zhu{
-                margin-top: 77px;
+                margin-top: 0;
                 padding-top: 0;
-                margin-bottom: 79px;
+                margin-bottom: 0;
                 .yan{margin:19px 0 0;}
                 .left .shu select{margin:19px 0 0 0;}
-                .left{margin-bottom: 50px;}
-                .log{margin-top:40px;color:#fff;}
+                .left{margin-bottom: 22%;margin-top: 12%;}
+                .log{margin-top:30%;color:#fff;background-color: #2693d4;}
                 .pass input{width: 58%;}
             }
         }

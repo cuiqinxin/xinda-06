@@ -273,19 +273,25 @@
             <div class="zhi2-con">
                 <el-row type="flex" justify="space-between" :gutter="20">
                     <el-col :span="12">
+                      <router-link :to="{path:'/list',query:{name:'知识产权',code:8,index:1}}">
                         <img src="../../static/property_05.5160ddd.jpg">
                         <p>商标注册</p>
+                      </router-link>
                     </el-col>
                     <el-col :span="12">
+                      <router-link :to="{path:'/list',query:{name:'知识产权',code:9,index:2}}">
                         <img src="../../static/property_07.20bed75.jpg">
                         <p>版权专利</p>
+                      </router-link>
                     </el-col>
                 </el-row>
                 <el-row type="flex" justify="space-around">
+                  <router-link :to="{path:'/list',query:{name:'知识产权',code:10,index:0}}">
                     <el-col :span="24">
                         <img src="../../static/property_11.a620967.jpg">
                         <p>著作权</p>
                     </el-col>
+                  </router-link>
                 </el-row>
             </div>
         </div>

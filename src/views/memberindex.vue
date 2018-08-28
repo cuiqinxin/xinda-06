@@ -1,8 +1,8 @@
 <template>
     <div class="memberindex">
-        <p class="phone hidden-sm-and-up"></p> 
-        <el-row class="hidden-sm-and-up">
-            <el-col :sm="5" :xs={span:20,offset:2}>
+        <p class="phone hidden-md-and-up"></p> 
+        <el-row class="hidden-md-and-up">
+            <el-col :md="5" :xs={span:20,offset:2} :sm={span:20,offset:2}>
                 <div class="user">
                     <span class="touxiang"></span>
                     <p>{{userPhoneNumber}}</p>
@@ -12,16 +12,16 @@
                         <span></span>
                         <router-link to="/member/orderphone" class="cholink">我的订单</router-link>
                     </div>
-                    <p class="hidden-sm-and-up">></p>
+                    <p class="hidden-md-and-up">></p>
                 </div>
                 <div class="choose install">
                     <div>
                         <span></span>
                         <router-link to="/member/memberinstall" class="cholink">账户设置</router-link>
                     </div>
-                    <p class="hidden-sm-and-up">></p>
+                    <p class="hidden-md-and-up">></p>
                 </div>
-                <a href="javascript:void(0)" class="photui hidden-sm-and-up" @click="quitlog">退出登录</a>
+                <a href="javascript:void(0)" class="photui hidden-md-and-up" @click="quitlog">退出登录</a>
             </el-col>
         </el-row>
     </div>
@@ -39,13 +39,7 @@ export default {
             )).then(
                 function(data){
                     if(data.data.data==null){
-                        that.$alert('请先登录', '提示', {
-                            confirmButtonText: '确定',
-                            type: 'warning',
-                            callback: action => {
-                                that.$router.push({path:'/outter/login',query:{pan:123}});
-                            }
-                        });
+                        that.$router.push({path:'/outter/login',query:{pan:123}});
                         return;
                     }
                     store.commit('loginStatus',data.data.data.loginId)              
@@ -70,7 +64,7 @@ export default {
 
 <style lang="less">
     span{display: inline-block;}
-    @media screen and (max-width: 768px){
+    @media screen and (max-width: 992px){
         .touxiang{
             width: 125px;
             height:125px;
