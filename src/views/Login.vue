@@ -117,6 +117,8 @@ export default {
                             })
                             if(that.panduan=='123'){
                                 that.$router.go(-1);
+                            }else if(that.panduan.length>3){
+                                that.$router.push({path:'/goodsdetail',query:{id:that.panduan}});
                             }else{
                                 that.$router.push({path:'/'});
                             }

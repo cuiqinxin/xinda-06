@@ -88,18 +88,13 @@ export default {
         endqingqiu:2
       };
     },
-    destroyed(){          //关闭页面后退出登录
-      this.ajax.post("/xinda-api/sso/logout").then(data=>{
-        store.commit('loginStatus','');
-        alert(store.state.userPhoneNumber);        
-      });
-    },
+    // destroyed(){          //关闭页面后退出登录
+    //   this.ajax.post("/xinda-api/sso/logout").then(data=>{
+    //     store.commit('loginStatus','');
+    //     alert(store.state.userPhoneNumber);
+    //   });
+    // },
     methods:{
-        // link(){
-        //     this.$router.push({
-        //         path:'/outter/login',query:{id:123456}
-        //     })
-        // },
       logout() {
         var that=this;
         this.$confirm('是否退出登录?', '提示', {

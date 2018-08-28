@@ -252,7 +252,7 @@ export default {
         var that = this
         this.ajax.post(
         '/xinda-api/provider/search-grid',this.qs.stringify({
-     
+
         sort:1,
         }))
         .then(function(data){
@@ -417,6 +417,7 @@ watch:{
                 border-radius: 5px;
             }
             p{
+                cursor: pointer;
                 padding:0 10px;
                 line-height: 25px;
                 height:25px;
