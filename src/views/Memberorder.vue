@@ -223,18 +223,6 @@ export default {
         //日期选择订单
         datachoose(){
             if(this.value1[0]==undefined||this.value1[1]==undefined||this.value1[0]==null||this.value1[1]==null){
-                // this.single=this.single-this.delesign-this.delesign1-this.delesign2;
-                // this.totalpage=Math.ceil(this.single/2); 
-                // that.orderArr=[];
-                // that.orderArr1=[]; 
-                // that.nodate=0;
-                // // this.delefen=this.delezui;
-                // for(var i in that.chushi){
-                //     that.orderArr.push(that.chushi[i]);
-                //     that.orderArr1.push(that.chushi1[i]);                       
-                // }
-                // that.pagei=1;this.currentPage3=1;
-                // console.log(789);
                 return;
             }
             var newDate = new Date();
@@ -348,7 +336,7 @@ export default {
         },
         //向后台请求订单
         orderChange(page,startdate,enddate,limited,panchu){
-            store.commit('loading',true)
+            store.commit('loading',true);
             var that=this;
             this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
                 {'startTime':startdate,'endTime':enddate,'start':page,'limit':limited}
