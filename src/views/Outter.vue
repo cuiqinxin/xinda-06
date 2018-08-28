@@ -2,13 +2,13 @@
   <div class="Outter">
     <div class="useruser hidden-sm-and-down">
         <el-row>
-            <el-col :span="24">     
-                <router-link to="/"><span class="xinda hidden-xs-only"></span></router-link><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
+            <el-col :span="24">
+                <router-link to="/header/index1"><span class="xinda hidden-xs-only"></span></router-link><span class="line hidden-xs-only"></span><p class="wel hidden-xs-only">{{info}}</p>
                 <p class="hidden-sm-and-up phone"><router-link to="/quit" class="jian">&lt;</router-link>{{infoWeb}}</p>
             </el-col>
         </el-row>
     </div>
-    <p class="hidden-md-and-up phone"><router-link to="/quit" class="jian">&lt;</router-link>{{infoWeb}}</p>    
+    <p class="hidden-md-and-up phone"><router-link to="/quit" class="jian">&lt;</router-link>{{infoWeb}}</p>
     <footer class="footer1-2 hidden-md-and-up">
       <ul>
         <li class="footer2-img1" :class="{footer2_img21:footer2}">
@@ -54,7 +54,7 @@ export default {
             footer5: false,
         }
     },
-      methods:{
+    methods:{
         phonelogin(){
             this.ajax.post("/xinda-api/sso/login-info").then(data=>{
                 if(data.data.status==1){this.$router.push({path:'/memberindex'});}
@@ -62,7 +62,9 @@ export default {
             })
         }
     }
+
 }
+
 </script>
 
 <style scoped lang="less">

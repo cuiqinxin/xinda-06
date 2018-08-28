@@ -36,6 +36,7 @@ export default {
   methods:{
       provinceChange(){
           this.city = citydata[this.provinceCode];
+          this.area=[];
           this.cityCode = ''
           this.areaCode = ''
           this.$emit('province',this.provinceCode);

@@ -24,6 +24,12 @@ export default new Vue({
   template: '<App/>',
   data : {
 
-  }
-})
-
+  },
+  computed:{
+    userPhoneNumber(){
+      return store.state.userPhoneNumber;
+    },
+  }  
+});
+console.log(store.state.userPhoneNumber)
+console.log(this)

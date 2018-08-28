@@ -409,6 +409,7 @@ watch:{
                 border-radius: 5px;
             }
             p{
+                cursor: pointer;
                 padding:0 10px;
                 line-height: 25px;
                 height:25px;
