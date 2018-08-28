@@ -8,7 +8,7 @@
             </li>
             <li class="eara">
                 <div>
-                    <city  @confirm="confirm" display="12345" ></city>
+                    <city  @confirm="confirm" @province="province" @city="city" display="12345" ></city>
                 </div>
             </li>
         </ul>
@@ -39,7 +39,7 @@
             <div
             v-for="(dp,index) in dianpu" :key="index"
             class="shop_1"
-            v-if="areaCode==dp.regionId||areaCode==''"
+            v-if="arrindex==0||(areaCode==dp.regionId)"
             :codes="dp.productTypeCodes"
             v-show="dshow==''||dshow==dp.productTypeCodes"
             ref="element"
@@ -48,7 +48,6 @@
                 <ul class="shop_1_left">
                     <li class="logo">
                        <img :src="'http://123.58.241.146:8088/xinda/pic/'+(dp.providerImg)">
-                       <!-- <img :src="dp.providerImg" alt="">  -->
                     </li>
                     <li class="gold">
                        <img src="../../static/gold.png" alt="">
@@ -78,16 +77,11 @@
                 </ul>
             </div>
             <div class="none"
-            v-if="arr.indexOf(areaCode)==-1||height==0"
+            v-if="(arr.indexOf(areaCode)==-1&&areaCode!=0)||height==0||arrindex==-1"
              >
                 <h1>抱歉！暂无此类商品</h1>
             </div>
         </div>
-        <!-- <div class="none"
-            v-if="height!=254"
-             >
-            <h1>抱歉！暂无此类商品</h1>
-        </div> -->
     </div>
     <div class="paging">
     <page @change="pageChange" :parentCount="j"></page>
@@ -139,10 +133,11 @@ export default {
          backgroundColor: "#2393d3",
          color:"white",
         borderRadius: "5px",
-
     },
     none:true,
     arr:[],
+    arr1:[],
+    arrindex:0,
      j:{
             pageSize : 5 , //每页显示6条数据
             currentPage : 1, //当前页码
@@ -153,6 +148,8 @@ export default {
             perPages:1  //页面中显示的页码数只能为单数
          },
     screenWidth:document.body.clientWidth,
+    cityCode:'',
+    provinceCode:'',
     }
   },
   created(){
@@ -165,15 +162,7 @@ export default {
            that.j.all=data.data.data.length;
            that.dianpu=data.data.data;
            that.none=false;
-           for(var i=0;i<=data.data.data.length;i++){
-               that.arr.push(data.data.data[i].regionId)
-               console.log(that.arr)
-                    //  console.log(this.$refs.element.style.height)
-    //   console.log(this.$refs.element.height)
-      console.log(document.getElementById("header-nav").clientHeight);
-      that.height=document.getElementById("header-nav").clientHeight;
-    //   console.log($('#header-nav').height())
-           }
+         
         }
         });
         var that = this
@@ -184,11 +173,12 @@ export default {
         sort:1,
       }))
       .then(function(data){
-            that.dianpu=data.data.data
         store.commit('loading',false)
-
+            that.dianpu=data.data.data
+              for(var i=0;i<data.data.data.length;i++){
+               that.arr.push(data.data.data[i].regionId)
+           }
         });
-
   },
   components:{
       page,
@@ -206,13 +196,11 @@ export default {
             limit:6,
             sort:2})).then(function(data){
                     that.dianpu=data.data.data
-            console.log(data.data.data);
         });
         },
         shopmobile(){
         this.$router.push({
             path:"/shopmobile",
-        //    query:{ id:this.$route.query.id}
         })
      },
       goodp(){
@@ -225,7 +213,6 @@ export default {
         sort:2,
         }))
         .then(function(data){
-                // console.log(data.data.data);
                 that.dianpu=data.data.data
             });
       },
@@ -233,14 +220,12 @@ export default {
         this.haoping=''
         this.jiedan=this.lan
         this.zonghe=''
-        // console.log('sss')
         var that = this
         this.ajax.post(
         '/xinda-api/provider/search-grid',this.qs.stringify({
         sort:3,
         }))
         .then(function(data){
-                // console.log(data.data.data);
                 that.dianpu=data.data.data
             });
       },
@@ -248,11 +233,9 @@ export default {
         this.haoping=''
         this.jiedan=''
         this.zonghe=this.lan
-        // console.log('sss')
         var that = this
         this.ajax.post(
-        '/xinda-api/provider/search-grid',this.qs.stringify({
-     
+        '/xinda-api/provider/search-grid',this.qs.stringify({     
         sort:1,
         }))
         .then(function(data){
@@ -266,29 +249,39 @@ export default {
         this.indexp=aaa;
         this.dshow=code;
         this.allstyle='';
-        console.log(document.getElementById("header-nav").clientHeight);
-        console.log(this.arr.indexOf(this.areaCode))
     },
   alll(){
       this.dshow='';
       this.allstyle=this.lan;
       this.indexp='';
   },
-      choose1:function(val){
-        alert(this.$children.productTypes)
-    },
-
     confirm(value){
-        this.areaCode=value
-      console.log(document.getElementById("header-nav").clientHeight);
-      console.log(this.arr.indexOf(value))
+      this.areaCode=value
+          this.arr1=[]   
+           this.arrindex=1 
       },
+      city(value){
+        if(this.areaCode!=''){this.areaCode=0}
+        this.cityCode=value.substr(0,4)
+        var reg =  new RegExp(this.cityCode) 
+        for(var i=0; i<this.arr.length;i++){
+            this.arr1.push(this.arr[i].search(this.cityCode))
+        }
+        this.arrindex=this.arr1.indexOf(0)
+        this.arr1=[]
+      },
+      province(value){
+        if(this.areaCode!=''){this.areaCode=0}
+        this.provinceCode=value.substr(0,2)
+        var reg =  new RegExp(this.provinceCode) 
+        for(var i=0; i<this.arr.length;i++){
+            this.arr1.push(this.arr[i].search(this.provinceCode))
+        }
+        this.arrindex=this.arr1.indexOf(0)
+        this.arr1=[]
+      }
   },
   mounted() {
-    //   console.log(this.$refs.element.style.height)
-    //   console.log(this.$refs.element.height)
-    //   console.log(document.getElementById("header-nav").clientHeight);
-    //   console.log($('#header-nav').height())
   if(this.screenWidth<=992){
                   this.shopmobile()
         }
@@ -322,7 +315,6 @@ watch:{
             searchName:this.$route.query.searchName,
         }))
         .then(function(data){
-                // console.log(data.data.data);
                 that.dianpu=data.data.data
             });}
 },
