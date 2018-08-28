@@ -618,7 +618,7 @@ export default {
   height: 88px;
   border-top: 2px solid #f9f9f9;
   position: fixed;
-  z-index: 1000;
+  z-index: 998;
   bottom: 0;
   left: 0;
   background-color: #fff;

@@ -63,6 +63,7 @@ export default {
                 this.logyan();
             }
         }
+        console.log(this.panduan,'值');
     },
     methods:{
         logyan(){                     //登录验证
