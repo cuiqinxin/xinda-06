@@ -39,24 +39,15 @@ export default {
           this.area=[];
           this.cityCode = ''
           this.areaCode = ''
-<<<<<<< HEAD
           this.area = []
         //   this.areaChange();
-         this.$emit('confirm',this.provinceCode);
+         this.$emit('province',this.provinceCode);
       },
       cityChange(){
           this.area = citydata[this.cityCode];
           this.areaCode = ''
         //   this.areaChange()
-        this.$emit('confirm',this.cityCode);
-=======
-        //   this.areaChange();
-      },
-      cityChange(){
-          this.area = citydata[this.cityCode];
-           this.areaCode = ''
-        //   this.areaChange()
->>>>>>> 1b30a61d776c1b8a89ec8a34f558cbd758e9383a
+        this.$emit('city',this.cityCode);
       },
       areaChange(){
         this.$emit('confirm',this.areaCode);

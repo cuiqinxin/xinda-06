@@ -96,7 +96,7 @@
         </div>
       </div>
     </div>
-
+    
     <router-view/>
 
     <footer class="footer1 hidden-sm-and-down">
@@ -142,6 +142,7 @@
   </div>
 </template>
 <script>
+import scrollTop from '../components/ScrollTop'
 export default {
   name: "Header",
   data() {
@@ -171,6 +172,9 @@ export default {
       footer4: false,
       footer5: false,
     };
+  },
+  components:{
+    scrollTop
   },
   created() {
     var navArr={};
