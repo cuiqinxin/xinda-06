@@ -53,7 +53,16 @@ export default {
             footer4: false,
             footer5: false,
         }
+    },
+       methods:{
+        phonelogin(){
+            this.ajax.post("/xinda-api/sso/login-info").then(data=>{
+                if(data.data.status==1){this.$router.push({path:'/memberindex'});}
+                if(data.data.status!=1){this.$router.push({path:'/quit'});}
+            })
+        }
     }
+
 }
 </script>
 
