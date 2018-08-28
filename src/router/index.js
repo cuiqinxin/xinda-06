@@ -240,13 +240,15 @@ router.beforeEach((to, from, next) => {
   ).then(function (data) {
     if (data.data.status == 0) {
       if (nextRoute.indexOf(to.name) >= 0) {
-        router.push({ name: 'Login', query: { pan:'123'} });
+        next({ name: 'Login', query: { pan:'123',enen:Math.random()} });
+       
       } else {
         next();
       }
-    } else if (data.data.status == 1 && to.name === 'Login') {
-      next({ path: '/index1' });
-    }
+    } 
+    // else if (data.data.status == 1 && to.name === 'Login') {
+    //   next({ path: '/index1' });
+    // }
     else{next()}
   })
 });
