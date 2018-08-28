@@ -39,13 +39,7 @@ export default {
             )).then(
                 function(data){
                     if(data.data.data==null){
-                        that.$alert('请先登录', '提示', {
-                            confirmButtonText: '确定',
-                            type: 'warning',
-                            callback: action => {
-                                that.$router.push({path:'/outter/login',query:{pan:123}});
-                            }
-                        });
+                        that.$router.push({path:'/outter/login',query:{pan:123}});
                         return;
                     }
                     store.commit('loginStatus',data.data.data.loginId)              
