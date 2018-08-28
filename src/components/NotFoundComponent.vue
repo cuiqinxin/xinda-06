@@ -16,5 +16,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-    
+    .notfound{
+      margin: 0 auto;
+    }
 </style>

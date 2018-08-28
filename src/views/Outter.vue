@@ -54,11 +54,7 @@ export default {
             footer5: false,
         }
     },
-<<<<<<< HEAD
-       methods:{
-=======
     methods:{
->>>>>>> 8d16a9f84e7355b07926550f2321fbf47b046b72
         phonelogin(){
             this.ajax.post("/xinda-api/sso/login-info").then(data=>{
                 if(data.data.status==1){this.$router.push({path:'/memberindex'});}
