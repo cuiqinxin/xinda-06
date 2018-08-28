@@ -39,6 +39,7 @@ export default {
           this.area=[];
           this.cityCode = ''
           this.areaCode = ''
+<<<<<<< HEAD
           this.area = []
         //   this.areaChange();
          this.$emit('confirm',this.provinceCode);
@@ -48,6 +49,14 @@ export default {
           this.areaCode = ''
         //   this.areaChange()
         this.$emit('confirm',this.cityCode);
+=======
+        //   this.areaChange();
+      },
+      cityChange(){
+          this.area = citydata[this.cityCode];
+           this.areaCode = ''
+        //   this.areaChange()
+>>>>>>> 1b30a61d776c1b8a89ec8a34f558cbd758e9383a
       },
       areaChange(){
         this.$emit('confirm',this.areaCode);

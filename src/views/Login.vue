@@ -115,12 +115,12 @@ export default {
                                     store.commit('gaincartId',obj);
                                 }
                             })
-                            if(that.panduan=='123'){
+                            if(that.panduan==''||that.panduan==undefined){
+                                that.$router.push({path:'/'});
+                            }else if(that.panduan=='123'){
                                 that.$router.go(-1);
                             }else if(that.panduan.length>3){
                                 that.$router.push({path:'/goodsdetail',query:{id:that.panduan}});
-                            }else{
-                                that.$router.push({path:'/'});
                             }
                         }
                 })
