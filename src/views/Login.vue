@@ -50,7 +50,7 @@ export default {
             phoneTip:'',         //手机号提示
             passTip:'',          //密码提示
             photoTip:'',         //图片验证码提示
-            panduan:''           //判断登陆后跳转的标记
+            panduan:'',          //判断登陆后跳转的标记
         }
     },
     created(){
