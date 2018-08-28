@@ -3,22 +3,16 @@
 
   <!--transition标签 按钮出现附带动画-->
   <transition name="el-fade-in">
-    <!-- <transition name="el-fade-in"> -->
     <div class="page-component-up" @click="scrollToTop" v-show="toTopShow">
-      <!-- <i class="el-icon-font el-icon-caret-top"></i> -->
       <img src='../../static/returntop.png' alt="" class="el-icon-caret-top">
-      <!-- <div class="el-icon-caret-top"></div> -->
     </div>
-  <!-- </transition> -->
   </transition>
 </template>
 
 <script>
-// import logoSrc from '../../static/top.png'
   export default {
     data() {
       return {
-        // logoSrc:  require('../../static/returntop.png'),
         toTopShow: false,
         scrollTop:0
       }
@@ -72,12 +66,10 @@
       }
     },
     mounted() {
-
-          window.addEventListener('scroll', this.handleScroll,true)
+          window.addEventListener('scroll', this.handleScroll,true)       
     },
     destroyed() {
-      let targetScroll = document.getElementById("scroller-box").children[0]
-      targetScroll.removeEventListener('scroll', this.handleScroll)
+      window.removeEventListener('scroll', this.handleScroll,true)
     }
   }
 </script>
