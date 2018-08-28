@@ -63,7 +63,6 @@ export default {
                 this.logyan();
             }
         }
-        console.log(this.panduan,'值');
     },
     methods:{
         logyan(){                     //登录验证
@@ -116,14 +115,13 @@ export default {
                                     store.commit('gaincartId',obj);
                                 }
                             })
-                            // if(that.panduan==''){
+                            if(that.panduan==''||that.panduan==undefined){
                                 that.$router.push({path:'/'});
-                            // }else if(/\./.test(that.panduan)==true||that.panduan.length==1){
-                            //     that.$router.go(-1);
-                            // }else if(that.panduan.length>3){
-                            //     that.$router.push({path:'/goodsdetail',query:{id:that.panduan}});
-                            // }
-
+                            }else if(that.panduan=='123'){
+                                that.$router.go(-1);
+                            }else if(that.panduan.length>3){
+                                that.$router.push({path:'/goodsdetail',query:{id:that.panduan}});
+                            }
                         }
                 })
             }
