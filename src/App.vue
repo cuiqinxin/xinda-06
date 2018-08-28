@@ -57,13 +57,10 @@
       </el-row>
     </div>
     <!-- 结束公共头部 -->
-
     <router-view/>
-
     <!-- 开始公共底部 -->
     <footer class="footer2 hidden-sm-and-down" :class="{none:bbb}">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
     <!-- 结束公共底部 -->
-
     <!-- loading正在加载组件 -->
     <Loading v-show="loading"></Loading>
   </div>
