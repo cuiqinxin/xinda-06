@@ -190,7 +190,8 @@ export default {
             screenWidth: document.body.clientWidth,
             loginStatus:0,
             currentIndex :0,
-            errorImage: 'this.src="' + require('../../static/errorImg.png') + '"'
+            errorImage: 'this.src="' + require('../../static/errorImg.png') + '"',
+            count : 0,
         };
     },
     created() {
@@ -555,6 +556,7 @@ export default {
         },
         //点击服务分类渲染
         sort1(index1, event) {
+            this.count = 0
             document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#000')
             document.getElementsByClassName('el-icon-sort-down')[1].setAttribute('style','color:#000')
             document.getElementsByClassName('el-icon-sort-up')[3].setAttribute('style','color:#000')
@@ -626,6 +628,7 @@ export default {
         },
         //点击类型渲染
         sort2(index2, event) {
+            this.count = 0
             document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#000')
             document.getElementsByClassName('el-icon-sort-down')[1].setAttribute('style','color:#000')
             document.getElementsByClassName('el-icon-sort-up')[3].setAttribute('style','color:#000')
@@ -686,6 +689,11 @@ export default {
         },
         //价格排序
         sortprice(index3, event) {
+            // if(this.count == 1){
+            //     console.log(11111111)
+            // }else{
+            //     console.log(0)
+            // }
             this.start = 4
             this.$refs.pagemore.go(1)
             this.current3 = index3
@@ -716,6 +724,10 @@ export default {
                 document.getElementsByClassName('el-icon-sort-down')[3].setAttribute('style','color:#fff')
             }
             var that = this
+
+            if(this.count == 1){
+                that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+            }else{
 
             if(this.searchAdd.searchName == '' || this.searchAdd.searchName == undefined){
 
@@ -811,6 +823,7 @@ export default {
                     }
                 });
             }
+            }
         },
         //立即购买
         buy(event,item){
@@ -842,7 +855,14 @@ export default {
         cart(event,item){
             var that = this
             var id = event.currentTarget.id
+<<<<<<< HEAD
+
             var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
+
+
+=======
+            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
+>>>>>>> 8cc75ef7dcfdf8644d38ef6b70c2987e8cd2f2cb
             // that.ajax.post(
             //     "/xinda-api/sso/login-info",
             //     that.qs.stringify({})
@@ -903,7 +923,9 @@ export default {
                     that.thisProduct = that.temporaryList
                     if( that.thisProduct.length == 0){
                         that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
+                        that.count = 1
                     }else{
+                        that.count = 0
                         var production = that.thisProduct;
                         for(let key in production){
                             var pro = production[key]['productImg']
@@ -938,7 +960,9 @@ export default {
                         that.parentCount.all = 1
                         that.temporaryList = {0:{errorInfo:'当前选项无内容'}}
                         that.thisProduct = that.temporaryList
+                        that.count = 1
                     }else{
+                        that.count = 0
                         //有产品渲染
                         that.ajax.post(
                             "/xinda-api/product/package/grid",
