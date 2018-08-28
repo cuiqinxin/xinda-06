@@ -275,14 +275,14 @@ const  router = new VueRouter({       //module.expotrs={}
 
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-  const nextRoute = ['Index1', 'shoppingcart', 'pay', 'payfailed', 'paysuccess', 'Memberorder', 'Memberinstall', 'Memberindex', 'Memberassess', 'orderphone'];
+  const nextRoute = ['shoppingcart', 'pay', 'payfailed', 'paysuccess', 'Memberorder', 'Memberinstall', 'Memberindex', 'Memberassess', 'orderphone'];
   axios.post(
     "/xinda-api/sso/login-info",
     qs.stringify({})
   ).then(function (data) {
     if (data.data.status == 0) {
       if (nextRoute.indexOf(to.name) >= 0) {
-        router.push({ name: 'Login', query: { pan: 123 } });
+        router.push({ name: 'Login', query: { pan:'123'} });
       } else {
         next();
       }
