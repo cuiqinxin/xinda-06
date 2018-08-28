@@ -222,50 +222,33 @@ const  router = new VueRouter({       //module.expotrs={}
       name: 'juh',
       component: juh
     },
+    {
+      path: '*',
+      name: 'NotFoundComponent',
+      component: NotFoundComponent
+    },
   ]
 })
 
 
-
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-  // to: Route: 即将要进入的目标 路由对象
-  // from: Route: 当前导航正要离开的路由
-  // next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。
-  console.log('navigation-guards');
-  const nextRoute = ['Index1', 'shoppingcart', 'pay','payfailed','paysuccess','Memberorder','Memberinstall','Memberindex','Memberassess','orderphone'
-];
-
-   // 判断是否登陆
-   axios.post(
+  const nextRoute = ['shoppingcart', 'pay', 'payfailed', 'paysuccess', 'Memberorder', 'Memberinstall', 'Memberindex', 'Memberassess', 'orderphone'];
+  axios.post(
     "/xinda-api/sso/login-info",
     qs.stringify({})
-    ).then(function(data){
-    // console.log(data,to.name,nextRoute.indexOf(to.name) >= 0);
-    // 未登录状态；当路由到nextRoute指定页时，跳转至login
-    if(data.data.status==0){
-      // console.log(111,nextRoute.indexOf(to.name),to.name)
-      if(nextRoute.indexOf(to.name) >= 0){
-        // console.log(222)
-        router.push({name:'Login' ,query:{pan:Math.random()+1}});
-        // console.log(333)
-        // next();
-      } else{
-        // console.log(11111)
-        // next();
-
+  ).then(function (data) {
+    if (data.data.status == 0) {
+      if (nextRoute.indexOf(to.name) >= 0) {
+        router.push({ name: 'Login', query: { pan:'123'} });
+      } else {
+        next();
       }
-
-    }else if(data.data.status==1&&to.name === 'Login'){ // 已登录状态；当路由到login时，跳转至home
-        router.push({ name: 'Index1' });
-        // next();
+    } else if (data.data.status == 1 && to.name === 'Login') {
+      next({ path: '/index1' });
     }
-    // else if(data.data.status!=1&&to.name === 'Login'){
-    //     router.push({ name: 'Login' });
-    // }
-    next();
-})
-// next();
+    else{next()}
+  })
 });
 
 export default router;

@@ -54,7 +54,7 @@ export default {
           this.city = citydata[this.provinceCode];
           this.cityCode=b;
           this.area = citydata[this.cityCode];
-        this.areaCode=c;
+          this.areaCode=c;
       },
   }
 }

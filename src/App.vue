@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- 开始公共头部 -->
-    <div class="top hidden-sm-and-down">
+    <div class="top hidden-sm-and-down" :class="{none:bbb}">
       <el-row class="top-con" type="flex" justify="space-between">
         <el-col :span="12" class="top-left">
           <div class="topHover">
@@ -61,7 +61,7 @@
     <router-view/>
 
     <!-- 开始公共底部 -->
-    <footer class="footer2 hidden-sm-and-down">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
+    <footer class="footer2 hidden-sm-and-down" :class="{none:bbb}">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</footer>
     <!-- 结束公共底部 -->
 
     <!-- loading正在加载组件 -->
@@ -85,7 +85,8 @@ export default {
         errorClass:'carttitsss',
         showlist:[],
         changebiao:0,         //第几次加到showlist
-        endqingqiu:2
+        endqingqiu:2,
+        bbb: false,
       };
     },
     // destroyed(){          //关闭页面后退出登录
@@ -148,12 +149,6 @@ export default {
       })
     },
     created(){
-      // var that = this;
-      // this.ajax.post("/xinda-api/cart/cart-num").then(data=>{
-      //   this.cartNum = data.data.data.cartNum;
-      // })
-        // 购物车数据
-
       //购物车列表接口,将从后台获取到的数据存入数组，然后进行渲染
       var that = this;
       this.ajax
@@ -167,8 +162,7 @@ export default {
         }
         that.showlist=store.state.cartconcrete;
       })
-      //  console.log(this.cartid);
-        // over
+
       fun:{
         this.ajax.post("/xinda-api/sso/login-info").then(data=>{
           if(data.data.status === 0){
@@ -192,6 +186,9 @@ export default {
   li{list-style: none};
   a{text-decoration: none};
 
+  .none{
+    display: none;
+  }
   .top{
     font-size: 12px;
     letter-spacing: 1px;
