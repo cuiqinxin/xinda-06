@@ -115,9 +115,9 @@ export default {
                                     store.commit('gaincartId',obj);
                                 }
                             })
-                            if(that.panduan==''||that.panduan==undefined){
+                            if(that.panduan==''){
                                 that.$router.push({path:'/'});
-                            }else if(that.panduan=='123'){
+                            }else if(that.panduan=='123'||that.panduan==null){
                                 that.$router.go(-1);
                             }else if(that.panduan.length>3){
                                 that.$router.push({path:'/goodsdetail',query:{id:that.panduan}});

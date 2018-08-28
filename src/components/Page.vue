@@ -88,7 +88,6 @@
         last(){
             if (this.index != this.pages) {
                 this.go(this.pages)
-                // console.log(this.pages)
             }
         },
         go (page) {
@@ -96,7 +95,6 @@
             backgroundColor:'#0275d8'}
             if (this.index !== page) {
                 this.index = page
-                // this.parentCount.page=(page-1)*6
                 //父组件通过change方法来接受当前的页码
                 this.$emit('change', this.index)
             }

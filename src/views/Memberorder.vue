@@ -179,20 +179,21 @@ export default {
                                 message: '删除成功!'
                             });
                         }
+                        // console.log(that.nodate,that.orderArr,that.single-that.delesign);
                         if(that.nodate==0&&that.orderArr.length==2&&that.single-that.delesign>that.orderArr.length){
                             var start=that.requstlim*8-that.delesign-1;
-                            console.log(888);
+                            // console.log(888);
                             that.orderChange(start,'','',8,1);
                         }else if(that.nodate==1&&that.orderArr.length==2&&that.singlenol-that.delesign1>that.orderArr.length){
                             var start=that.requstnol*8-that.delesign1-1;
-                            console.log(888888);
+                            // console.log(888888);
                             that.orderChange(start,'','',8,0);
                         }
                         var sign=that.pagei-1;
                         if(sign*2+dis==that.orderArr.length-1&&dis==0){
                             that.pagei--;
                             // that.currentPage3=that.pagei-1;
-                            console.log(666);
+                            // console.log(666);
                         }
                         that.orderArr.splice(sign*2+dis,1);
                         that.orderArr1.splice(sign*2+dis,1);
@@ -222,18 +223,6 @@ export default {
         //日期选择订单
         datachoose(){
             if(this.value1[0]==undefined||this.value1[1]==undefined||this.value1[0]==null||this.value1[1]==null){
-                // this.single=this.single-this.delesign-this.delesign1-this.delesign2;
-                // this.totalpage=Math.ceil(this.single/2); 
-                // that.orderArr=[];
-                // that.orderArr1=[]; 
-                // that.nodate=0;
-                // // this.delefen=this.delezui;
-                // for(var i in that.chushi){
-                //     that.orderArr.push(that.chushi[i]);
-                //     that.orderArr1.push(that.chushi1[i]);                       
-                // }
-                // that.pagei=1;this.currentPage3=1;
-                console.log(789);
                 return;
             }
             var newDate = new Date();
@@ -347,7 +336,7 @@ export default {
         },
         //向后台请求订单
         orderChange(page,startdate,enddate,limited,panchu){
-            store.commit('loading',true)
+            store.commit('loading',true);
             var that=this;
             this.ajax.post('/xinda-api/business-order/grid',this.qs.stringify(
                 {'startTime':startdate,'endTime':enddate,'start':page,'limit':limited}
@@ -389,27 +378,27 @@ export default {
                             })
                         }
                     }
-                    console.log(that.orderArr);
+                    // console.log(that.orderArr);
                     store.commit('loading',false)               
             }).catch(function(){})
         },
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            // console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
             this.pagei=val;
             if(this.nodate==2){return;}
             if(this.nodate==0&&this.pagei*2+2>this.orderArr.length&&this.single-this.delesign>this.orderArr.length){
-                console.log(999);
+                // console.log(999);
                 var start=this.requstlim*8;
                 var jici=Math.floor(this.pagei*2/8+1-this.requstlim)*8;
                 this.orderChange(start,'','',jici,1);
             }
             if(this.nodate==1&&this.pagei*2+2>this.orderArr.length&&this.singlenol-this.delesign1>this.orderArr.length){
-                console.log(999999);
+                // console.log(999999);
                 var start=this.requstnol*8;
                 var jici=Math.floor(this.pagei*2/8+1-this.requstnol)*8;
-                console.log(start,'lulu',jici);
+                // console.log(start,'lulu',jici);
                 this.orderChange(start,'','',jici,0);
             }
         }
