@@ -332,7 +332,7 @@ watch : {
     .main-right{
         .info{
             font-size: 12px;
-            height:32px;
+            height:30px;
         }
         .bottom{
             font-size: 12px;
