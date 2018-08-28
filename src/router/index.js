@@ -42,8 +42,8 @@ import Dianpu from '@/components/dianpu'
 import axios from 'axios'
 import qs from 'qs'
 
-import newVue from '../main'
-import { resolve } from 'path';
+// import newVue from '../main'
+// import { resolve } from 'path';
 
 
 const  router = new VueRouter({       //module.expotrs={}
@@ -221,11 +221,6 @@ const  router = new VueRouter({       //module.expotrs={}
             },
           ]
         },
-        // {
-        //   path: '/rScroll',
-        //   name: 'rScroll',
-        //   component: rScroll,
-        // },
         {
           path: '/loading',
           name: 'loading',
@@ -258,17 +253,6 @@ const  router = new VueRouter({       //module.expotrs={}
       // component: juh
       component: resolve=> require(['@/views/juh'],resolve),
     },
-    // {
-    //   path:'/dianpu/:id',
-    //   name:Dianpu,
-    //   // component:requre('../componnents/B')
-    // }
-
-    // {
-    //   path: '*',
-    //   name: NotFoundComponent,
-    //   component: NotFoundComponent
-    // }
   ]
 })
 
