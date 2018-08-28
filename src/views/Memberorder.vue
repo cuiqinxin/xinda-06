@@ -300,6 +300,7 @@ export default {
                         that.orderArr1.push(that.chushi1[i]);                       
                     }
                     that.pagei=1;this.currentPage3=1;
+                    if(this.single==0){that.noneorder='showorder noneorder';}else{that.noneorder='yincangorder';}
                 }
             }else if(!/^S\d{19}$/.test(this.searchOrderNumber)){
                 this.orderHint='订单号格式错误'
