@@ -837,7 +837,7 @@ export default {
             //     ).then(function(data){
             //         // 未登陆
                     if(this.loginStatus==0){
-                        that.open2();
+                        that.open2(item.id);
                     }else{
                          // 已登录则向购物车列表发送数据
                          that.$store.commit('cartNumber',obj)
@@ -855,21 +855,14 @@ export default {
         cart(event,item){
             var that = this
             var id = event.currentTarget.id
-<<<<<<< HEAD
-
             var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
-
-
-=======
-            var obj={'id':item.id,'price':item.price,'sname':item.serviceName,'sinfo':item.serviceInfo,'simg':item.productImg}
->>>>>>> 8cc75ef7dcfdf8644d38ef6b70c2987e8cd2f2cb
             // that.ajax.post(
             //     "/xinda-api/sso/login-info",
             //     that.qs.stringify({})
             // ).then(function(data){
             //     // 未登陆
                 if(this.loginStatus==0){
-                    that.open2();
+                    that.open2(item.id);
                 }else{
                     that.$confirm('是否加入购物车', '提示', {
                         confirmButtonText: '确定',
@@ -987,14 +980,14 @@ export default {
             }
         },
         //未登录跳转
-        open2() {
+        open2(shuju) {
             var that=this;
             this.$confirm('您需要登陆才能进行此操作', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    that.$router.push({path:'/outter/login',query:{pan:123}});
+                    that.$router.push({path:'/outter/login',query:{pan:shuju}});
                 }).catch(() => {
                 this.$message({
                     type: 'info',
