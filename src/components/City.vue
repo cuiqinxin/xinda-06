@@ -39,12 +39,24 @@ export default {
           this.area=[];
           this.cityCode = ''
           this.areaCode = ''
+<<<<<<< HEAD
+          this.area = []
+        //   this.areaChange();
+         this.$emit('confirm',this.provinceCode);
+      },
+      cityChange(){
+          this.area = citydata[this.cityCode];
+          this.areaCode = ''
+        //   this.areaChange()
+        this.$emit('confirm',this.cityCode);
+=======
         //   this.areaChange();
       },
       cityChange(){
           this.area = citydata[this.cityCode];
            this.areaCode = ''
         //   this.areaChange()
+>>>>>>> 7c7f0e7073f598a3201a96994079580815ca63b6
       },
       areaChange(){
         this.$emit('confirm',this.areaCode);
@@ -54,7 +66,7 @@ export default {
           this.city = citydata[this.provinceCode];
           this.cityCode=b;
           this.area = citydata[this.cityCode];
-        this.areaCode=c;
+          this.areaCode=c;
       },
   }
 }
