@@ -295,8 +295,8 @@ const  router = new VueRouter({       //module.expotrs={}
 
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-  const nextRoute = ['shoppingcart',  'Memberorder', 'Memberinstall', 'Memberindex', 'Memberassess', 'orderphone'];
-  const nextRoute1= ['pay', 'payfailed', 'paysuccess', ];
+  const nextRoute = ['shoppingcart',  'Memberorder','pay', 'payfailed', 'paysuccess',  'Memberinstall', 'Memberindex', 'Memberassess', 'orderphone'];
+  // const nextRoute1= [];
  
   axios.post(
     "/xinda-api/sso/login-info",
@@ -304,14 +304,16 @@ router.beforeEach((to, from, next) => {
   ).then(function (data) {
     if (data.data.status == 0) {
       if (nextRoute.indexOf(to.name) >= 0) {
-        next({ name: 'Login', query: { pan:'123'} });
-      } else if(nextRoute1.indexOf(to.name) >= 0){
-        next({path:'/'});
-      }else{
+        next({ name: 'Login', query:{pan:123}, });
+      } 
+      // else if(nextRoute1.indexOf(to.name) >= 0){
+      //   next({path:'/'});
+      // }
+      else{
         next();
       }
     } 
-    else if (data.data.status == 1 && to.name === 'Login') {
+    else if (data.data.status == 1 && to.name =='Login') {
       next({ path: '/' });
     }
     else{next()}
