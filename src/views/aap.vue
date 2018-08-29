@@ -304,10 +304,11 @@ watch : {
         float:left;
         margin:2%;
         .info{
-            overflow: hidden;
-            // white-space: nowrap;
-            text-overflow:ellipsis;
-
+            overflow: hidden;			/*多行溢出变点*/
+            text-overflow: ellipsis;
+            display:-webkit-box; 
+            -webkit-box-orient:vertical;
+            -webkit-line-clamp:2;
         }
     }
 }
@@ -331,7 +332,7 @@ watch : {
     .main-right{
         .info{
             font-size: 12px;
-            height:32px;
+            height:30px;
         }
         .bottom{
             font-size: 12px;
