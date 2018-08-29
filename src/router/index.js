@@ -170,19 +170,39 @@ const  router = new VueRouter({       //module.expotrs={}
           path: 'pay',
           name: 'pay',
           // component: pay,
+
           component: resolve=> require(['@/views/pay'],resolve),
+          beforeEnter: (to, from, next) => {
+            if(from.name==="shoppingcart"){
+              next();
+            }else if(from.name==="payfailed"){
+              next();
+            }else if(from.name==="Memberorder"){
+              next();
+            }else{next({path:"/"})}
+          }
         },
         {
           path: 'payfailed',
           name: 'payfailed',
           // component: payfailed
           component: resolve=> require(['@/views/payfailed'],resolve),
+          beforeEnter: (to, from, next) => {
+            if(from.name==="pay"){
+              next();
+            }else{next({path:"/"})}
+          }
         },
         {
           path: 'paysuccess',
           name: 'paysuccess',
           // component: paysuccess
           component: resolve=> require(['@/views/paysuccess'],resolve),
+          beforeEnter: (to, from, next) => {
+            if(from.name==="pay"){
+              next();
+            }else{next({path:"/"})}
+          }
         },
         {
           path: 'goodsdetail',
@@ -275,22 +295,25 @@ const  router = new VueRouter({       //module.expotrs={}
 
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-  const nextRoute = ['shoppingcart', 'pay', 'payfailed', 'paysuccess', 'Memberorder', 'Memberinstall', 'Memberindex', 'Memberassess', 'orderphone'];
+  const nextRoute = ['shoppingcart',  'Memberorder', 'Memberinstall', 'Memberindex', 'Memberassess', 'orderphone'];
+  const nextRoute1= ['pay', 'payfailed', 'paysuccess', ];
+ 
   axios.post(
     "/xinda-api/sso/login-info",
     qs.stringify({})
   ).then(function (data) {
     if (data.data.status == 0) {
       if (nextRoute.indexOf(to.name) >= 0) {
-        next({ name: 'Login', query: { pan:'123',enen:Math.random()} });
-       
-      } else {
+        next({ name: 'Login', query: { pan:'123'} });
+      } else if(nextRoute1.indexOf(to.name) >= 0){
+        next({path:'/'});
+      }else{
         next();
       }
     } 
-    // else if (data.data.status == 1 && to.name === 'Login') {
-    //   next({ path: '/index1' });
-    // }
+    else if (data.data.status == 1 && to.name === 'Login') {
+      next({ path: '/' });
+    }
     else{next()}
   })
 });
