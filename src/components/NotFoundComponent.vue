@@ -11,10 +11,19 @@ export default {
     return {
 
     }
-  }
+  },
+  created(){
+    this.$parent.bbb = true;
+  },
+   destroyed: function () {
+    this.$parent.bbb = false;
+ },
 }
 </script>
 
 <style scoped lang="less">
-    
+    .notfound img{
+      display: block;
+      margin: 0 auto;
+    }
 </style>

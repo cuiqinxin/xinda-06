@@ -190,7 +190,7 @@ export default {
             currentIndex :0,
             errorImage: 'this.src="' + require('../../static/errorImg.png') + '"',
             count : 0,
-            citycount : 1
+            citycount : 0
         };
     },
     created() {
@@ -325,7 +325,7 @@ export default {
                 })
 
             });
-            
+
         }else{
             this.show = false;
             that.ajax.post(
@@ -537,6 +537,7 @@ export default {
         },
         //点击服务分类渲染
         sort1(index1, event) {
+          this.citycount = 0
             store.commit('loading',true)
             this.count = 0
             document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#000')
@@ -607,11 +608,12 @@ export default {
                     }
                     store.commit('loading',false)
                 }
-               
+
             })
         },
         //点击类型渲染
         sort2(index2, event) {
+          this.citycount = 0
             this.count = 0
             document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#000')
             document.getElementsByClassName('el-icon-sort-down')[1].setAttribute('style','color:#000')
@@ -672,7 +674,7 @@ export default {
         },
         //价格排序
         sortprice(index3, event) {
-              
+
             this.start = 4
             this.$refs.pagemore.go(1)
             this.current3 = index3
@@ -782,7 +784,7 @@ export default {
                     }
                 }
             }else{
-               
+
                 // if(this.thisProduct[0]['errorInfo']){
                      that.thisProduct = {0:{errorInfo:'当前选项无内容'}};
                 // }else{
@@ -813,7 +815,7 @@ export default {
                 // }
             }
             }
-            
+
         },
         //立即购买
         buy(event,item){
@@ -897,7 +899,7 @@ export default {
             }else{
                 this.thisProduct = {0:{errorInfo:'当前选项无内容'}};
             }
-           
+
         },
         city(value){
             this.citycount = 1
@@ -972,11 +974,11 @@ export default {
             if(val<768){
                 window.addEventListener('scroll', this.scrollBottom)
                 this.isShow = false;
-                
+
             }
             if(oldval<768 && val>=768){
 
-                
+
                 this.thisProduct = this.thisProduct.splice(0,5)
                 this.isShow = false;
                 // this.parentCount.currentPage = 1;
@@ -986,7 +988,7 @@ export default {
             }
             else if(oldval>=768 && val<768){
 
-                
+
                 this.start = 4
                 if(this.currentIndex >= 2){
                     var that = this;
@@ -1079,8 +1081,8 @@ export default {
             }
 
             //从搜索页面进入普通商品列表页面
-            if(oldval.query.searchName && val.query.searchName == undefined){  
-                store.commit('loading',true) 
+            if(oldval.query.searchName && val.query.searchName == undefined){
+                store.commit('loading',true)
                 document.getElementsByClassName('el-icon-sort-up')[1].setAttribute('style','color:#000')
                 document.getElementsByClassName('el-icon-sort-down')[1].setAttribute('style','color:#000')
                 document.getElementsByClassName('el-icon-sort-up')[3].setAttribute('style','color:#000')
@@ -1184,7 +1186,7 @@ export default {
             }
             else{
             //服务分类渲染
-            store.commit('loading',true) 
+            store.commit('loading',true)
             var newData = this.Data;
             for (let key in newData) {
                 var myData = newData[key];
@@ -1287,7 +1289,7 @@ export default {
                     that.qs.stringify(that.searchAdd)
                 )
                 .then(function(data) {
-                    store.commit('loading',false) 
+                    store.commit('loading',false)
                     that.thisProduct = data.data.data
                     if(that.thisProduct.length == 0){
                         that.thisProduct = {0:{errorInfo:'当前选项无内容'}};

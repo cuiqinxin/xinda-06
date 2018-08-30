@@ -105,24 +105,6 @@ export default {
   created(){
       [this.$parent.nav,this.$parent.nav1,this.$parent.nav2,this.$parent.nav3,this.$parent.nav4] = [false,false,false,true,false]
   },
-//   created(){
-//            var that = this;
-//       this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({start:0,limit:6,sort:1})).then(function(data){
-//             // console.log(data.data.data);
-//            that.dianpu=data.data.data;
-//         console.log(that.dianpu)
-//            console.log(that.dianpu[0].id)
-//            console.log(typeof(that.dianpu[0].productTypes.split(',')))
-//            console.log(that.dianpu[0].productTypes.split(','))
-//         });
-//         console.log(that.dianpu)
-//   },
-//   components:{
-//       city,
-//       'my-computed':{
-//           template:'<div><p class="foo bar">1221</p></div>'
-//       }
-//     },
   methods:{
     //   link(){
     //       var that = this;
