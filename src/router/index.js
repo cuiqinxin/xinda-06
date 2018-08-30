@@ -42,13 +42,13 @@ import Dianpu from '@/components/dianpu'
 import axios from 'axios'
 import qs from 'qs'
 
-import newVue from '../main'
-import { resolve } from 'path';
+// import newVue from '../main'
+// import { resolve } from 'path';
 
 
-const  router = new VueRouter({       //module.expotrs={}
+const router = new VueRouter({       //module.expotrs={}
 
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 }
   },
   routes: [
@@ -56,31 +56,31 @@ const  router = new VueRouter({       //module.expotrs={}
       path: '/page',
       name: 'Page',
       // component: Page
-      component: resolve=> require(['@/components/Page'],resolve)
+      component: resolve => require(['@/components/Page'], resolve)
     },
     {
       path: '/outter',
       name: 'Outter',
       // component: Outter,
-      component: resolve=> require(['@/views/Outter'],resolve),
-      children:[
+      component: resolve => require(['@/views/Outter'], resolve),
+      children: [
         {
           path: 'login',
           name: 'Login',
           // component: Login
-          component: resolve=> require(['@/views/Login'],resolve)
+          component: resolve => require(['@/views/Login'], resolve)
         },
         {
           path: 'zhuce',
           name: 'Zhuce',
           // component: Zhuce
-          component: resolve=> require(['@/views/Zhuce'],resolve)
+          component: resolve => require(['@/views/Zhuce'], resolve)
         },
         {
           path: 'forget',
           name: 'Forget',
           // component: Forget
-          component: resolve=> require(['@/views/Forget'],resolve)
+          component: resolve => require(['@/views/Forget'], resolve)
         }
       ]
     },
@@ -90,25 +90,25 @@ const  router = new VueRouter({       //module.expotrs={}
       name: 'Header',
       alias: '/',         //起一个别名
       // component: Header,
-      component: resolve=> require(['@/components/Header'],resolve),
+      component: resolve => require(['@/components/Header'], resolve),
       children: [
         {
-        path: 'aap',
-        name: 'aap',
-        // component: aap
-        component: resolve=> require(['@/views/aap'],resolve),
+          path: 'aap',
+          name: 'aap',
+          // component: aap
+          component: resolve => require(['@/views/aap'], resolve),
         },
         {
           path: 'p_all',
           name: 'p_all',
           // component: p_all
-          component: resolve=> require(['@/views/p_all'],resolve),
+          component: resolve => require(['@/views/p_all'], resolve),
         },
         {
           path: 'join',
           name: 'Join',
           // component: Join
-          component: resolve=> require(['@/views/Join'],resolve),
+          component: resolve => require(['@/views/Join'], resolve),
         },
         {
           path: 'shop',
@@ -126,7 +126,7 @@ const  router = new VueRouter({       //module.expotrs={}
           path: 'dianpumobile',
           name: 'dianpumobile',
           // component: dianpumobile,
-          component: resolve=> require(['@/views/dianpumobile'],resolve),
+          component: resolve => require(['@/views/dianpumobile'], resolve),
         },
 
         {
@@ -139,88 +139,88 @@ const  router = new VueRouter({       //module.expotrs={}
           path: 'list',
           name: 'List',
           // component: List
-          component: resolve=> require(['@/views/List'],resolve),
+          component: resolve => require(['@/views/List'], resolve),
         },
         {
           path: 'production',
           name: 'production',
           // component: production
-          component: resolve=> require(['@/views/production'],resolve),
+          component: resolve => require(['@/views/production'], resolve),
         },
         {
           path: 'register',
           name: 'register',
           // component: register
-          component: resolve=> require(['@/views/register'],resolve),
+          component: resolve => require(['@/views/register'], resolve),
         },
         {
           path: 'index1',
           name: 'Index1',
           // component: Index1,
-          component: resolve=> require(['@/views/Index1'],resolve),
+          component: resolve => require(['@/views/Index1'], resolve),
           alias: '',           //别名
         },
         {
           path: 'shoppingcart',
           name: 'shoppingcart',
           // component: shoppingcart
-          component: resolve=> require(['@/views/shoppingcart'],resolve),
+          component: resolve => require(['@/views/shoppingcart'], resolve),
         },
         {
           path: 'pay',
           name: 'pay',
           // component: pay,
 
-          component: resolve=> require(['@/views/pay'],resolve),
+          component: resolve => require(['@/views/pay'], resolve),
           beforeEnter: (to, from, next) => {
-            if(from.name==="shoppingcart"){
+            if (from.name === "shoppingcart") {
               next();
-            }else if(from.name==="payfailed"){
+            } else if (from.name === "payfailed") {
               next();
-            }else if(from.name==="Memberorder"){
+            } else if (from.name === "Memberorder") {
               next();
-            }else{next({path:"/"})}
+            } else { next({ path: "/" }) }
           }
         },
         {
           path: 'payfailed',
           name: 'payfailed',
           // component: payfailed
-          component: resolve=> require(['@/views/payfailed'],resolve),
+          component: resolve => require(['@/views/payfailed'], resolve),
           beforeEnter: (to, from, next) => {
-            if(from.name==="pay"){
+            if (from.name === "pay") {
               next();
-            }else{next({path:"/"})}
+            } else { next({ path: "/" }) }
           }
         },
         {
           path: 'paysuccess',
           name: 'paysuccess',
           // component: paysuccess
-          component: resolve=> require(['@/views/paysuccess'],resolve),
+          component: resolve => require(['@/views/paysuccess'], resolve),
           beforeEnter: (to, from, next) => {
-            if(from.name==="pay"){
+            if (from.name === "pay") {
               next();
-            }else{next({path:"/"})}
+            } else { next({ path: "/" }) }
           }
         },
         {
           path: 'goodsdetail',
           name: 'goodsdetail',
           // component: goodsdetail
-          component: resolve=> require(['@/views/goodsdetail'],resolve),
+          component: resolve => require(['@/views/goodsdetail'], resolve),
         },
         {
           path: 'member',
           name: 'Member',
           // component: Member,
-          component: resolve=> require(['@/views/Member'],resolve),
-          children:[
+          component: resolve => require(['@/views/Member'], resolve),
+          children: [
             {
               path: 'memberorder',
               name: 'Memberorder',
               // component: Memberorder
-              component: resolve=> require(['@/views/Memberorder'],resolve),
+              component: resolve => require(['@/views/Memberorder'], resolve),
             },
             {
               path: 'orderphone',
@@ -231,13 +231,13 @@ const  router = new VueRouter({       //module.expotrs={}
               path: 'memberassess',
               name: 'Memberassess',
               // component: Memberassess
-              component: resolve=> require(['@/views/Memberassess'],resolve),
+              component: resolve => require(['@/views/Memberassess'], resolve),
             },
             {
               path: 'memberinstall',
               name: 'Memberinstall',
               // component: Memberinstall
-              component: resolve=> require(['@/views/Memberinstall'],resolve),
+              component: resolve => require(['@/views/Memberinstall'], resolve),
             },
           ]
         },
@@ -250,19 +250,19 @@ const  router = new VueRouter({       //module.expotrs={}
           path: '/loading',
           name: 'loading',
           // component: loading,
-          component: resolve=> require(['@/views/loading'],resolve),
+          component: resolve => require(['@/views/loading'], resolve),
         },
         {
           path: '/memberindex',
           name: 'Memberindex',
           // component: Memberindex,
-          component: resolve=> require(['@/views/Memberindex'],resolve),
+          component: resolve => require(['@/views/Memberindex'], resolve),
         },
         {
           path: '/quit',
           name: 'Quit',
           // component: Quit
-          component: resolve=> require(['@/views/Quit'],resolve),
+          component: resolve => require(['@/views/Quit'], resolve),
         },
       ]
     },
@@ -270,13 +270,13 @@ const  router = new VueRouter({       //module.expotrs={}
       path: '/tests',
       name: 'Tests',
       // component: Tests
-      component: resolve=> require(['@/views/Tests'],resolve),
+      component: resolve => require(['@/views/Tests'], resolve),
     },
     {
       path: '/juh',
       name: 'juh',
       // component: juh
-      component: resolve=> require(['@/views/juh'],resolve),
+      component: resolve => require(['@/views/juh'], resolve),
     },
     // {
     //   path:'/dianpu/:id',
@@ -295,30 +295,25 @@ const  router = new VueRouter({       //module.expotrs={}
 
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-  const nextRoute = ['shoppingcart',  'Memberorder','pay', 'payfailed', 'paysuccess',  'Memberinstall', 'Memberindex', 'Memberassess', 'orderphone'];
-  // const nextRoute1= [];
- 
+  const nextRoute = ['shoppingcart',  'pay', 'payfailed', 'paysuccess', 'Memberorder', 'Memberinstall', 'Memberindex', 'Memberassess', 'orderphone'];
   axios.post(
     "/xinda-api/sso/login-info",
     qs.stringify({})
   ).then(function (data) {
     if (data.data.status == 0) {
       if (nextRoute.indexOf(to.name) >= 0) {
-        next({ name: 'Login', query:{pan:123}, });
-      } 
-      // else if(nextRoute1.indexOf(to.name) >= 0){
-      //   next({path:'/'});
-      // }
-      else{
+        next({ name: 'Login', query: { redirect:to.path} });
+      }else{
         next();
       }
     } 
-    else if (data.data.status == 1 && to.name =='Login') {
+    else if (data.data.status == 1 && to.name === 'Login') {
       next({ path: '/' });
     }
     else{next()}
   })
 });
+
 
 
 export default router;

@@ -115,13 +115,18 @@ export default {
                                     store.commit('gaincartId',obj);
                                 }
                             })
-                            if(that.panduan==''||that.panduan==undefined){
+                            if(that.$route.query.redirect){
+                                that.$router.push({path:that.$route.query.redirect});
+                            }else{
+                                if(that.panduan==''||that.panduan==undefined){
                                 that.$router.push({path:'/'});
-                            }else if(that.panduan=='123'){
-                                that.$router.go(-1);
-                            }else if(that.panduan.length>3){
-                                that.$router.push({path:'/goodsdetail',query:{id:that.panduan}});
+                                }else if(that.panduan=='123'){
+                                    that.$router.go(-1);
+                                }else if(that.panduan.length>3){
+                                    that.$router.push({path:'/goodsdetail',query:{id:that.panduan}});
+                                } 
                             }
+                         
                         }
                 })
             }
