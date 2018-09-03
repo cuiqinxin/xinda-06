@@ -158,7 +158,7 @@ export default {
                 this.types='text';
             }
         }
-    }
+    },
 }
 </script>
 
