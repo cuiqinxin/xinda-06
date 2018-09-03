@@ -20,7 +20,7 @@
 </template>
 
 <script>
-// import store from './store';
+import store from "../store"
 export default {
     name: 'payfailed',
     data() {
@@ -37,7 +37,9 @@ export default {
      
     },
     created(){
-      
+      if(!this.$store.state.userPhoneNumber){
+           this.$router.push({path:'/'});
+      }
     },
 }
 </script>

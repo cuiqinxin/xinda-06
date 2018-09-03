@@ -39,12 +39,12 @@ export default {
           this.area=[];
           this.cityCode = ''
           this.areaCode = ''
-        //   this.areaChange();
+          this.$emit('province',this.provinceCode);
       },
       cityChange(){
           this.area = citydata[this.cityCode];
-           this.areaCode = ''
-        //   this.areaChange()
+          this.areaCode = ''
+          this.$emit('city',this.cityCode);
       },
       areaChange(){
         this.$emit('confirm',this.areaCode);

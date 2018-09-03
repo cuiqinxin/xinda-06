@@ -26,7 +26,7 @@
 </template>
 
 <script>
-// import store from './store';
+import store from "../store"
 export default {
     name: 'payfailed',
     data() {
@@ -42,8 +42,13 @@ export default {
      
     },
     created(){
-        var that=this;
+          if(!this.$store.state.userPhoneNumber){
+           this.$router.push({path:'/'});
+      }else{
+          var that=this;
         this.s = setInterval(function(){that.seconds--},1000);
+      }
+        
 
     },
     watch:{

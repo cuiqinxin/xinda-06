@@ -526,7 +526,7 @@ import store from '../store'
                             imgCode:that.picinput
                             })
                             ).then(function(data){
-                                console.log(data.data);
+                                // console.log(data.data);
                                 if(data.data.status==-1){
                                     that.picerrocontain='图片验证码不正确';
                                     that.picerro=true;

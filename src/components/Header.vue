@@ -96,7 +96,7 @@
         </div>
       </div>
     </div>
-
+    
     <router-view/>
 
     <footer class="footer1 hidden-sm-and-down">
@@ -142,6 +142,7 @@
   </div>
 </template>
 <script>
+import scrollTop from '../components/ScrollTop'
 export default {
   name: "Header",
   data() {
@@ -172,6 +173,9 @@ export default {
       footer5: false,
     };
   },
+  components:{
+    scrollTop
+  },
   created() {
     var navArr={};
     var that = this;
@@ -196,9 +200,9 @@ export default {
     if(href!='/index1'||href!='/list'||href!='/join'||href!='/shop'){
       [this.nav,this.nav1,this.nav2,this.nav3,this.nav4] = [false,false,false,false,false]
     }
-    if(href!='/list'){
-      this.state4 = '';
-    }
+    // if(href!='/list'){
+    //   this.state4 = '';
+    // }
     if(href=='/shopmobile'){
       [this.footer2,this.footer3,this.footer4,this.footer5] = [true,true,false,false];
     }
@@ -233,6 +237,7 @@ export default {
         this.$router.push({
             path:'/shop',query:{searchName:this.state4}
         })
+        // this.state4 = '';
       }
     },
     link1(){
@@ -244,7 +249,8 @@ export default {
         this.placeholder='搜索您需要的服务或服务商',
         this.$router.push({
             path:'/list',query:{searchName:this.state4}
-        })
+        });
+        // this.state4 = '';
       }
     },
     changecolor() {
@@ -342,7 +348,10 @@ export default {
     this.restaurants = this.grabble();
   },
   watch:{
-    $route(){
+    $route(val,oldval){
+      if(oldval.query.searchName&&val.query.searchName == undefined){
+        this.state4 = ''
+      }
       var href=this.$route.path;
       if(href=='/'){
         this.hover = true;

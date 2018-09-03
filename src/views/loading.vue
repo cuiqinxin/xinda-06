@@ -64,7 +64,7 @@ export default {
         that.more='没有喽。。。'
       }
         });
-            console.log(that.provide)
+            // console.log(that.provide)
             this.j.showlaoding = false
       },
         },
@@ -81,7 +81,7 @@ export default {
       sort:1
       }))
       .then(function(data){
-            console.log(data.data.data);
+            // console.log(data.data.data);
             that.name=data.data.data
         });
         var that = this;
